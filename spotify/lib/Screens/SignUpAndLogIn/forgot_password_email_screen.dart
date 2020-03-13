@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'check_email_screen.dart';
+import 'package:provider/provider.dart';
+import '../../Providers/authorization_provider.dart';
 
-class GetEmailScreen extends StatelessWidget {
-
+class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
   @override
+  _GetEmailScreenState createState() => _GetEmailScreenState();
+}
+
+class _GetEmailScreenState extends State<GetEmailScreen> {
+  bool _validate;
+  final emailController = TextEditingController();
+
+  @override
+  void initState() {
+    _validate = true;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -24,9 +40,10 @@ class GetEmailScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: 25, bottom: 10),
             width: deviceSize.width * 0.9,
             child: TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email or Username',
                 filled: true,
@@ -39,6 +56,19 @@ class GetEmailScreen extends StatelessWidget {
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.emailAddress,
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _validate
+                  ? SizedBox(
+                      height: 0.1,
+                    )
+                  : Text(
+                      'Please enter a valid Email',
+                      style: TextStyle(color: Colors.red),
+                    )
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,11 +88,26 @@ class GetEmailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, CheckEmailScreen.routeName);
+                    if (emailController.text.isEmpty) {
+                      setState(() {
+                        _validate = false;
+                      });
+                    } else {
+                      try {
+                        _auth.forgetPassword(emailController.text);
+                        Navigator.pushNamed(
+                            context, CheckEmailScreen.routeName);
+                      } catch (error) {
+                        setState(() {
+                          _validate = false;
+                        });
+                      }
+                    }
                   },
                 ),
               ),
-            ],)
+            ],
+          )
         ],
       ),
     );

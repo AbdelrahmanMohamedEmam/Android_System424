@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Models/http_exception.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -19,6 +20,37 @@ class AuthorizationProvider with ChangeNotifier{
     }
     return null;
   }
+
+
+  Future<void> forgetPassword(String email)async {
+    final url = '';
+
+
+    try {
+      final response = await http.post(url, body: jsonEncode({
+        "email": email,
+      },
+      ),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+
+      if (responseData['error'] != null) {
+
+        throw HttpException(responseData['message']);
+
+      }
+      else{
+
+
+      }
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
 
   Future<void> signUp(String email, String password,String gender,String username, String dateOfBirth)async {
@@ -41,7 +73,7 @@ class AuthorizationProvider with ChangeNotifier{
 
       if (responseData['error'] != null) {
 
-        //Handle Error
+        throw HttpException(responseData['message']);
 
       }
       else{
@@ -50,7 +82,7 @@ class AuthorizationProvider with ChangeNotifier{
       }
       notifyListeners();
     } catch (error) {
-      //throw error;
+      throw error;
     }
   }
 
@@ -72,9 +104,7 @@ class AuthorizationProvider with ChangeNotifier{
 
 
       if (responseData['error'] != null) {
-
-        //Handle Error
-
+        throw HttpException(responseData['message']);
       }
       else{
         _token = responseData['token'];
@@ -82,7 +112,7 @@ class AuthorizationProvider with ChangeNotifier{
       }
       notifyListeners();
     } catch (error) {
-      //throw error;
+      throw error;
     }
   }
 }

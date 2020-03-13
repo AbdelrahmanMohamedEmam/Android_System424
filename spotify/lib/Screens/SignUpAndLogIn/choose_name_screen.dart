@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../Providers/authorization_provider.dart';
+import '../../Providers/user_provider.dart';
 
 
 
@@ -22,6 +25,8 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
   Widget build(BuildContext context) {
     final Map userData = ModalRoute.of(context).settings.arguments as Map;
     final deviceSize = MediaQuery.of(context).size;
+    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
+    final _user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Account'),
@@ -76,14 +81,31 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
                   onPressed: () {
                     //Check username isn't taken
 
-                    if(username.text!=null && (username.text!='' || username.text.contains((' ')))){
-                      //Send HTTP Request to signUp
-                      print(username.text);
-                    }
-                    else{
+                    if (username.text.isEmpty) {
                       setState(() {
-                        _validate=false;
+                        _validate = false;
                       });
+                    } else {
+                      try {
+                        _auth.signUp(
+                          userData['email'],
+                          userData['password'],
+                          userData['gender'],
+                          userData['dateOfBirth'],
+                          username.text,
+                        );
+                        try {
+                          _user.setUser(_auth.token);
+                          //NAVIGATE TO HOME SCREEN
+
+                        } catch (error) {
+                          //LOST CONNECTION ERROR
+                        }
+                      } catch (error) {
+                        setState(() {
+                          _validate = false;
+                        });
+                      }
                     }
                   },
                 ),
