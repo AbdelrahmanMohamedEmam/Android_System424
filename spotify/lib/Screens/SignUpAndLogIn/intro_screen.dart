@@ -18,7 +18,7 @@ class IntroScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: Image.asset('assets/images/logo.jpg'),
+            child: Image.asset('assets/images/spotify_logo.jpg'),
             margin: EdgeInsets.fromLTRB(20, 50, 10, 10),
             height: deviceSize.height * 0.10,
           ),
