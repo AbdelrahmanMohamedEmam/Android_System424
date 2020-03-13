@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:spotify/Models/http_exception.dart';
+
 class User {
   final String id;
+  final String imageUrl;
   final String username;
   final bool isPremium;
   final bool isArtist;
@@ -18,16 +21,17 @@ class User {
     this.noOfFollowers,
     this.noOfFollowings,
     this.username,
+    this.imageUrl,
   });
 }
 
 class UserProvider with ChangeNotifier {
   //Attributes
   User user;
-  final String authToken;
+  String authToken;
 
   //Constructor
-  UserProvider(this.authToken);
+  UserProvider();
 
   //Getters
   bool get isUserPremium {
@@ -74,18 +78,24 @@ class UserProvider with ChangeNotifier {
       final responseData = jsonDecode(response.body);
 
       if (responseData['error'] != null) {
-        //Handle Error
+
+        throw HttpException(responseData['message']);
 
       } else {
-        /*user=User(
 
-                id:responseData['id'],
-                username: responseData['name'],
-                 );*/
+        /*user=User(
+          id:,
+          imageUrl: ,
+          isArtist: ,
+          isPremium: ,
+          noOfFollowers: ,
+          noOfFollowings: ,
+          username: ,
+        );*/
         notifyListeners();
       }
     } catch (error) {
-      //throw error;
+      throw error;
     }
   }
 }

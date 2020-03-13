@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //Import Providers
+import 'Providers/authorization_provider.dart';
+import 'Providers/user_provider.dart';
 
 //Import Screens
 import 'Screens/MainApp/artist_screen.dart';
@@ -18,7 +20,7 @@ import 'Screens/SignUpAndLogIn/create_email_screen.dart';
 import 'Screens/SignUpAndLogIn/create_password_screen.dart';
 import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
-//import 'Screens/SignUpAndLogIn/intro_screen.dart';
+import 'Screens/SignUpAndLogIn/intro_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 
 void main() => runApp(MyApp());
@@ -27,7 +29,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(providers:[
+      ChangeNotifierProvider.value(
+          value: AuthorizationProvider(),
+      ),
+      ChangeNotifierProvider.value(
+        value: UserProvider(),
+      ),
+    ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Spotify',
       theme: ThemeData(
@@ -35,8 +45,8 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.black,
         fontFamily: 'Lineto',
       ),
-      //home: IntroScreen(),
-      home: TabsScreen(),
+      home: IntroScreen(),
+      //home: TabsScreen(),
       routes: {
         CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
         CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
@@ -52,6 +62,7 @@ class MyApp extends StatelessWidget {
         PremiumScreen.routeName: (ctx) => PremiumScreen(),
         ArtistScreen.routeName: (ctx) => ArtistScreen(),
       },
+    )
     );
   }
 }

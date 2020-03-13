@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'forgot_password_email_screen.dart';
+import '../../Providers/authorization_provider.dart';
+import '../../Providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login_screen';
@@ -9,16 +12,22 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   bool _passwordVisible;
+  bool _validate;
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   void initState() {
     _passwordVisible = false;
+    _validate = true;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
+    final _user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Log in'),
@@ -39,6 +48,7 @@ class _LogInScreenState extends State<LogInScreen> {
             margin: EdgeInsets.only(left: 25),
             width: deviceSize.width * 0.9,
             child: TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email or Username',
                 filled: true,
@@ -63,6 +73,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 margin: EdgeInsets.only(left: 25, top: 5, bottom: 20),
                 width: deviceSize.width * 0.9,
                 child: TextFormField(
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     filled: true,
@@ -93,6 +104,15 @@ class _LogInScreenState extends State<LogInScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              _validate
+                  ? SizedBox(height: deviceSize.height * 0.01)
+                  : Text('Invalid uername or password',
+                      style: TextStyle(color: Colors.red)),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 25),
                 width: deviceSize.width * 0.4,
@@ -107,7 +127,31 @@ class _LogInScreenState extends State<LogInScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (emailController.text.isEmpty ||
+                        passwordController.text.isEmpty) {
+                      setState(() {
+                        _validate = false;
+                      });
+                    } else {
+                      try {
+                        _auth.signIn(
+                            emailController.text, passwordController.text);
+
+                        try {
+                          _user.setUser(_auth.token);
+                          //NAVIGATE TO HOME SCREEN
+
+                        } catch (error) {
+                          //LOST CONNECTION ERROR
+                        }
+                      } catch (error) {
+                        setState(() {
+                          _validate = false;
+                        });
+                      }
+                    }
+                  },
                 ),
               ),
             ],
