@@ -55,8 +55,8 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
   @override
   Widget build(BuildContext context) {
     final Map userData = ModalRoute.of(context).settings.arguments as Map;
-    print(userData['email'].toString());
-    print(userData['password'].toString());
+   // print(userData['email'].toString());
+   // print(userData['password'].toString());
 
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(

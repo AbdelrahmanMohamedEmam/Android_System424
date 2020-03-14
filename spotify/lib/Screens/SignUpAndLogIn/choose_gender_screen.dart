@@ -66,7 +66,6 @@ class ChooseGenderScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-                    print(gender);
                     Navigator.pushNamed(context, ChooseNameScreen.routeName, arguments: {
                       'email':userData['email'],
                       'password':userData['password'],

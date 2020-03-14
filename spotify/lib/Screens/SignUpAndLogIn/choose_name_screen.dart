@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/authorization_provider.dart';
 import '../../Providers/user_provider.dart';
-
-
+import '../../Models/http_exception.dart';
 
 class ChooseNameScreen extends StatefulWidget {
   static const routeName = '/choose_name_screen';
@@ -12,13 +11,51 @@ class ChooseNameScreen extends StatefulWidget {
 }
 
 class _ChooseNameScreenState extends State<ChooseNameScreen> {
-  final username= TextEditingController();
+  final username = TextEditingController();
   bool _validate;
 
   @override
   void initState() {
-    _validate=true;
+    _validate = true;
     super.initState();
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Registration Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit(userData) async {
+    try {
+      await Provider.of<AuthorizationProvider>(context, listen: false).signUp(
+        userData['email'],
+        userData['password'],
+        userData['gender'],
+        userData['dateOfBirth'],
+        username.text,
+      );
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      _showErrorDialog(errorMessage);
+    }
   }
 
   @override
@@ -52,8 +89,11 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
                 labelText: 'Enter your username',
                 filled: true,
                 fillColor: Colors.grey,
-                helperText: _validate?'This appears on your spotify profile.':'Please enter a valid username, this username may be taken',
-                helperStyle: TextStyle(color: _validate?Colors.grey:Colors.red),
+                helperText: _validate
+                    ? 'This appears on your spotify profile.'
+                    : 'Please enter a valid username, this username may be taken',
+                helperStyle:
+                    TextStyle(color: _validate ? Colors.grey : Colors.red),
                 labelStyle: TextStyle(color: Colors.white38),
               ),
               style: TextStyle(color: Colors.white),
@@ -79,38 +119,19 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-                    //Check username isn't taken
 
                     if (username.text.isEmpty) {
                       setState(() {
                         _validate = false;
                       });
                     } else {
-                      try {
-                        _auth.signUp(
-                          userData['email'],
-                          userData['password'],
-                          userData['gender'],
-                          userData['dateOfBirth'],
-                          username.text,
-                        );
-                        try {
-                          _user.setUser(_auth.token);
-                          //NAVIGATE TO HOME SCREEN
-
-                        } catch (error) {
-                          //LOST CONNECTION ERROR
-                        }
-                      } catch (error) {
-                        setState(() {
-                          _validate = false;
-                        });
-                      }
+                      _submit(userData);
                     }
                   },
                 ),
               ),
-            ],)
+            ],
+          )
         ],
       ),
     );

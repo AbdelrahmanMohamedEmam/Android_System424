@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Models/http_exception.dart';
 import 'forgot_password_email_screen.dart';
 import '../../Providers/authorization_provider.dart';
 import '../../Providers/user_provider.dart';
@@ -23,18 +24,57 @@ class _LogInScreenState extends State<LogInScreen> {
     super.initState();
   }
 
+
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Logging in Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit(userData) async {
+    try {
+      await Provider.of<AuthorizationProvider>(context, listen: false).signIn(
+        userData['email'],
+        userData['password'],
+      );
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
+    final _auth = Provider.of<AuthorizationProvider>(context);
     final _user = Provider.of<UserProvider>(context, listen: false);
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: Text('Log in'),
         backgroundColor: Colors.black,
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body: Column(
+      body: SingleChildScrollView(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
@@ -134,22 +174,11 @@ class _LogInScreenState extends State<LogInScreen> {
                         _validate = false;
                       });
                     } else {
-                      try {
-                        _auth.signIn(
-                            emailController.text, passwordController.text);
-
-                        try {
-                          _user.setUser(_auth.token);
-                          //NAVIGATE TO HOME SCREEN
-
-                        } catch (error) {
-                          //LOST CONNECTION ERROR
-                        }
-                      } catch (error) {
-                        setState(() {
-                          _validate = false;
-                        });
-                      }
+                      var userData={
+                        'email':emailController.text,
+                        'password':passwordController.text,
+                      };
+                      _submit(userData);
                     }
                   },
                 ),
@@ -182,6 +211,7 @@ class _LogInScreenState extends State<LogInScreen> {
             ],
           )
         ],
+      ),
       ),
     );
   }
