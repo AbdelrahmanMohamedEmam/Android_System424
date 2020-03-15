@@ -12,7 +12,7 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
-import 'Screens/MainApp/splash_Screen.dart';
+//import 'Screens/MainApp/splash_Screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
 import 'Screens/SignUpAndLogIn/choose_gender_screen.dart';
@@ -21,7 +21,7 @@ import 'Screens/SignUpAndLogIn/create_email_screen.dart';
 import 'Screens/SignUpAndLogIn/create_password_screen.dart';
 import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
-import 'Screens/SignUpAndLogIn/intro_screen.dart';
+//import 'Screens/SignUpAndLogIn/intro_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 
 void main() => runApp(MyApp());
@@ -48,13 +48,13 @@ class MyApp extends StatelessWidget {
                     accentColor: Colors.black,
                     fontFamily: 'Lineto',
                   ),
-                  home: auth.isAuth
-                      ? HomeScreen()
-                      : /*FutureBuilder(
-                          future: auth.tryAutoLogin(),
-                          builder: (ctx, authResultSnapshot) =>*/
-                                  IntroScreen(),
-                        //),
+                  home: TabsScreen(), // auth.isAuth
+                  //     ? HomeScreen()
+                  //     : /*FutureBuilder(
+                  //         future: auth.tryAutoLogin(),
+                  //         builder: (ctx, authResultSnapshot) =>*/
+                  //                 IntroScreen(),
+                  //),
                   //home:SplashScreen(),
                   //home: TabsScreen(),
                   routes: {
