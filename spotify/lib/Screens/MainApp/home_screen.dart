@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 import '../../widgets/item_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void didChangeDependencies() {
+    Provider.of<PlaylistProvider>(context, listen: false).fetchPlaylists();
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     print('The home screen is build');
@@ -30,12 +45,10 @@ class HomeScreen extends StatelessWidget {
 }
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final playlistspro = Provider.of<PlaylistProvider>(context);
+    final playlists = playlistspro.playlists;
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
@@ -56,10 +69,12 @@ class CategoryList extends StatelessWidget {
             height: 250,
             width: double.infinity,
             child: ListView.builder(
-              itemCount: 4,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, i) => ItemWidget(),
-            ),
+                itemCount: playlists.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                      value: playlists[i],
+                      child: ItemWidget(),
+                    )),
           ),
         ],
       ),

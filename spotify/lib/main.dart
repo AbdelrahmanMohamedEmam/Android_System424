@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 //Import Providers
 import 'Providers/authorization_provider.dart';
 import 'Providers/user_provider.dart';
+import 'Providers/playlist_provider.dart';
 
 //Import Screens
 import 'Screens/MainApp/artist_screen.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(
             value: UserProvider(),
           ),
+          ChangeNotifierProvider.value(
+            value: PlaylistProvider(),
+          )
         ],
         child: Consumer<AuthorizationProvider>(
             builder: (ctx, auth, _) => MaterialApp(
