@@ -3,15 +3,31 @@ import '../../widgets/album_widget_artist_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../widgets/featured_playlists_artist_profile.dart';
-
+import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/suggessted_artists_artist_profile.dart';
 
+class ArtistProfile_Screen extends StatefulWidget {
+  @override
+  _ArtistProfile_ScreenState createState() => _ArtistProfile_ScreenState();
+}
 
-class ArtistProfile_Screen extends StatelessWidget {
+class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
+  @override
+  void didChangeDependencies() {
+    Provider.of<PlaylistProvider>(context ,).fetchPlaylists();
+
+    super.didChangeDependencies();
+  }
+
   String artistName = 'Amr Diab';
+
   String artistImage = "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
+
   @override
   Widget build(BuildContext context) {
+    final playlistspro = Provider.of<PlaylistProvider>(context);
+    final playlists = playlistspro.playlists;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -140,21 +156,16 @@ class ArtistProfile_Screen extends StatelessWidget {
             ),
 
             //row of featured playlists
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  FeaturedPlaylists(),
-                  FeaturedPlaylists(),
-                  FeaturedPlaylists(),
-                  FeaturedPlaylists(),
-                  FeaturedPlaylists(),
-
-                ],
-
-
-              ),
-
+            Container(
+              height: 250,
+              width: double.infinity,
+              child: ListView.builder(
+                  itemCount: playlists.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                    value: playlists[i],
+                    child: FeaturedPlaylists(),
+                  )),
             ),
 
             Container(

@@ -4,101 +4,28 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'user_provider.dart';
 import '../Models/user_stats.dart';
+import '../Models/user.dart';
 import 'package:spotify/Models/http_exception.dart';
-
-class Artist {
-  final List albums;
-  final List playlists;
-  final List songs;
-  final List suggesstedArtists;
-  final String aboutInfo;
-  final User userInfo;
-
-  //*THESE ATTRIBUTES WILL BE LOADED FROM USER PROVIDER*//
-  //final String id;
-  //final String imageUrl;
-  //final String username;
-  //final bool isArtist;
- // final int noOfFollowers;
-
-
-  Artist({
-    this.albums ,
-    this.playlists ,
-    this.songs ,
-    this.suggesstedArtists ,
-    this.aboutInfo,
-    this.userInfo,
-  });
-}
+import '../Models/artist.dart';
 
 class ArtistProvider with ChangeNotifier {
-  //Attributes
-  Artist user;
-  String authToken;
 
-  //Constructor
-  ArtistProvider();
+  List<Artist> _artist = [];
 
-  //Getters
-  List get artistAlbums {
-    return user.albums;
+  List<Artist> get artist {
+    return [..._artist];
   }
 
-  List get artistPlaylist {
-    return user.playlists;
-  }
-
-  List get artistSongs {
-    return user.songs;
-  }
-
-  List get artistSuggessted {
-    return user.suggesstedArtists;
-  }
-
-  String get artistInfo {
-    return user.aboutInfo;
-  }
-
-  //
-
-
-
-  Future<void> setUser(String token) async {
-    final url = '';
-
-    try {
-      final response = await http.post(
-        url,
-        body: jsonEncode(
-          {
-            "token": token,
-          },
-        ),
-      );
-
-      final responseData = jsonDecode(response.body);
-
-      if (responseData['error'] != null) {
-
-        throw HttpException(responseData['message']);
-
-      } else {
-
-        /*user=User(
-          id:,
-          imageUrl: ,
-          isArtist: ,
-          isPremium: ,
-          noOfFollowers: ,
-          noOfFollowings: ,
-          username: ,
-        );*/
-        notifyListeners();
-      }
-    } catch (error) {
-      throw error;
+  Future<void> fetchPlaylistsForArtist() async {
+    const url = 'http://www.mocky.io/v2/5e6e243e2f00005800a037ae';
+    final response = await http.get(url);
+    final extractedList = json.decode(response.body) as List;
+    final List<Artist> loadedPlaylists = [];
+    for (int i = 0; i < extractedList.length; i++) {
+      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
     }
+    _playlists = loadedPlaylists;
+    notifyListeners();
   }
 }
+
