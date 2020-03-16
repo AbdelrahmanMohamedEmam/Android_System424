@@ -34,8 +34,8 @@ class Owner {
       externalUrls: ExternalUrl.fromjson(json['externalUrls']),
       images: parceImage(json['images']),
       type: json['type'],
-      followers: parceFollower(json['followers']),
-      userstats: UserStats.fromjson(json['userStats']),
+      //followers: parceFollower(json['followers']),
+      //userstats: UserStats.fromjson(json['userStats']),
     );
   }
 }

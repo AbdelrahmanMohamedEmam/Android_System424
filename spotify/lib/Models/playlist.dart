@@ -1,10 +1,11 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
+import './tracks_in_playlist.dart';
 import './owner.dart';
 import './external_url.dart';
 import './image.dart';
 import '../utilities.dart';
-class Playlist with ChangeNotifier{
+
+class Playlist with ChangeNotifier {
   final bool collaborative;
   final String description;
   final List<ExternalUrl> externalUrls;
@@ -13,6 +14,12 @@ class Playlist with ChangeNotifier{
   final List<Image> images;
   final String name;
   final List<Owner> owner;
+  final bool public;
+  final String snapShotId;
+  final TracksInPlaylist tracks;
+  final String type;
+  final String uri;
+
   Playlist({
     this.collaborative,
     this.description,
@@ -22,6 +29,11 @@ class Playlist with ChangeNotifier{
     this.images,
     this.name,
     this.owner,
+    this.public,
+    this.snapShotId,
+    this.tracks,
+    this.type,
+    this.uri,
   });
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
@@ -33,6 +45,11 @@ class Playlist with ChangeNotifier{
       images: parceImage(json['images']),
       name: json['name'],
       owner: parceOwner(json['owner']),
+      public: json['public'],
+      snapShotId: json['snapshot_id'],
+      tracks: TracksInPlaylist.fromJson(json['tracks']),
+      type: json['type'],
+      uri: json['uri'],
     );
   }
 }
