@@ -36,3 +36,4 @@ List<Playlist> parcePlaylist(playlistJson) {
       list.map((data) => Playlist.fromJson(data)).toList();
   return playlistList;
 }
+
