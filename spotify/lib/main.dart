@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
 
 //Import Providers
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
                     accentColor: Colors.black,
                     fontFamily: 'Lineto',
                   ),
-                  home:PremiumScreen(),
+                  home:IntroScreen(),
                   //home: TabsScreen(), // auth.isAuth
                   //     ? HomeScreen()
                   //     : /*FutureBuilder(

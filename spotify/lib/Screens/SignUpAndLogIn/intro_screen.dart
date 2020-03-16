@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'logIn_screen.dart';
+import '../../Providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 
 import '../../Screens/SignUpAndLogIn/create_email_screen.dart';
@@ -12,6 +14,7 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final _user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -93,7 +96,7 @@ class IntroScreen extends StatelessWidget {
                     side: BorderSide(color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, LogInScreen.routeName);
+                    _user.signInWithFB();
                   },
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../Widgets/premium_card.dart';
 
 class PremiumScreen extends StatelessWidget {
+
   static const routeName = '/premium_screen';
   final codeController = TextEditingController();
 
@@ -104,7 +105,7 @@ class PremiumScreen extends StatelessWidget {
                           fontSize: deviceSize.width * 0.03),
                     )),
                 Container(
-                  margin: EdgeInsets.only(top: deviceSize.height * 0.09, bottom: deviceSize.height*0.1),
+                  margin: EdgeInsets.only(top: deviceSize.height * 0.09, bottom: deviceSize.height*0.08),
                   height: deviceSize.height * 0.1,
                   width: deviceSize.width * 0.8,
                   child: Card(
@@ -130,16 +131,20 @@ class PremiumScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 1,),
+                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 0.7,),
                 Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15))),
                   margin: EdgeInsets.only(
                       left: deviceSize.width * 0.1,
                       right: deviceSize.width * 0.1,
-                      top: deviceSize.height * 0.03),
+                      top: deviceSize.height * 0.02),
                   width: deviceSize.width * 0.9,
                   child: TextFormField(
                     controller: codeController,
                     decoration: InputDecoration(
+
+                      border:  OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),),
                       labelText: 'Payment Code',
                       filled: true,
                       fillColor: Color.fromRGBO(49, 51, 53, 1),
@@ -168,7 +173,7 @@ class PremiumScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 1,),
+                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 0.8,),
                 Container(
                   margin: EdgeInsets.only(top: deviceSize.height * 0.05),
                   height: deviceSize.height * 0.4,

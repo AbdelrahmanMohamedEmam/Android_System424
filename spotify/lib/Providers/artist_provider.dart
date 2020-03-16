@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'user_provider.dart';
 import '../Models/user_stats.dart';
+import '../Models/user.dart';
 import 'package:spotify/Models/http_exception.dart';
 
 class Artist {

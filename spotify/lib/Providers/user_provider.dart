@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -13,7 +14,12 @@ class UserProvider with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
   Timer _authTimer;
+
+
   bool _status;
+  var facebookLogin = FacebookLogin();
+  bool _isLoggedIn = false;
+  Map userProfile;
 
   //Constructor
   UserProvider();
@@ -99,6 +105,36 @@ class UserProvider with ChangeNotifier {
     }
     return null;
   }
+
+
+
+
+  signInWithFB() async{
+
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token='+token);
+        final profile = jsonDecode(graphResponse.body);
+        print(profile.toString());
+        print(token);
+          userProfile = profile;
+          _isLoggedIn = true;
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+         _isLoggedIn = false;
+        break;
+      case FacebookLoginStatus.error:
+        _isLoggedIn = false;
+        break;
+    }
+
+  }
+
 
 
 
