@@ -2,6 +2,8 @@ import './Models/external_url.dart';
 import './Models/follower.dart';
 import './Models/image.dart';
 import './Models/owner.dart';
+import './Models/playlist.dart';
+
 List<Image> parceImage(imageJason) {
   var list = imageJason as List;
   List<Image> imageList = list.map((data) => Image.fromjson(data)).toList();
@@ -26,4 +28,11 @@ List<Owner> parceOwner(ownerJson) {
   var list = ownerJson as List;
   List<Owner> ownerList = list.map((data) => Owner.fromjason(data)).toList();
   return ownerList;
+}
+
+List<Playlist> parcePlaylist(playlistJson) {
+  var list = playlistJson as List;
+  List<Playlist> playlistList =
+      list.map((data) => Playlist.fromJson(data)).toList();
+  return playlistList;
 }

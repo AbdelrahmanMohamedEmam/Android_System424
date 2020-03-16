@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class LoadingAlbumsWidget extends StatelessWidget {
-  String albumImage = 'https://images.app.goo.gl/geYmfUkbJDgsa2i66';
+  String albumImage = "https://www.woolha.com/media/2019/06/buneary.jpg";
   String albumName = 'Sahran';
   String albumYear = '2020';
   //LoadingAlbumsWidget(this.albumImage , this.albumName , this.albumYear);
@@ -10,23 +10,31 @@ class LoadingAlbumsWidget extends StatelessWidget {
       child:
       Row(children: <Widget>[
         Container(
-          //fit :
+          padding : EdgeInsets.all(10),
           child: Image.network(
             albumImage,
-            height: 150,
-            width: 200,
-            fit: BoxFit.scaleDown,
+            height: 70,
+            width: 70,
+            fit: BoxFit.fill,
           ),
         ),
         Column(children: <Widget>[
-          Text(albumName),
+          Text(albumName ,
+            style: TextStyle(color : Colors.white , fontSize: 18 , ),
+          ),
 
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(albumYear),
-              Icon(Icons.shuffle),
-            ],
+          Container(
+            padding : EdgeInsets.only(top: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.shuffle , color: Colors.grey, ),
+                Text(albumYear ,
+                  style: TextStyle(color : Colors.grey , fontSize: 14 , ),
+                ),
+
+              ],
+            ),
           ),
         ],
         ),

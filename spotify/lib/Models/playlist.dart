@@ -1,8 +1,10 @@
+import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 import './owner.dart';
 import './external_url.dart';
 import './image.dart';
 import '../utilities.dart';
-class Playlist {
+class Playlist with ChangeNotifier{
   final bool collaborative;
   final String description;
   final List<ExternalUrl> externalUrls;

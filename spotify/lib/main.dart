@@ -6,6 +6,7 @@ import 'package:spotify/Widgets/premium_card.dart';
 
 //Import Providers
 import 'Providers/user_provider.dart';
+import 'Providers/playlist_provider.dart';
 
 //Import Screens
 import 'Screens/MainApp/artist_screen.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider.value(
             value: UserProvider(),
           ),
+          ChangeNotifierProvider.value(
+            value: PlaylistProvider(),
+          )
         ],
         child: Consumer<UserProvider>(
             builder: (ctx, auth, _) => MaterialApp(
