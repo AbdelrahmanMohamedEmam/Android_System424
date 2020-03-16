@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Models/http_exception.dart';
 import 'forgot_password_email_screen.dart';
-import '../../Providers/authorization_provider.dart';
 import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +46,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Future<void> _submit(userData) async {
     try {
-      await Provider.of<AuthorizationProvider>(context, listen: false).signIn(
+      await Provider.of<UserProvider>(context, listen: false).signIn(
         userData['email'],
         userData['password'],
       );
@@ -66,7 +65,6 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    final _auth = Provider.of<AuthorizationProvider>(context);
     final _user = Provider.of<UserProvider>(context, listen: false);
     return  Scaffold(
       appBar: AppBar(

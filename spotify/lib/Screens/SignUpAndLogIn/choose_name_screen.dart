@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../Providers/authorization_provider.dart';
 import '../../Providers/user_provider.dart';
 import '../../Models/http_exception.dart';
 
@@ -41,7 +40,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
 
   Future<void> _submit(userData) async {
     try {
-      await Provider.of<AuthorizationProvider>(context, listen: false).signUp(
+      await Provider.of<UserProvider>(context, listen: false).signUp(
         userData['email'],
         userData['password'],
         userData['gender'],
@@ -62,7 +61,6 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
   Widget build(BuildContext context) {
     final Map userData = ModalRoute.of(context).settings.arguments as Map;
     final deviceSize = MediaQuery.of(context).size;
-    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
     final _user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
