@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'check_email_screen.dart';
 import 'package:provider/provider.dart';
-import '../../Providers/authorization_provider.dart';
+import '../../Providers/user_provider.dart';
 
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
@@ -21,7 +21,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<AuthorizationProvider>(context, listen: false);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(

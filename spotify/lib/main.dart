@@ -1,9 +1,10 @@
 //Import Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
+import 'package:spotify/Widgets/premium_card.dart';
 
 //Import Providers
-import 'Providers/authorization_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 
@@ -24,6 +25,7 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 //import 'Screens/SignUpAndLogIn/intro_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
+import 'Widgets/fav_artist_item.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,16 +36,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(
-            value: AuthorizationProvider(),
-          ),
-          ChangeNotifierProvider.value(
             value: UserProvider(),
           ),
           ChangeNotifierProvider.value(
             value: PlaylistProvider(),
           )
         ],
-        child: Consumer<AuthorizationProvider>(
+        child: Consumer<UserProvider>(
             builder: (ctx, auth, _) => MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'Spotify',
@@ -52,7 +51,8 @@ class MyApp extends StatelessWidget {
                     accentColor: Colors.black,
                     fontFamily: 'Lineto',
                   ),
-                  home: TabsScreen(), // auth.isAuth
+                  home: TabsScreen(),
+                  //home: , // auth.isAuth
                   //     ? HomeScreen()
                   //     : /*FutureBuilder(
                   //         future: auth.tryAutoLogin(),
