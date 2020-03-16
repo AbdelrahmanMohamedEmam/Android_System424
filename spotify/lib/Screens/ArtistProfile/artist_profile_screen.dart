@@ -13,12 +13,6 @@ class ArtistProfile_Screen extends StatefulWidget {
 }
 
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
-  @override
-  void didChangeDependencies() {
-    Provider.of<PlaylistProvider>(context ,).fetchPlaylists();
-
-    super.didChangeDependencies();
-  }
 
   String artistName = 'Amr Diab';
 
@@ -27,7 +21,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   @override
   Widget build(BuildContext context) {
     final playlistspro = Provider.of<PlaylistProvider>(context);
-    final playlists = playlistspro.playlists;
+    //final playlists = playlistspro.playlists;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -156,7 +150,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
             ),
 
             //row of featured playlists
-            Container(
+            /*Container(
               height: 250,
               width: double.infinity,
               child: ListView.builder(
@@ -166,7 +160,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
 
             Container(
               padding : EdgeInsets.only(top: 30 , bottom: 10),
