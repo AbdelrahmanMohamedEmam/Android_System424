@@ -9,7 +9,6 @@ import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
 
 class ArtistProvider with ChangeNotifier {
-
   List<Artist> _artist = [];
 
   List<Artist> get artist {
@@ -27,5 +26,6 @@ class ArtistProvider with ChangeNotifier {
     _playlists = loadedPlaylists;
     notifyListeners();
   }
-}
 
+
+}
