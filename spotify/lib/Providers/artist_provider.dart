@@ -14,7 +14,7 @@ class ArtistProvider with ChangeNotifier {
   List<Artist> get artist {
     return [..._artist];
   }
-
+/*
   Future<void> fetchPlaylistsForArtist() async {
     const url = 'http://www.mocky.io/v2/5e6e243e2f00005800a037ae';
     final response = await http.get(url);
@@ -25,7 +25,12 @@ class ArtistProvider with ChangeNotifier {
     }
     _playlists = loadedPlaylists;
     notifyListeners();
+<<<<<<< HEAD
   }
+=======
+  }*/
+}
+>>>>>>> e235b6e3f8786c25cdf865f01cac25efc951004b
 
 
 }
