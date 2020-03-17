@@ -3,6 +3,7 @@ import './Models/follower.dart';
 import './Models/image.dart';
 import './Models/owner.dart';
 import './Models/playlist.dart';
+import './Models/copyright.dart';
 
 List<Image> parceImage(imageJason) {
   var list = imageJason as List;
@@ -37,3 +38,9 @@ List<Playlist> parcePlaylist(playlistJson) {
   return playlistList;
 }
 
+List<Copyright> parceCopyright(copyrightJson) {
+  var list = copyrightJson as List;
+  List<Copyright> copyrightList =
+      list.map((data) => Copyright.fromjson(data)).toList();
+  return list;
+}
