@@ -1,12 +1,12 @@
-class CopyRight {
+class Copyright {
   final String text;
   final String type;
-  CopyRight({
+  Copyright({
     this.text,
     this.type,
   });
-  factory CopyRight.fromjson(Map<String, dynamic> json) {
-    return CopyRight(
+  factory Copyright.fromjson(Map<String, dynamic> json) {
+    return Copyright(
       text: json['text'],
       type: json['type'],
     );
