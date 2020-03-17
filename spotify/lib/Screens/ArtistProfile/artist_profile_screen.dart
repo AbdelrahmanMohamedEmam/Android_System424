@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import '../../widgets/featured_playlists_artist_profile.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/suggessted_artists_artist_profile.dart';
+import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../Models/playlist.dart';
 
 class ArtistProfile_Screen extends StatefulWidget {
