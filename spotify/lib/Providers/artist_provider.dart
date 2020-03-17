@@ -25,12 +25,8 @@ class ArtistProvider with ChangeNotifier {
     }
     _playlists = loadedPlaylists;
     notifyListeners();
-<<<<<<< HEAD
-  }
-=======
   }*/
 }
->>>>>>> e235b6e3f8786c25cdf865f01cac25efc951004b
 
 
-}
+
