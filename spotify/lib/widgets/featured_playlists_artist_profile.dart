@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../Models/playlist.dart';
 
 class FeaturedPlaylists extends StatelessWidget {
-
-  //FeaturedPlaylists(this.playListImage , this.playListName);
   @override
   Widget build(BuildContext context) {
     final playlist = Provider.of<Playlist>(context);

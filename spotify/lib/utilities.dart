@@ -38,9 +38,13 @@ List<Playlist> parcePlaylist(playlistJson) {
   return playlistList;
 }
 
+<<<<<<< HEAD
 List<Copyright> parceCopyright(copyrightJson) {
   var list = copyrightJson as List;
   List<Copyright> copyrightList =
       list.map((data) => Copyright.fromjson(data)).toList();
   return list;
 }
+=======
+
+>>>>>>> 96e8e9c54af009d9015342ae9d5f5264e5dfb20d
