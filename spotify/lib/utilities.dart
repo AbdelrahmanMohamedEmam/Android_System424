@@ -4,6 +4,7 @@ import './Models/image.dart';
 import './Models/owner.dart';
 import './Models/playlist.dart';
 import './Models/copyright.dart';
+//import './Models/artist.dart';
 
 List<Image> parceImage(imageJason) {
   var list = imageJason as List;
@@ -38,13 +39,16 @@ List<Playlist> parcePlaylist(playlistJson) {
   return playlistList;
 }
 
-<<<<<<< HEAD
 List<Copyright> parceCopyright(copyrightJson) {
   var list = copyrightJson as List;
   List<Copyright> copyrightList =
       list.map((data) => Copyright.fromjson(data)).toList();
-  return list;
+  return copyrightList;
 }
-=======
+// List<Artist> parceArtist(artistJson) {
+//   var list = artistJson as List;
+//   List<Copyright> artistList =
+//       list.map((data) => Artist.fromjson(data)).toList();
+//   return artistList;
+// }
 
->>>>>>> 96e8e9c54af009d9015342ae9d5f5264e5dfb20d
