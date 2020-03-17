@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchMadeForYouPlaylists();
+       .fetchMadeForYouPlaylists();
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPopularPlaylists();
 

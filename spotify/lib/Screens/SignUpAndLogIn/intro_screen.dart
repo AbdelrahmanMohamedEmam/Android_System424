@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'logIn_screen.dart';
 import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
 
 
 import '../../Screens/SignUpAndLogIn/create_email_screen.dart';
@@ -51,11 +52,11 @@ class IntroScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: deviceSize.width * 0.8,
+                width: deviceSize.width * 0.67,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
                   textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.green[700],
                   child: Text(
                     'SIGN UP FREE',
                     style: TextStyle(fontSize: 16),
@@ -76,30 +77,15 @@ class IntroScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 15),
-                width: deviceSize.width * 0.8,
+                width: deviceSize.width * 0.67,
                 height: deviceSize.height * 0.065,
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Icon(Icons.face,),
-                      Text(
-                        'CONTINUE WITH FACEBOOK',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0),
-                    side: BorderSide(color: Colors.white),
-                  ),
+                child:fb.FacebookSignInButton(
+                  borderRadius: 28.0,
                   onPressed: () {
                     _user.signInWithFB();
                   },
-                ),
-              ),
+                )
+              )
             ],
           ),
           Row(
