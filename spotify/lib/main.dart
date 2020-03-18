@@ -27,7 +27,7 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 //import 'Screens/SignUpAndLogIn/intro_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
-
+import './Providers/artist_provider.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -41,7 +41,10 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider.value(
             value: PlaylistProvider(),
-          )
+          ),
+          ChangeNotifierProvider.value(
+            value: ArtistProvider(),
+          ),
         ],
         child: Consumer<UserProvider>(
             builder: (ctx, auth, _) => MaterialApp(
@@ -54,13 +57,15 @@ class MyApp extends StatelessWidget {
                   ),
 
                   //home: //IntroScreen(),
-                  home: auth.isAuth
+                  home: //IntroScreen(),
+                     auth.isAuth
                        ? TabsScreen()
                        : FutureBuilder(
                            future: auth.tryAutoLogin(),
                            builder: (ctx, authResultSnapshot) =>
                                    IntroScreen(),
                   ),
+                  //home:ChooseFavArtists(),
                   //home:SplashScreen(),
                   //home: TabsScreen(),
                   routes: {

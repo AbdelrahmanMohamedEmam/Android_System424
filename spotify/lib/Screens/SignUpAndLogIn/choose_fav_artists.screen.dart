@@ -5,6 +5,8 @@ import '../../Providers/artist_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Widgets/fav_artist_item.dart';
 import '../../Screens/MainApp/tabs_screen.dart';
+import '../../Models/artist.dart';
+import '../../Providers/artist_provider.dart';
 
 
 class Artist {
@@ -35,6 +37,11 @@ class ChooseFavArtists extends StatefulWidget {
     Artist('Maroon 5','15','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
     Artist('Ed Sheeran','16','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
   ];
+  //List<Artist> artists=[];
+
+
+
+
 
 
   @override
@@ -47,8 +54,15 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
   List<bool> selected=[];
 
+
+  /*Future<void> _initializeList() async{
+  await Provider.of<ArtistProvider>(context, listen: false).fetchMultipleArtists();
+  widget.artists= Provider.of<ArtistProvider>(context, listen: false).getMultipleArtists;
+  }*/
+
   @override
-  void initState() {
+  void initState()  {
+   // _initializeList();
     widget.artists.forEach((_){
       selected.add(false);
     });

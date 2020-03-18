@@ -8,10 +8,10 @@ import '../utilities.dart';
 class User {
   final String name;
   final String email;
-  final String password;
+  String password;
   final String id;
   //final String username;
-  final String role;
+  String role;
   final String gender;
   final String dateOfBirth;
   final String uri;

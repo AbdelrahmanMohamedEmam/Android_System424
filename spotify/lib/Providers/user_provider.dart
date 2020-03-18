@@ -84,11 +84,11 @@ class UserProvider with ChangeNotifier {
 
   //UserInfo Setters
   void setPremium(String premium){
-    _user.product='premium';
+    _user.role='premium';
   }
 
   Future<void> setUser(String token) async {
-    final url = 'http://www.mocky.io/v2/5e7206f53300008c0044c5e6';
+    final url = 'http://www.mocky.io/v2/5e72794b330000b35444c94a';
 
     try {
       final response = await http.post(
@@ -144,7 +144,7 @@ class UserProvider with ChangeNotifier {
 
   //AUTHENTICATION SECTION
   bool get isAuth{
-    notifyListeners();
+    //notifyListeners();
     return token !=null;
 
   }
@@ -218,7 +218,7 @@ class UserProvider with ChangeNotifier {
         print(_token.toString());
         _expiryDate = DateTime.now().add(
             Duration(
-                seconds: 30
+                days: 1
             ));
         _autoLogout();
         notifyListeners();
@@ -264,7 +264,7 @@ class UserProvider with ChangeNotifier {
         _status= responseData['success'];
         _expiryDate = DateTime.now().add(
             Duration(
-                seconds: 30
+                days: 1
             ));
         print(responseData);
         _autoLogout();

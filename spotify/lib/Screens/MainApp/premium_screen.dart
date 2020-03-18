@@ -156,6 +156,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     padding: EdgeInsets.fromLTRB(
                         deviceSize.width * 0.1, 0, deviceSize.width * 0.1, 0),
                     child: Text(
+                      _user.isUserPremium()?'You are already a premium user. We hope you are enjoying Spotify.':
                       'You have received an email with your premium code, kindly check your email and enter the code below to get your premium features.',
                       textAlign: TextAlign.center,
                       softWrap: true,

@@ -106,7 +106,7 @@ class _LogInScreenState extends State<LogInScreen> {
             child: TextFormField(
               controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Email or Username',
+                labelText: 'Email',
                 filled: true,
                 fillColor: Colors.grey,
                 labelStyle: TextStyle(color: Colors.white38),
