@@ -1,16 +1,74 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/create_password_screen.dart';
 import 'logIn_screen.dart';
 import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
+import '../../Models/http_exception.dart';
 
 
 import '../../Screens/SignUpAndLogIn/create_email_screen.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
+
   static const routeName = '/intro_screen';
+  @override
+  _IntroScreenState createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
+
+
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Logging in Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit() async {
+
+    String email;
+    final _auth=Provider.of<UserProvider>(context, listen: false);
+    try {
+
+      email=await _auth.signInWithFB();
+      print(email);
+
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+    if(_auth.isFbLogin)
+    {
+      print('LoggedIn');
+      //Check if I am already an old user
+      //Navigator.pushNamed(context, CreatePasswordScreen.routeName, arguments: email);
+    }
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +140,8 @@ class IntroScreen extends StatelessWidget {
                 child:fb.FacebookSignInButton(
                   borderRadius: 28.0,
                   onPressed: () {
-                    _user.signInWithFB();
+                    _submit();
+
                   },
                 )
               )

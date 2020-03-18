@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../Models/http_exception.dart';
+import '../../Providers/artist_provider.dart';
+import 'package:provider/provider.dart';
 import '../../Widgets/fav_artist_item.dart';
+import '../../Screens/MainApp/tabs_screen.dart';
 
 
 class Artist {
@@ -52,6 +56,45 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
   }
 
 
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Connection Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit() async {
+
+    //final _artistProvider=Provider.of<ArtistProvider>(context, listen: false);
+    try {
+      //Call the request to add the fav artists
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Check you internet connection :D';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -99,7 +142,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                       side: BorderSide(color: Colors.white),
                     ),
                     onPressed: () {
-                      //SEND REQUESTS TO ADD THESE ARTISTS AS FOLLOWING
+                      _submit();
                     },
                   ),
                 ),

@@ -53,13 +53,14 @@ class MyApp extends StatelessWidget {
                     fontFamily: 'Lineto',
                   ),
 
-                  home: IntroScreen(), // auth.isAuth
-                  //     ? HomeScreen()
-                  //     : /*FutureBuilder(
-                  //         future: auth.tryAutoLogin(),
-                  //         builder: (ctx, authResultSnapshot) =>*/
-                  //                 IntroScreen(),
-                  //),
+                  //home: //IntroScreen(),
+                  home: auth.isAuth
+                       ? TabsScreen()
+                       : FutureBuilder(
+                           future: auth.tryAutoLogin(),
+                           builder: (ctx, authResultSnapshot) =>
+                                   IntroScreen(),
+                  ),
                   //home:SplashScreen(),
                   //home: TabsScreen(),
                   routes: {
@@ -77,6 +78,8 @@ class MyApp extends StatelessWidget {
                     LibraryScreen.routeName: (ctx) => LibraryScreen(),
                     PremiumScreen.routeName: (ctx) => PremiumScreen(),
                     ArtistScreen.routeName: (ctx) => ArtistScreen(),
+                    TabsScreen.routeName: (ctx)=> TabsScreen(),
+                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
                   },
                 )));
   }

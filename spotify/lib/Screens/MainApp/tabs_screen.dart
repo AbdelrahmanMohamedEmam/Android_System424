@@ -9,6 +9,7 @@ import 'home_screen.dart';
 import 'search_screen.dart';
 
 class TabsScreen extends StatefulWidget {
+    static const routeName = '/tabs_screen';
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }

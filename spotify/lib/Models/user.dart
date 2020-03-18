@@ -6,10 +6,12 @@ import '../Models/user_stats.dart';
 import '../utilities.dart';
 
 class User {
-  final String id;
-  final String username;
+  final String name;
   final String email;
   final String password;
+  final String id;
+  //final String username;
+  final String role;
   final String gender;
   final String dateOfBirth;
   final String uri;
@@ -17,18 +19,16 @@ class User {
   final ExternalUrl externalUrl;
   final List<Image> images;
   final String country;
-  final List<Follower> followers;
-  final String product;
-  final UserStats userStats;
   final String type;
-  final bool isPremium;
-  final bool isArtist;
+  final List<Follower> followers;
+  String product;
+  final UserStats userStats;
+  final String resetPasswordToken;
+
 
   User({
     this.id,
-    this.isArtist,
-    this.isPremium,
-    this.username,
+    this.name,
     this.externalUrl,
     this.dateOfBirth,
     this.country,
@@ -41,7 +41,9 @@ class User {
     this.product,
     this.type,
     this.uri,
-    this.userStats
+    this.userStats,
+    this.resetPasswordToken,
+    this.role,
   });
 
 
@@ -57,11 +59,13 @@ class User {
       type: json['type'],
       followers: parceFollower(json['followers']),
       userStats: UserStats.fromjson(json['userStats']),
-      product: json['product'],
-      username: json['name'],
+      product: 'free',//json['product'],
+      name: json['name'],
       externalUrl: ExternalUrl.fromjson(json['externalUrls']),
       href: json['href'],
       images: parceImage(json['images']),
+      role: json['role'],
+      resetPasswordToken: json['resetPasswordToken']
 
     );
   }

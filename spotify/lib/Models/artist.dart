@@ -17,7 +17,7 @@ class Artist {
   final int popularity;
   final String type;
   final String uri;
-  final String bio;
+  //final String bio;
 
 
   Artist({
@@ -31,7 +31,7 @@ class Artist {
     this.popularity ,
     this.type ,
     this.uri ,
-    this.bio ,
+   // this.bio ,
   });
 
   factory Artist.fromJson(Map<String, dynamic> json) {
@@ -46,7 +46,7 @@ class Artist {
       popularity: json['popularity'],
       type: json['type'],
       uri: json['uri'],
-      bio: json['bio'],
+      //bio: json['bio'],
     );
   }
 }
