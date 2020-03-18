@@ -1,3 +1,5 @@
+import 'package:spotify/widgets/artist_info_widget.dart';
+
 import '../../widgets/album_widget_artist_profile.dart';
 //import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,8 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../Models/playlist.dart';
+import 'package:spotify/Models/artist.dart';
+import 'package:spotify/Providers/artist_provider.dart';
 
 class ArtistProfile_Screen extends StatefulWidget {
   @override
@@ -15,9 +19,14 @@ class ArtistProfile_Screen extends StatefulWidget {
 
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   @override
-  void didChangeDependencies() {
-    Provider.of<PlaylistProvider>(context, listen: false)
+  void didChangeDependencies() async  {
+    await Provider.of<PlaylistProvider>(context , listen: false)
         .fetchArtistProfilePlaylists();
+    await Provider.of<ArtistProvider>(context ,  listen: false)
+        .fetchMultipleArtists();
+    await Provider.of<ArtistProvider>(context , listen: false)
+        .fetchChoosedArtist();
+
     super.didChangeDependencies();
   }
 
@@ -27,9 +36,17 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
 
   @override
   Widget build(BuildContext context) {
+
+   final artistProvider = Provider.of<ArtistProvider>(context);
+    List<Artist> artists ;
+    artists = artistProvider.getMultipleArtists;
+    Artist artistInfo;
+    artistInfo = artistProvider.getChoosedArtist;
+
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
     List<Playlist> playlists;
       playlists = playlistsProvider.getArtistProfilePlaylists;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -55,32 +72,18 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
         child: ListView(
           scrollDirection: Axis.vertical,
           children : <Widget> [
-            Stack(
-              children : <Widget> [
-                Container(
-                  padding: EdgeInsets.all(15),
-                  child: Image.network(
-                    artistImage,
-                    height: 300,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  top: 200,
-                  bottom: 80,
-                  left: 70,
-                  right: 100,
-                  child: Text(artistName ,
-                    textAlign: TextAlign.center,
-                    style : TextStyle(color: Colors.green ,
-                      fontWeight: FontWeight.bold ,
-                      fontSize: 50,
-                    ),
-                  ),
-                ),
-              ],
+            Container(
+              height: 250,
+              width: double.infinity,
+              child: ListView.builder(
+                  itemCount: 1,
+                  //scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                    value: artistInfo,
+                    child:  ArtistCard(),
+                  )),
             ),
+
             Container(
               height: 40,
               width:  50 ,
@@ -181,23 +184,16 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 ),
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-                  suggesttedArtists(),
-
-                ],
-
-
-              ),
-
+            Container(
+              height: 250,
+              width: double.infinity,
+              child: ListView.builder(
+                  itemCount: artists.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                    value: artists[i],
+                    child: suggesttedArtists(),
+                  )),
             ),
             Container(
               padding : EdgeInsets.only(top: 30 , bottom: 10),
@@ -210,7 +206,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 ),
               ),
             ),
-            FeaturedPlaylists(),
+            //FeaturedPlaylists(),
             Container(
               padding : EdgeInsets.only(top: 30 , bottom: 10),
               child: Text('About',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
+import 'package:spotify/Providers/artist_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .fetchMadeForYouPlaylists();
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPopularPlaylists();
+
 
     super.didChangeDependencies();
   }
