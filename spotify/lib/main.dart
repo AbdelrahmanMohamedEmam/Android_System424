@@ -1,6 +1,7 @@
 //Import Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
@@ -30,7 +31,13 @@ import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
 import './Providers/artist_provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    Phoenix(
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -62,17 +69,18 @@ class MyApp extends StatelessWidget {
           ),
 
           //home: //IntroScreen(),
-          home: TabsScreen(), //IntroScreen(),
-          /*auth.isAuth
+          home: //TabsScreen(), //IntroScreen(),
+          auth.isAuth
                   ? TabsScreen()
                   : FutureBuilder(
                       future: auth.tryAutoLogin(),
                       builder: (ctx, authResultSnapshot) => IntroScreen(),
-                    ),*/
+                    ),
           //home:ChooseFavArtists(),
           //home:SplashScreen(),
           //home: TabsScreen(),
           routes: {
+            IntroScreen.routeName: (ctx) => IntroScreen(),
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
             AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),

@@ -29,6 +29,7 @@ dependencies:
   gradient_widgets: ^0.5.2
   flutter_facebook_login: ^1.2.0
   flutter_auth_buttons: ^0.6.0
+  flutter_phoenix: ^0.1.0
 
 
 
