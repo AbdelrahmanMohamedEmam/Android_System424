@@ -332,6 +332,7 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
+    setUser(_token);
     notifyListeners();
     _autoLogout();
     return true;
@@ -344,6 +345,7 @@ class UserProvider with ChangeNotifier {
     _token = null;
     _status=null;
     _expiryDate = null;
+    _user= null;
     print('token expires');
     if (_authTimer != null) {
       _authTimer.cancel();
@@ -353,7 +355,6 @@ class UserProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }
-
 
 
 

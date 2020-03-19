@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Providers/user_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 import 'package:spotify/Providers/artist_provider.dart';
 
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider .of<UserProvider>(context, listen: false).token);
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       appBar: AppBar(
