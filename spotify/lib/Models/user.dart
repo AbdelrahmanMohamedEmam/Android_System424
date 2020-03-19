@@ -61,7 +61,7 @@ class User {
       userStats: UserStats.fromjson(json['userStats']),
       product: 'free',//json['product'],
       name: json['name'],
-      externalUrl: ExternalUrl.fromjson(json['externalUrls']),
+      externalUrl: ExternalUrl.fromJson(json['externalUrls']),
       href: json['href'],
       images: parceImage(json['images']),
       role: json['role'],

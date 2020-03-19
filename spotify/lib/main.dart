@@ -1,6 +1,7 @@
 //Import Packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
@@ -8,6 +9,7 @@ import 'package:spotify/Widgets/premium_card.dart';
 //Import Providers
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
+import 'Providers/album_provider.dart';
 
 //Import Screens
 import 'Screens/MainApp/artist_screen.dart';
@@ -28,64 +30,75 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
 import './Providers/artist_provider.dart';
-void main() => runApp(MyApp());
+
+void main() {
+  runApp(
+    Phoenix(
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: UserProvider(),
+      providers: [
+        ChangeNotifierProvider.value(
+          value: UserProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: PlaylistProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: AlbumProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ArtistProvider(),
+        ),
+      ],
+      child: Consumer<UserProvider>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Spotify',
+          theme: ThemeData(
+            primarySwatch: Colors.green,
+            accentColor: Colors.black,
+            fontFamily: 'Lineto',
           ),
-          ChangeNotifierProvider.value(
-            value: PlaylistProvider(),
-          ),
-          ChangeNotifierProvider.value(
-            value: ArtistProvider(),
-          ),
-        ],
-        child: Consumer<UserProvider>(
-            builder: (ctx, auth, _) => MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Spotify',
-                  theme: ThemeData(
-                    primarySwatch: Colors.green,
-                    accentColor: Colors.black,
-                    fontFamily: 'Lineto',
-                  ),
 
-                  //home: //IntroScreen(),
-                  home: //IntroScreen(),
-                     auth.isAuth
-                       ? TabsScreen()
-                       : FutureBuilder(
-                           future: auth.tryAutoLogin(),
-                           builder: (ctx, authResultSnapshot) =>
-                                   IntroScreen(),
-                  ),
-                  //home:ChooseFavArtists(),
-                  //home:SplashScreen(),
-                  //home: TabsScreen(),
-                  routes: {
-                    CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
-                    CreatePasswordScreen.routeName: (ctx) =>
-                        CreatePasswordScreen(),
-                    AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
-                    ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
-                    ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
-                    LogInScreen.routeName: (ctx) => LogInScreen(),
-                    GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
-                    CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
-                    HomeScreen.routeName: (ctx) => HomeScreen(),
-                    SearchScreen.routeName: (ctx) => SearchScreen(),
-                    LibraryScreen.routeName: (ctx) => LibraryScreen(),
-                    PremiumScreen.routeName: (ctx) => PremiumScreen(),
-                    ArtistScreen.routeName: (ctx) => ArtistScreen(),
-                    TabsScreen.routeName: (ctx)=> TabsScreen(),
-                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
-                  },
-                )));
+          //home: //IntroScreen(),
+          home: //TabsScreen(), //IntroScreen(),
+          auth.isAuth
+                  ? TabsScreen()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (ctx, authResultSnapshot) => IntroScreen(),
+                    ),
+          //home:ChooseFavArtists(),
+          //home:SplashScreen(),
+          //home: TabsScreen(),
+          routes: {
+            IntroScreen.routeName: (ctx) => IntroScreen(),
+            CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
+            CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
+            AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
+            ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
+            ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
+            LogInScreen.routeName: (ctx) => LogInScreen(),
+            GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
+            CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            SearchScreen.routeName: (ctx) => SearchScreen(),
+            LibraryScreen.routeName: (ctx) => LibraryScreen(),
+            PremiumScreen.routeName: (ctx) => PremiumScreen(),
+            ArtistScreen.routeName: (ctx) => ArtistScreen(),
+            TabsScreen.routeName: (ctx) => TabsScreen(),
+            ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
+          },
+        ),
+      ),
+    );
   }
 }

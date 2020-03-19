@@ -31,7 +31,7 @@ class Owner {
       name: json['name'],
       uri: json['uri'],
       href: json['href'],
-      externalUrls: ExternalUrl.fromjson(json['externalUrls']),
+      externalUrls: ExternalUrl.fromJson(json['externalUrls']),
       images: parceImage(json['images']),
       type: json['type'],
       //followers: parceFollower(json['followers']),
