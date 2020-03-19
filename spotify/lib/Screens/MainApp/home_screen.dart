@@ -5,6 +5,7 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 //Fimport '../../widgets/album_list_widget.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
+//import './error_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -20,14 +21,17 @@ class _HomeScreenState extends State<HomeScreen>
   bool isloading = true;
   @override
   void didChangeDependencies() {
+    // try {
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchMadeForYouPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchPopularPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchWorkoutPlaylists();
+    // Provider.of<PlaylistProvider>(context, listen: false)
+    //     .fetchPopularPlaylists();
+    // Provider.of<PlaylistProvider>(context, listen: false)
+    //     .fetchWorkoutPlaylists();
     // Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-
+    // } catch (error) {
+    //   Navigator.of(context).pushNamed(ErrorScreen.routeName);
+    // }
     super.didChangeDependencies();
   }
 
@@ -57,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen>
                 return Column(
                   children: <Widget>[
                     PlaylistList('Made for you'),
-                    PlaylistList('Popular playlists'),
-                    PlaylistList('Workout'),
+                    // PlaylistList('Popular playlists'),
+                    // PlaylistList('Workout'),
                     //AlbumList('Popular albums'),
                   ],
                 );
