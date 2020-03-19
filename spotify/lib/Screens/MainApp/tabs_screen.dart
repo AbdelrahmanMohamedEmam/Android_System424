@@ -81,11 +81,11 @@ class _TabsScreenState extends State<TabsScreen> {
             title: Text('Library'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.money_off),
             title: Text('Premium'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.mic),
             title: Text('Artist'),
           ),
         ],

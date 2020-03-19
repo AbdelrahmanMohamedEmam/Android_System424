@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import './tracks_in_playlist.dart';
+import './tracks_ref.dart';
 import './owner.dart';
 import './external_url.dart';
 import './image.dart';
@@ -9,6 +9,7 @@ class Playlist with ChangeNotifier {
   final bool collaborative;
   final String description;
   final List<ExternalUrl> externalUrls;
+  final int followers;
   final String href;
   final String id;
   final List<Image> images;
@@ -16,7 +17,7 @@ class Playlist with ChangeNotifier {
   final List<Owner> owner;
   final bool public;
   final String snapShotId;
-  final TracksInPlaylist tracks;
+  final TracksRef tracks;
   final String type;
   final String uri;
 
@@ -24,6 +25,7 @@ class Playlist with ChangeNotifier {
     this.collaborative,
     this.description,
     this.externalUrls,
+    this.followers,
     this.href,
     this.id,
     this.images,
@@ -40,6 +42,7 @@ class Playlist with ChangeNotifier {
       collaborative: json['collaborative'],
       description: json['description'],
       externalUrls: parceExternalUrl(json['externalUrls']),
+      followers: json['followers'],
       href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
@@ -47,7 +50,7 @@ class Playlist with ChangeNotifier {
       owner: parceOwner(json['owner']),
       public: json['public'],
       snapShotId: json['snapshot_id'],
-      tracks: TracksInPlaylist.fromJson(json['tracks']),
+      tracks: TracksRef.fromJson(json['tracks']),
       type: json['type'],
       uri: json['uri'],
     );

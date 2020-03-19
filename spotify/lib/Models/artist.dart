@@ -1,4 +1,3 @@
-
 import './external_url.dart';
 //need to import something for followers
 import './follower.dart';
@@ -19,26 +18,25 @@ class Artist {
   final String uri;
   final String bio;
 
-
   Artist({
-    this.externalUrls ,
-    this.followers ,
-    this.genres ,
-    this.href ,
+    this.externalUrls,
+    this.followers,
+    this.genres,
+    this.href,
     this.id,
     this.images,
-    this.name ,
-    this.popularity ,
-    this.type ,
-    this.uri ,
-    this.bio ,
+    this.name,
+    this.popularity,
+    this.type,
+    this.uri,
+    this.bio,
   });
 
   factory Artist.fromJson(Map<String, dynamic> json) {
     return Artist(
       externalUrls: parceExternalUrl(json['externalUrls']),
-      followers :  parceFollower(json['followers']),
-      genres:  json['genres'],
+      followers: parceFollower(json['followers']),
+      genres: json['genres'],
       href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
@@ -47,6 +45,17 @@ class Artist {
       type: json['type'],
       uri: json['uri'],
       bio: json['bio'],
+    );
+  }
+  factory Artist.fromJsonSimplified(Map<String, dynamic> json) {
+    return Artist(
+      id: json['id'],
+      name: json['name'],
+      href: json['href'],
+      type: json['type'],
+      //externalUrls: parceExternalUrl(json['externalUrls']),
+      uri: json['uri'],
+      popularity: json['popularity'],
     );
   }
 }

@@ -2,26 +2,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import providers
-import '../Providers/playlist_provider.dart';
+import '../Providers/album_provider.dart';
 //import widgets
-import '../widgets/playlist_item_widget.dart';
-import '../Models/playlist.dart';
+import '../widgets/album_item_widget.dart';
+import '../Models/album.dart';
 
-class PlaylistList extends StatelessWidget {
+class AlbumList extends StatelessWidget {
   final String categoryTitle;
 
-  PlaylistList(this.categoryTitle);
+  AlbumList(this.categoryTitle);
   @override
   Widget build(BuildContext context) {
-    final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    List<Playlist> playlists;
-    if (categoryTitle == 'Popular playlists') {
-      playlists = playlistsProvider.getPopularPlaylists;
-    } else if (categoryTitle == 'Made for you') {
-      playlists = playlistsProvider.getMadeForYouPlaylists;
-    } else if (categoryTitle == 'Workout') {
-      playlists = playlistsProvider.getWorkoutPlaylists;
-    }
+    final albumsProvider = Provider.of<AlbumProvider>(context);
+    List<Album> albums;
+    albums = albumsProvider.getPopularAlbums;
+
+    // if (categoryTitle == 'Popular playlists') {
+    //   playlists = playlistsProvider.getPopularPlaylists;
+    // } else if (categoryTitle == 'Made for you') {
+    //   playlists = playlistsProvider.getMadeForYouPlaylists;
+    // }
 
     return Container(
       height: 280,
@@ -49,13 +49,13 @@ class PlaylistList extends StatelessWidget {
           Container(
             height: 215,
             child: ListView.builder(
-              itemCount: playlists.length,
+              itemCount: albums.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                value: playlists[i],
+                value: albums[i],
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: PlaylistWidget(),
+                  child: AlbumWidget(),
                 ),
               ),
             ),

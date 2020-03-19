@@ -1,13 +1,14 @@
 import 'package:spotify/Models/external_url.dart';
+import 'package:flutter/foundation.dart';
+import 'package:spotify/Models/tracks_ref.dart';
 
-import '../Models/artist.dart';
+import '../utilities.dart';
 import '../Models/copyright.dart';
-import './track.dart';
 import './image.dart';
 
-class Album {
+class Album with ChangeNotifier {
   final String albumType;
-  final List<Artist> artists;
+  final String artists;
   final List<Copyright> copyright;
   final ExternalUrl externalUrl;
   final List<String> genres;
@@ -18,7 +19,7 @@ class Album {
   final String name;
   final int popularity;
   final String releaseDate;
-  final List<Track> tracks;
+  final TracksRef tracks;
   final String type;
   final String uri;
   Album({
@@ -38,4 +39,23 @@ class Album {
     this.type,
     this.uri,
   });
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      albumType: json['albumType'],
+      artists: json['artists'],
+      copyright: parceCopyright(json['copyrights']),
+      externalUrl: ExternalUrl.fromjson(json['externalUrls']),
+      genres: json['genres'],
+      href: json['href'],
+      id: json['id'],
+      images: parceImage(json['images']),
+      label: json['label'],
+      name: json['name'],
+      popularity: json['popularity'],
+      releaseDate: json['releaseDate'],
+      tracks: TracksRef.fromJson(json['tracks']),
+      type: json['type'],
+      uri: json['uri'],
+    );
+  }
 }

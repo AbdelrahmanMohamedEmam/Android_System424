@@ -1,12 +1,12 @@
-class TracksInPlaylist {
+class TracksRef {
   final String href;
   final int total;
-  TracksInPlaylist({
+  TracksRef({
     this.href,
     this.total,
   });
-  factory TracksInPlaylist.fromJson(Map<String, dynamic> json) {
-    return TracksInPlaylist(
+  factory TracksRef.fromJson(Map<String, dynamic> json) {
+    return TracksRef(
       href: json['href'],
       total: json['total'],
     );

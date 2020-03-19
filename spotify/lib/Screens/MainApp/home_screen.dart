@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
+//import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
+//import '../../widgets/album_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -10,37 +12,56 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin<HomeScreen> {
+  @override
+  bool get wantKeepAlive => true;
   @override
   void didChangeDependencies() {
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchMadeForYouPlaylists();
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPopularPlaylists();
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchWorkoutPlaylists();
+    // Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
 
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(18, 18, 18, 1),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {},
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            expandedHeight: 100,
+            backgroundColor: Color.fromRGBO(18, 18, 18, 2),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {},
+              ),
+            ],
           ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Column(
+                  children: <Widget>[
+                    PlaylistList('Made for you'),
+                    PlaylistList('Popular playlists'),
+                    PlaylistList('Workout'),
+                    //AlbumList('Popular albums'),
+                  ],
+                );
+              },
+              childCount: 1,
+            ),
+          )
         ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            PlaylistList('Made for you'),
-            PlaylistList('Popular playlists'),
-          ],
-        ),
       ),
     );
   }
