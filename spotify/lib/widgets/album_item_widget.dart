@@ -17,7 +17,7 @@ class AlbumWidget extends StatelessWidget {
               height: 140,
               width: 140,
               child: Image.network(
-                album.images[0].url,
+                album.images[0],
                 fit: BoxFit.fill,
               ),
             ),

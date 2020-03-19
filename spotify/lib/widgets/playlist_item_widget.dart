@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../Models/playlist.dart';
 
 class PlaylistWidget extends StatelessWidget {
@@ -16,9 +17,9 @@ class PlaylistWidget extends StatelessWidget {
             Container(
               height: 140,
               width: 140,
-              child: Image.network(
-                playlist.images[0].url,
-                fit: BoxFit.fill,
+              child: FadeInImage(
+                image: NetworkImage(playlist.images[0]),
+                placeholder: AssetImage('assets/images/temp.jpg'),
               ),
             ),
             Container(

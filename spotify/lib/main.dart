@@ -62,13 +62,13 @@ class MyApp extends StatelessWidget {
           ),
 
           //home: //IntroScreen(),
-          home: //IntroScreen(),
-              auth.isAuth
+          home: TabsScreen(), //IntroScreen(),
+          /*auth.isAuth
                   ? TabsScreen()
                   : FutureBuilder(
                       future: auth.tryAutoLogin(),
                       builder: (ctx, authResultSnapshot) => IntroScreen(),
-                    ),
+                    ),*/
           //home:ChooseFavArtists(),
           //home:SplashScreen(),
           //home: TabsScreen(),

@@ -1,3 +1,4 @@
+import './Models/tracks_ref.dart';
 import './Models/external_url.dart';
 import './Models/follower.dart';
 import './Models/image.dart';
@@ -17,7 +18,7 @@ List<Image> parceImage(imageJason) {
 List<ExternalUrl> parceExternalUrl(externalUrlJson) {
   var list = externalUrlJson as List;
   List<ExternalUrl> externalUrlList =
-      list.map((data) => ExternalUrl.fromjson(data)).toList();
+      list.map((data) => ExternalUrl.fromJson(data)).toList();
   return externalUrlList;
 }
 
@@ -57,7 +58,8 @@ List<Copyright> parceCopyright(copyrightJson) {
 
 List<Artist> parceArtist(artistJson) {
   var list = artistJson as List;
-  List<Artist> artistList = list.map((data) => Artist.fromJsonSimplified(data)).toList();
+  List<Artist> artistList =
+      list.map((data) => Artist.fromJsonSimplified(data)).toList();
   return artistList;
 }
 
@@ -65,4 +67,11 @@ List<Track> parceTrack(trackJson) {
   var list = trackJson as List;
   List<Track> trackList = list.map((data) => Track.fromJson(data)).toList();
   return trackList;
+}
+
+List<TracksRef> parceTrackRef(trackRefJson) {
+  var list = trackRefJson as List;
+  List<TracksRef> trackrefList =
+      list.map((data) => TracksRef.fromJson(data)).toList();
+  return trackrefList;
 }

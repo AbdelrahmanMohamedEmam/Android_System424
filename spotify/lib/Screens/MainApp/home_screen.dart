@@ -4,7 +4,7 @@ import 'package:spotify/Providers/playlist_provider.dart';
 //import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 //Fimport '../../widgets/album_list_widget.dart';
-import 'package:spotify/Providers/artist_provider.dart';
+//import 'package:spotify/Providers/artist_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -17,16 +17,16 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin<HomeScreen> {
   @override
   bool get wantKeepAlive => true;
+  bool isloading = true;
   @override
   void didChangeDependencies() {
     Provider.of<PlaylistProvider>(context, listen: false)
-       .fetchMadeForYouPlaylists();
+        .fetchMadeForYouPlaylists();
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPopularPlaylists();
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchWorkoutPlaylists();
     // Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-
 
     super.didChangeDependencies();
   }
@@ -39,13 +39,16 @@ class _HomeScreenState extends State<HomeScreen>
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 100,
+            expandedHeight: 0,
             backgroundColor: Color.fromRGBO(18, 18, 18, 2),
             actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.settings),
+              FlatButton(
                 onPressed: () {},
-              ),
+                child: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
             ],
           ),
           SliverList(
