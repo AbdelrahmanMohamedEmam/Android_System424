@@ -17,34 +17,31 @@ class ArtistProvider with ChangeNotifier {
   }
 
   List<Artist> get getMultipleArtists {
-    return _returnMultiple;
+    return [..._returnMultiple];
   }
 
   Future<void> fetchChoosedArtist() async {
-    const url = 'http://www.mocky.io/v2/5e7114e830000086687a342a';
-    final response = await http.get(
-        url);
+    const url = 'http://www.mocky.io/v2/5e73ddf63000008ea52e6896';
+    final response = await http.get(url);
     final extractedList = json.decode(
         response.body);
     _choosedArtist = Artist.fromJson(
         extractedList);
+    //print('hello');
     //print(extractedList);
     notifyListeners();
   }
 
   Future<void> fetchMultipleArtists() async {
     const url = 'http://www.mocky.io/v2/5e727d383300008c0044c95d';
-    final response = await http.get(
-        url);
-    final extractedList = json.decode(
-        response.body);
+    //print('bydrb abl get');
+    final response = await http.get(url);
+    final extractedList = json.decode(response.body) as List;
     final List<Artist> loadedArtists = [];
-
     for (int i = 0; i < extractedList.length; i++) {
-      loadedArtists.add(
-          Artist.fromJson(
-              extractedList[i]));
+      loadedArtists.add(Artist.fromJson(extractedList[i]));
     }
+    //print('read bro');
     //print(extractedList);
 
     _returnMultiple = loadedArtists;

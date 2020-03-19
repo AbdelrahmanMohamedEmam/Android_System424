@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 class LoadingAlbumsWidget extends StatelessWidget {
-  String albumImage = "https://www.woolha.com/media/2019/06/buneary.jpg";
+  String albumImage = "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
   String albumName = 'Sahran';
   String albumYear = '2020';
   //LoadingAlbumsWidget(this.albumImage , this.albumName , this.albumYear);

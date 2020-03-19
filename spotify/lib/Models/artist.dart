@@ -15,10 +15,10 @@ class Artist with ChangeNotifier{
   final String id;
   final List<Image> images;
   final String name;
-  final int popularity;
+  final int  popularity;
   final String type;
   final String uri;
-  //final String bio;
+  final String bio;
 
 
   Artist({
@@ -32,6 +32,7 @@ class Artist with ChangeNotifier{
     this.popularity ,
     this.type ,
     this.uri ,
+    this.bio
 
   });
 
@@ -39,15 +40,15 @@ class Artist with ChangeNotifier{
     return Artist(
       externalUrls: json['externalUrls'],
       //followers :  parceFollower(json['followers']),
-      genres:  json['genres'],
-      href: json['href'],
+      //genres:  json['genres'],
+      //href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
       name: json['name'],
-      popularity: json['popularity'],
-      type: json['type'],
-      uri: json['uri'],
-      //bio: json['bio'],
+      //popularity: json['popularity'],
+      //type: json['type'],
+      //uri: json['uri'],
+      bio: json['bio'],
     );
   }
 }

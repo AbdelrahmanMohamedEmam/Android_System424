@@ -19,7 +19,7 @@ class Artist {
 class ChooseFavArtists extends StatefulWidget {
   static const routeName = '/choose_fav_artists_screen';
   final List<int> selectedIndices = [];
-  final List<Artist> artists=[
+   List<Artist> artists=[
     Artist('Amr diab', '1','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
     Artist('Mohamed Hamaki','2','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
     Artist('Nancy Ajram','3','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
@@ -55,10 +55,10 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
   List<bool> selected=[];
 
 
-  /*Future<void> _initializeList() async{
+  Future<void> _initializeList() async{
   await Provider.of<ArtistProvider>(context, listen: false).fetchMultipleArtists();
-  widget.artists= Provider.of<ArtistProvider>(context, listen: false).getMultipleArtists;
-  }*/
+  //widget.artists= Provider.of<ArtistProvider>(context, listen: false).getMultipleArtists;
+  }
 
   @override
   void initState()  {

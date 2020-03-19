@@ -15,6 +15,9 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
+import 'Screens/ArtistProfile/see_discography_screen.dart';
+import 'Screens/ArtistProfile/about_info_screen.dart';
+import 'Screens/ArtistProfile/song_promo_screen.dart';
 //import 'Screens/MainApp/splash_Screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
@@ -85,6 +88,9 @@ class MyApp extends StatelessWidget {
                     ArtistScreen.routeName: (ctx) => ArtistScreen(),
                     TabsScreen.routeName: (ctx)=> TabsScreen(),
                     ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
+                    ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
+                    AboutScreen.routeName : (ctx) => AboutScreen(),
+                    SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
                   },
                 )));
   }
