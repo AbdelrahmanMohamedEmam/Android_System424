@@ -8,11 +8,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import '../../widgets/playlist_list_widget.dart';
 //import '../../widgets/album_list_widget.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
-<<<<<<< HEAD
-//import './error_screen.dart';
-=======
 import '../../main.dart' as main;
->>>>>>> c59c7de952cf1a3743da01b3f60371dba1611103
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -31,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen>
     // try {
     Provider.of<PlaylistProvider>(context, listen: false)
         .fetchMadeForYouPlaylists();
-<<<<<<< HEAD
     // Provider.of<PlaylistProvider>(context, listen: false)
     //     .fetchPopularPlaylists();
     // Provider.of<PlaylistProvider>(context, listen: false)
@@ -40,14 +35,6 @@ class _HomeScreenState extends State<HomeScreen>
     // } catch (error) {
     //   Navigator.of(context).pushNamed(ErrorScreen.routeName);
     // }
-=======
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchPopularPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchWorkoutPlaylists();
-    //Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-
->>>>>>> c59c7de952cf1a3743da01b3f60371dba1611103
     super.didChangeDependencies();
   }
 
