@@ -34,6 +34,7 @@ class PlaylistProvider with ChangeNotifier {
     for (int i = 0; i < extractedList.length; i++) {
       loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
     }
+    print('hi');
     _madeForYouPlaylists = loadedPlaylists;
     notifyListeners();
   }

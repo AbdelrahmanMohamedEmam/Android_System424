@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import '../../Providers/user_provider.dart';
 import '../../Models/http_exception.dart';
 
@@ -39,8 +40,9 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
   }
 
   Future<void> _submit(userData) async {
+    final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
-      await Provider.of<UserProvider>(context, listen: false).signUp(
+      await _auth.signUp(
         userData['email'],
         userData['password'],
         userData['gender'],
@@ -50,10 +52,26 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
+      return;
     } catch (error) {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
+      return;
+    }
+    if(_auth.isLoginSuccessfully)
+    {
+      print('LoggedIn');
+      try {
+        await _auth.setUser('1');
+      }catch(error){
+        const errorMessage =
+            'Could not authenticate you. Please try again later.';
+        _showErrorDialog(errorMessage);
+        return;
+      }
+      Navigator.of(context).popUntil(ModalRoute.withName('/'));
+      Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
     }
   }
 

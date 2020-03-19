@@ -1,17 +1,79 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/create_password_screen.dart';
 import 'logIn_screen.dart';
+import '../../Providers/user_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
+import '../../Models/http_exception.dart';
 
 
 import '../../Screens/SignUpAndLogIn/create_email_screen.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
+
   static const routeName = '/intro_screen';
+  @override
+  _IntroScreenState createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
+
+
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Logging in Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit() async {
+
+    String email;
+    final _auth=Provider.of<UserProvider>(context, listen: false);
+    try {
+
+      email=await _auth.signInWithFB();
+      print(email);
+
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+    if(_auth.isFbLogin)
+    {
+      print('LoggedIn');
+      //Check if I am already an old user
+      //Navigator.pushNamed(context, CreatePasswordScreen.routeName, arguments: email);
+    }
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final _user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -48,11 +110,11 @@ class IntroScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: deviceSize.width * 0.8,
+                width: deviceSize.width * 0.67,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
                   textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.green[700],
                   child: Text(
                     'SIGN UP FREE',
                     style: TextStyle(fontSize: 16),
@@ -73,30 +135,16 @@ class IntroScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 15),
-                width: deviceSize.width * 0.8,
+                width: deviceSize.width * 0.67,
                 height: deviceSize.height * 0.065,
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Icon(Icons.face,),
-                      Text(
-                        'CONTINUE WITH FACEBOOK',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0),
-                    side: BorderSide(color: Colors.white),
-                  ),
+                child:fb.FacebookSignInButton(
+                  borderRadius: 28.0,
                   onPressed: () {
-                    Navigator.pushNamed(context, LogInScreen.routeName);
+                    _submit();
+
                   },
-                ),
-              ),
+                )
+              )
             ],
           ),
           Row(

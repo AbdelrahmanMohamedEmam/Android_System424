@@ -1,14 +1,74 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/premium_card.dart';
+import 'package:provider/provider.dart';
+import '../../Providers/user_provider.dart';
+import '../../Models/http_exception.dart';
 
-class PremiumScreen extends StatelessWidget {
+
+class PremiumScreen extends StatefulWidget {
+
   static const routeName = '/premium_screen';
-  final codeController = TextEditingController();
+  @override
+  _PremiumScreenState createState() => _PremiumScreenState();
+
+}
+
+class _PremiumScreenState extends State<PremiumScreen> {
+  bool _validate;
+  final codeController= TextEditingController();
+
+  @override
+  void initState() {
+    _validate=true;
+    super.initState();
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Registration Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit() async {
+    final _user=Provider.of<UserProvider>(context, listen: false);
+    try {
+      //Call code submit function
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+      return;
+    } catch (error) {
+      const errorMessage =
+          'Could not upgrade you. Please try again later.';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+    setState(() {
+      _user.setPremium('premium');
+    });
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final _user=Provider.of<UserProvider>(context, listen: false);
     print('The premium screen is build');
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -96,7 +156,8 @@ class PremiumScreen extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(
                         deviceSize.width * 0.1, 0, deviceSize.width * 0.1, 0),
                     child: Text(
-                      'You can\'t upgrade to Premium in the app. We know, it\'s not ideal.',
+                      _user.isUserPremium()?'You are already a premium user. We hope you are enjoying Spotify.':
+                      'You have received an email with your premium code, kindly check your email and enter the code below to get your premium features.',
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
@@ -104,17 +165,18 @@ class PremiumScreen extends StatelessWidget {
                           fontSize: deviceSize.width * 0.03),
                     )),
                 Container(
-                  margin: EdgeInsets.only(top: deviceSize.height * 0.09, bottom: deviceSize.height*0.1),
+                  margin: EdgeInsets.only(top: deviceSize.height * 0.09, bottom: deviceSize.height*0.08),
                   height: deviceSize.height * 0.1,
                   width: deviceSize.width * 0.8,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-                    color: Color.fromRGBO(49, 51, 53, 1),
+                    color: _user.isUserPremium()?Color.fromRGBO(18, 161, 132, 1):
+                     Color.fromRGBO(49, 51, 53, 1),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text(
+                        Text(_user.isUserPremium()?'Spotify Premium':
                           'Spotify Free',
                           style: TextStyle(
                               color: Colors.white,
@@ -130,26 +192,31 @@ class PremiumScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 1,),
+                _user.isUserPremium()?SizedBox(height: 0,):Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 0.7,),
                 Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15))),
                   margin: EdgeInsets.only(
                       left: deviceSize.width * 0.1,
                       right: deviceSize.width * 0.1,
-                      top: deviceSize.height * 0.03),
+                      top: deviceSize.height * 0.02),
                   width: deviceSize.width * 0.9,
-                  child: TextFormField(
+                  child: _user.isUserPremium()?SizedBox(height: 0,):TextFormField(
                     controller: codeController,
                     decoration: InputDecoration(
+                      border:  OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),),
                       labelText: 'Payment Code',
                       filled: true,
                       fillColor: Color.fromRGBO(49, 51, 53, 1),
+                      helperText: !_validate?'Please enter a valid code':'',
+                      helperStyle: TextStyle(color: Colors.red),
                       labelStyle: TextStyle(color: Colors.white38),
                     ),
                     style: TextStyle(color: Colors.white),
                     cursorColor: Color.fromRGBO(18, 161, 132, 1),
                   ),
                 ),
-                Container(
+                _user.isUserPremium()?SizedBox(height: 0,):Container(
                   margin: EdgeInsets.only(top: deviceSize.height*0.05, bottom: deviceSize.height*0.05 ),
                   width: deviceSize.width * 0.4,
                   height: deviceSize.height * 0.065,
@@ -165,10 +232,20 @@ class PremiumScreen extends StatelessWidget {
                     ),
                     onPressed: () {
 
+                      if(codeController.text.isEmpty){
+                        setState(() {
+                          _validate=false;
+                        });
+                      }
+                      else{
+                        _submit();
+                      }
+
+
                     },
                   ),
                 ),
-                Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 1,),
+                _user.isUserPremium()?SizedBox(height: 0,):Divider(color: Colors.black87,indent: deviceSize.width*0.3,endIndent: deviceSize.width*0.3,thickness: 0.8,),
                 Container(
                   margin: EdgeInsets.only(top: deviceSize.height * 0.05),
                   height: deviceSize.height * 0.4,
