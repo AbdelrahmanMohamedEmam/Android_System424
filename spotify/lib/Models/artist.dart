@@ -20,12 +20,11 @@ class Artist with ChangeNotifier{
   final String uri;
   final String bio;
 
-
   Artist({
-    this.externalUrls ,
-    this.followers ,
-    this.genres ,
-    this.href ,
+    this.externalUrls,
+    this.followers,
+    this.genres,
+    this.href,
     this.id,
     this.images,
     this.name ,
@@ -49,6 +48,17 @@ class Artist with ChangeNotifier{
       //type: json['type'],
       //uri: json['uri'],
       bio: json['bio'],
+    );
+  }
+  factory Artist.fromJsonSimplified(Map<String, dynamic> json) {
+    return Artist(
+      id: json['id'],
+      name: json['name'],
+      href: json['href'],
+      type: json['type'],
+      //externalUrls: parceExternalUrl(json['externalUrls']),
+      uri: json['uri'],
+      popularity: json['popularity'],
     );
   }
 }

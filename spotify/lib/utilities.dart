@@ -1,8 +1,13 @@
+import './Models/tracks_ref.dart';
 import './Models/external_url.dart';
 import './Models/follower.dart';
 import './Models/image.dart';
 import './Models/owner.dart';
 import './Models/playlist.dart';
+import './Models/copyright.dart';
+import './Models/artist.dart';
+import './Models/track.dart';
+import './Models/external_id.dart';
 
 List<Image> parceImage(imageJason) {
   var list = imageJason as List;
@@ -10,11 +15,18 @@ List<Image> parceImage(imageJason) {
   return imageList;
 }
 
-List<ExternalUrl> parceExternalUrl(externalUrlJason) {
-  var list = externalUrlJason as List;
+List<ExternalUrl> parceExternalUrl(externalUrlJson) {
+  var list = externalUrlJson as List;
   List<ExternalUrl> externalUrlList =
-      list.map((data) => ExternalUrl.fromjson(data)).toList();
+      list.map((data) => ExternalUrl.fromJson(data)).toList();
   return externalUrlList;
+}
+
+List<ExternalId> parceExternalId(externalIdJson) {
+  var list = externalIdJson as List;
+  List<ExternalId> externalIdList =
+      list.map((data) => ExternalId.fromjson(data)).toList();
+  return externalIdList;
 }
 
 List<Follower> parceFollower(followerJason) {
@@ -37,4 +49,29 @@ List<Playlist> parcePlaylist(playlistJson) {
   return playlistList;
 }
 
+List<Copyright> parceCopyright(copyrightJson) {
+  var list = copyrightJson as List;
+  List<Copyright> copyrightList =
+      list.map((data) => Copyright.fromjson(data)).toList();
+  return copyrightList;
+}
 
+List<Artist> parceArtist(artistJson) {
+  var list = artistJson as List;
+  List<Artist> artistList =
+      list.map((data) => Artist.fromJsonSimplified(data)).toList();
+  return artistList;
+}
+
+List<Track> parceTrack(trackJson) {
+  var list = trackJson as List;
+  List<Track> trackList = list.map((data) => Track.fromJson(data)).toList();
+  return trackList;
+}
+
+List<TracksRef> parceTrackRef(trackRefJson) {
+  var list = trackRefJson as List;
+  List<TracksRef> trackrefList =
+      list.map((data) => TracksRef.fromJson(data)).toList();
+  return trackrefList;
+}

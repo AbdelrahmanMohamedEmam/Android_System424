@@ -92,7 +92,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.calendar_today,
-                    color: Colors.white38,
+                    color: Colors.white,
                   ),
                   onPressed: _presentDatePicker,
                 ),
