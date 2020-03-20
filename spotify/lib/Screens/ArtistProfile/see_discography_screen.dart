@@ -5,6 +5,10 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
+import '../../Models/album.dart';
+import '../../Providers/album_provider.dart';
+import '../../widgets/album_widget_artist_profile.dart';
+import '../../widgets/song_promo_card_artist_profile.dart';
 
 
 class ReleasesScreen extends StatefulWidget {
@@ -19,16 +23,21 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
         .fetchArtistProfilePlaylists();
     await Provider.of<ArtistProvider>(context ,  listen: false)
         .fetchMultipleArtists();
-    await Provider.of<ArtistProvider>(context , listen: false)
-        .fetchChoosedArtist();
+    //await Provider.of<ArtistProvider>(context , listen: false)
+       // .fetchChoosedArtist();
+    await Provider.of<AlbumProvider>(
+        context, listen: false)
+        .fetchPopularAlbums(
+    );
 
     super.didChangeDependencies();
   }
   @override
   Widget build(BuildContext context) {
-    final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    List<Playlist> playlists;
-    playlists = playlistsProvider.getArtistProfilePlaylists;
+    final albumProvider = Provider.of<AlbumProvider>(context);
+    List<Album> albums;
+    albums = albumProvider.getPopularAlbums;
+    double heightAlbums = ((albums.length).toDouble())*100;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -57,16 +66,19 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                 ),
               ),
             ),
+
             Container(
-              height: 300,
+              height: heightAlbums,
               width: double.infinity,
               child: ListView.builder(
-                  itemCount: playlists.length,
-                  //scrollDirection: Axis.vertical,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                    value: playlists[i],
-                    child: FeaturedPlaylists(),
-                  )),
+                itemCount: albums.length,
+                physics: const NeverScrollableScrollPhysics(),//to be replaced with fixed 4 items
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: albums[i],
+                  child: LoadingAlbumsWidget(),
+                ),
+              ),
             ),
             Container(
               padding : EdgeInsets.only(top: 10 , bottom: 10),
@@ -79,6 +91,12 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                 ),
               ),
             ),
+            SongPromoCard(),          //to be changed with list view
+            SongPromoCard(),
+            SongPromoCard(),
+            SongPromoCard(),
+            SongPromoCard(),
+            SongPromoCard(),
 
 
           ],

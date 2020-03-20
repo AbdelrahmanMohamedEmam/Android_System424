@@ -90,7 +90,7 @@ class PlaylistProvider with ChangeNotifier {
 
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
   Future<void> fetchArtistProfilePlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e73d21a3000008ea52e684a';
+    const url = 'http://www.mocky.io/v2/5e749c66300000d431a5f4f4';
     //const url = 'http://www.mocky.io/v2/5e6f9a36330000a7cbf07af1';
     //const url = 'http://www.mocky.io/v2/5e6e243e2f00005800a037ae';
     final response = await http.get(url);

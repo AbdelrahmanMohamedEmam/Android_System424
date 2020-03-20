@@ -1,5 +1,4 @@
 import 'package:spotify/widgets/artist_info_widget.dart';
-
 import '../../widgets/album_widget_artist_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +9,8 @@ import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
+import '../../Models/album.dart';
+import '../../Providers/album_provider.dart';
 
 class ArtistProfile_Screen extends StatefulWidget {
   @override
@@ -17,29 +18,29 @@ class ArtistProfile_Screen extends StatefulWidget {
 }
 
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
-<<<<<<< HEAD
-  Future<void> initialization()   {
-    //await Provider.of<PlaylistProvider>(context , listen: false)
-      //  .fetchArtistProfilePlaylists();
-     Provider.of<ArtistProvider>(context ,  listen: false)
-       .fetchMultipleArtists();
-     Provider.of<ArtistProvider>(context , listen: false)
-        .fetchChoosedArtist();
-=======
   bool _isInit = true;
+
+
   @override
   void didChangeDependencies() async {
     if (_isInit) {
-      // await Provider.of<PlaylistProvider>(context , listen: false)
-      //     .fetchArtistProfilePlaylists();
-      await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchMultipleArtists();
-      await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist();
+      await Provider.of<PlaylistProvider>(
+          context, listen: false)
+          .fetchArtistProfilePlaylists(
+      );
+      await Provider.of<ArtistProvider>(
+          context, listen: false)
+          .fetchMultipleArtists(
+      );
+      await Provider.of<AlbumProvider>(
+          context, listen: false)
+          .fetchPopularAlbums(
+      );
+      //await Provider.of<ArtistProvider>(
+        //  context, listen: false)
+          //.fetchChoosedArtist(
+      //);
     }
-    _isInit = false;
->>>>>>> 6bc6044ae0e582e3e039d7fbda189dfb4af5e46e
-
   }
 
   String artistName = 'amr diab 32';
@@ -52,7 +53,6 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   String artistImage =
       "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
 
-<<<<<<< HEAD
   void _goToDiscography(BuildContext ctx ,
       //String id (to be added)
         )
@@ -63,29 +63,10 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   }
   void _goToSongPromo(BuildContext ctx ,
       //String id (to be added)
-      )
-  {
-    Navigator.of(ctx).pushNamed('/promo_screen' ,
-=======
-  void _goToDiscography(
-    BuildContext ctx,
-    //String id (to be added)
-  ) {
-    Navigator.of(ctx).pushNamed(
-      '/releases_screen',
->>>>>>> 6bc6044ae0e582e3e039d7fbda189dfb4af5e46e
-      //arguments: id ,   (to be added)
-    );
-  }
-
-  void _goToSongPromo(
-    BuildContext ctx,
-    //String id (to be added)
-  ) {
-    Navigator.of(ctx).pushNamed(
-      '/promo_screen',
-      //arguments: id ,   (to be added)
-    );
+      ) {
+    Navigator.of(
+        ctx).pushNamed(
+      '/promo_screen',);
   }
 
   void _goToAbout(
@@ -103,34 +84,33 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    initialization();
+    //initialization();
 
-   final artistProvider = Provider.of<ArtistProvider>(context , listen:  false);
+   final artistProvider = Provider.of<ArtistProvider>(context);
     List<Artist> artists ;
-=======
-    final artistProvider = Provider.of<ArtistProvider>(context);
-    List<Artist> artists;
->>>>>>> 6bc6044ae0e582e3e039d7fbda189dfb4af5e46e
     artists = artistProvider.getMultipleArtists;
-    Artist artistInfo;
-    artistInfo = artistProvider.getChoosedArtist;
+    //Artist artistInfo;
+    //artistInfo = artistProvider.getChoosedArtist;
    // if(artistInfo.id!= null){
      // artistId = artistInfo.id;
     //}
-    artistImageUrl = artistInfo.images[0].url;
-    artistNamePass = artistInfo.name;
-    artistBio = artistInfo.bio;
-    artistPopularity = artistInfo.popularity;
-    print(artistPopularity);
+    //artistImageUrl = artistInfo.images[0].url;
+    //artistNamePass = artistInfo.name;
+    //artistBio = artistInfo.bio;
+    //artistPopularity = artistInfo.popularity;
+    //print(artistPopularity);
     //print(artistPopularity);
     // print(artistImageUrl);
     //print('null is here');
     //print(artistNamePass);
 
-    //final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    //List<Playlist> playlists;
-    //playlists = playlistsProvider.getArtistProfilePlaylists;
+    final playlistsProvider = Provider.of<PlaylistProvider>(context);
+    List<Playlist> playlists;
+    playlists = playlistsProvider.getArtistProfilePlaylists;
+
+   final albumProvider = Provider.of<AlbumProvider>(context);
+   List<Album> albums;
+   albums = albumProvider.getPopularAlbums;
 
     return Scaffold(
       appBar: AppBar(
@@ -154,7 +134,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            Container(
+            /*Container(
               height: 250,
               width: double.infinity,
               child: ListView.builder(
@@ -164,7 +144,8 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                         value: artistInfo,
                         child: ArtistCard(),
                       )),
-            ),
+            ),*/
+            ArtistCard(),
 
             Container(
               height: 40,
@@ -188,17 +169,17 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 onPressed: () {},
               ),
             ),
-            // Container(
-            //   height: 120,
-            //   padding: EdgeInsets.only(left: 20, right: 20 , top: 30 , bottom: 30),
-            //   //color: Colors.black87,
-            //   child: FlatButton(child :
-            //   Text('Artist songs'),     //to be filled with artist's featured songs
-            //     textColor: Colors.white,
-            //     onPressed : () => _goToSongPromo(context),
+             Container(
+               height: 120,
+               padding: EdgeInsets.only(left: 20, right: 20 , top: 30 , bottom: 30),
+               color: Colors.black87,
+               child: FlatButton(child :
+                  Text('Artist songs'),     //to be filled with artist's featured songs
+                 textColor: Colors.white,
+                 onPressed : () => _goToSongPromo(context),
 
-            //   ),
-            // ),
+               ),
+             ),
             Text(
               'Popular releases',
               textAlign: TextAlign.center,
@@ -208,11 +189,19 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 fontSize: 18,
               ),
             ),
-            //new widget file for albums (4 albums )
-            LoadingAlbumsWidget(),
-            LoadingAlbumsWidget(),
-            LoadingAlbumsWidget(),
-            LoadingAlbumsWidget(),
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: ListView.builder(
+                  itemCount: albums.length,
+                  physics: const NeverScrollableScrollPhysics(),//to be replaced with fixed 4 items
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                    value: albums[i],
+                    child: LoadingAlbumsWidget(),
+                  ),
+              ),
+            ),
             ButtonTheme(
               minWidth: 5,
               child: RaisedButton(
@@ -239,7 +228,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
-                'Featuring' + ' ' + artistNamePass,
+                'Featuring' + ' ' + artistName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,
@@ -249,7 +238,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
             ),
 
             //row of featured playlists
-            /* Container(
+             Container(
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -259,7 +248,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),*/
+            ),
 
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -294,7 +283,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     fontSize: 18),
               ),
             ),
-            /*Container(
+            Container(
               height: 250,
               width: double.infinity,
               child: ListView.builder(
@@ -304,8 +293,8 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),*/
-            //FeaturedPlaylists(),
+            ),
+
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
@@ -323,7 +312,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                   Container(
                     padding: EdgeInsets.all(15),
                     child: Image.network(
-                      artistInfo.images[0].url,
+                      artistImage,
                       height: 300,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -335,7 +324,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     left: 100,
                     right: 100,
                     child: Text(
-                      artistInfo.name,
+                      artistName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -347,7 +336,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                   //
                 ],
               ),
-              onTap: () => _goToAbout(context),
+              onTap: () {} //=> _goToAbout(context),
             ),
           ],
         ),
