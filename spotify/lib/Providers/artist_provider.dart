@@ -27,8 +27,8 @@ class ArtistProvider with ChangeNotifier {
     final extractedList = json.decode(response.body);
     _choosedArtist = Artist.fromJson(extractedList);
     //print('hello');
-    //print(extractedList);
-    print(_choosedArtist.uri);
+    print(extractedList);
+    //print(_choosedArtist.uri);
     notifyListeners();
   }
 

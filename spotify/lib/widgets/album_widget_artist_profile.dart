@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import '../Models/album.dart';
+import 'package:provider/provider.dart';
 class LoadingAlbumsWidget extends StatelessWidget {
-  String albumImage = "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
-  String albumName = 'Sahran';
-  String albumYear = '2020';
+  //String albumImage = "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
+  //String albumName = 'Sahran';
+  //String albumYear = '2020';
   //LoadingAlbumsWidget(this.albumImage , this.albumName , this.albumYear);
   @override
   Widget build(BuildContext context) {
+    final album = Provider.of<Album>(context);
     return InkWell(
       child:
       Row(children: <Widget>[
         Container(
           padding : EdgeInsets.all(10),
           child: Image.network(
-            albumImage,
+            album.images[0],
             height: 70,
             width: 70,
             fit: BoxFit.fill,
           ),
         ),
         Column(children: <Widget>[
-          Text(albumName ,
+          Text(album.name ,
             style: TextStyle(color : Colors.white , fontSize: 18 , ),
           ),
 
@@ -29,7 +32,7 @@ class LoadingAlbumsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Icon(Icons.shuffle , color: Colors.grey, ),
-                Text(albumYear ,
+                Text(album.type ,
                   style: TextStyle(color : Colors.grey , fontSize: 14 , ),
                 ),
 

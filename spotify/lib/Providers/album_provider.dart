@@ -20,7 +20,7 @@ class AlbumProvider with ChangeNotifier {
 
   ///A method that fetches for popular albums and set them in the popular albums list.
   Future<void> fetchPopularAlbums() async {
-    const url = 'http://www.mocky.io/v2/5e71e9bc3300004f0044c4ab';
+    const url = 'http://www.mocky.io/v2/5e74bc56300000d331a5f62f';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Album> loadedAlbum = [];

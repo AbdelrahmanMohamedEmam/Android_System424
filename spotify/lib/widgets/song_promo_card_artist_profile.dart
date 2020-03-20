@@ -30,7 +30,7 @@ class SongPromoCard extends StatelessWidget {
               ]
           ),
         SizedBox(
-          width: 85,
+          width: 70,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

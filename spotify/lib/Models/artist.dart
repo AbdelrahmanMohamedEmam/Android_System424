@@ -52,7 +52,7 @@ class Artist with ChangeNotifier{
   }
   factory Artist.fromJsonSimplified(Map<String, dynamic> json) {
     return Artist(
-      id: json['id'],
+      //id: json['id'],
       name: json['name'],
       href: json['href'],
       type: json['type'],
