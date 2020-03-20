@@ -17,6 +17,8 @@ class ArtistProfile_Screen extends StatefulWidget {
 }
 
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
+
+
   bool _isInit = true;
   @override
   void didChangeDependencies() async {

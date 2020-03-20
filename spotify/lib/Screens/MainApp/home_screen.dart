@@ -48,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
               FlatButton(
                 onPressed: () {
                   _auth.logout();
+                  while(Navigator.of(context).canPop())
+                    Navigator.pop(context);
                   Phoenix.rebirth(context);
 
                   //main.main;
