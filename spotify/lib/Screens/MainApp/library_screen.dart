@@ -10,7 +10,7 @@ class LibraryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      int initialindex = 0;
+    int initialindex = 0;
     print('The library screen is build');
     return DefaultTabController(
       length: 3,
@@ -57,9 +57,7 @@ class LibraryScreen extends StatelessWidget {
               ]),
         ),
         body: TabBarView(children: <Widget>[
-          Container(
-            height: 300,
-            child: PlaylistsScreen()),
+          Container(height: 300, child: PlaylistsScreen()),
           ArtistsScreen(),
           AlbumsScreen(),
         ]),
