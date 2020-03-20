@@ -7,7 +7,7 @@ import '../../Models/http_exception.dart';
 
 
 class PremiumScreen extends StatefulWidget {
-
+const PremiumScreen({Key key}) : super(key: key);
   static const routeName = '/premium_screen';
   @override
   _PremiumScreenState createState() => _PremiumScreenState();

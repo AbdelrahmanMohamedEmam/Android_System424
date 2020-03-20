@@ -44,7 +44,8 @@ class PlaylistProvider with ChangeNotifier {
 
   ///A method that fetches for made for you playlists and set them in the made for you list.
   Future<void> fetchMadeForYouPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e6f9a36330000a7cbf07af1';
+    const url = 'http://www.mocky.io/v2/5e749227300000e613a5f49b';
+
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Playlist> loadedPlaylists = [];
@@ -54,9 +55,10 @@ class PlaylistProvider with ChangeNotifier {
     _madeForYouPlaylists = loadedPlaylists;
     notifyListeners();
   }
-///A method that fetches for popular playlists and set them in the popular playlist list.
+
+  ///A method that fetches for popular playlists and set them in the popular playlist list.
   Future<void> fetchPopularPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e6fcb2333000061f1f07c23';
+    const url = 'http://www.mocky.io/v2/5e749724300000d431a5f4c6';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Playlist> loadedPlaylists = [];
@@ -66,9 +68,10 @@ class PlaylistProvider with ChangeNotifier {
     _popularPlaylists = loadedPlaylists;
     notifyListeners();
   }
-///A method that fetches for workout playlists and set them in the workout list.
+
+  ///A method that fetches for workout playlists and set them in the workout list.
   Future<void> fetchWorkoutPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e73d21a3000008ea52e684a';
+    const url = 'http://www.mocky.io/v2/5e749c66300000d431a5f4f4';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Playlist> loadedPlaylists = [];
@@ -78,7 +81,8 @@ class PlaylistProvider with ChangeNotifier {
     _workoutPlaylists = loadedPlaylists;
     notifyListeners();
   }
-///A method that fetches for artist profile playlists and set them in the artist profle list.
+
+  ///A method that fetches for artist profile playlists and set them in the artist profle list.
   Future<void> fetchArtistProfilePlaylists() async {
     const url = 'http://www.mocky.io/v2/5e73d21a3000008ea52e684a';
     //const url = 'http://www.mocky.io/v2/5e6f9a36330000a7cbf07af1';

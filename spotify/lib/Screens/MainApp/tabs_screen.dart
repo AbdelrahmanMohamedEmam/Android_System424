@@ -15,28 +15,23 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  //List of maps of the 4 main pages controlled by the navigation bar
-  List<Map<String, Object>> _pages = [
-    {
-      'title': 'Home',
-      'page': HomeScreen(),
-    },
-    {
-      'title': 'Search',
-      'page': SearchScreen(),
-    },
-    {
-      'title': 'Music',
-      'page': LibraryScreen(),
-    },
-    {
-      'title': 'Premium',
-      'page': PremiumScreen(),
-    },
-    {
-      'title': 'Artist',
-      'page': ArtistScreen(),
-    },
+  final PageStorageBucket bucket = PageStorageBucket();
+  List<Widget> pages = [
+    HomeScreen(
+      key: PageStorageKey('HomeScreen'),
+    ),
+    SearchScreen(
+      key: PageStorageKey('SearchScreen'),
+    ),
+    LibraryScreen(
+      key: PageStorageKey('LibraryScreen'),
+    ),
+    PremiumScreen(
+      key: PageStorageKey('PremiumScreen'),
+    ),
+    ArtistScreen(
+      key: PageStorageKey('ArtistScreen'),
+    ),
   ];
 
   // index for the selected page
@@ -58,7 +53,10 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: _pages[_selectedPageIndex]['page'],
+      body: PageStorage(
+        child: pages[_selectedPageIndex],
+        bucket: bucket,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.grey,

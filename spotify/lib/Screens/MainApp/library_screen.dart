@@ -6,12 +6,15 @@ import 'package:spotify/Screens/Library/artists_screen.dart';
 class LibraryScreen extends StatelessWidget {
   static const routeName = '/library_screen';
 
+  const LibraryScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+      int initialindex = 0;
     print('The library screen is build');
     return DefaultTabController(
       length: 3,
-      initialIndex: 0,
+      initialIndex: initialindex,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
