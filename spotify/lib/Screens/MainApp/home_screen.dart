@@ -4,9 +4,9 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-//import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
-//import '../../widgets/album_list_widget.dart';
+import '../../widgets/album_list_widget.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
 import '../../main.dart' as main;
 
@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchWorkoutPlaylists();
       _isInit = false;
+      Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
     }
     super.didChangeDependencies();
   }
@@ -47,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
+                  _isInit = true;
                   _auth.logout();
                   Phoenix.rebirth(context);
 
@@ -68,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     PlaylistList('Made for you'),
                     PlaylistList('Popular playlists'),
                     PlaylistList('Workout'),
-                    //AlbumList('Popular albums'),
+                    AlbumList('Popular albums'),
                   ],
                 );
               },
