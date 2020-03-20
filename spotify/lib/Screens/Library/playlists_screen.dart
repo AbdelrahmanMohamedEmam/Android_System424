@@ -1,7 +1,11 @@
+//import packages
 import 'package:flutter/material.dart';
-import 'package:spotify/widgets/favourited_playlist_widget.dart';
+//import widgets
+import 'package:spotify/widgets/fav_playlist_widget.dart';
+//import providers
 import '../../Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
+//import models
 import '../../Models/playlist.dart';
 
 class PlaylistsScreen extends StatelessWidget {
@@ -34,7 +38,7 @@ class PlaylistsScreen extends StatelessWidget {
                   itemCount: playlists.length,
                   itemBuilder: (context, i) => ChangeNotifierProvider.value(
                         value: playlists[i],
-                        child: FavouritedPlaylist(),
+                        child: FavPlaylistWidget(),
                       )),
             ),
           ],

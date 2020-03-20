@@ -1,8 +1,11 @@
+//import packages
 import 'package:flutter/material.dart';
+//import providers
 import 'package:provider/provider.dart';
+//import models
 import '../Models/playlist.dart';
 
-class FavouritedPlaylist extends StatelessWidget {
+class FavPlaylistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playlist = Provider.of<Playlist>(context);
