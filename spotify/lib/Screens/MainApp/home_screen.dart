@@ -19,20 +19,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isInit = true;
   @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopularPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchWorkoutPlaylists();
-      _isInit = false;
-      Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-    }
-    super.didChangeDependencies();
+  void initState() {
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchMadeForYouPlaylists();
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchPopularPlaylists();
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchWorkoutPlaylists();
+
+    Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
+    super.initState();
   }
 
   @override
@@ -48,8 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
-                  _isInit = true;
                   _auth.logout();
+                  Provider.of<PlaylistProvider>(context, listen: false)
+                      .emptyLists();
                   Phoenix.rebirth(context);
 
                   //main.main;
