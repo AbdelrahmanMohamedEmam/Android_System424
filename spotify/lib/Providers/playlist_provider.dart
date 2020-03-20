@@ -42,6 +42,12 @@ class PlaylistProvider with ChangeNotifier {
     return [..._workoutPlaylists];
   }
 
+  void emptyLists() {
+    _workoutPlaylists = [];
+    _popularPlaylists = [];
+    _madeForYouPlaylists = [];
+  }
+
   ///A method that fetches for made for you playlists and set them in the made for you list.
   Future<void> fetchMadeForYouPlaylists() async {
     const url = 'http://www.mocky.io/v2/5e749227300000e613a5f49b';

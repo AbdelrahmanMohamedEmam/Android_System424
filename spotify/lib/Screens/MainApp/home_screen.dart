@@ -4,9 +4,9 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-//import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
-//import '../../widgets/album_list_widget.dart';
+import '../../widgets/album_list_widget.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
 import '../../main.dart' as main;
 
@@ -19,19 +19,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isInit = true;
   @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopularPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchWorkoutPlaylists();
-      _isInit = false;
-    }
-    super.didChangeDependencies();
+  void initState() {
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchMadeForYouPlaylists();
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchPopularPlaylists();
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchWorkoutPlaylists();
+
+    Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
+    super.initState();
   }
 
   @override
@@ -48,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
               FlatButton(
                 onPressed: () {
                   _auth.logout();
+                  Provider.of<PlaylistProvider>(context, listen: false)
+                      .emptyLists();
                   Phoenix.rebirth(context);
 
                   //main.main;
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     PlaylistList('Made for you'),
                     PlaylistList('Popular playlists'),
                     PlaylistList('Workout'),
-                    //AlbumList('Popular albums'),
+                    AlbumList('Popular albums'),
                   ],
                 );
               },
