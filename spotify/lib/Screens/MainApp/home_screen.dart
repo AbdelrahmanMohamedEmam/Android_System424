@@ -13,33 +13,31 @@ import '../../main.dart' as main;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
+  const HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin<HomeScreen> {
-  @override
-  bool get wantKeepAlive => true;
-  bool isloading = true;
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isInit = true;
   @override
   void didChangeDependencies() {
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchMadeForYouPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchPopularPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchWorkoutPlaylists();
-    //Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-
+    if (_isInit) {
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYouPlaylists();
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchPopularPlaylists();
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchWorkoutPlaylists();
+      _isInit = false;
+    }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _auth=Provider.of<UserProvider>(context, listen: false);
-    super.build(context);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       body: CustomScrollView(
@@ -50,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen>
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
-
                   _auth.logout();
                   Phoenix.rebirth(context);
 

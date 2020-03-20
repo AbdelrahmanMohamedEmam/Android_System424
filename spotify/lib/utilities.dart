@@ -75,3 +75,8 @@ List<TracksRef> parceTrackRef(trackRefJson) {
       list.map((data) => TracksRef.fromJson(data)).toList();
   return trackrefList;
 }
+
+List<String> parseString(stringJson) {
+  List<String> imageList = new List<String>.from(stringJson);
+  return imageList;
+}
