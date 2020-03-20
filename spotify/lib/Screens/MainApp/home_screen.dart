@@ -10,6 +10,7 @@ import '../../widgets/album_list_widget.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
 import '../../main.dart' as main;
 
+
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
   const HomeScreen({Key key}) : super(key: key);

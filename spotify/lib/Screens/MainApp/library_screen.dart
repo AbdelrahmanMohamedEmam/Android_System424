@@ -1,4 +1,6 @@
+//import packages
 import 'package:flutter/material.dart';
+//import screens
 import 'package:spotify/Screens/Library/albums_screen.dart';
 import 'package:spotify/Screens/Library/playlists_screen.dart';
 import 'package:spotify/Screens/Library/artists_screen.dart';
@@ -10,7 +12,7 @@ class LibraryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      int initialindex = 0;
+    int initialindex = 0;
     print('The library screen is build');
     return DefaultTabController(
       length: 3,
@@ -57,7 +59,7 @@ class LibraryScreen extends StatelessWidget {
               ]),
         ),
         body: TabBarView(children: <Widget>[
-          PlaylistsScreen(),
+          Container(height: 300, child: PlaylistsScreen()),
           ArtistsScreen(),
           AlbumsScreen(),
         ]),

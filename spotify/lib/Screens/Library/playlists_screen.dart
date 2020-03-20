@@ -1,4 +1,12 @@
+//import packages
 import 'package:flutter/material.dart';
+//import widgets
+import 'package:spotify/widgets/fav_playlist_widget.dart';
+//import providers
+import '../../Providers/playlist_provider.dart';
+import 'package:provider/provider.dart';
+//import models
+import '../../Models/playlist.dart';
 
 class PlaylistsScreen extends StatelessWidget {
   void createPlaylistButton() {
@@ -7,11 +15,41 @@ class PlaylistsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final playlistsProvider = Provider.of<PlaylistProvider>(context);
+    List<Playlist> playlists;
+    playlists = playlistsProvider.getMadeForYouPlaylists;
+    print('hello');
+    print(playlists[0].name);
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Container(
-          width: double.infinity,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.black,
+      body: Container(
+        height: 400,
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 350,
+              child: ListView.builder(
+                  itemCount: playlists.length,
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                        value: playlists[i],
+                        child: FavPlaylistWidget(),
+                      )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+///////////////This part will be added later to create a playlist for the first timt
+
+/*child: Column(mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Create your first playlist',
@@ -38,7 +76,4 @@ class PlaylistsScreen extends StatelessWidget {
                 ),
               )
             ],
-          ),
-        ));
-  }
-}
+          ),*/
