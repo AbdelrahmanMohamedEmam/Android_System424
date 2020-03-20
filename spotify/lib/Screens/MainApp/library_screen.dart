@@ -57,7 +57,9 @@ class LibraryScreen extends StatelessWidget {
               ]),
         ),
         body: TabBarView(children: <Widget>[
-          PlaylistsScreen(),
+          Container(
+            height: 300,
+            child: PlaylistsScreen()),
           ArtistsScreen(),
           AlbumsScreen(),
         ]),
