@@ -104,7 +104,8 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
       _showErrorDialog(errorMessage);
       return;
     }
-      Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+    Navigator.of(context).popUntil(ModalRoute.withName('/'));
+    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
   }
 
 
