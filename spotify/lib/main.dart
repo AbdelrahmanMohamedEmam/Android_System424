@@ -17,6 +17,9 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
+import 'Screens/ArtistProfile/see_discography_screen.dart';
+import 'Screens/ArtistProfile/about_info_screen.dart';
+import 'Screens/ArtistProfile/song_promo_screen.dart';
 //import 'Screens/MainApp/splash_Screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
@@ -68,37 +71,40 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lineto',
           ),
 
-          //home: //IntroScreen(),
-          home: //TabsScreen(), //IntroScreen(),
-          auth.isAuth
-                  ? TabsScreen()
-                  : FutureBuilder(
-                      future: auth.tryAutoLogin(),
-                      builder: (ctx, authResultSnapshot) => IntroScreen(),
-                    ),
-          //home:ChooseFavArtists(),
-          //home:SplashScreen(),
-          //home: TabsScreen(),
-          routes: {
-            IntroScreen.routeName: (ctx) => IntroScreen(),
-            CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
-            CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
-            AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
-            ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
-            ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
-            LogInScreen.routeName: (ctx) => LogInScreen(),
-            GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
-            CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
-            HomeScreen.routeName: (ctx) => HomeScreen(),
-            SearchScreen.routeName: (ctx) => SearchScreen(),
-            LibraryScreen.routeName: (ctx) => LibraryScreen(),
-            PremiumScreen.routeName: (ctx) => PremiumScreen(),
-            ArtistScreen.routeName: (ctx) => ArtistScreen(),
-            TabsScreen.routeName: (ctx) => TabsScreen(),
-            ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
-          },
-        ),
-      ),
-    );
+                //home: //IntroScreen(),
+                  home: //IntroScreen(),
+                     auth.isAuth
+                       ? TabsScreen()
+                       : FutureBuilder(
+                           future: auth.tryAutoLogin(),
+                           builder: (ctx, authResultSnapshot) =>
+                                   IntroScreen(),
+                  ),
+                  //home:ChooseFavArtists(),
+                  //home:SplashScreen(),
+                  //home: TabsScreen(),
+                  routes: {
+                    CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
+                    CreatePasswordScreen.routeName: (ctx) =>
+                        CreatePasswordScreen(),
+                    AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
+                    ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
+                    ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
+                    LogInScreen.routeName: (ctx) => LogInScreen(),
+                    GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
+                    CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
+                    HomeScreen.routeName: (ctx) => HomeScreen(),
+                    SearchScreen.routeName: (ctx) => SearchScreen(),
+                    LibraryScreen.routeName: (ctx) => LibraryScreen(),
+                    PremiumScreen.routeName: (ctx) => PremiumScreen(),
+                    ArtistScreen.routeName: (ctx) => ArtistScreen(),
+                    TabsScreen.routeName: (ctx)=> TabsScreen(),
+                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
+                    ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
+                    AboutScreen.routeName : (ctx) => AboutScreen(),
+                    SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
+                  },
+                )));
+
   }
 }

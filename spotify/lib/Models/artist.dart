@@ -15,10 +15,10 @@ class Artist with ChangeNotifier{
   final String id;
   final List<Image> images;
   final String name;
-  final int popularity;
+  final int  popularity;
   final String type;
   final String uri;
-  //final String bio;
+  final String bio;
 
   Artist({
     this.externalUrls,
@@ -31,14 +31,15 @@ class Artist with ChangeNotifier{
     this.popularity ,
     this.type ,
     this.uri ,
+    this.bio
 
   });
 
   factory Artist.fromJson(Map<String, dynamic> json) {
     return Artist(
       externalUrls: json['externalUrls'],
-      //followers :  parceFollower(json['followers']),
-      genres:  json['genres'],
+      //followers: parceFollower(json['followers']),
+      //genres: json['genres'],
       href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
@@ -46,7 +47,7 @@ class Artist with ChangeNotifier{
       popularity: json['popularity'],
       type: json['type'],
       uri: json['uri'],
-      //bio: json['bio'],
+      bio: json['bio'],
     );
   }
   factory Artist.fromJsonSimplified(Map<String, dynamic> json) {

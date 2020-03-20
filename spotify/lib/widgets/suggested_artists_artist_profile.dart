@@ -23,7 +23,7 @@ class suggesttedArtists extends StatelessWidget {
               padding: EdgeInsets.all(15),
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                  artistImage,
+                  artist.images[0].url,
                 ),
                 minRadius: 20,
                 maxRadius: 50,
