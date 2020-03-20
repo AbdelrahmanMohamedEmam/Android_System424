@@ -47,6 +47,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> _submit(userData) async {
+    print('2');
 
     final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
@@ -54,6 +55,7 @@ class _LogInScreenState extends State<LogInScreen> {
         userData['email'],
         userData['password'],
       );
+      print('1');
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
@@ -74,7 +76,8 @@ class _LogInScreenState extends State<LogInScreen> {
           _showErrorDialog(errorMessage);
           return;
         }
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        print('3');
+       // Navigator.of(context).popUntil(ModalRoute.withName('/'));
         Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
       }
 

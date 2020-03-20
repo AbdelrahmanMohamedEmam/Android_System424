@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
           ),
 
                 //home: //IntroScreen(),
-                  home: //IntroScreen(),
+                  home: //TabsScreen(),
                      auth.isAuth
                        ? TabsScreen()
                        : FutureBuilder(
