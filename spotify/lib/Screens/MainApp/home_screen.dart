@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 
+
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
 

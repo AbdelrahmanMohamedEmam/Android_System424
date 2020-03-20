@@ -14,6 +14,7 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
+//import 'Screens/Playlists/playlists_list_screen.dart';
 //import 'Screens/MainApp/splash_Screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
                     LibraryScreen.routeName: (ctx) => LibraryScreen(),
                     PremiumScreen.routeName: (ctx) => PremiumScreen(),
                     ArtistScreen.routeName: (ctx) => ArtistScreen(),
+                    //PlaylistsListScreen.routeName: (ctx)=>PlaylistsListScreen()
                   },
                 )));
   }
