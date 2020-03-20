@@ -17,16 +17,14 @@ class ArtistProfile_Screen extends StatefulWidget {
 }
 
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
-  @override
-  void didChangeDependencies() async  {
+  Future<void> initialization()   {
     //await Provider.of<PlaylistProvider>(context , listen: false)
       //  .fetchArtistProfilePlaylists();
-    await Provider.of<ArtistProvider>(context ,  listen: false)
-        .fetchMultipleArtists();
-    await Provider.of<ArtistProvider>(context , listen: false)
+     Provider.of<ArtistProvider>(context ,  listen: false)
+       .fetchMultipleArtists();
+     Provider.of<ArtistProvider>(context , listen: false)
         .fetchChoosedArtist();
 
-    super.didChangeDependencies();
   }
 
   String artistName = 'amr diab 32';
@@ -44,7 +42,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   {
     Navigator.of(ctx).pushNamed('/releases_screen' ,
     //arguments: id ,   (to be added)
-    ) ;
+    );
   }
   void _goToSongPromo(BuildContext ctx ,
       //String id (to be added)
@@ -71,13 +69,16 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   }
   @override
   Widget build(BuildContext context) {
+    initialization();
 
-   final artistProvider = Provider.of<ArtistProvider>(context);
+   final artistProvider = Provider.of<ArtistProvider>(context , listen:  false);
     List<Artist> artists ;
     artists = artistProvider.getMultipleArtists;
     Artist artistInfo;
     artistInfo = artistProvider.getChoosedArtist;
-    artistId = artistInfo.id;
+   // if(artistInfo.id!= null){
+     // artistId = artistInfo.id;
+    //}
     artistImageUrl = artistInfo.images[0].url;
     artistNamePass = artistInfo.name;
     artistBio = artistInfo.bio;
