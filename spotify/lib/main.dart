@@ -105,6 +105,6 @@ class MyApp extends StatelessWidget {
                     SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
                   },
                 )));
-    
+
   }
 }

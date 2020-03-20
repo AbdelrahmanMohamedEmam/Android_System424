@@ -68,6 +68,17 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                     child: FeaturedPlaylists(),
                   )),
             ),
+            Container(
+              padding : EdgeInsets.only(top: 10 , bottom: 10),
+              child: Text('Singles',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
 
 
           ],

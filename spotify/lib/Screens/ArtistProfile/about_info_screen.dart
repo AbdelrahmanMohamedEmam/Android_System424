@@ -9,7 +9,8 @@ class AboutScreen extends StatelessWidget {
     final artName = routeArgs["name"];
     final artImage = routeArgs["image"];
     final artBio = routeArgs["bio"];
-    //final artPopularity = routeArgs["popularity"];
+    final artPopularity = routeArgs["popularity"];
+    print(artPopularity);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,27 +36,42 @@ class AboutScreen extends StatelessWidget {
               child: Image.network(artImage)
             ),
             Container(
-                height: 100,
+                height: 50,
                 width: double.infinity,
                 padding: EdgeInsets.all(10),
-                child: Text('popularity' ,
+                child: Text(artPopularity ,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
                 ),
             ),
             Container(
-                height: 100,
-                width: double.infinity,
-                padding: EdgeInsets.all(10),
-                child: Text(artBio,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,)
+              padding: EdgeInsets.only(bottom: 8 ,
+                left: 8 ,
+              ),
+              child: Text('Monthly Listeneres',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400 ,
+                color: Colors.grey,
+              )
+                ,),
             ),
+            SingleChildScrollView(
+              child: Container(
+                  height: 500,
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  child: Text(artBio,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,)
+              ),
+
+              ),
             ),
           ],
         ),

@@ -19,8 +19,8 @@ class ArtistProfile_Screen extends StatefulWidget {
 class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   @override
   void didChangeDependencies() async  {
-    await Provider.of<PlaylistProvider>(context , listen: false)
-        .fetchArtistProfilePlaylists();
+    //await Provider.of<PlaylistProvider>(context , listen: false)
+      //  .fetchArtistProfilePlaylists();
     await Provider.of<ArtistProvider>(context ,  listen: false)
         .fetchMultipleArtists();
     await Provider.of<ArtistProvider>(context , listen: false)
@@ -33,7 +33,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
   String artistNamePass;
   String artistId;
   String artistImageUrl;
-  String artistPopularity;
+  int artistPopularity;
   String artistBio;
 
   String artistImage = "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
@@ -63,7 +63,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
         "id" : artistId ,
         "name" : artistNamePass  ,
         "image" :artistImageUrl ,
-        //"popularity" : artistPopularity,
+        "popularity" : artistPopularity.toString(),
         "bio" : artistBio,
       }
     );
@@ -81,16 +81,16 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
     artistImageUrl = artistInfo.images[0].url;
     artistNamePass = artistInfo.name;
     artistBio = artistInfo.bio;
-    //artistPopularity = artistInfo.popularity;
-   // print(artistId);
+    artistPopularity = artistInfo.popularity;
+    print(artistPopularity);
    //print(artistPopularity);
    // print(artistImageUrl);
    //print('null is here');
     //print(artistNamePass);
 
-    final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    List<Playlist> playlists;
-      playlists = playlistsProvider.getArtistProfilePlaylists;
+    //final playlistsProvider = Provider.of<PlaylistProvider>(context);
+    //List<Playlist> playlists;
+      //playlists = playlistsProvider.getArtistProfilePlaylists;
 
     return Scaffold(
       appBar: AppBar(
@@ -207,7 +207,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
             ),
 
             //row of featured playlists
-            Container(
+           /* Container(
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -217,7 +217,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
 
             Container(
               padding : EdgeInsets.only(top: 10 , bottom: 10),
@@ -252,7 +252,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 ),
               ),
             ),
-            Container(
+            /*Container(
               height: 250,
               width: double.infinity,
               child: ListView.builder(
@@ -262,7 +262,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
             //FeaturedPlaylists(),
             Container(
               padding : EdgeInsets.only(top: 10 , bottom: 10),
@@ -281,7 +281,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                   Container(
                     padding: EdgeInsets.all(15),
                     child: Image.network(
-                      artistInfo.images[2].url,
+                      artistInfo.images[0].url,
                       height: 300,
                       width: double.infinity,
                       fit: BoxFit.cover,

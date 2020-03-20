@@ -38,15 +38,15 @@ class Artist with ChangeNotifier{
   factory Artist.fromJson(Map<String, dynamic> json) {
     return Artist(
       externalUrls: json['externalUrls'],
-      //followers :  parceFollower(json['followers']),
-      //genres:  json['genres'],
-      //href: json['href'],
+      //followers: parceFollower(json['followers']),
+      //genres: json['genres'],
+      href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
       name: json['name'],
-      //popularity: json['popularity'],
-      //type: json['type'],
-      //uri: json['uri'],
+      popularity: json['popularity'],
+      type: json['type'],
+      uri: json['uri'],
       bio: json['bio'],
     );
   }
