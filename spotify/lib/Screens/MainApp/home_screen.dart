@@ -18,31 +18,25 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin<HomeScreen> {
-  @override
-  bool get wantKeepAlive => true;
-  bool isloading = true;
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isInit = true;
   @override
   void didChangeDependencies() {
-    // try {
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchMadeForYouPlaylists();
-    // Provider.of<PlaylistProvider>(context, listen: false)
-    //     .fetchPopularPlaylists();
-    // Provider.of<PlaylistProvider>(context, listen: false)
-    //     .fetchWorkoutPlaylists();
-    // Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
-    // } catch (error) {
-    //   Navigator.of(context).pushNamed(ErrorScreen.routeName);
-    // }
+    if (_isInit) {
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYouPlaylists();
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchPopularPlaylists();
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchWorkoutPlaylists();
+      _isInit = false;
+    }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _auth=Provider.of<UserProvider>(context, listen: false);
-    super.build(context);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       body: CustomScrollView(
@@ -53,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen>
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
-
                   _auth.logout();
                   Phoenix.rebirth(context);
 
@@ -73,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen>
                 return Column(
                   children: <Widget>[
                     PlaylistList('Made for you'),
-                    // PlaylistList('Popular playlists'),
-                    // PlaylistList('Workout'),
+                    PlaylistList('Popular playlists'),
+                    PlaylistList('Workout'),
                     //AlbumList('Popular albums'),
                   ],
                 );
