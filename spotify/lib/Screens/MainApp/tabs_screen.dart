@@ -9,6 +9,7 @@ import 'home_screen.dart';
 import 'search_screen.dart';
 
 class TabsScreen extends StatefulWidget {
+  static const routeName = '/tabs_screen';
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
@@ -81,11 +82,11 @@ class _TabsScreenState extends State<TabsScreen> {
             title: Text('Library'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.person_outline),
             title: Text('Premium'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
+            icon: Icon(Icons.mic),
             title: Text('Artist'),
           ),
         ],

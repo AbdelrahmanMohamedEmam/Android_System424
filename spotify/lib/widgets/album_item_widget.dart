@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../Models/album.dart';
 
-import '../Models/playlist.dart';
-//import '../Screens/Playlists/playlists_list_screen.dart';
-
-class PlaylistWidget extends StatelessWidget {
+class AlbumWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final playlist = Provider.of<Playlist>(context);
+    final album = Provider.of<Album>(context);
     return GestureDetector(
-      onTap: () {
-       // Navigator.pushNamed(context, PlaylistsListScreen.routeName);
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.only(left: 5),
         width: 140,
@@ -20,9 +16,9 @@ class PlaylistWidget extends StatelessWidget {
             Container(
               height: 140,
               width: 140,
-              child: FadeInImage(
-                image: NetworkImage(playlist.images[0]),
-                placeholder: AssetImage('assets/images/temp.jpg'),
+              child: Image.network(
+                album.images[0],
+                fit: BoxFit.fill,
               ),
             ),
             Container(
@@ -31,7 +27,7 @@ class PlaylistWidget extends StatelessWidget {
               ),
               height: 50,
               child: Text(
-                playlist.description,
+                album.name,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,

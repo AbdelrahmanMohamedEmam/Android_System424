@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Screens/MainApp/tabs_screen.dart';
 import '../../Models/http_exception.dart';
 import 'forgot_password_email_screen.dart';
 import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login_screen';
@@ -45,8 +47,10 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> _submit(userData) async {
+
+    final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
-      await Provider.of<UserProvider>(context, listen: false).signIn(
+      await _auth.signIn(
         userData['email'],
         userData['password'],
       );
@@ -59,7 +63,21 @@ class _LogInScreenState extends State<LogInScreen> {
       _showErrorDialog(errorMessage);
       return;
     }
-    Navigator.of(context).pop();
+    if(_auth.isLoginSuccessfully)
+      {
+        print('LoggedIn');
+        try {
+          await _auth.setUser('1');
+        }catch(error){
+          const errorMessage =
+              'Could not authenticate you. Please try again later.';
+          _showErrorDialog(errorMessage);
+          return;
+        }
+        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+      }
+
   }
 
   @override
@@ -88,7 +106,7 @@ class _LogInScreenState extends State<LogInScreen> {
             child: TextFormField(
               controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Email or Username',
+                labelText: 'Email',
                 filled: true,
                 fillColor: Colors.grey,
                 labelStyle: TextStyle(color: Colors.white38),
@@ -166,8 +184,9 @@ class _LogInScreenState extends State<LogInScreen> {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
+                    bool isValid = EmailValidator.validate(emailController.text);
                     if (emailController.text.isEmpty ||
-                        passwordController.text.isEmpty) {
+                        passwordController.text.isEmpty || !isValid) {
                       setState(() {
                         _validate = false;
                       });

@@ -10,23 +10,44 @@ import '../Models/artist.dart';
 
 class ArtistProvider with ChangeNotifier {
   List<Artist> _artist = [];
+  Artist _choosedArtist;
+  List<Artist> _returnMultiple = [];
 
-  List<Artist> get artist {
-    return [..._artist];
+  Artist get getChoosedArtist {
+    return _choosedArtist;
   }
-/*
-  Future<void> fetchPlaylistsForArtist() async {
-    const url = 'http://www.mocky.io/v2/5e6e243e2f00005800a037ae';
+
+  List<Artist> get getMultipleArtists {
+    return [..._returnMultiple];
+  }
+
+  Future<void> fetchChoosedArtist() async {
+    const url = 'http://www.mocky.io/v2/5e74026a3000008ea52e68f7';
+    final response = await http.get(url);
+    final extractedList = json.decode(response.body);
+    _choosedArtist = Artist.fromJson(extractedList);
+    //print('hello');
+    //print(extractedList);
+    print(_choosedArtist.uri);
+    notifyListeners();
+  }
+
+  Future<void> fetchMultipleArtists() async {
+    const url = 'http://www.mocky.io/v2/5e727d383300008c0044c95d';
+    //print('bydrb abl get');
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
-    final List<Artist> loadedPlaylists = [];
+    final List<Artist> loadedArtists = [];
     for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      loadedArtists.add(Artist.fromJson(extractedList[i]));
     }
-    _playlists = loadedPlaylists;
+    //print('read bro');
+    //print(extractedList);
+    //print(loadedArtists);
+
+
+
+    _returnMultiple = loadedArtists;
     notifyListeners();
-  }*/
+  }
 }
-
-
-

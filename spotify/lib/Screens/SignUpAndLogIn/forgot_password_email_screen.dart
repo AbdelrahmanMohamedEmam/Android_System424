@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'check_email_screen.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
+import '../../Models/http_exception.dart';
+import 'package:email_validator/email_validator.dart';
 
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
@@ -19,9 +21,53 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
     super.initState();
   }
 
+
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Resetting password failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submit(String email) async {
+    final _auth=Provider.of<UserProvider>(context, listen: false);
+    try {
+      await _auth.forgetPassword(
+        email,
+      );
+    } on HttpException catch (error) {
+      var errorMessage = error.toString();
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Check the email address and try again.';
+      _showErrorDialog(errorMessage);
+      return;
+    }
+    if(_auth.resetSuccessful) {
+      Navigator.pushNamed(
+          context, CheckEmailScreen.routeName);
+    }
+    //Navigator.of(context).pop();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<UserProvider>(context, listen: false);
+    final _auth =  Provider.of<UserProvider>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -88,22 +134,15 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-                    if (emailController.text.isEmpty) {
+                    bool isValid = EmailValidator.validate(emailController.text);
+                    if (emailController.text.isEmpty ||  !isValid) {
                       setState(() {
                         _validate = false;
                       });
                     } else {
-                      try {
-                        _auth.forgetPassword(emailController.text);
-                        Navigator.pushNamed(
-                            context, CheckEmailScreen.routeName);
-                      } catch (error) {
-                        setState(() {
-                          _validate = false;
-                        });
-                      }
+                      _submit(emailController.toString());
                     }
-                  },
+                    },
                 ),
               ),
             ],
