@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 ///Seek Bar widget.
-class SeekBar extends StatefulWidget {
+class PanelSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;
   final ValueChanged<Duration> onChanged;
   final ValueChanged<Duration> onChangeEnd;
 
-  SeekBar({
+  PanelSeekBar({
     @required this.duration,
     @required this.position,
     this.onChanged,
@@ -15,10 +15,10 @@ class SeekBar extends StatefulWidget {
   });
 
   @override
-  _SeekBarState createState() => _SeekBarState();
+  _PanelSeekBarState createState() => _PanelSeekBarState();
 }
 
-class _SeekBarState extends State<SeekBar> {
+class _PanelSeekBarState extends State<PanelSeekBar> {
   double _dragValue;
 
 
@@ -79,13 +79,13 @@ class _SeekBarState extends State<SeekBar> {
   }
 }
 
-class SeekBar2 extends StatefulWidget {
+class CollapsedSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;
   final ValueChanged<Duration> onChanged;
   final ValueChanged<Duration> onChangeEnd;
 
-  SeekBar2({
+  CollapsedSeekBar({
     @required this.duration,
     @required this.position,
     this.onChanged,
@@ -93,10 +93,10 @@ class SeekBar2 extends StatefulWidget {
   });
 
   @override
-  _SeekBar2State createState() => _SeekBar2State();
+  _CollapsedSeekBarState createState() => _CollapsedSeekBarState();
 }
 
-class _SeekBar2State extends State<SeekBar2> {
+class _CollapsedSeekBarState extends State<CollapsedSeekBar> {
   double _dragValue;
 
   @override

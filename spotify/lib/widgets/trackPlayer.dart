@@ -1,22 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:spotify/Models/artist.dart';
-import '../Models/track.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'dart:io';
-import 'collapsed.dart';
+
+import 'package:flutter/material.dart';
+import 'package:spotify/Models/artist.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart' as path;
+
+
+import '../Models/track.dart';
+import 'collapsed.dart';
 import 'panel.dart';
-import 'seekBar.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 import '../widgets/bottom_navigation_bar.dart';
-import '../Screens/MainApp/tab_navigator.dart';
+import '../Widgets/stream_builders.dart';
 
-class TrackPlayer extends StatefulWidget {
+
+class MainWidget extends StatefulWidget {
+  static const routeName = '/main_screen';
   List<Track> playlist = [
     Track(
         id: '1',
@@ -50,12 +54,12 @@ class TrackPlayer extends StatefulWidget {
         trackNumber: 2)
   ];
   int trackNumber = 1;
-  TrackPlayer(); ////this.playlist, this.trackNumber});
+  MainWidget(); ////this.playlist, this.trackNumber});
   @override
-  _TrackPlayerState createState() => _TrackPlayerState();
+  _MainWidgetState createState() => _MainWidgetState();
 }
 
-class _TrackPlayerState extends State<TrackPlayer> {
+class _MainWidgetState extends State<MainWidget> {
   ///Sliding panel attributes.
   final double _initFabHeight = 120;
   double _fabHeight;
@@ -77,7 +81,10 @@ class _TrackPlayerState extends State<TrackPlayer> {
   static TabItem _currentTab = TabItem.home;
   bool hide = false;
   void toHide(bool toHide) {
-    hide = toHide;
+    setState(() {
+      hide = toHide;
+    });
+
   }
 
   static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
@@ -188,53 +195,13 @@ class _TrackPlayerState extends State<TrackPlayer> {
 
   @override
   Widget build(BuildContext context) {
+
     final deviceSize = MediaQuery.of(context).size;
 
-    StreamBuilder bar = StreamBuilder<Duration>(
-      stream: _player.durationStream,
-      builder: (context, snapshot) {
-        final duration = snapshot.data ?? Duration.zero;
-        return StreamBuilder<Duration>(
-          stream: _player.getPositionStream(),
-          builder: (context, snapshot) {
-            var position = snapshot.data ?? Duration.zero;
-            if (position > duration) {
-              position = duration;
-            }
-            return SeekBar(
-              duration: duration,
-              position: position,
-              onChangeEnd: (newPosition) {
-                _player.seek(newPosition);
-              },
-            );
-          },
-        );
-      },
-    );
-    StreamBuilder bar2 = StreamBuilder<Duration>(
-      stream: _player.durationStream,
-      builder: (context, snapshot) {
-        final duration = snapshot.data ?? Duration.zero;
-        return StreamBuilder<Duration>(
-          stream: _player.getPositionStream(),
-          builder: (context, snapshot) {
-            var position = snapshot.data ?? Duration.zero;
-            if (position > duration) {
-              position = duration;
-            }
-            return SeekBar2(
-              duration: duration,
-              position: position,
-              onChangeEnd: (newPosition) {
-                _player.seek(newPosition);
-              },
-            );
-          },
-        );
-      },
-    );
-    StreamBuilder toolBar = StreamBuilder<FullAudioPlaybackState>(
+    _panelHeightOpen = deviceSize.height * 1;
+    _panelHeightClosed = deviceSize.height * 0.09;
+
+    StreamBuilder panelToolBar = StreamBuilder<FullAudioPlaybackState>(
       stream: _player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
@@ -302,7 +269,6 @@ class _TrackPlayerState extends State<TrackPlayer> {
                   deleteFile();
                   widget.trackNumber = widget.trackNumber + 1;
                   init();
-                  //this.dispose();
                 });
               },
             ),
@@ -321,7 +287,10 @@ class _TrackPlayerState extends State<TrackPlayer> {
         );
       },
     );
-    StreamBuilder playButton = StreamBuilder<FullAudioPlaybackState>(
+
+
+
+    StreamBuilder collapsedToolBar = StreamBuilder<FullAudioPlaybackState>(
       stream: _player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
@@ -361,8 +330,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
       },
     );
 
-    _panelHeightOpen = deviceSize.height * 1;
-    _panelHeightClosed = deviceSize.height * 0.09;
+
 
     ///Sliding Up Panel Widget.
     return WillPopScope(
@@ -401,28 +369,23 @@ class _TrackPlayerState extends State<TrackPlayer> {
           panel: Panel(
             song: song,
             pc: _pc,
-            bar: bar,
-            toolBar: toolBar,
+            bar: panelBar(_player),
+            toolBar: panelToolBar,
             toHide: toHide,
           ),
-          collapsed: Collapsed(
+          collapsed: InkWell(
+            onTap: ()=>setState(() {
+              hide=true;
+              _pc.open();
+            }),
+            child:Collapsed(
             song: song,
-            playButton: playButton,
-            bar: bar2,
-          ),
+            playButton: collapsedToolBar,
+            bar: collapsedBar(_player),
+          ),),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-          onPanelSlide: (double pos) => setState(
-            () {
-              _fabHeight = pos * (_panelHeightOpen - _panelHeightClosed) +
-                  _initFabHeight;
-              if (_fabHeight > _panelHeightClosed) {
-                hide = true;
-              } else {
-                hide = false;
-              }
-            },
-          ),
+          isDraggable: false,
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_password_fb_screen.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.
@@ -67,9 +68,7 @@ class _IntroScreenState extends State<IntroScreen> {
     if(_auth.isFbLogin)
     {
       print('LoggedIn');
-      Navigator.of(context).pushNamed(CreatePasswordFBScreen.routeName, arguments: email);
-      //Check if I am already an old user
-      //Navigator.pushNamed(context, CreatePasswordScreen.routeName, arguments: email);
+      Navigator.of(context).pushNamed(MainWidget.routeName, arguments: email);
     }
 
   }
