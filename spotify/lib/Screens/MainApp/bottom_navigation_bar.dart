@@ -20,9 +20,13 @@ class BottomNavigation extends StatelessWidget {
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
 
+
+  
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      
       backgroundColor: Color.fromRGBO(48, 44, 44, 1),
       type: BottomNavigationBarType.fixed,
       unselectedItemColor: Colors.grey,

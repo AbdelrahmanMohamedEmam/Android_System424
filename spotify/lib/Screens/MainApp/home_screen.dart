@@ -9,14 +9,13 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 import '../../widgets/album_list_widget.dart';
-import './tabs_screen.dart';
+import './tab_navigator.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
 import '../../Widgets/trackPlayer.dart';
 import '../../main.dart' as main;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
-
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

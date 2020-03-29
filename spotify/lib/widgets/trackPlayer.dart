@@ -14,40 +14,45 @@ import 'panel.dart';
 import 'seekBar.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 import '../Screens/MainApp/bottom_navigation_bar.dart';
-
+import '../Screens/MainApp/tab_navigator.dart';
 
 class TrackPlayer extends StatefulWidget {
-
-  List<Track> playlist=[Track(
-      id:'1',
-      name:'Sahran',
-      album: 'Sahran',
-      artists: [Artist(
-        name: 'Amr Diab',
-        bio: '',
-      )],
-      imgUrl: 'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
-      href:'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-02.Sahran.mp3',
-      trackNumber: 1
-  ),
-  Track(
-    id:'2',
-    name:'Gamda Bas',
-    album: 'Sahran',
-    artists: [Artist(
-      name: 'Amr Diab',
-      bio: '',
-    )],
-    imgUrl: 'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
-    href:'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
-    trackNumber: 2
-  )
+  List<Track> playlist = [
+    Track(
+        id: '1',
+        name: 'Sahran',
+        album: 'Sahran',
+        artists: [
+          Artist(
+            name: 'Amr Diab',
+            bio: '',
+          )
+        ],
+        imgUrl:
+            'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
+        href:
+            'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-02.Sahran.mp3',
+        trackNumber: 1),
+    Track(
+        id: '2',
+        name: 'Gamda Bas',
+        album: 'Sahran',
+        artists: [
+          Artist(
+            name: 'Amr Diab',
+            bio: '',
+          )
+        ],
+        imgUrl:
+            'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
+        href:
+            'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+        trackNumber: 2)
   ];
-  int trackNumber=1;
-  TrackPlayer();////this.playlist, this.trackNumber});
+  int trackNumber = 1;
+  TrackPlayer(); ////this.playlist, this.trackNumber});
   @override
   _TrackPlayerState createState() => _TrackPlayerState();
-
 }
 
 class _TrackPlayerState extends State<TrackPlayer> {
@@ -57,8 +62,6 @@ class _TrackPlayerState extends State<TrackPlayer> {
   double _panelHeightOpen;
   double _panelHeightClosed;
   var panelState;
-
-
 
   PanelController _pc = new PanelController();
   PaletteGenerator paletteGenerator;
@@ -70,7 +73,6 @@ class _TrackPlayerState extends State<TrackPlayer> {
   AudioPlayer _player;
   String songPath;
   bool downloading;
-
 
   static TabItem _currentTab = TabItem.home;
 
@@ -88,7 +90,6 @@ class _TrackPlayerState extends State<TrackPlayer> {
       navigatorKey: _navigatorKeys[TabItem.home],
       tabItem: TabItem.home,
     ),
-
     TabNavigator(
       route: TabNavigatorRoutes.search,
       navigatorKey: _navigatorKeys[TabItem.search],
@@ -127,54 +128,50 @@ class _TrackPlayerState extends State<TrackPlayer> {
     init();
   }
 
-  void init(){
-    if(widget.playlist.length<widget.trackNumber)
-      widget.trackNumber=1;
-    song = widget.playlist.firstWhere((x)=>x.trackNumber==widget.trackNumber);
+  void init() {
+    if (widget.playlist.length < widget.trackNumber) widget.trackNumber = 1;
+    song =
+        widget.playlist.firstWhere((x) => x.trackNumber == widget.trackNumber);
     panelState = PanelState.CLOSED;
     _fabHeight = _initFabHeight;
     _generatePalette();
     _player = AudioPlayer();
-    downloading=true;
+    downloading = true;
     downloadSong();
   }
 
   Future<void> _generatePalette() async {
     PaletteGenerator _paletteGenerator =
-    await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
-        size: Size(110, 150), maximumColorCount: 20);
+        await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
+            size: Size(110, 150), maximumColorCount: 20);
     back = _paletteGenerator.darkMutedColor.color;
 
     setState(
-          () {
+      () {
         paletteGenerator = _paletteGenerator;
       },
     );
   }
 
   Future<void> downloadSong() async {
-    Dio dio= new Dio();
+    Dio dio = new Dio();
     var dir = (await path.getExternalStorageDirectory()).path;
     try {
-
-      dio.download(song.href, '$dir/'+song.id);
+      dio.download(song.href, '$dir/' + song.id);
       setState(() {
-        downloading=true;
+        downloading = true;
       });
-    }
-    catch(e){
-
-    }
+    } catch (e) {}
     setState(() {
-      songPath='$dir/'+song.id;
+      songPath = '$dir/' + song.id;
       _player.setFilePath(songPath);
-      downloading=false;
+      downloading = false;
     });
   }
 
-  void deleteFile(){
+  void deleteFile() {
     final dir = Directory(songPath);
-    print('h'+songPath);
+    print('h' + songPath);
     dir.delete(recursive: true);
   }
 
@@ -189,7 +186,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 
-    StreamBuilder bar=StreamBuilder<Duration>(
+    StreamBuilder bar = StreamBuilder<Duration>(
       stream: _player.durationStream,
       builder: (context, snapshot) {
         final duration = snapshot.data ?? Duration.zero;
@@ -211,7 +208,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
         );
       },
     );
-    StreamBuilder bar2=StreamBuilder<Duration>(
+    StreamBuilder bar2 = StreamBuilder<Duration>(
       stream: _player.durationStream,
       builder: (context, snapshot) {
         final duration = snapshot.data ?? Duration.zero;
@@ -233,7 +230,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
         );
       },
     );
-    StreamBuilder toolBar=StreamBuilder<FullAudioPlaybackState>(
+    StreamBuilder toolBar = StreamBuilder<FullAudioPlaybackState>(
       stream: _player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
@@ -263,7 +260,9 @@ class _TrackPlayerState extends State<TrackPlayer> {
               iconSize: deviceSize.height * 0.05,
               onPressed: _player.play,
             ),
-            if (downloading || state == AudioPlaybackState.connecting || buffering == true)
+            if (downloading ||
+                state == AudioPlaybackState.connecting ||
+                buffering == true)
               Container(
                 margin: EdgeInsets.all(8.0),
                 height: deviceSize.height * 0.05,
@@ -293,11 +292,11 @@ class _TrackPlayerState extends State<TrackPlayer> {
                 color: Colors.white,
               ),
               iconSize: deviceSize.height * 0.05,
-              onPressed: (){
+              onPressed: () {
                 setState(() {
                   _player.stop();
                   deleteFile();
-                  widget.trackNumber=widget.trackNumber+1;
+                  widget.trackNumber = widget.trackNumber + 1;
                   init();
                   //this.dispose();
                 });
@@ -318,7 +317,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
         );
       },
     );
-    StreamBuilder playButton=StreamBuilder<FullAudioPlaybackState>(
+    StreamBuilder playButton = StreamBuilder<FullAudioPlaybackState>(
       stream: _player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
@@ -327,7 +326,9 @@ class _TrackPlayerState extends State<TrackPlayer> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (downloading||state == AudioPlaybackState.connecting || buffering == true)
+            if (downloading ||
+                state == AudioPlaybackState.connecting ||
+                buffering == true)
               Container(
                 margin: EdgeInsets.all(8.0),
                 height: deviceSize.height * 0.05,
@@ -358,18 +359,10 @@ class _TrackPlayerState extends State<TrackPlayer> {
 
     _panelHeightOpen = deviceSize.height * 1;
     _panelHeightClosed = deviceSize.height * 0.09;
-    Widget _body() {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Text('Spotify Screen'),
-        ),
-      );
-    }
 
     ///Sliding Up Panel Widget.
     return Scaffold(
-      bottomNavigationBar:  BottomNavigation(
+      bottomNavigationBar: BottomNavigation(
         currentTab: _currentTab,
         onSelectTab: _selectTab,
       ),
@@ -387,27 +380,16 @@ class _TrackPlayerState extends State<TrackPlayer> {
           bar: bar,
           toolBar: toolBar,
         ),
-        collapsed: Collapsed(song: song, playButton: playButton, bar:bar2),
+        collapsed: Collapsed(song: song, playButton: playButton, bar: bar2),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
         onPanelSlide: (double pos) => setState(
-              () {
+          () {
             _fabHeight =
                 pos * (_panelHeightOpen - _panelHeightClosed) + _initFabHeight;
           },
         ),
       ),
-    );}
-}
-
-
-
-class TabNavigatorRoutes {
-  static const String home = '/';
-  static const String search = '/';
-  static const String library = '/';
-  static const String artist = '/';
-  static const String premium = '/';
-  static const String settings = '//settings';
-  static const String premium2 = '//premium';
+    );
+  }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
 import './premium_screen.dart';
-import './tabs_screen.dart';
 import '../../Widgets/trackPlayer.dart';
+import './tab_navigator.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

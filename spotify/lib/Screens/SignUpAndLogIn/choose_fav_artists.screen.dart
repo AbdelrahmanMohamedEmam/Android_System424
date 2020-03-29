@@ -10,7 +10,7 @@ import '../../Providers/artist_provider.dart';
 
 ///Importing this file to use the circular widget for artist
 import '../../Widgets/fav_artist_item.dart';
-import '../../Screens/MainApp/tabs_screen.dart';
+
 
 
 

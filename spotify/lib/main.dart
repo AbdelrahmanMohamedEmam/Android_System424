@@ -34,7 +34,6 @@ import 'Screens/SignUpAndLogIn/choose_password_fb_screen.dart';
 import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 //import 'Screens/SignUpAndLogIn/intro_screen.dart';
-import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
 import './Providers/artist_provider.dart';
 

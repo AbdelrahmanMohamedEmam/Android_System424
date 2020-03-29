@@ -6,7 +6,6 @@ import '../../Models/http_exception.dart';
 
 ///Importing the screens to navigate to it.
 import 'forgot_password_email_screen.dart';
-import 'package:spotify/Screens/MainApp/tabs_screen.dart';
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
