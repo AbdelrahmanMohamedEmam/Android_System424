@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart';
 import '../Models/track.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Panel extends StatefulWidget {
+  Function toHide;
   final Track song;
   final PanelController pc;
   final StreamBuilder bar;
   final StreamBuilder toolBar;
-  Panel({this.song, this.pc, this.bar, this.toolBar});
+  Panel({this.song, this.pc, this.bar, this.toolBar, this.toHide});
   @override
   _PanelState createState() => _PanelState();
 }
@@ -16,7 +17,6 @@ class Panel extends StatefulWidget {
 class _PanelState extends State<Panel> {
   var panelState;
   AudioPlayer _player;
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,7 @@ class _PanelState extends State<Panel> {
                 iconSize: deviceSize.height * 0.05,
                 onPressed: () {
                   widget.pc.close();
+                  widget.toHide(false);
                 },
               ),
             ),
@@ -54,6 +55,7 @@ class _PanelState extends State<Panel> {
             Container(
               margin: EdgeInsets.only(right: deviceSize.width * 0.03),
               child: IconButton(
+                onPressed: (){},
                 icon: Icon(
                   Icons.more_horiz,
                   color: Colors.white,

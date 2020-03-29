@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart' as path;
 import 'panel.dart';
 import 'seekBar.dart';
 import '../Screens/MainApp/tab_navigator.dart';
-import '../Screens/MainApp/bottom_navigation_bar.dart';
+import '../widgets/bottom_navigation_bar.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 
 class TrackPlayer extends StatefulWidget {
@@ -75,6 +75,10 @@ class _TrackPlayerState extends State<TrackPlayer> {
   bool downloading;
 
   static TabItem _currentTab = TabItem.home;
+  bool hide = false;
+  void toHide(bool toHide) {
+    hide = toHide;
+  }
 
   static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
@@ -361,33 +365,64 @@ class _TrackPlayerState extends State<TrackPlayer> {
     _panelHeightClosed = deviceSize.height * 0.09;
 
     ///Sliding Up Panel Widget.
-    return Scaffold(
-      bottomNavigationBar: BottomNavigation(
-        currentTab: _currentTab,
-        onSelectTab: _selectTab,
-      ),
-      body: SlidingUpPanel(
-        controller: _pc,
-        defaultPanelState: panelState,
-        backdropTapClosesPanel: true,
-        color: back, //Color.fromRGBO(0, 48, 24, 0.95),
-        maxHeight: _panelHeightOpen,
-        minHeight: _panelHeightClosed,
-        body: pages[_currentTab.index],
-        panel: Panel(
-          song: song,
-          pc: _pc,
-          bar: bar,
-          toolBar: toolBar,
-        ),
-        collapsed: Collapsed(song: song, playButton: playButton, bar: bar2),
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
-        onPanelSlide: (double pos) => setState(
-          () {
-            _fabHeight =
-                pos * (_panelHeightOpen - _panelHeightClosed) + _initFabHeight;
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentTab].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          // if not on the 'main' tab
+          if (_currentTab != TabItem.home) {
+            // select 'main' tab
+            _selectTab(TabItem.home);
+            // back button handled by app
+            return false;
+          }
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        bottomNavigationBar: hide
+            ? Container(
+                height: 0.0,
+              )
+            : BottomNavigation(
+                currentTab: _currentTab,
+                onSelectTab: _selectTab,
+              ),
+        body: SlidingUpPanel(
+          controller: _pc,
+          defaultPanelState: panelState,
+          backdropTapClosesPanel: true,
+          color: back, //Color.fromRGBO(0, 48, 24, 0.95),
+          maxHeight: _panelHeightOpen,
+          minHeight: _panelHeightClosed,
+          body: pages[_currentTab.index],
+          panel: Panel(
+            song: song,
+            pc: _pc,
+            bar: bar,
+            toolBar: toolBar,
+            toHide: toHide,
+          ),
+          collapsed: Collapsed(
+            song: song,
+            playButton: playButton,
+            bar: bar2,
+          ),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
+          onPanelSlide: (double pos) => setState(
+            () {
+              _fabHeight = pos * (_panelHeightOpen - _panelHeightClosed) +
+                  _initFabHeight;
+              if (_fabHeight > _panelHeightClosed) {
+                hide = true;
+              } else {
+                hide = false;
+              }
+            },
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Models/track.dart';
 
 class Collapsed extends StatefulWidget {
-
+  
   final Track song;
   final StreamBuilder playButton;
   final StreamBuilder bar;
@@ -19,7 +19,7 @@ class _CollapsedState extends State<Collapsed> {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
       height: deviceSize.height * 0.08,
-      color: Color.fromRGBO(80, 80, 80, 1),
+      color: Color.fromRGBO(48, 44, 44, 1),
       child: Column(
         children: <Widget>[
           widget.bar,
