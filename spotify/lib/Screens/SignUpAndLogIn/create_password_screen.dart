@@ -1,4 +1,7 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing the screens to navigate to it.
 import 'add_birthdate_screen.dart';
 
 class CreatePasswordScreen extends StatefulWidget {

@@ -1,5 +1,10 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing the screens to navigate to it.
 import 'create_password_screen.dart';
+
+///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
 

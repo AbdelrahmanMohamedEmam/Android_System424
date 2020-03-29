@@ -1,16 +1,20 @@
 
+///Importing models to use in factory methods.
 import '../Models/external_url.dart';
 import '../Models/image.dart';
 import '../Models/follower.dart';
 import '../Models/user_stats.dart';
+
+///Importing utilities file to parse objects.
 import '../utilities.dart';
 
+
+///A model for grouping the user data.
 class User {
   final String name;
   final String email;
   String password;
   final String id;
-  //final String username;
   String role;
   final String gender;
   final String dateOfBirth;
@@ -25,7 +29,7 @@ class User {
   final UserStats userStats;
   final String resetPasswordToken;
 
-
+///A constructor with named parameters.
   User({
     this.id,
     this.name,
@@ -46,7 +50,7 @@ class User {
     this.role,
   });
 
-
+///A factory method to decode the Json user into a user object.
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],

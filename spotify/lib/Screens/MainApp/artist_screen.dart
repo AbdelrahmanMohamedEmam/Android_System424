@@ -8,6 +8,6 @@ class ArtistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     print('The artist screen is build');
-    return ArtistProfile_Screen();
+    return ArtistProfileScreen();
   }
 }

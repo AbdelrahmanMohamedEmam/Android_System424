@@ -1,48 +1,55 @@
-import 'package:spotify/widgets/artist_info_widget.dart';
-import '../../widgets/album_widget_artist_profile.dart';
+import '../../Widgets/artist_info_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../widgets/featured_playlists_artist_profile.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
 import '../../Models/album.dart';
 import '../../Providers/album_provider.dart';
 
-class ArtistProfile_Screen extends StatefulWidget {
+class ArtistProfileScreen extends StatefulWidget {
   @override
-  _ArtistProfile_ScreenState createState() => _ArtistProfile_ScreenState();
+  ArtistProfileScreenState createState() => ArtistProfileScreenState();
 }
 
-class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
+class ArtistProfileScreenState extends State<ArtistProfileScreen> {
 
 
-  bool _isInit = true;
-
+  Artist artistInfo;
+  List<Artist> artists=[] ;
+  List<Playlist> playlists;
+  List<Album> albums;
 
   @override
-  void didChangeDependencies() async {
-    if (_isInit) {
-      await Provider.of<PlaylistProvider>(
-          context, listen: false)
-          .fetchArtistProfilePlaylists(
-      );
-      await Provider.of<ArtistProvider>(
-          context, listen: false)
-          .fetchMultipleArtists(
-      );
-      await Provider.of<AlbumProvider>(
-          context, listen: false)
-          .fetchPopularAlbums(
-      );
-      //await Provider.of<ArtistProvider>(
-        //  context, listen: false)
-          //.fetchChoosedArtist(
-      //);
-    }
+  void initState(){
+    initialization();
+    super.initState();
+  }
+
+  Future<void> initialization() async {
+
+    final artistProv=Provider.of<ArtistProvider>(context, listen: false);
+    await artistProv.fetchMultipleArtists();
+    await artistProv.fetchChoosedArtist();
+
+    final playlistProv= Provider.of<PlaylistProvider>(context, listen: false);
+    await playlistProv.fetchArtistProfilePlaylists();
+
+
+    final albumProv= Provider.of<AlbumProvider>(context, listen: false);
+    await albumProv.fetchPopularAlbums();
+
+
+        setState(() {
+          artists = artistProv.getMultipleArtists;
+          artistInfo = artistProv.getChoosedArtist;
+          playlists = playlistProv.getArtistProfilePlaylists;
+          albums = albumProv.getPopularAlbums;
+        });
+
+
   }
 
   String artistName = 'amr diab 32';
@@ -86,33 +93,11 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
 
   @override
   Widget build(BuildContext context) {
-    //initialization();
+    if(artistInfo==null){
+      setState(() {
 
-   final artistProvider = Provider.of<ArtistProvider>(context);
-    List<Artist> artists ;
-    artists = artistProvider.getMultipleArtists;
-    //Artist artistInfo;
-    //artistInfo = artistProvider.getChoosedArtist;
-   // if(artistInfo.id!= null){
-     // artistId = artistInfo.id;
-    //}
-    //artistImageUrl = artistInfo.images[0].url;
-    //artistNamePass = artistInfo.name;
-    //artistBio = artistInfo.bio;
-    //artistPopularity = artistInfo.popularity;
-    //print(artistPopularity);
-    //print(artistPopularity);
-    // print(artistImageUrl);
-    //print('null is here');
-    //print(artistNamePass);
-
-    final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    List<Playlist> playlists;
-    playlists = playlistsProvider.getArtistProfilePlaylists;
-
-   final albumProvider = Provider.of<AlbumProvider>(context);
-   List<Album> albums;
-   albums = albumProvider.getPopularAlbums;
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -136,19 +121,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
         child: ListView(
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            /*Container(
-              height: 250,
-              width: double.infinity,
-              child: ListView.builder(
-                  itemCount: 1,
-                  //scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                        value: artistInfo,
-                        child: ArtistCard(),
-                      )),
-            ),*/
-            ArtistCard(),
-
+            ArtistCard(artistInfo: artistInfo),
             Container(
               height: 40,
               width: 50,
@@ -191,7 +164,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                 fontSize: 18,
               ),
             ),
-            Container(
+           /* Container(
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -203,7 +176,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     child: LoadingAlbumsWidget(),
                   ),
               ),
-            ),
+            ),*/
             ButtonTheme(
               minWidth: 5,
               child: RaisedButton(
@@ -240,7 +213,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
             ),
 
             //row of featured playlists
-             Container(
+            /* Container(
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -250,7 +223,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
 
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -263,7 +236,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     fontSize: 18),
               ),
             ),
-            Container(
+           /* Container(
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -273,7 +246,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                         value: artists[i],
                         child: suggesttedArtists(),
                       )),
-            ),
+            ),*/
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
@@ -285,7 +258,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     fontSize: 18),
               ),
             ),
-            Container(
+           /* Container(
               height: 250,
               width: double.infinity,
               child: ListView.builder(
@@ -295,7 +268,7 @@ class _ArtistProfile_ScreenState extends State<ArtistProfile_Screen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
 
             Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),

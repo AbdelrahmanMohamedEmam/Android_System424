@@ -1,15 +1,20 @@
+///Importing the package to use UI libraries.
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/create_password_screen.dart';
-import 'logIn_screen.dart';
-import '../../Providers/user_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
+
+///Importing the user provider to access the user data.
+import 'package:provider/provider.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/choose_password_fb_screen.dart';
+import '../../Providers/user_provider.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-
+///Importing the screens to navigate to it.
 import '../../Screens/SignUpAndLogIn/create_email_screen.dart';
+import 'logIn_screen.dart';
 
 class IntroScreen extends StatefulWidget {
 
@@ -62,6 +67,7 @@ class _IntroScreenState extends State<IntroScreen> {
     if(_auth.isFbLogin)
     {
       print('LoggedIn');
+      Navigator.of(context).pushNamed(CreatePasswordFBScreen.routeName, arguments: email);
       //Check if I am already an old user
       //Navigator.pushNamed(context, CreatePasswordScreen.routeName, arguments: email);
     }

@@ -19,6 +19,7 @@ class Track {
   final String href;
   final String previewUrl;
   final int popularity;
+  final String imgUrl;
   Track({
     this.name,
     this.id,
@@ -34,6 +35,7 @@ class Track {
     this.href,
     this.previewUrl,
     this.popularity,
+    this.imgUrl,
   });
   factory Track.fromJson(Map<String, dynamic> json) {
     return Track(

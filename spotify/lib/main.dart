@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-import 'package:spotify/Widgets/premium_card.dart';
+import 'package:spotify/Screens/Song/song_screen.dart';
 
 //Import Providers
 import 'Providers/user_provider.dart';
@@ -28,12 +28,14 @@ import 'Screens/SignUpAndLogIn/choose_gender_screen.dart';
 import 'Screens/SignUpAndLogIn/choose_name_screen.dart';
 import 'Screens/SignUpAndLogIn/create_email_screen.dart';
 import 'Screens/SignUpAndLogIn/create_password_screen.dart';
+import 'Screens/SignUpAndLogIn/choose_password_fb_screen.dart';
 import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 //import 'Screens/SignUpAndLogIn/intro_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
 import './Providers/artist_provider.dart';
+import 'Widgets/trackPlayer.dart';
 
 void main() {
   runApp(
@@ -73,15 +75,15 @@ class MyApp extends StatelessWidget {
           ),
 
                 //home: //IntroScreen(),
-                  home: //TabsScreen(),
+                  /*home: //TabsScreen(),
                      auth.isAuth
                        ? TabsScreen()
                        : FutureBuilder(
                            future: auth.tryAutoLogin(),
                            builder: (ctx, authResultSnapshot) =>
                                    IntroScreen(),
-                  ),
-                  //home:ChooseFavArtists(),
+                  ),*/
+                  home:TrackPlayer(),
                   //home:SplashScreen(),
                   //home: TabsScreen(),
                   routes: {
@@ -105,6 +107,8 @@ class MyApp extends StatelessWidget {
                     ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
                     AboutScreen.routeName : (ctx) => AboutScreen(),
                     SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
+                    CreatePasswordFBScreen.routeName : (ctx)=> CreatePasswordFBScreen(),
+                    CreatePasswordScreen.routeName : (ctx)=> CreatePasswordScreen(),
                   },
                 )));
 

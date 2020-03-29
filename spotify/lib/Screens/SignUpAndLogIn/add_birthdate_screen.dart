@@ -1,5 +1,10 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing this package to use different date formats.
 import 'package:intl/intl.dart';
+
+///Importing the screens to navigate to it.
 import './choose_gender_screen.dart';
 
 class AddBirthDateScreen extends StatefulWidget {

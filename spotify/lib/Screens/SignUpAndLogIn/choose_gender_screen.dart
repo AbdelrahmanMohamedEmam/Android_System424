@@ -1,5 +1,10 @@
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing this package to insert a dropdown menu for gender selection.
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+///Importing the screens to navigate to it.
 import 'choose_name_screen.dart';
 
 class ChooseGenderScreen extends StatelessWidget {

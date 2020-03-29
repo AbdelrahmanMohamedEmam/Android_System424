@@ -1,7 +1,14 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import '../../Providers/user_provider.dart';
+
+///Importing the screens to navigate to it.
+import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
 class ChooseNameScreen extends StatefulWidget {
