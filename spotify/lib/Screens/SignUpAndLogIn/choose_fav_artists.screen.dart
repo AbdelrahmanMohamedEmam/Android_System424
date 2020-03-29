@@ -110,7 +110,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
       return;
     }
     Navigator.of(context).popUntil(ModalRoute.withName('/'));
-    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    //Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
   }
 
 

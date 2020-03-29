@@ -88,7 +88,7 @@ class _LogInScreenState extends State<LogInScreen> {
         }
         print('3');
         Navigator.of(context).popUntil(ModalRoute.withName('/'));
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+       // Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
       }
 
   }

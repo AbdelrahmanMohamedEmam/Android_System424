@@ -12,6 +12,9 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'panel.dart';
 import 'seekBar.dart';
+import '../Screens/MainApp/tab_navigator.dart';
+import '../Screens/MainApp/bottom_navigation_bar.dart';
+
 
 class TrackPlayer extends StatefulWidget {
 
@@ -67,6 +70,55 @@ class _TrackPlayerState extends State<TrackPlayer> {
   AudioPlayer _player;
   String songPath;
   bool downloading;
+
+
+  static TabItem _currentTab = TabItem.home;
+
+  static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
+    TabItem.home: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
+    TabItem.library: GlobalKey<NavigatorState>(),
+    TabItem.premium: GlobalKey<NavigatorState>(),
+    TabItem.artist: GlobalKey<NavigatorState>(),
+  };
+
+  final List<Widget> pages = [
+    TabNavigator(
+      route: TabNavigatorRoutes.search,
+      navigatorKey: _navigatorKeys[TabItem.home],
+      tabItem: TabItem.home,
+    ),
+
+    TabNavigator(
+      route: TabNavigatorRoutes.search,
+      navigatorKey: _navigatorKeys[TabItem.search],
+      tabItem: TabItem.search,
+    ),
+    TabNavigator(
+      route: TabNavigatorRoutes.library,
+      navigatorKey: _navigatorKeys[TabItem.library],
+      tabItem: TabItem.library,
+    ),
+    TabNavigator(
+      route: TabNavigatorRoutes.premium,
+      navigatorKey: _navigatorKeys[TabItem.premium],
+      tabItem: TabItem.premium,
+    ),
+    TabNavigator(
+      route: TabNavigatorRoutes.artist,
+      navigatorKey: _navigatorKeys[TabItem.artist],
+      tabItem: TabItem.artist,
+    ),
+  ];
+  void _selectTab(TabItem tabItem) {
+    if (tabItem == _currentTab) {
+      // pop to first route
+      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() => _currentTab = tabItem);
+    }
+    setState(() => _currentTab = tabItem);
+  }
 
   ///Initializations
   @override
@@ -317,6 +369,10 @@ class _TrackPlayerState extends State<TrackPlayer> {
 
     ///Sliding Up Panel Widget.
     return Scaffold(
+      bottomNavigationBar:  BottomNavigation(
+        currentTab: _currentTab,
+        onSelectTab: _selectTab,
+      ),
       body: SlidingUpPanel(
         controller: _pc,
         defaultPanelState: panelState,
@@ -324,7 +380,7 @@ class _TrackPlayerState extends State<TrackPlayer> {
         color: back, //Color.fromRGBO(0, 48, 24, 0.95),
         maxHeight: _panelHeightOpen,
         minHeight: _panelHeightClosed,
-        body: _body(),
+        body: pages[_currentTab.index],
         panel: Panel(
           song: song,
           pc: _pc,
@@ -344,3 +400,14 @@ class _TrackPlayerState extends State<TrackPlayer> {
     );}
 }
 
+
+
+class TabNavigatorRoutes {
+  static const String home = '/';
+  static const String search = '/';
+  static const String library = '/';
+  static const String artist = '/';
+  static const String premium = '/';
+  static const String settings = '//settings';
+  static const String premium2 = '//premium';
+}
