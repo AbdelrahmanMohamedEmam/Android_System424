@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       body: CustomScrollView(
@@ -46,26 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
             expandedHeight: 0,
             backgroundColor: Color.fromRGBO(18, 18, 18, 2),
             actions: <Widget>[
-              FlatButton(
+              IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(TabNavigatorRoutes.settings);
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (BuildContext context) {
-                  //       return SettingsScreen();
-                  //     },
-                  //   ),
-                  // );
-                  // _auth.logout();
-                  // Provider.of<PlaylistProvider>(context, listen: false)
-                  //     .emptyLists();
-                  // while(Navigator.of(context).canPop())
-                  //   Navigator.pop(context);
-                  // Phoenix.rebirth(context);
                 },
-                child: Text(
-                  'Logout',
-                  style: TextStyle(color: Colors.white),
+                icon: Icon(
+                  Icons.settings,
                 ),
               )
             ],
@@ -79,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     PlaylistList('Popular playlists'),
                     PlaylistList('Workout'),
                     AlbumList('Popular albums'),
+                    SizedBox(
+                      height: 70,
+                    )
                   ],
                 );
               },

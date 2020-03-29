@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import '../Widgets/seekBar.dart';
+import '../widgets/seekBar.dart';
+
 
 
 StreamBuilder panelBar(AudioPlayer _player) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
-import './premium_screen.dart';
-import '../../Widgets/trackPlayer.dart';
 import './tab_navigator.dart';
+import '../../Providers/user_provider.dart';
+import '../../Providers/playlist_provider.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(48, 44, 44, 1),
@@ -101,6 +104,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: Icon(
                 Icons.keyboard_arrow_right,
                 color: Colors.white,
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                _auth.logout();
+                Provider.of<PlaylistProvider>(context, listen: false)
+                    .emptyLists();
+               // while (Navigator.of(context).canPop()) Navigator.pop(context);
+                Phoenix.rebirth(context);
+              },
+              title: Text(
+                'Log out',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              subtitle: Text(
+                'You are logged in as Abdelrahman',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
               ),
             ),
           ],

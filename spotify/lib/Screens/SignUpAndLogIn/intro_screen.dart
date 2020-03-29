@@ -6,8 +6,7 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/choose_password_fb_screen.dart';
-import 'package:spotify/Widgets/trackPlayer.dart';
+import 'package:spotify/widgets/trackPlayer.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.

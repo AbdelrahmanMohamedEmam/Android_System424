@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-import 'package:spotify/Widgets/trackPlayer.dart';
+import 'package:spotify/widgets/trackPlayer.dart';
 
 //Import Providers
 import 'Providers/user_provider.dart';
