@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:spotify/Screens/MainApp/setting_screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
@@ -34,6 +35,7 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/MainApp/tabs_screen.dart';
 import 'Widgets/fav_artist_item.dart';
 import './Providers/artist_provider.dart';
+import './Screens/MainApp/setting_screen.dart';
 
 void main() {
   runApp(
@@ -48,39 +50,39 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: UserProvider(),
-        ),
-        ChangeNotifierProvider.value(
-          value: PlaylistProvider(),
-        ),
-        ChangeNotifierProvider.value(
-          value: AlbumProvider(),
-        ),
-        ChangeNotifierProvider.value(
-          value: ArtistProvider(),
-        ),
-      ],
-      child: Consumer<UserProvider>(
-        builder: (ctx, auth, _) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Spotify',
-          theme: ThemeData(
-            primarySwatch: Colors.green,
-            accentColor: Colors.black,
-            fontFamily: 'Lineto',
+        providers: [
+          ChangeNotifierProvider.value(
+            value: UserProvider(),
           ),
-
-                //home: //IntroScreen(),
-                  home: //TabsScreen(),
-                     auth.isAuth
-                       ? TabsScreen()
-                       : FutureBuilder(
-                           future: auth.tryAutoLogin(),
-                           builder: (ctx, authResultSnapshot) =>
-                                   IntroScreen(),
+          ChangeNotifierProvider.value(
+            value: PlaylistProvider(),
+          ),
+          ChangeNotifierProvider.value(
+            value: AlbumProvider(),
+          ),
+          ChangeNotifierProvider.value(
+            value: ArtistProvider(),
+          ),
+        ],
+        child: Consumer<UserProvider>(
+            builder: (ctx, auth, _) => MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Spotify',
+                  theme: ThemeData(
+                    primarySwatch: Colors.green,
+                    accentColor: Colors.black,
+                    fontFamily: 'Lineto',
                   ),
+
+                  //home: //IntroScreen(),
+                  home: //TabsScreen(),
+                      auth.isAuth
+                          ? TabsScreen()
+                          : FutureBuilder(
+                              future: auth.tryAutoLogin(),
+                              builder: (ctx, authResultSnapshot) =>
+                                  IntroScreen(),
+                            ),
                   //home:ChooseFavArtists(),
                   //home:SplashScreen(),
                   //home: TabsScreen(),
@@ -100,13 +102,12 @@ class MyApp extends StatelessWidget {
                     PremiumScreen.routeName: (ctx) => PremiumScreen(),
                     ArtistScreen.routeName: (ctx) => ArtistScreen(),
                     //PlaylistsListScreen.routeName: (ctx)=>PlaylistsListScreen()
-                    TabsScreen.routeName: (ctx)=> TabsScreen(),
-                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
-                    ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
-                    AboutScreen.routeName : (ctx) => AboutScreen(),
-                    SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
+                    TabsScreen.routeName: (ctx) => TabsScreen(),
+                    ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
+                    ReleasesScreen.routeName: (ctx) => ReleasesScreen(),
+                    AboutScreen.routeName: (ctx) => AboutScreen(),
+                    SongPromoScreen.routeName: (ctx) => SongPromoScreen(),
                   },
                 )));
-
   }
 }
