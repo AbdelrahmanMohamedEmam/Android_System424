@@ -174,10 +174,10 @@ class _MainWidgetState extends State<MainWidget> {
 
   Future<void> downloadSong() async {
     Dio dio = new Dio();
-    try{ await dio.download(song.href, songPath, options: Options(headers: {'authoization':'1234'}));}
+    /*try{ await dio.download(song.href, songPath, options: Options(headers: {'authoization':'1234'}));}
       catch(e){
-      
-   }
+
+   }*/
     var dir = (await path.getExternalStorageDirectory()).path;
     try {
       setState(() {
