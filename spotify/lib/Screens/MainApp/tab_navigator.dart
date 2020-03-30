@@ -6,6 +6,7 @@ import '../../widgets/bottom_navigation_bar.dart';
 import './home_screen.dart';
 import './setting_screen.dart';
 import './search_screen.dart';
+import '../ArtistProfile/see_discography_screen.dart';
 
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
@@ -23,6 +24,7 @@ class TabNavigatorRoutes {
   static const String premium = '/';
   static const String settings = '//settings';
   static const String premium2 = '//premium';
+  static const String discographyScreen = '//discographyScreen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -31,69 +33,36 @@ class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final TabItem tabItem;
 
-  // void _push(BuildContext context, {int materialIndex: 500}) {
-  //   var routeBuilders = _routeBuilders(context, materialIndex: materialIndex);
-
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) =>
-  //           routeBuilders[TabNavigatorRoutes.settings](context),
-  //     ),
-  //   );
-  // }
-
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
       {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.home: (context) => HomeScreen(),
-      TabNavigatorRoutes.settings: (context) => SettingsScreen(),
-      TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
-    };
-  }
-
-  Map<String, WidgetBuilder> _routeBuilders2(BuildContext context,
-      {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.search: (context) => SearchScreen(),
-    };
-  }
-
-  Map<String, WidgetBuilder> _routeBuilders3(BuildContext context,
-      {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.search: (context) => LibraryScreen(),
-    };
-  }
-
-  Map<String, WidgetBuilder> _routeBuilders4(BuildContext context,
-      {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.search: (context) => PremiumScreen(),
-    };
-  }
-
-  Map<String, WidgetBuilder> _routeBuilders5(BuildContext context,
-      {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.search: (context) => ArtistScreen(),
-    };
+    if (tabItem == TabItem.home) {
+      return {
+        TabNavigatorRoutes.home: (context) => HomeScreen(),
+        TabNavigatorRoutes.settings: (context) => SettingsScreen(),
+        TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
+      };
+    } else if (tabItem == TabItem.search) {
+      return {
+        TabNavigatorRoutes.search: (context) => SearchScreen(),
+      };
+    } else if (tabItem == TabItem.library) {
+      return {
+        TabNavigatorRoutes.library: (context) => LibraryScreen(),
+      };
+    } else if (tabItem == TabItem.premium) {
+      return {TabNavigatorRoutes.premium: (context) => PremiumScreen()};
+    } else {
+      return {
+        TabNavigatorRoutes.artist: (context) => ArtistScreen(),
+        TabNavigatorRoutes.discographyScreen: (context) => ReleasesScreen()
+      };
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var routeBuilders;
-    if (tabItem == TabItem.home) {
-      routeBuilders = _routeBuilders(context);
-    } else if (tabItem == TabItem.search) {
-      routeBuilders = _routeBuilders2(context);
-    } else if (tabItem == TabItem.library) {
-      routeBuilders = _routeBuilders3(context);
-    } else if (tabItem == TabItem.premium) {
-      routeBuilders = _routeBuilders4(context);
-    } else {
-      routeBuilders = _routeBuilders5(context);
-    }
+    var routeBuilders = _routeBuilders(context);
+
     return Navigator(
       key: navigatorKey,
       initialRoute: route,
