@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-import 'package:spotify/widgets/trackPlayer.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 
 //Import Providers
 import 'Providers/user_provider.dart';
@@ -32,6 +33,7 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
 void main() {
+
   runApp(
     Phoenix(
       child: MyApp(),
@@ -67,13 +69,8 @@ class MyApp extends StatelessWidget {
                     accentColor: Colors.black,
                     fontFamily: 'Lineto',
                   ),
-                  home: auth.isAuth
-                       ? MainWidget()
-                       : FutureBuilder(
-                           future: auth.tryAutoLogin(),
-                           builder: (ctx, authResultSnapshot) =>
-                                   IntroScreen(),
-                  ),
+
+                  home:SplashScreen(),
 
                   routes: {
                     CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
@@ -100,6 +97,8 @@ class MyApp extends StatelessWidget {
                     AboutScreen.routeName: (ctx) => AboutScreen(),
                     SongPromoScreen.routeName: (ctx) => SongPromoScreen(),
                     MainWidget.routeName: (ctx)=> MainWidget(),
+                    IntroScreen.routeName:(ctx)=> IntroScreen(),
+                    SplashScreen.routeName: (ctx)=> SplashScreen(),
                   },
                 ),
         ),

@@ -6,7 +6,7 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart' as fb;
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
-import 'package:spotify/widgets/trackPlayer.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.
@@ -24,7 +24,6 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-
 
 
   void _showErrorDialog(String message) {
@@ -114,7 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: deviceSize.width * 0.67,
+                width: deviceSize.width * 0.8,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
                   textColor: Colors.white,
@@ -124,7 +123,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0),
+                    borderRadius: BorderRadius.circular(20.0),
                     //side: BorderSide(color: Colors.green),
                   ),
                   onPressed: () {
@@ -139,10 +138,10 @@ class _IntroScreenState extends State<IntroScreen> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 15),
-                width: deviceSize.width * 0.67,
+                width: deviceSize.width * 0.8,
                 height: deviceSize.height * 0.065,
                 child:fb.FacebookSignInButton(
-                  borderRadius: 28.0,
+                  borderRadius: 20.0,
                   onPressed: () {
                     _submit();
 

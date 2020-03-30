@@ -77,6 +77,9 @@ class _MainWidgetState extends State<MainWidget> {
   AudioPlayer _player;
   String songPath;
   bool downloading;
+  bool downloaded;
+  bool deleted;
+  bool readyToPlay;
 
   static TabItem _currentTab = TabItem.home;
   bool hide = false;
@@ -148,7 +151,11 @@ class _MainWidgetState extends State<MainWidget> {
     _generatePalette();
     _player = AudioPlayer();
     downloading = true;
+    downloaded=false;
+    deleted=false;
+    readyToPlay=false;
     downloadSong();
+
   }
 
   Future<void> _generatePalette() async {
@@ -164,42 +171,68 @@ class _MainWidgetState extends State<MainWidget> {
     );
   }
 
+
   Future<void> downloadSong() async {
     Dio dio = new Dio();
+    try{ await dio.download(song.href, songPath, options: Options(headers: {'authoization':'1234'}));}
+      catch(e){
+      
+   }
     var dir = (await path.getExternalStorageDirectory()).path;
     try {
-      dio.download(song.href, '$dir/' + song.id);
       setState(() {
         downloading = true;
       });
+      await dio.download(song.href, '$dir/' + song.id).then((_){
+        setState(() {
+          downloaded=true;
+          downloading = false;
+          readyToPlay=true;
+          songPath = '$dir/' + song.id;
+          _player.setFilePath(songPath);
+
+        });
+      });
+
     } catch (e) {}
-    setState(() {
-      songPath = '$dir/' + song.id;
-      _player.setFilePath(songPath);
-      downloading = false;
-    });
   }
 
-  void deleteFile() {
+  void deleteFile() async {
     final dir = Directory(songPath);
-    print('h' + songPath);
-    dir.delete(recursive: true);
+      print('h' + songPath);
+      dir.delete(recursive: true);
+      setState(() {
+        deleted=true;
+        downloaded=false;
+      });
+
   }
 
   @override
   void dispose() {
-    deleteFile();
+    if(downloaded)
+      deleteFile();
     _player.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery
+        .of(context)
+        .size;
 
     _panelHeightOpen = deviceSize.height * 1;
     _panelHeightClosed = deviceSize.height * 0.09;
+    if (_player.playbackEvent.state == AudioPlaybackState.completed &&
+        !deleted) {
+      deleteFile();
+    }
+    if (readyToPlay && _player.playbackEvent.state!=AudioPlaybackState.none)
+    {
+      _player.play();
+      readyToPlay=false;
+    }
 
     StreamBuilder panelToolBar = StreamBuilder<FullAudioPlaybackState>(
       stream: _player.fullPlaybackStateStream,
@@ -215,7 +248,7 @@ class _MainWidgetState extends State<MainWidget> {
               child: IconButton(
                 icon: Icon(
                   Icons.favorite_border,
-                  color: Colors.white,
+                  color: Colors.white24,
                 ),
                 iconSize: deviceSize.height * 0.04,
               ),
@@ -226,10 +259,9 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.fast_rewind,
-                color: Colors.white,
+                color: Colors.white24,
               ),
               iconSize: deviceSize.height * 0.05,
-              onPressed: _player.play,
             ),
             if (downloading ||
                 state == AudioPlaybackState.connecting ||
@@ -266,7 +298,8 @@ class _MainWidgetState extends State<MainWidget> {
               onPressed: () {
                 setState(() {
                   _player.stop();
-                  deleteFile();
+                  if(!deleted)
+                    deleteFile();
                   widget.trackNumber = widget.trackNumber + 1;
                   init();
                 });
@@ -278,10 +311,9 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.share,
-                color: Colors.white,
+                color: Colors.white24,
               ),
               iconSize: deviceSize.height * 0.03,
-              onPressed: _player.play,
             ),
           ],
         );
@@ -313,7 +345,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.pause,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.03,
+                iconSize: deviceSize.height * 0.05,
                 onPressed: _player.pause,
               )
             else
@@ -322,7 +354,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.play_arrow,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.03,
+                iconSize: deviceSize.height * 0.05,
                 onPressed: _player.play,
               ),
           ],

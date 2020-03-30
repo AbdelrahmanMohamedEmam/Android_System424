@@ -55,13 +55,6 @@ class _CollapsedState extends State<Collapsed> {
                 width: deviceSize.width * 0.4,
               ),
               widget.playButton,
-              /*IconButton(
-                icon: Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                  size: deviceSize.height * 0.05,
-                )
-              )*/
             ],
           )
         ],

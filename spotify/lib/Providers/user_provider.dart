@@ -103,9 +103,10 @@ class UserProvider with ChangeNotifier {
   Future<void> setUser(String token) async {
     final url = 'http://www.mocky.io/v2/5e72794b330000b35444c94a';
 
-    try {
+    try{
       final response = await http.post(
         url,
+        headers: {'authorization':_token},
         body: jsonEncode(
           {
             "token": token,

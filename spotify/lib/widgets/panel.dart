@@ -4,7 +4,7 @@ import '../Models/track.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Panel extends StatefulWidget {
-  Function toHide;
+  final Function toHide;
   final Track song;
   final PanelController pc;
   final StreamBuilder bar;
@@ -58,7 +58,7 @@ class _PanelState extends State<Panel> {
                 onPressed: (){},
                 icon: Icon(
                   Icons.more_horiz,
-                  color: Colors.white,
+                  color: Colors.white24,
                 ),
                 iconSize: deviceSize.height * 0.05,
               ),

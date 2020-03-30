@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
+import 'splash_Screen.dart';
+import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
 import './tab_navigator.dart';
 import '../../Providers/user_provider.dart';
@@ -111,7 +114,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();
-               // while (Navigator.of(context).canPop()) Navigator.pop(context);
                 Phoenix.rebirth(context);
               },
               title: Text(
