@@ -1,88 +1,102 @@
+///Importing dart libraries to use it.
 import 'dart:ui';
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:spotify/Models/artist.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
-
-import '../Models/track.dart';
+///Importing widgets to use it.
 import 'collapsed.dart';
 import 'panel.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../Widgets/stream_builders.dart';
 
+///Importing models and providers to use it.
+import '../Models/track.dart';
+import '../Providers/playable_track.dart';
+
 
 class MainWidget extends StatefulWidget {
   static const routeName = '/main_screen';
-  List<Track> playlist = [
-    Track(
-        id: '1',
-        name: 'Sahran',
-        album: 'Sahran',
-        artists: [
-          Artist(
-            name: 'Amr Diab',
-            bio: '',
-          )
-        ],
-        imgUrl:
-            'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
-        href:
-            'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-02.Sahran.mp3',
-        trackNumber: 1),
-    Track(
-        id: '2',
-        name: 'Gamda Bas',
-        album: 'Sahran',
-        artists: [
-          Artist(
-            name: 'Amr Diab',
-            bio: '',
-          )
-        ],
-        imgUrl:
-            'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
-        href:
-            'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
-        trackNumber: 2)
-  ];
-  int trackNumber = 1;
-  MainWidget(); ////this.playlist, this.trackNumber});
+  MainWidget();
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> {
   ///Sliding panel attributes.
-  final double _initFabHeight = 120;
-  double _fabHeight;
-  double _panelHeightOpen;
-  double _panelHeightClosed;
-  var panelState;
-
+  ///
+  ///Panel controller object to control the sliding up panel.
   PanelController _pc = new PanelController();
+
+
+  //final double _initFabHeight = 120;
+  ///Palette Generator object to generate a matching background color for the panel.
   PaletteGenerator paletteGenerator;
 
-  Color back;
+  ///Background color for the palette.
+  Color background;
 
-  ///Song attributes
-  Track song;
+  ///
+  //double _fabHeight;
+
+  ///The height of the sliding up panel (Opened).
+  double _panelHeightOpen;
+
+  ///The height of the sliding up panel (Closed).
+  double _panelHeightClosed;
+
+  ///The height of the collapsed.
+  double collapsedHeight;
+
+  ///Is the collapsed widget hidden or not.
+  bool collapsedHide;
+
+  ///Is the panel opened or closed.
+  //var panelState;
+
+
+  ///Song attributes.
+  ///
+  ///The audio player object.
   AudioPlayer _player;
+
+  ///The path of the location that the song is downloaded at.
   String songPath;
+
+  ///Indicates if the the track is still downloading to show the progress indicator.
   bool downloading;
+
+  ///Indicates if the track is downloaded to check when deleting.
   bool downloaded;
+
+  ///Indicates if the track is deleted yet or not to avoid deleting an empty path.
   bool deleted;
+
+  ///Indicates if the song is downloaded and ready to be played.
   bool readyToPlay;
 
+  ///The song object.
+  Track song;
+
+
+
+  ///Navigation attributes
+  ///
+  /// Indicates which tab item is chosen by the user.
   static TabItem _currentTab = TabItem.home;
+
+  ///Is the bottom navigation bar hidden.
   bool hide = false;
+
+  ///A function to hide the bottom navigation bar.
   void toHide(bool toHide) {
     setState(() {
       hide = toHide;
@@ -90,6 +104,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   }
 
+
+  ///A map of global keys, holding a key for each tab.
   static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
     TabItem.search: GlobalKey<NavigatorState>(),
@@ -98,6 +114,7 @@ class _MainWidgetState extends State<MainWidget> {
     TabItem.artist: GlobalKey<NavigatorState>(),
   };
 
+  ///A list of the screens the user can access from the bottom navigation bar.
   final List<Widget> pages = [
     TabNavigator(
       route: TabNavigatorRoutes.search,
@@ -125,6 +142,9 @@ class _MainWidgetState extends State<MainWidget> {
       tabItem: TabItem.artist,
     ),
   ];
+
+
+  ///A function to change between selected tabs and appearing screens.
   void _selectTab(TabItem tabItem) {
     if (tabItem == _currentTab) {
       // pop to first route
@@ -135,79 +155,87 @@ class _MainWidgetState extends State<MainWidget> {
     setState(() => _currentTab = tabItem);
   }
 
+
+
   ///Initializations
   @override
   void initState() {
+    collapsedHide=false;
     super.initState();
     init();
   }
 
   void init() {
-    if (widget.playlist.length < widget.trackNumber) widget.trackNumber = 1;
-    song =
-        widget.playlist.firstWhere((x) => x.trackNumber == widget.trackNumber);
-    panelState = PanelState.CLOSED;
-    _fabHeight = _initFabHeight;
-    _generatePalette();
+    //panelState = PanelState.CLOSED;
     _player = AudioPlayer();
-    downloading = true;
-    downloaded=false;
-    deleted=false;
-    readyToPlay=false;
-    downloadSong();
-
+    if(song!=null) {
+     // _fabHeight = 120;
+      _generatePalette();
+      downloading = true;
+      downloaded = false;
+      deleted = false;
+      readyToPlay = false;
+      downloadSong();
+    }
   }
 
+
+
+  ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
-    PaletteGenerator _paletteGenerator =
-        await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
-            size: Size(110, 150), maximumColorCount: 20);
-    back = _paletteGenerator.darkMutedColor.color;
+    if(song!=null) {
+      PaletteGenerator _paletteGenerator =
+      await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
+          size: Size(110, 150), maximumColorCount: 20);
+      background = _paletteGenerator.darkMutedColor.color;
 
-    setState(
-      () {
-        paletteGenerator = _paletteGenerator;
-      },
-    );
+      setState(
+            () {
+          paletteGenerator = _paletteGenerator;
+        },
+      );
+    }
   }
 
 
+
+  ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
     Dio dio = new Dio();
-    /*try{ await dio.download(song.href, songPath, options: Options(headers: {'authoization':'1234'}));}
-      catch(e){
-
-   }*/
     var dir = (await path.getExternalStorageDirectory()).path;
     try {
       setState(() {
         downloading = true;
+        print('Downloading...');
       });
       await dio.download(song.href, '$dir/' + song.id).then((_){
-        setState(() {
-          downloaded=true;
-          downloading = false;
-          readyToPlay=true;
-          songPath = '$dir/' + song.id;
-          _player.setFilePath(songPath);
-
+         setState(() {
+            downloaded = true;
+            downloading = false;
+            readyToPlay = true;
+            songPath = '$dir/' + song.id;
+            _player.setFilePath(songPath);
+            _pc.open();
+            toHide(true);
+          });
         });
-      });
-
     } catch (e) {}
   }
 
+
+  ///Deleting the played mp3 file for its path and set flags.
   void deleteFile() async {
     final dir = Directory(songPath);
       print('h' + songPath);
-      dir.delete(recursive: true);
+      await dir.delete(recursive: true);
       setState(() {
         deleted=true;
         downloaded=false;
       });
-
   }
 
+
+  ///Freeing the memory after closing the app.
   @override
   void dispose() {
     if(downloaded)
@@ -216,26 +244,104 @@ class _MainWidgetState extends State<MainWidget> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    ///Getting the device size to use it when assigning sizes (Responsiveness).
     final deviceSize = MediaQuery
         .of(context)
         .size;
 
+    ///Assigning the whole size of the device to be the size of the panel (Opened).
     _panelHeightOpen = deviceSize.height * 1;
-    _panelHeightClosed = deviceSize.height * 0.09;
-    if (_player.playbackEvent.state == AudioPlaybackState.completed &&
-        !deleted) {
-      deleteFile();
-    }
-    if (readyToPlay && _player.playbackEvent.state!=AudioPlaybackState.none)
-    {
-      _player.play();
-      readyToPlay=false;
+
+    ///Instantiating a current track provider to get the current track.
+    ///Listen is true to rebuilt when a song is added to the provider.
+    final currentTrackProvider=Provider.of<PlayableTrackProvider>(context, listen: true);
+
+
+    ///Checking if there is a song requested to be played in the playable track provider.
+    if(currentTrackProvider.getWaitingStatus()){
+      setState(() {
+
+        ///Deleting the current song if found.
+        if(song!=null){
+          deleteFile();
+        }
+
+        ///Stopping the current song if any is being played.
+        if(_player.playbackEvent.state==AudioPlaybackState.playing){
+          _player.stop();
+        }
+
+        ///Get the requested song from the provider.
+        song=currentTrackProvider.getCurrentSong();
+
+        ///Make sure the collapsed widget isn't hidden.
+        collapsedHide=false;
+
+        ///Assigning the size of the collapsed widget.
+        _panelHeightClosed=deviceSize.height*0.09;
+
+        ///Initializing the audio player with the new track and setting some flags.
+        init();
+      });
+
     }
 
+
+    ///Check if there is a playing/paused song
+    if(song!=null) {
+
+      ///Deleting the song if finished.
+      if (_player.playbackState == AudioPlaybackState.completed &&
+          !deleted) {
+        deleteFile();
+      }
+
+      ///If the song is ready to play.
+      if (readyToPlay) {
+
+        ///Check the player is not yet connecting and play it automatically.
+        print('About to play');
+        if (_player.playbackState != AudioPlaybackState.connecting &&
+            _player.playbackState != AudioPlaybackState.none) {
+          print('Ready');
+          _player.play();
+          readyToPlay = false;
+        }
+        else {
+          print('Not Ready');
+          Timer(Duration(milliseconds: 500), () {
+            setState(() {
+              print('Timer Dne');
+              readyToPlay = false;
+              _player.play();
+            });
+          });
+        }
+      }
+      else {
+        collapsedHeight = deviceSize.height * 0.09;
+      }
+    }
+    ///Closing the collapsed widget if there is no song requested to be played.
+    else{
+      collapsedHide=true;
+      _panelHeightClosed=0;
+    }
+
+
+
+    ///Handling the tool bars of the panel and collapsed to be synchronized.
+    ///
+    ///Creating the tool bar to pass it to the panel.
     StreamBuilder panelToolBar = StreamBuilder<FullAudioPlaybackState>(
-      stream: _player.fullPlaybackStateStream,
+
+      ///Initializing the audio player attributes.
+      stream: song==null?null:_player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
         final state = fullState?.state;
@@ -243,6 +349,7 @@ class _MainWidgetState extends State<MainWidget> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            ///Add to favorites button.
             Container(
               margin: EdgeInsets.only(left: deviceSize.width * 0.05),
               child: IconButton(
@@ -256,6 +363,7 @@ class _MainWidgetState extends State<MainWidget> {
             SizedBox(
               width: deviceSize.width * 0.12,
             ),
+            ///Get the previous track button.
             IconButton(
               icon: Icon(
                 Icons.fast_rewind,
@@ -263,15 +371,20 @@ class _MainWidgetState extends State<MainWidget> {
               ),
               iconSize: deviceSize.height * 0.05,
             ),
+
+            ///Checks if the song is downloading or the player is connecting.
             if (downloading ||
                 state == AudioPlaybackState.connecting ||
                 buffering == true)
+              ///Showing a circular progress indicator if true.
               Container(
                 margin: EdgeInsets.all(8.0),
                 height: deviceSize.height * 0.05,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white) ,),
               )
+              ///Else, checking if the song is playing.
             else if (state == AudioPlaybackState.playing)
+              ///Showing a pause button if true.
               IconButton(
                 icon: Icon(
                   Icons.pause,
@@ -281,6 +394,7 @@ class _MainWidgetState extends State<MainWidget> {
                 onPressed: _player.pause,
               )
             else
+              ///Else, showing a play button.
               IconButton(
                 icon: Icon(
                   Icons.play_circle_filled,
@@ -289,25 +403,20 @@ class _MainWidgetState extends State<MainWidget> {
                 iconSize: deviceSize.height * 0.08,
                 onPressed: _player.play,
               ),
+
+            ///Get the next track button.
             IconButton(
               icon: Icon(
                 Icons.fast_forward,
-                color: Colors.white,
+                color: Colors.white24,
               ),
               iconSize: deviceSize.height * 0.05,
-              onPressed: () {
-                setState(() {
-                  _player.stop();
-                  if(!deleted)
-                    deleteFile();
-                  widget.trackNumber = widget.trackNumber + 1;
-                  init();
-                });
-              },
             ),
             SizedBox(
               width: deviceSize.width * 0.12,
             ),
+
+            ///Share this song button.
             IconButton(
               icon: Icon(
                 Icons.share,
@@ -322,8 +431,10 @@ class _MainWidgetState extends State<MainWidget> {
 
 
 
+    ///Creating the tool bar to pass it to the collapsed.
     StreamBuilder collapsedToolBar = StreamBuilder<FullAudioPlaybackState>(
-      stream: _player.fullPlaybackStateStream,
+      ///Initializing the audio player attributes.
+      stream: song==null?null:_player.fullPlaybackStateStream,
       builder: (context, snapshot) {
         final fullState = snapshot.data;
         final state = fullState?.state;
@@ -331,15 +442,18 @@ class _MainWidgetState extends State<MainWidget> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            ///Checking if the song is downloading or the player is connecting.
             if (downloading ||
                 state == AudioPlaybackState.connecting ||
                 buffering == true)
               Container(
                 margin: EdgeInsets.all(8.0),
                 height: deviceSize.height * 0.05,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white) ,),
               )
+              ///Checking if the song is playing.
             else if (state == AudioPlaybackState.playing)
+              ///Showing the pause button if true.
               IconButton(
                 icon: Icon(
                   Icons.pause,
@@ -349,6 +463,7 @@ class _MainWidgetState extends State<MainWidget> {
                 onPressed: _player.pause,
               )
             else
+              ///Else, show the play button.
               IconButton(
                 icon: Icon(
                   Icons.play_arrow,
@@ -364,7 +479,7 @@ class _MainWidgetState extends State<MainWidget> {
 
 
 
-    ///Sliding Up Panel Widget.
+
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
@@ -381,6 +496,8 @@ class _MainWidgetState extends State<MainWidget> {
         // let system handle back button if we're on the first route
         return isFirstRouteInCurrentTab;
       },
+
+      ///Sliding Up Panel Widget.
       child: Scaffold(
         bottomNavigationBar: hide
             ? Container(
@@ -392,29 +509,48 @@ class _MainWidgetState extends State<MainWidget> {
               ),
         body: SlidingUpPanel(
           controller: _pc,
-          defaultPanelState: panelState,
+          defaultPanelState: PanelState.CLOSED,
           backdropTapClosesPanel: true,
-          color: back, //Color.fromRGBO(0, 48, 24, 0.95),
+          color: background,
           maxHeight: _panelHeightOpen,
           minHeight: _panelHeightClosed,
           body: pages[_currentTab.index],
           panel: Panel(
             song: song,
             pc: _pc,
-            bar: panelBar(_player),
-            toolBar: panelToolBar,
+            bar: song==null?null:panelBar(_player),
+            toolBar: song==null?null:panelToolBar,
             toHide: toHide,
           ),
-          collapsed: InkWell(
+          collapsed: collapsedHide?Container():InkWell(
             onTap: ()=>setState(() {
               hide=true;
               _pc.open();
             }),
-            child:Collapsed(
-            song: song,
-            playButton: collapsedToolBar,
-            bar: collapsedBar(_player),
-          ),),
+            child:Slidable(
+              actionPane: SlidableBehindActionPane(),
+              actions: <Widget>[
+               IconSlideAction(
+                 caption: 'Close',
+                 color: Colors.red,
+                 icon: Icons.close,
+                 onTap: (){
+                   setState(() {
+                     _player.playbackEvent.state == AudioPlaybackState.playing? _player.stop():null;
+                     collapsedHide=true;
+                     _panelHeightClosed=0;
+                     song=null;
+                   });
+                 },
+               ),
+              ],
+              child:Collapsed(
+              song: song,
+              playButton: collapsedToolBar,
+              bar: collapsedBar(_player),
+              collapsedHeight: collapsedHeight,
+          ),)
+        ),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
           isDraggable: false,

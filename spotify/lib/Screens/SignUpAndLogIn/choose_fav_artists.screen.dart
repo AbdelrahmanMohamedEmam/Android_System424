@@ -1,5 +1,6 @@
 ///Importing this package to use flutter libraries.
 import'package:flutter/material.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
@@ -110,7 +111,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
       return;
     }
     Navigator.of(context).popUntil(ModalRoute.withName('/'));
-    //Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
   }
 
 

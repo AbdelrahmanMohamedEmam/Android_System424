@@ -17,28 +17,45 @@ import '../Models/user.dart';
 import '../Models/image.dart' as img;
 import '../Models/user_stats.dart';
 import 'package:spotify/Models/http_exception.dart';
+import '../API_Providers/userAPI.dart';
 
 ///A provider to allow the screens to access the user data.
 class UserProvider with ChangeNotifier {
+  final String baseUrl;
+  UserProvider({this.baseUrl});
+
   ///SignUp and Login Attributes.
+  ///
+  ///Contains the current user details.
   User _user;
+
+  ///Contains the token of the user.
   String _token;
+
+  ///Contains the expiry date of the token.
   DateTime _expiryDate;
+
+  ///A countdown to the expiry time.
   Timer _authTimer;
+
+  ///Indicates if the user signed up/logged in successfully.
   bool _status;
 
   ///Facebook Login Attributes.
+  ///An object of facebook plugin.
   var facebookLogin = FacebookLogin();
+
+  ///Indicates if the user logs in with facebook.
   bool _isLoggedInWithFB = false;
+
+  ///Contains the user data when logged in with facebook.
   Map userProfile;
 
-  ///Resetting Password Attributes.
+  ///Indicates if resetting password succeeded .
   bool resetSuccessful = false;
 
-  ///Constructor.
-  UserProvider();
-
-
+  /* ///Constructor.
+  UserProvider();*/
 
   ///UserInfo Getters.
   ///
@@ -90,8 +107,6 @@ class UserProvider with ChangeNotifier {
     return _user.resetPasswordToken;
   }
 
-
-
   ///UserInfo Setters.
   ///
   ///Setting the user to a premium/free user.
@@ -101,42 +116,16 @@ class UserProvider with ChangeNotifier {
 
   ///Initializing the user data after signing up/ logging in.
   Future<void> setUser(String token) async {
-    final url = 'http://www.mocky.io/v2/5e72794b330000b35444c94a';
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
-    try{
-      final response = await http.post(
-        url,
-        headers: {'authorization':_token},
-        body: jsonEncode(
-          {
-            "token": token,
-          },
-        ),
-      );
-
-      final responseData = jsonDecode(response.body);
-
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
-      } else {
-        _user = User.fromJson(responseData);
-        print(_user.id.toString());
-        print(_user.password.toString());
-        print(_user.email.toString());
-        print(_user.name.toString());
-        print(_user.externalUrl.toString());
-        print(_user.gender.toString());
-        print(_user.dateOfBirth.toString());
-        print(_user.country.toString());
-        print(_user.product);
-        notifyListeners();
-      }
+    try {
+      _user = await userAPI.setUser(_token);
+      print(_user.email);
     } catch (error) {
-      throw error;
+      print(error.toString());
+      throw HttpException(error.toString());
     }
   }
-
-
 
   ///Returns true if reset password request is successful.
   bool get isResetSuccessful {
@@ -150,9 +139,8 @@ class UserProvider with ChangeNotifier {
 
   ///Returns true if the user logged in with facebook.
   bool get isFbLogin {
-      return _isLoggedInWithFB;
-    }
-
+    return _isLoggedInWithFB;
+  }
 
   ///AUTHENTICATION SECTION
   ///
@@ -170,7 +158,7 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Sends a http request to signIn/signUp with facebook account.
-  Future<String> signInWithFB() async {
+  Future<void> signInWithFB() async {
     final result = await facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
@@ -184,7 +172,39 @@ class UserProvider with ChangeNotifier {
         print(token);
         userProfile = profile;
         _isLoggedInWithFB = true;
-        return profile['email'];
+
+        String facebookId = profile['id'];
+
+        try {
+          final response = await http
+              .post('http://www.mocky.io/v2/5e710a8130000086687a33e1', body: {
+            "access token": token,
+            "facebook id": facebookId,
+          });
+          final responseData = jsonDecode(response.body);
+
+          if (responseData['message'] != null) {
+            throw HttpException(responseData['message']);
+          } else {
+            _token = responseData['token'];
+            _status = responseData['success'];
+            print(_token.toString());
+            _expiryDate = DateTime.now().add(Duration(days: 1));
+            _autoLogout();
+            notifyListeners();
+            final prefs = await SharedPreferences.getInstance();
+            final userData = json.encode(
+              {
+                'token': _token,
+                'expiryDate': _expiryDate.toIso8601String(),
+              },
+            );
+            print('FacebookLoginDone');
+            prefs.setString('userData', userData);
+          }
+        } catch (error) {
+          throw HttpException(error.toString());
+        }
         break;
 
       case FacebookLoginStatus.cancelledByUser:
@@ -201,23 +221,11 @@ class UserProvider with ChangeNotifier {
   ///Sends a request to signUp a new user.
   Future<void> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
-    final url = 'http://www.mocky.io/v2/5e710a8130000086687a33e1';
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
     try {
-      final response = await http.post(
-        url,
-        body: jsonEncode(
-          {
-            "email": email,
-            "password": password,
-            "gender": gender,
-            "dateOfBirth": dateOfBirth,
-            "username": username,
-          },
-        ),
-      );
 
-      final responseData = jsonDecode(response.body);
+      final responseData = await userAPI.signUp(email, password, gender, username, dateOfBirth);
 
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
@@ -235,18 +243,18 @@ class UserProvider with ChangeNotifier {
             'expiryDate': _expiryDate.toIso8601String(),
           },
         );
+        print(responseData);
         print('SignUpDone');
         prefs.setString('userData', userData);
       }
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
 
-
   ///Sends a request to signUp a new user with facebook.
-  Future<void> signUpWithFB(String email, String password, String username) async {
+  Future<void> signUpWithFB(
+      String email, String password, String username) async {
     final url = 'http://www.mocky.io/v2/5e710a8130000086687a33e1';
 
     try {
@@ -279,7 +287,7 @@ class UserProvider with ChangeNotifier {
             'expiryDate': _expiryDate.toIso8601String(),
           },
         );
-        _isLoggedInWithFB=true;
+        _isLoggedInWithFB = true;
         print('SignUpFBDone');
         prefs.setString('userData', userData);
       }
@@ -290,30 +298,20 @@ class UserProvider with ChangeNotifier {
 
   ///Sends a http request to sign in a user.
   Future<void> signIn(String email, String password) async {
-    final url = 'http://www.mocky.io/v2/5e74e4973000004496a5f7e5';
+//    final url = 'https://97b7d966-bab5-4a82-ac2d-ae47d01c3c58.mock.pstmn.io/signIn';
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
     try {
-      final response = await http.post(
-        url,
-        body: jsonEncode(
-          {
-            "email": email,
-            "password": password,
-          },
-        ),
-      );
-      print('31');
-      final responseData = jsonDecode(response.body);
-
+      final responseData = await userAPI.signIn(email, password);
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
         _expiryDate = DateTime.now().add(Duration(days: 1));
-        print(responseData);
         _autoLogout();
         notifyListeners();
+        print(responseData);
         final prefs = await SharedPreferences.getInstance();
         final userData = json.encode(
           {
@@ -327,33 +325,6 @@ class UserProvider with ChangeNotifier {
       print(error.toString());
       throw error;
     }
-  }
-
-  //Checking if the user already signed up with facebook.
-  Future<bool> checkSignedUpWithFB(String email)async{
-    final url = '';
-    try {
-      final response = await http.post(
-        url,
-        body: jsonEncode(
-          {
-            "email": email,
-          },
-        ),
-      );
-      final responseData = jsonDecode(response.body);
-
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
-      } else {
-        bool _exists = responseData['exists'];
-        return _exists;
-      }
-    } catch (error) {
-      print(error.toString());
-      throw error;
-    }
-
   }
 
   ///Sends a request to send an email to create a new password.
@@ -384,7 +355,6 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-
   ///Checks if the token cached is valid or not.
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
@@ -400,7 +370,7 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    setUser(_token);
+    await setUser(_token);
     notifyListeners();
     _autoLogout();
     return true;

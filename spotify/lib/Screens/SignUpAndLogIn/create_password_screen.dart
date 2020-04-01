@@ -12,10 +12,18 @@ class CreatePasswordScreen extends StatefulWidget {
 }
 
 class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
+
+  ///Indicates if the password is visible or the user or not.
   bool _passwordVisible;
+
+  ///Indicates if the data is validated or not.
   bool _validate;
+
+  ///Text controller to keep track with the password field.
   final passwordController= TextEditingController();
 
+
+  ///Initialization.
   @override
   void initState() {
     _passwordVisible = false;
@@ -23,10 +31,14 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
 
+    ///Getting the email from the previous screen.
     final email = ModalRoute.of(context).settings.arguments as String;
+
+    ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -37,6 +49,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          ///'Create a password' text.
           Container(
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
@@ -44,6 +57,8 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               style: TextStyle(color: Colors.white, fontSize: 22),
             ),
           ),
+
+          ///Text Input Field for the password.
           Container(
             margin: EdgeInsets.only(left: 25),
             width: deviceSize.width * 0.9,
@@ -73,6 +88,8 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
               controller: passwordController,
             ),
           ),
+
+          ///Next button
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -92,6 +109,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   ),
                   onPressed: () {
                     if (passwordController.text.length>=8) {
+                      ///Pushing the add birth date screen.
                       Navigator.pushNamed(
                           context, AddBirthDateScreen.routeName, arguments:
                       {

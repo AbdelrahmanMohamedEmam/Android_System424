@@ -8,6 +8,9 @@ import './tab_navigator.dart';
 import '../../Providers/user_provider.dart';
 import '../../Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
+import '../../Providers/playable_track.dart';
+import '../../Models/track.dart';
+import '../../Models/artist.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -62,6 +65,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(TabNavigatorRoutes.premium2);
+
+                  /*Provider.of<PlayableTrackProvider>(context, listen: false).setCurrentSong(
+                      Track(
+                          id: '1',
+                          name: 'Sahran',
+                          album: 'Sahran',
+                          artists: [
+                            Artist(
+                              name: 'Amr Diab',
+                              bio: '',
+                            )
+                          ],
+                          imgUrl:
+                          'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
+                          href:
+                          'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-02.Sahran.mp3',
+                          trackNumber: 1));
+*/
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
                   //     builder: (BuildContext context) {
@@ -111,6 +132,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             ListTile(
               onTap: () {
+                /*Provider.of<PlayableTrackProvider>(context, listen: false).setCurrentSong(
+                    Track(
+                        id: '2',
+                        name: 'Gamda Bas',
+                        album: 'Sahran',
+                        artists: [
+                          Artist(
+                            name: 'Amr Diab',
+                            bio: '',
+                          )
+                        ],
+                        imgUrl:
+                        'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
+                        href:
+                        'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+                        trackNumber: 1));*/
+
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();

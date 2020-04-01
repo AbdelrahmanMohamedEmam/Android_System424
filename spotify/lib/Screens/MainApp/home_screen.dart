@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/MainApp/setting_screen.dart';
@@ -12,6 +13,8 @@ import '../../widgets/album_list_widget.dart';
 import './tab_navigator.dart';
 //import 'package:spotify/Providers/artist_provider.dart';
 import '../../Widgets/trackPlayer.dart';
+import '../../Models/track.dart';
+import '../../Models/artist.dart';
 import '../../main.dart' as main;
 
 class HomeScreen extends StatefulWidget {
@@ -48,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(TabNavigatorRoutes.settings);
+
                 },
                 icon: Icon(
                   Icons.settings,
