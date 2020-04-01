@@ -1,17 +1,18 @@
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 
-///Importing the screens to navigate to it.
-import 'add_birthdate_screen.dart';
 
-class CreatePasswordScreen extends StatefulWidget {
-  static const routeName = '/create_password_screen';
+///Importing the screens to navigate to it.
+import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
+
+class CreatePasswordFBScreen extends StatefulWidget {
+  static const routeName = '/create_password_fb_screen';
 
   @override
-  _CreatePasswordScreenState createState() => _CreatePasswordScreenState();
+  _CreatePasswordFBScreenState createState() => _CreatePasswordFBScreenState();
 }
 
-class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
+class _CreatePasswordFBScreenState extends State<CreatePasswordFBScreen> {
   bool _passwordVisible;
   bool _validate;
   final passwordController= TextEditingController();
@@ -41,7 +42,14 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'Create a password',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.08),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            child: Text(
+              'You can use this passowrd to login to your account later.',
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.03),
             ),
           ),
           Container(
@@ -84,7 +92,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   textColor: Theme.of(context).accentColor,
                   color: Colors.grey,
                   child: Text(
-                    'NEXT',
+                    'Sign Up',
                     style: TextStyle(fontSize: 16),
                   ),
                   shape: RoundedRectangleBorder(
@@ -93,7 +101,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   onPressed: () {
                     if (passwordController.text.length>=8) {
                       Navigator.pushNamed(
-                          context, AddBirthDateScreen.routeName, arguments:
+                          context, ChooseFavArtists.routeName, arguments:
                       {
                         'email': email,
                         'password': passwordController.text

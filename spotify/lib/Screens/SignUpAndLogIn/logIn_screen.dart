@@ -1,10 +1,20 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
-import 'package:spotify/Screens/MainApp/tabs_screen.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
+
+///Importing the screens to navigate to it.
 import 'forgot_password_email_screen.dart';
-import '../../Providers/user_provider.dart';
+import '../../Widgets/trackPlayer.dart';
+
+///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
+import '../../Providers/user_provider.dart';
+
+///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
+
 
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login_screen';
@@ -77,8 +87,8 @@ class _LogInScreenState extends State<LogInScreen> {
           return;
         }
         print('3');
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+       // Navigator.of(context).popUntil(ModalRoute.withName('/'));
+        Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
       }
 
   }
