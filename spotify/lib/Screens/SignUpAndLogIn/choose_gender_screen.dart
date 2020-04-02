@@ -11,9 +11,17 @@ class ChooseGenderScreen extends StatelessWidget {
   static const routeName = '/choose_gender_screen';
   @override
   Widget build(BuildContext context) {
+
+    ///Creating a map to receive the data of the user in.
     final Map userData = ModalRoute.of(context).settings.arguments as Map;
+
+    ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
+
+    ///A String holding the selected gender (Male as default).
     String gender='Male';
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Account'),
@@ -23,6 +31,7 @@ class ChooseGenderScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          ///'What is your gender' Text.
           Container(
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
@@ -30,6 +39,8 @@ class ChooseGenderScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 22),
             ),
           ),
+
+          ///The drop down menu showing both genders as choices.
           Container(
             margin: EdgeInsets.only(left: 25),
             width: deviceSize.width * 0.9,
@@ -53,6 +64,8 @@ class ChooseGenderScreen extends StatelessWidget {
                   .toList(),
             ),
           ),
+
+          ///Next button.
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -71,6 +84,7 @@ class ChooseGenderScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
+                    ///Pushing the choose a username screen and passing the data to it.
                     Navigator.pushNamed(context, ChooseNameScreen.routeName, arguments: {
                       'email':userData['email'],
                       'password':userData['password'],

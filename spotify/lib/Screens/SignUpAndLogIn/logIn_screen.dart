@@ -57,8 +57,6 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> _submit(userData) async {
-    print('2');
-
     final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
       await _auth.signIn(
@@ -69,6 +67,7 @@ class _LogInScreenState extends State<LogInScreen> {
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
+      return;
     } catch (error) {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
@@ -77,17 +76,18 @@ class _LogInScreenState extends State<LogInScreen> {
     }
     if(_auth.isLoginSuccessfully)
       {
-        print('LoggedIn');
         try {
-          await _auth.setUser('1');
-        }catch(error){
+          await _auth.setUser(_auth.token);
+        }on HttpException catch (error) {
+          var errorMessage = error.toString();
+          _showErrorDialog(errorMessage);
+          return;
+        } catch(error){
           const errorMessage =
               'Could not authenticate you. Please try again later.';
           _showErrorDialog(errorMessage);
           return;
         }
-        print('3');
-       // Navigator.of(context).popUntil(ModalRoute.withName('/'));
         Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
       }
 

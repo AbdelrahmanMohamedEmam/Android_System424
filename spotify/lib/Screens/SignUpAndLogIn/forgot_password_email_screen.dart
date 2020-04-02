@@ -30,8 +30,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
     super.initState();
   }
 
-
-
+  ///A function to show an error dialog when needed.
   void _showErrorDialog(String message) {
     showDialog(
       barrierDismissible: false,
@@ -51,32 +50,35 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
     );
   }
 
+  ///A function to call the request responsible for forgetting the password.
   Future<void> _submit(String email) async {
-    final _auth=Provider.of<UserProvider>(context, listen: false);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     try {
       await _auth.forgetPassword(
         email,
       );
+
+      ///Handling any error from the backend by showing a dialog.
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
+
+      ///Handling connection error or unplanned errors.
     } catch (error) {
-      const errorMessage =
-          'Check the email address and try again.';
+      const errorMessage = 'Check the email address and try again.';
       _showErrorDialog(errorMessage);
       return;
     }
-    if(_auth.resetSuccessful) {
-      Navigator.pushNamed(
-          context, CheckEmailScreen.routeName);
-    }
-    //Navigator.of(context).pop();
-  }
 
+    ///Checks if the reset succeeded.
+    if (_auth.resetSuccessful) {
+      Navigator.pushNamed(context, CheckEmailScreen.routeName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _auth =  Provider.of<UserProvider>(context, listen: false);
+    ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -87,20 +89,23 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          ///'Email' Text.
           Container(
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
-              'Email or Username',
+              'Email',
               style: TextStyle(color: Colors.white, fontSize: 22),
             ),
           ),
+
+          ///Text input field to take the email.
           Container(
             margin: EdgeInsets.only(left: 25, bottom: 10),
             width: deviceSize.width * 0.9,
             child: TextFormField(
               controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Email or Username',
+                labelText: 'Email',
                 filled: true,
                 fillColor: Colors.grey,
                 helperText: 'We\'ll send you an email to reset your password.',
@@ -112,6 +117,8 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
               keyboardType: TextInputType.emailAddress,
             ),
           ),
+
+          ///Show an error text if needed.
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -125,6 +132,8 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
                     )
             ],
           ),
+
+          ///'Get Link' Button.
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -143,15 +152,17 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-                    bool isValid = EmailValidator.validate(emailController.text);
-                    if (emailController.text.isEmpty ||  !isValid) {
+                    ///Submitting the email to the request if it is valid.
+                    bool isValid =
+                        EmailValidator.validate(emailController.text);
+                    if (emailController.text.isEmpty || !isValid) {
                       setState(() {
                         _validate = false;
                       });
                     } else {
                       _submit(emailController.toString());
                     }
-                    },
+                  },
                 ),
               ),
             ],
