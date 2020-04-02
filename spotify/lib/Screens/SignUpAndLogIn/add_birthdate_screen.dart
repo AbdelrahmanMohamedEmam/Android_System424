@@ -14,11 +14,20 @@ class AddBirthDateScreen extends StatefulWidget {
 }
 
 class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
+  ///Instantiating a datetime object to save the selected date.
   DateTime _userPickedDate;
+
+  ///Text controller to keep track with the email field.
   TextEditingController birthDateController = TextEditingController();
+
+  ///The selected date as a string.
   String dateOfBirth;
+
+  ///Indicates if the data is validated or not.
   bool _validate;
 
+
+  ///Initialization.
   @override
   void initState() {
     _validate=true;
@@ -28,9 +37,9 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
     super.initState();
   }
 
+
+  ///A function to show the date picker.
   void _presentDatePicker() {
-
-
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -42,6 +51,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
       if (pickedDate == null) {
         return;
       }
+      ///Setting the text field text with the chosen date if found any.
       setState(() {
         _userPickedDate = pickedDate;
         birthDateController.text = _userPickedDate == null
@@ -59,11 +69,15 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map userData = ModalRoute.of(context).settings.arguments as Map;
-   // print(userData['email'].toString());
-   // print(userData['password'].toString());
 
+    ///Creating a map to save the user data at.
+    final Map userData = ModalRoute.of(context).settings.arguments as Map;
+
+
+    ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Account'),
@@ -73,6 +87,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          ///'What's your date of birth' text.
           Container(
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
@@ -80,6 +95,8 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
               style: TextStyle(color: Colors.white, fontSize: 22),
             ),
           ),
+
+          ///Text field showing the selected date.
           Container(
             margin: EdgeInsets.only(left: 25),
             width: deviceSize.width * 0.9,
@@ -106,6 +123,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
               showCursor: false,
             ),
           ),
+          ///Next button.
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -124,8 +142,9 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-
+                    ///Checking that a date is selected.
                     if(dateOfBirth!=null) {
+                      ///Pushing the choose gender screen and pass the data to it if true.
                       Navigator.pushNamed(
                           context, ChooseGenderScreen.routeName, arguments:
                           {

@@ -68,9 +68,11 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
     }
     if(_auth.isLoginSuccessfully)
     {
-      print('LoggedIn');
       try {
-        await _auth.setUser('1');
+        await _auth.setUser(_auth.token);
+      }on HttpException catch (error) {
+        var errorMessage = error.toString();
+        _showErrorDialog(errorMessage);
       }catch(error){
         const errorMessage =
             'Could not authenticate you. Please try again later.';

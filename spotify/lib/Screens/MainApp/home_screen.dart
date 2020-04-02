@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
@@ -8,7 +9,15 @@ import 'package:spotify/Providers/album_provider.dart';
 import '../../widgets/playlist_list_widget.dart';
 import '../../widgets/album_list_widget.dart';
 import './tab_navigator.dart';
+<<<<<<< HEAD
 import 'package:connectivity/connectivity.dart';
+=======
+//import 'package:spotify/Providers/artist_provider.dart';
+import '../../Widgets/trackPlayer.dart';
+import '../../Models/track.dart';
+import '../../Models/artist.dart';
+import '../../main.dart' as main;
+>>>>>>> c088ef47fea10f5f11e94fee6959827d733bd05e
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';

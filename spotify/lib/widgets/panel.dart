@@ -16,12 +16,11 @@ class Panel extends StatefulWidget {
 
 class _PanelState extends State<Panel> {
   var panelState;
-  AudioPlayer _player;
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Column(
+    return widget.song==null?Container(height: 0,):Column(
       children: <Widget>[
         SizedBox(
           height: deviceSize.height * 0.05,
