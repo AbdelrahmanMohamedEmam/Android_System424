@@ -19,10 +19,20 @@ class SongItemPlaylistList extends StatelessWidget {
           artistName,
           style: TextStyle(color: Colors.grey),
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.more_horiz),
-          onPressed: () {},
-          color: Colors.white,
+        trailing: Wrap(
+          spacing: 7,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.favorite_border),
+              onPressed: () {},
+              color: Colors.white,
+            ),
+            IconButton(
+              icon: Icon(Icons.more_horiz),
+              onPressed: () {},
+              color: Colors.white,
+            ),
+          ],
         ),
       ),
     );

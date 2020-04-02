@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Models/album.dart';
+import '../Screens/MainApp/tab_navigator.dart';
 
 class AlbumWidget extends StatelessWidget {
   @override
@@ -8,7 +9,9 @@ class AlbumWidget extends StatelessWidget {
     final album = Provider.of<Album>(context);
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(TabNavigatorRoutes.albumScreen);
+      },
       child: Container(
         height: deviceSize.height * 0.317,
         width: deviceSize.width * 0.341,
