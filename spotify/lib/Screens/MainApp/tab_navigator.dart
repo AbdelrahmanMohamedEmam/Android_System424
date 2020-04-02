@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
+import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
 import 'package:spotify/Screens/MainApp/library_screen.dart';
 import 'package:spotify/Screens/MainApp/premium_screen.dart';
 import '../../widgets/bottom_navigation_bar.dart';
 import './home_screen.dart';
-import './setting_screen.dart';
+import './Settings/setting_screen.dart';
 import './search_screen.dart';
 import '../ArtistProfile/see_discography_screen.dart';
+import '../MainApp/Settings/user_playlists_screen.dart';
+import '../MainApp/Settings/user_followers_screen.dart';
+import '../MainApp/Settings/user_followings_screen.dart';
+import '../MainApp/Settings/user_edit_profile_screen.dart';
 
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
@@ -25,6 +31,12 @@ class TabNavigatorRoutes {
   static const String settings = '//settings';
   static const String premium2 = '//premium';
   static const String discographyScreen = '//discographyScreen';
+  static const String profileScreen = '//profileScreen';
+  static const String userPlaylistsScreen = '//userPlaylistsScreen';
+  static const String userFollowersScreen = '//userFollowersScreen';
+  static const String userFollowingScreen = '//userFollowingScreen';
+  static const String userEditProfileScreen = '//userEditProfileScreen';
+  static const String changePasswordScreen = '//changePasswordScreen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -40,6 +52,17 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.home: (context) => HomeScreen(),
         TabNavigatorRoutes.settings: (context) => SettingsScreen(),
         TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
+        TabNavigatorRoutes.profileScreen: (context) => ProfileScreen(),
+        TabNavigatorRoutes.userPlaylistsScreen: (context) =>
+            UserPlaylistsScreen(),
+        TabNavigatorRoutes.userFollowersScreen: (context) =>
+            UserFollowersScreen(),
+        TabNavigatorRoutes.userFollowingScreen: (context) =>
+            UserFollowingScreen(),
+        TabNavigatorRoutes.userEditProfileScreen: (context) =>
+            UserEditProfileScreen(),
+        TabNavigatorRoutes.changePasswordScreen: (context) =>
+            ChangePasswordScreen(),
       };
     } else if (tabItem == TabItem.search) {
       return {
@@ -62,7 +85,7 @@ class TabNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var routeBuilders = _routeBuilders(context);
-
+    
     return Navigator(
       key: navigatorKey,
       initialRoute: route,

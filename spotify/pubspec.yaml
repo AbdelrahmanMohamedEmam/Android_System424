@@ -35,6 +35,10 @@ dependencies:
   palette_generator: ^0.2.2
   dio: ^3.0.9
   path_provider: ^1.6.5
+  font_awesome_flutter: ^8.8.1
+  connectivity: ^0.4.8+2
+ 
+
   flutter_slidable: ^0.5.4
 
 
