@@ -19,12 +19,6 @@ class ReleasesScreen extends StatefulWidget {
 
 class _ReleasesScreenState extends State<ReleasesScreen> {
   void didChangeDependencies() async  {
-    await Provider.of<PlaylistProvider>(context , listen: false)
-        .fetchArtistProfilePlaylists();
-    await Provider.of<ArtistProvider>(context ,  listen: false)
-        .fetchMultipleArtists();
-    //await Provider.of<ArtistProvider>(context , listen: false)
-       // .fetchChoosedArtist();
     await Provider.of<AlbumProvider>(
         context, listen: false)
         .fetchPopularAlbums(

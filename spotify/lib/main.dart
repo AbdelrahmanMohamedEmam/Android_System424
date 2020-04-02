@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
+import 'package:charts_flutter/flutter.dart';
 
 //Import Providers
 import 'Providers/user_provider.dart';
@@ -17,10 +19,16 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
-//import 'Screens/Playlists/playlists_list_screen.dart';
+//import 'Screens/ArtistProfile/';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
 import 'Screens/ArtistProfile/song_promo_screen.dart';
+import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
+//import 'Screens/ArtistMode/';
+import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
+import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
+import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
+import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 //import 'Screens/MainApp/splash_Screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
@@ -105,6 +113,11 @@ class MyApp extends StatelessWidget {
                     ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
                     AboutScreen.routeName : (ctx) => AboutScreen(),
                     SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
+                    ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
+                    OverviewScreen.routeName : (ctx) => OverviewScreen(),
+                    StatsScreen.routeName : (ctx) => StatsScreen(),
+                    MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
+                    addSongScreen.routeName : (ctx) => addSongScreen(),
                   },
                 )));
 

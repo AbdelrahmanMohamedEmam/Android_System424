@@ -22,12 +22,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchMadeForYouPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchPopularPlaylists();
-    Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchWorkoutPlaylists();
+    //Provider.of<PlaylistProvider>(context, listen: false)
+      //  .fetchMadeForYouPlaylists();
+    //Provider.of<PlaylistProvider>(context, listen: false)
+      //  .fetchPopularPlaylists();
+    //Provider.of<PlaylistProvider>(context, listen: false)
+      //  .fetchWorkoutPlaylists();
 
     Provider.of<AlbumProvider>(context, listen: false).fetchPopularAlbums();
     super.initState();
@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<UserProvider>(context, listen: false);
+    print('home build mah');
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       body: CustomScrollView(

@@ -1,0 +1,43 @@
+{
+  "external_urls": {
+    "spotify": "https://open.spotify.com/artist/5abSRg0xN1NV3gLbuvX24M"
+  },
+  "followers": {
+    "href": null,
+    "total": 1446572
+  },
+  "genres": [
+    "arab pop",
+    "belly dance",
+    "egyptian pop",
+    "persian pop",
+    "rif"
+  ],
+  "href": "https://api.spotify.com/v1/artists/5abSRg0xN1NV3gLbuvX24M",
+  "id": "5abSRg0xN1NV3gLbuvX24M",
+  "images": [
+    {
+      "height": 640,
+      "url": "https://i.scdn.co/image/ee11ffb4c0f334e4c958ed051bbaf5f720751c9d",
+      "width": 640
+    },
+    {
+      "height": 320,
+      "url": "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
+      "width": 320
+    },
+    {
+      "height": 160,
+      "url": "https://i.scdn.co/image/f3faab75ae00902f4cbb00e00a9876fbcba41a29",
+      "width": 160
+    }
+  ],
+  "name": "Amr Diab",
+  "popularity": 62,
+  "type": "artist",
+  "uri": "spotify:artist:5abSRg0xN1NV3gLbuvX24M",
+  "artistInfo": {
+    "biography": "hjdjkkd;cmx",
+    "popularity": "kjdcnxlzaklsm;"
+  }
+}

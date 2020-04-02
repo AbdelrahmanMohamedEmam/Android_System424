@@ -8,6 +8,7 @@ class LoadingAlbumsWidget extends StatelessWidget {
   //LoadingAlbumsWidget(this.albumImage , this.albumName , this.albumYear);
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final album = Provider.of<Album>(context);
     return InkWell(
       child:
@@ -16,8 +17,8 @@ class LoadingAlbumsWidget extends StatelessWidget {
           padding : EdgeInsets.all(10),
           child: Image.network(
             album.images[0],
-            height: 70,
-            width: 70,
+            height: deviceSize.height *0.1,
+            width: deviceSize.width *0.1,
             fit: BoxFit.fill,
           ),
         ),
