@@ -7,6 +7,7 @@ import './home_screen.dart';
 import './setting_screen.dart';
 import './search_screen.dart';
 import '../ArtistProfile/see_discography_screen.dart';
+import '../Playlists/playlists_list_screen.dart';
 
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
@@ -25,6 +26,7 @@ class TabNavigatorRoutes {
   static const String settings = '//settings';
   static const String premium2 = '//premium';
   static const String discographyScreen = '//discographyScreen';
+  static const String playlistScreen='//playlists_list_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -40,6 +42,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.home: (context) => HomeScreen(),
         TabNavigatorRoutes.settings: (context) => SettingsScreen(),
         TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
+        TabNavigatorRoutes.playlistScreen:(context)=>PlaylistsListScreen(),
       };
     } else if (tabItem == TabItem.search) {
       return {
