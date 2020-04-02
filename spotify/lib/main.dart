@@ -33,7 +33,6 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
 void main() {
-
   runApp(
     Phoenix(
       child: MyApp(),
@@ -46,62 +45,60 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: UserProvider(),
-          ),
-          ChangeNotifierProvider.value(
-            value: PlaylistProvider(),
-          ),
-          ChangeNotifierProvider.value(
-            value: AlbumProvider(),
-          ),
-          ChangeNotifierProvider.value(
-            value: ArtistProvider(),
-          ),
-        ],
-        child: Consumer<UserProvider>(
-            builder: (ctx, auth, _) => MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Spotify',
-                  theme: ThemeData(
-                    primarySwatch: Colors.green,
-                    accentColor: Colors.black,
-                    fontFamily: 'Lineto',
-                  ),
-
-                  home:SplashScreen(),
-
-                  routes: {
-                    CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
-                    CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
-                    AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
-                    ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
-                    ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
-                    LogInScreen.routeName: (ctx) => LogInScreen(),
-                    GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
-                    CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
-                    HomeScreen.routeName: (ctx) => HomeScreen(),
-                    SearchScreen.routeName: (ctx) => SearchScreen(),
-                    LibraryScreen.routeName: (ctx) => LibraryScreen(),
-                    PremiumScreen.routeName: (ctx) => PremiumScreen(),
-                    ArtistScreen.routeName: (ctx) => ArtistScreen(),
-                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
-                    ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
-                    AboutScreen.routeName : (ctx) => AboutScreen(),
-                    SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
-                    CreatePasswordFBScreen.routeName : (ctx)=> CreatePasswordFBScreen(),
-                    CreatePasswordScreen.routeName : (ctx)=> CreatePasswordScreen(),
-                    ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
-                    ReleasesScreen.routeName: (ctx) => ReleasesScreen(),
-                    AboutScreen.routeName: (ctx) => AboutScreen(),
-                    SongPromoScreen.routeName: (ctx) => SongPromoScreen(),
-                    MainWidget.routeName: (ctx)=> MainWidget(),
-                    IntroScreen.routeName:(ctx)=> IntroScreen(),
-                    SplashScreen.routeName: (ctx)=> SplashScreen(),
-                  },
-                ),
+      providers: [
+        ChangeNotifierProvider.value(
+          value: UserProvider(),
         ),
+        ChangeNotifierProvider.value(
+          value: PlaylistProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: AlbumProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ArtistProvider(),
+        ),
+      ],
+      child: Consumer<UserProvider>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Spotify',
+          theme: ThemeData(
+            primarySwatch: Colors.green,
+            accentColor: Colors.black,
+            fontFamily: 'Lineto',
+          ),
+          home: SplashScreen(),
+          routes: {
+            CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
+            CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
+            AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
+            ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
+            ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
+            LogInScreen.routeName: (ctx) => LogInScreen(),
+            GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
+            CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            SearchScreen.routeName: (ctx) => SearchScreen(),
+            LibraryScreen.routeName: (ctx) => LibraryScreen(),
+            PremiumScreen.routeName: (ctx) => PremiumScreen(),
+            ArtistScreen.routeName: (ctx) => ArtistScreen(),
+            ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
+            ReleasesScreen.routeName: (ctx) => ReleasesScreen(),
+            AboutScreen.routeName: (ctx) => AboutScreen(),
+            SongPromoScreen.routeName: (ctx) => SongPromoScreen(),
+            CreatePasswordFBScreen.routeName: (ctx) => CreatePasswordFBScreen(),
+            CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
+            ChooseFavArtists.routeName: (ctx) => ChooseFavArtists(),
+            ReleasesScreen.routeName: (ctx) => ReleasesScreen(),
+            AboutScreen.routeName: (ctx) => AboutScreen(),
+            SongPromoScreen.routeName: (ctx) => SongPromoScreen(),
+            MainWidget.routeName: (ctx) => MainWidget(),
+            IntroScreen.routeName: (ctx) => IntroScreen(),
+            SplashScreen.routeName: (ctx) => SplashScreen(),
+          },
+        ),
+      ),
     );
   }
 }

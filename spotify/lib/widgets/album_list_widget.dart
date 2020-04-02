@@ -13,48 +13,45 @@ class AlbumList extends StatelessWidget {
   AlbumList(this.categoryTitle);
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final albumsProvider = Provider.of<AlbumProvider>(context);
     List<Album> albums;
     albums = albumsProvider.getPopularAlbums;
 
-    // if (categoryTitle == 'Popular playlists') {
-    //   playlists = playlistsProvider.getPopularPlaylists;
-    // } else if (categoryTitle == 'Made for you') {
-    //   playlists = playlistsProvider.getMadeForYouPlaylists;
-    // }
-
     return Container(
-      height: 280,
+      height: (deviceSize.height) * 0.3880,
       width: double.infinity,
       child: Column(
         children: <Widget>[
           Container(
-            height: 40,
+            height: ((deviceSize.height) * 0.4) * 0.14,
             width: double.infinity,
             margin: EdgeInsets.only(
-              bottom: 10,
-              left: 5,
-              top: 15,
+              bottom: ((deviceSize.height) * 0.4) * 0.0357,
+              left: deviceSize.width * 0.0244,
+              top: ((deviceSize.height) * 0.4) * 0.0535,
             ),
             child: Text(
               categoryTitle,
               style: TextStyle(
                 color: Color.fromRGBO(196, 189, 187, 20),
-                fontSize: 25,
+                fontSize: deviceSize.width * 0.0609,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.left,
             ),
           ),
           Container(
-            height: 215,
+            height: (deviceSize.height) * 0.2929,
             child: ListView.builder(
               itemCount: albums.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, i) => ChangeNotifierProvider.value(
                 value: albums[i],
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: deviceSize.width * 0.0244,
+                  ),
                   child: AlbumWidget(),
                 ),
               ),
