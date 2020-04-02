@@ -1,10 +1,20 @@
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
-import 'package:spotify/Screens/MainApp/tabs_screen.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
+
+///Importing the screens to navigate to it.
 import 'forgot_password_email_screen.dart';
-import '../../Providers/user_provider.dart';
+import '../../Widgets/trackPlayer.dart';
+
+///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
+import '../../Providers/user_provider.dart';
+
+///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
+
 
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login_screen';
@@ -47,8 +57,6 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   Future<void> _submit(userData) async {
-    print('2');
-
     final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
       await _auth.signIn(
@@ -59,6 +67,7 @@ class _LogInScreenState extends State<LogInScreen> {
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
+      return;
     } catch (error) {
       const errorMessage =
           'Could not authenticate you. Please try again later.';
@@ -67,18 +76,19 @@ class _LogInScreenState extends State<LogInScreen> {
     }
     if(_auth.isLoginSuccessfully)
       {
-        print('LoggedIn');
         try {
-          await _auth.setUser('1');
-        }catch(error){
+          await _auth.setUser(_auth.token);
+        }on HttpException catch (error) {
+          var errorMessage = error.toString();
+          _showErrorDialog(errorMessage);
+          return;
+        } catch(error){
           const errorMessage =
               'Could not authenticate you. Please try again later.';
           _showErrorDialog(errorMessage);
           return;
         }
-        print('3');
-        Navigator.of(context).popUntil(ModalRoute.withName('/'));
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
       }
 
   }

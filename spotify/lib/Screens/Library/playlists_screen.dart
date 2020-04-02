@@ -18,8 +18,6 @@ class PlaylistsScreen extends StatelessWidget {
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
     List<Playlist> playlists;
     playlists = playlistsProvider.getMadeForYouPlaylists;
-    print('hello');
-    print(playlists[0].name);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
@@ -35,11 +33,12 @@ class PlaylistsScreen extends StatelessWidget {
             Container(
               height: 350,
               child: ListView.builder(
-                  itemCount: playlists.length,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                        value: playlists[i],
-                        child: FavPlaylistWidget(),
-                      )),
+                itemCount: playlists.length,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: playlists[i],
+                  child: FavPlaylistWidget(),
+                ),
+              ),
             ),
           ],
         ),

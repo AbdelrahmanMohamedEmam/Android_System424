@@ -1,8 +1,14 @@
-import 'package:flutter/cupertino.dart';
+///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+
+///Importing this widget to user the modified card widget.
 import '../../Widgets/premium_card.dart';
+
+///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
 

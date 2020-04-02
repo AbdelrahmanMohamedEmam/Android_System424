@@ -51,7 +51,6 @@ class PlaylistProvider with ChangeNotifier {
   ///A method that fetches for made for you playlists and set them in the made for you list.
   Future<void> fetchMadeForYouPlaylists() async {
     const url = 'http://www.mocky.io/v2/5e749227300000e613a5f49b';
-
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Playlist> loadedPlaylists = [];
@@ -67,6 +66,7 @@ class PlaylistProvider with ChangeNotifier {
     const url = 'http://www.mocky.io/v2/5e749724300000d431a5f4c6';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
+    
     final List<Playlist> loadedPlaylists = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedPlaylists.add(Playlist.fromJson(extractedList[i]));

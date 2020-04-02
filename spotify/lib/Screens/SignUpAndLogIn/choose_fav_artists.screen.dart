@@ -1,12 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+///Importing this package to use flutter libraries.
+import'package:flutter/material.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
+
+///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
-import '../../Providers/artist_provider.dart';
+
+///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
-import '../../Widgets/fav_artist_item.dart';
-import '../../Screens/MainApp/tabs_screen.dart';
-import '../../Models/artist.dart';
 import '../../Providers/artist_provider.dart';
+
+///Importing this file to use the circular widget for artist
+import '../../Widgets/fav_artist_item.dart';
+
+
 
 
 class Artist {
@@ -105,7 +111,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
       return;
     }
     Navigator.of(context).popUntil(ModalRoute.withName('/'));
-    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
   }
 
 
