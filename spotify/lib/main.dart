@@ -39,7 +39,7 @@ import './Providers/artist_provider.dart';
 
 void main() async {
   String mockUrl = 'https://b13325a9-1802-4805-ad26-6026c3b3eda3.mock.pstmn.io';
-  String url;
+  String url= '192.168.1.1';
   runApp(
     Phoenix(child: MyApp(url: mockUrl)),
   );
@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.black,
             fontFamily: 'Lineto',
           ),
-          home: IntroScreen(),
+          home: SplashScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
