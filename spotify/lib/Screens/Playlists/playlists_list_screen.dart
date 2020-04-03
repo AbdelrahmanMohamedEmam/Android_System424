@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
 
@@ -24,6 +25,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         "https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default";
     String playlistName = "Daily Mix 1";
     String madeForName = "Made for Farah Amr";
+    String noOfLikes = "1 LIKE";
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -55,19 +57,20 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                     /*PopupMenuItem(child: Text('Like'),value:0),
                   PopupMenuItem(child: Text('Share'),value:1),*/
                   ],
-                  icon: Icon(Icons.more_horiz),
+                  icon: Icon(Icons.more_vert),
                 )
               ],
               expandedHeight: 340,
               pinned: true,
               floating: false,
+              elevation: 0,
               flexibleSpace: FlexibleSpaceBar(
                 background: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(top: 50, bottom: 30),
-                      height: 180,
+                      padding: EdgeInsets.only(top: 50, bottom: 15),
+                      height: 210,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -81,12 +84,12 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       width: double.infinity,
                       child: Image.network(
                         image,
-                        fit: BoxFit.fitHeight,
-                        height: 180,
-                        width: 90,
+                        //colorBlendMode: BlendMode.colorBurn,
+                        //fit: BoxFit.fitHeight,
                       ),
                     ),
                     Container(
+                      height: 27,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -124,30 +127,38 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top:6.0),
-                      width: 110,
-                      height: 50,
-                      child: FloatingActionButton(
-                        onPressed: () {},
-                        backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                        child: Text('PLAY'),
-                      ),
-                    ),
                   ],
                 ),
               ),
+
+              bottom: PreferredSize(
+                child: Transform.translate(
+                  offset: Offset(0, 0),
+                  child: Container(
+                    width: 140.0,
+                    child: FloatingActionButton(
+                      onPressed: () {},
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      child: Text('PLAY'),
+                    ),
+                  ),
+                ),
+                preferredSize: Size.fromHeight(60),
+              ),
             ),
+            /*SliverPadding(
+              padding: EdgeInsets.only(bottom: 10.0),
+            ),*/
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   return Column(
                     children: <Widget>[
                       Container(
-                        height: 100,
+                        height: 70,
                         child: SongItemPlaylistList(),
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(25, 20, 20, 7.0),
@@ -156,7 +167,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                     ],
                   );
                 },
-                childCount: 1,
+                //childCount: 1,
               ),
             )
           ],
@@ -166,7 +177,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   }
 
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 200.0) {
+    if (_scrollController.offset >= 140.0) {
       setState(() {
         _isScrolled = true;
       });

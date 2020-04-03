@@ -20,7 +20,7 @@ class SongItemPlaylistList extends StatelessWidget {
           style: TextStyle(color: Colors.grey),
         ),
         trailing: Wrap(
-          spacing: 7,
+          spacing: 3,
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.favorite_border),
@@ -28,7 +28,7 @@ class SongItemPlaylistList extends StatelessWidget {
               color: Colors.white,
             ),
             IconButton(
-              icon: Icon(Icons.more_horiz),
+              icon: Icon(Icons.more_vert),
               onPressed: () {},
               color: Colors.white,
             ),

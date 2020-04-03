@@ -1,3 +1,5 @@
+import 'package:spotify/Models/artistInfo.dart';
+
 import './Models/tracks_ref.dart';
 import './Models/external_url.dart';
 import './Models/follower.dart';
@@ -8,6 +10,7 @@ import './Models/copyright.dart';
 import './Models/artist.dart';
 import './Models/track.dart';
 import './Models/external_id.dart';
+//import './Models/artistInfo.dart';
 
 List<Image> parceImage(imageJason) {
   var list = imageJason as List;
@@ -80,3 +83,12 @@ List<String> parseString(stringJson) {
   List<String> imageList = new List<String>.from(stringJson);
   return imageList;
 }
+
+
+
+/*List<ArtistInfo> parceArtistInfo(ArtistInfoJason) {
+  var list = ArtistInfoJason as List;
+  List<ArtistInfo> InfoList =
+  list.map((data) => ArtistInfo.fromJson(data)).toList();
+  return InfoList;
+}*/

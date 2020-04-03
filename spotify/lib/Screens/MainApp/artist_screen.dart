@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../ArtistProfile/artist_profile_screen.dart';
-
+import '../../Screens/ArtistMode/manage_profile_screen.dart';
 class ArtistScreen extends StatelessWidget {
   const ArtistScreen({Key key}) : super(key: key);
     static const   routeName='/artist_screen';
@@ -9,5 +9,6 @@ class ArtistScreen extends StatelessWidget {
 
     print('The artist screen is build');
     return ArtistProfileScreen();
+    //ManageProfileScreen();
   }
 }
