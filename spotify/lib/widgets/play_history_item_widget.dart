@@ -23,7 +23,7 @@ class PlayHistoryWidget extends StatelessWidget {
               artists: [
                 Artist(
                   name: 'Amr Diab',
-                  bio: '',
+                  //bio: '',
                 )
               ],
               imgUrl:

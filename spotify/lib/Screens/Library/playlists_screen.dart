@@ -33,11 +33,12 @@ class PlaylistsScreen extends StatelessWidget {
             Container(
               height: 350,
               child: ListView.builder(
-                  itemCount: playlists.length,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                        value: playlists[i],
-                        child: FavPlaylistWidget(),
-                      )),
+                itemCount: playlists.length,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: playlists[i],
+                  child: FavPlaylistWidget(),
+                ),
+              ),
             ),
           ],
         ),

@@ -5,7 +5,7 @@ import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/playable_track.dart';
 
 import '../Models/playlist.dart';
-//import '../Screens/Playlists/playlists_list_screen.dart';
+import '../Screens/MainApp/tab_navigator.dart';
 
 class PlaylistWidget extends StatelessWidget {
   @override
@@ -14,6 +14,7 @@ class PlaylistWidget extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
+        Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setCurrentSong(Track(
                 id: '1',
@@ -22,7 +23,7 @@ class PlaylistWidget extends StatelessWidget {
                 artists: [
                   Artist(
                     name: 'Amr Diab',
-                    bio: '',
+                    //bio: '',
                   )
                 ],
                 imgUrl:
