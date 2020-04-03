@@ -31,148 +31,132 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isConnected = false;
 
   @override
-<<<<<<< HEAD
   void initState() {
     //Provider.of<PlaylistProvider>(context, listen: false)
-      //  .fetchMadeForYouPlaylists();
+    //  .fetchMadeForYouPlaylists();
     //Provider.of<PlaylistProvider>(context, listen: false)
-      //  .fetchPopularPlaylists();
+    //  .fetchPopularPlaylists();
     //Provider.of<PlaylistProvider>(context, listen: false)
-      //  .fetchWorkoutPlaylists();
-=======
-  void didChangeDependencies() {
-    if (!_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<PlayHistoryProvider>(context, listen: false)
-          .fetchRecentlyPlayed();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopularPlaylists();
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchWorkoutPlaylists();
-      Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums()
-          .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+    //  .fetchWorkoutPlaylists();
+    void didChangeDependencies() {
+      if (!_isInit) {
+        setState(
+                () {
+              _isLoading = true;
+            });
+        Provider.of<PlayHistoryProvider>(
+            context, listen: false)
+            .fetchRecentlyPlayed(
+        );
+        Provider.of<PlaylistProvider>(
+            context, listen: false)
+            .fetchMadeForYouPlaylists(
+        );
+        Provider.of<PlaylistProvider>(
+            context, listen: false)
+            .fetchPopularPlaylists(
+        );
+        Provider.of<PlaylistProvider>(
+            context, listen: false)
+            .fetchWorkoutPlaylists(
+        );
+        Provider.of<AlbumProvider>(
+            context, listen: false)
+            .fetchPopularAlbums(
+        )
+            .then(
+                (_) {
+              setState(
+                      () {
+                    _isLoading = false;
+                  });
+            });
+      }
     }
->>>>>>> 1ca6f43230b8dcac3d7303c6eba68a1f22ad0223
 
-    super.didChangeDependencies();
-  }
+      super.didChangeDependencies(
+      );
+    }
 
-  @override
-  Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final _auth = Provider.of<UserProvider>(context, listen: false);
-    print('home build mah');
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(18, 18, 18, 2),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 0,
-            backgroundColor: Color.fromRGBO(18, 18, 18, 2),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  _auth.logout();
-                  Provider.of<PlaylistProvider>(context, listen: false)
-                      .emptyLists();
-                  while(Navigator.of(context).canPop())
-                    Navigator.pop(context);
-                  Phoenix.rebirth(context);
-                },
-                child: Text(
-                  'Logout',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
+    @override
+    Widget build(BuildContext context) {
+      final deviceSize = MediaQuery
+          .of(
+          context)
+          .size;
+      return _isLoading
+          ? Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.green,
+            valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.black),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Column(
-                  children: <Widget>[
-                    PlaylistList('Made for you'),
-                    PlaylistList('Popular playlists'),
-                    PlaylistList('Workout'),
-                    AlbumList('Popular albums'),
-                  ],
-                );
-              },
-              childCount: 1,
-=======
-    final deviceSize = MediaQuery.of(context).size;
-    return _isLoading
-        ? Scaffold(
-            backgroundColor: Colors.black,
-            body: Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.green,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-              ),
->>>>>>> 1ca6f43230b8dcac3d7303c6eba68a1f22ad0223
-            ),
-          )
-        : Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(40, 96, 65, 7.0),
-                  Color(0xFF191414),
-                ],
-                begin: Alignment.topLeft,
-                end: FractionalOffset(0.2, 0.2),
-              ),
-            ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: CustomScrollView(
-                slivers: <Widget>[
-                  SliverAppBar(
-                    expandedHeight: 0,
-                    backgroundColor: Colors.transparent,
-                    actions: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(TabNavigatorRoutes.settings);
-                        },
-                        icon: Icon(
-                          Icons.settings,
-                        ),
-                      )
-                    ],
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Column(
-                          children: <Widget>[
-                            RecentlyPlayedList(),
-                            PlaylistList('Made for you'),
-                            PlaylistList('Popular playlists'),
-                            PlaylistList('Workout'),
-                            AlbumList('Popular albums'),
-                            SizedBox(
-                              height: deviceSize.height * 0.1713,
-                            )
-                          ],
-                        );
-                      },
-                      childCount: 1,
+        ),
+      )
+          : Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromRGBO(
+                  40, 96, 65, 7.0),
+              Color(
+                  0xFF191414),
+            ],
+            begin: Alignment.topLeft,
+            end: FractionalOffset(
+                0.2, 0.2),
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 0,
+                backgroundColor: Colors.transparent,
+                actions: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(
+                          context)
+                          .pushNamed(
+                          TabNavigatorRoutes.settings);
+                    },
+                    icon: Icon(
+                      Icons.settings,
                     ),
                   )
                 ],
               ),
-            ),
-          );
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    return Column(
+                      children: <Widget>[
+                        RecentlyPlayedList(
+                        ),
+                        PlaylistList(
+                            'Made for you'),
+                        PlaylistList(
+                            'Popular playlists'),
+                        PlaylistList(
+                            'Workout'),
+                        AlbumList(
+                            'Popular albums'),
+                        SizedBox(
+                          height: deviceSize.height * 0.1713,
+                        )
+                      ],
+                    );
+                  },
+                  childCount: 1,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
-}

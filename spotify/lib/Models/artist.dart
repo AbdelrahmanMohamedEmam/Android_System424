@@ -40,9 +40,9 @@ class Artist with ChangeNotifier{
   });
 
   factory Artist.fromJson(Map<String, dynamic> json) {
-    print(json['artistInfo']);
+    //print(json['artistInfo']);
     return Artist(
-      externalUrls: json['externalUrls'],
+      externalUrls: json['external_urls'],
       followers: Follower.fromjson(json['followers']),
       //genres: json['genres'],
       href: json['href'],
