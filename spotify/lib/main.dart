@@ -5,20 +5,19 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-<<<<<<< HEAD
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
 import 'package:charts_flutter/flutter.dart';
-=======
+
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Screens/Song/song_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
->>>>>>> 1ca6f43230b8dcac3d7303c6eba68a1f22ad0223
+
 
 //Import Providers
 import 'Providers/play_history_provider.dart';
@@ -32,7 +31,7 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
-<<<<<<< HEAD
+
 //import 'Screens/ArtistProfile/';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
@@ -44,11 +43,10 @@ import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
 import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 //import 'Screens/MainApp/splash_Screen.dart';
-=======
+
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
 import 'Screens/ArtistProfile/song_promo_screen.dart';
->>>>>>> 1ca6f43230b8dcac3d7303c6eba68a1f22ad0223
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
 import 'Screens/SignUpAndLogIn/choose_gender_screen.dart';
@@ -103,50 +101,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.black,
             fontFamily: 'Lineto',
           ),
-<<<<<<< HEAD
 
-                //home: //IntroScreen(),
-                  home: //TabsScreen(),
-                     auth.isAuth
-                       ? TabsScreen()
-                       : FutureBuilder(
-                           future: auth.tryAutoLogin(),
-                           builder: (ctx, authResultSnapshot) =>
-                                   IntroScreen(),
-                  ),
-                  //home:ChooseFavArtists(),
-                  //home:SplashScreen(),
-                  //home: TabsScreen(),
-                  routes: {
-                    CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
-                    CreatePasswordScreen.routeName: (ctx) =>
-                        CreatePasswordScreen(),
-                    AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
-                    ChooseGenderScreen.routeName: (ctx) => ChooseGenderScreen(),
-                    ChooseNameScreen.routeName: (ctx) => ChooseNameScreen(),
-                    LogInScreen.routeName: (ctx) => LogInScreen(),
-                    GetEmailScreen.routeName: (ctx) => GetEmailScreen(),
-                    CheckEmailScreen.routeName: (ctx) => CheckEmailScreen(),
-                    HomeScreen.routeName: (ctx) => HomeScreen(),
-                    SearchScreen.routeName: (ctx) => SearchScreen(),
-                    LibraryScreen.routeName: (ctx) => LibraryScreen(),
-                    PremiumScreen.routeName: (ctx) => PremiumScreen(),
-                    ArtistScreen.routeName: (ctx) => ArtistScreen(),
-                    //PlaylistsListScreen.routeName: (ctx)=>PlaylistsListScreen()
-                    TabsScreen.routeName: (ctx)=> TabsScreen(),
-                    ChooseFavArtists.routeName:(ctx)=>ChooseFavArtists(),
-                    ReleasesScreen.routeName: (ctx) =>ReleasesScreen(),
-                    AboutScreen.routeName : (ctx) => AboutScreen(),
-                    SongPromoScreen.routeName : (ctx) => SongPromoScreen(),
-                    ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
-                    OverviewScreen.routeName : (ctx) => OverviewScreen(),
-                    StatsScreen.routeName : (ctx) => StatsScreen(),
-                    MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-                    addSongScreen.routeName : (ctx) => addSongScreen(),
-                  },
-                )));
-
-=======
           home: IntroScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
@@ -174,10 +129,14 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
+            ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
+            OverviewScreen.routeName : (ctx) => OverviewScreen(),
+            StatsScreen.routeName : (ctx) => StatsScreen(),
+            MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
+            addSongScreen.routeName : (ctx) => addSongScreen(),
           },
         ),
       ),
     );
->>>>>>> 1ca6f43230b8dcac3d7303c6eba68a1f22ad0223
   }
 }
