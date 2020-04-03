@@ -101,8 +101,12 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.black,
             fontFamily: 'Lineto',
           ),
+<<<<<<< HEAD
 
           home: IntroScreen(),
+=======
+          home: SplashScreen(),
+>>>>>>> bd1eedffb4496fcb4e3bfa50a0f1f05cebe80483
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),

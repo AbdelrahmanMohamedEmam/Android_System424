@@ -10,6 +10,7 @@ import './Settings/setting_screen.dart';
 import './search_screen.dart';
 import '../ArtistProfile/see_discography_screen.dart';
 import '../Playlists/playlists_list_screen.dart';
+import '../Albums/albums_list_screen.dart';
 import '../MainApp/Settings/user_playlists_screen.dart';
 import '../MainApp/Settings/user_followers_screen.dart';
 import '../MainApp/Settings/user_followings_screen.dart';
@@ -33,6 +34,7 @@ class TabNavigatorRoutes {
   static const String premium2 = '//premium';
   static const String discographyScreen = '//discographyScreen';
   static const String playlistScreen='//playlists_list_screen';
+  static const String albumScreen='//albums_list_screen';
   static const String profileScreen = '//profileScreen';
   static const String userPlaylistsScreen = '//userPlaylistsScreen';
   static const String userFollowersScreen = '//userFollowersScreen';
@@ -55,6 +57,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.settings: (context) => SettingsScreen(),
         TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
         TabNavigatorRoutes.playlistScreen:(context)=>PlaylistsListScreen(),
+        TabNavigatorRoutes.albumScreen:(context)=>AlbumsListScreen(),
         TabNavigatorRoutes.profileScreen: (context) => ProfileScreen(),
         TabNavigatorRoutes.userPlaylistsScreen: (context) =>
             UserPlaylistsScreen(),
