@@ -65,7 +65,7 @@ class _addSongScreenState extends State<addSongScreen> {
       FormData formData = new FormData.fromMap(
           {
             "files": [
-              MultipartFile.fromFileSync(_path,
+              MultipartFile.fromFile(_path,
               filename: fileName01),
         ],
       }

@@ -8,7 +8,7 @@ class ArtistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     print('The artist screen is build');
-    return ArtistProfileScreen();
-    //ManageProfileScreen();
+    return //ArtistProfileScreen();
+    ManageProfileScreen();
   }
 }

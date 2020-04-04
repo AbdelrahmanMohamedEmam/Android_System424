@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:spotify/Screens/MainApp/tab_navigator.dart';
 import '../../Models/artist.dart';
 import '../../Providers/artist_provider.dart';
 import 'package:provider/provider.dart';
+import '../../Screens/MainApp/tab_navigator.dart';
 
 
 class ManageProfileScreen extends StatefulWidget {
@@ -41,7 +43,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
 
   void _goToMymusic(BuildContext ctx ,)
   {
-    Navigator.of(ctx).pushNamed('/my_music_screen' ,);
+    Navigator.of(ctx).pushNamed(TabNavigatorRoutes.myMusicScreen,);
   }
 
   @override

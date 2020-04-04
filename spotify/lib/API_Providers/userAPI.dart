@@ -1,12 +1,16 @@
-import 'package:dio/dio.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import '../Models/http_exception.dart';
 import '../Models/user.dart';
 import 'dart:convert';
 class UserAPI{
-  String baseUrl;
+  final String baseUrl;
   UserAPI({this.baseUrl});
 
+
+  ///Facebook Login Attributes.
+  ///An object of facebook plugin.
+  var facebookLogin = FacebookLogin();
 
   Future<Map<String, dynamic>> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
@@ -27,6 +31,34 @@ class UserAPI{
       return responseData;
     } catch (error) {
       throw HttpException(error.toString());
+    }
+  }
+
+
+
+  ///Sends a request to send an email to create a new password.
+  Future<bool> forgetPassword(String email) async {
+  final url= baseUrl+'/resetPassword';
+
+    try {
+      final response = await http.post(
+       url,
+        body: jsonEncode(
+          {
+            "email": email,
+          },
+        ),
+      );
+     if(response.statusCode==204) {
+       return true;
+     }
+     else {
+         return false;
+     }
+
+    } catch (error) {
+      print(error.toString());
+      throw error;
     }
   }
 
@@ -93,5 +125,48 @@ class UserAPI{
     }
   }
 
+
+  ///Sends a http request to signIn/signUp with facebook account.
+  Future<Map<String,dynamic>> signInWithFB() async {
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=' +
+                token);
+        final profile = jsonDecode(graphResponse.body);
+        print(profile.toString());
+        print(token);
+
+        String facebookId = profile['id'];
+
+        try {
+          final response = await http
+              .post(baseUrl+'/loginWithFacebook', body: {
+            "access token": token,
+            "facebook id": facebookId,
+          });
+          final responseData = jsonDecode(response.body);
+
+          if (responseData['message'] != null) {
+            throw HttpException(responseData['message']);
+          } else {
+            return responseData;
+          }
+        } catch (error) {
+          throw HttpException(error.toString());
+        }
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        throw HttpException('Login With Facebook Cancelled');
+        break;
+      case FacebookLoginStatus.error:
+        throw HttpException('Login With Facebook Failed');
+        break;
+    }
+  }
 
 }

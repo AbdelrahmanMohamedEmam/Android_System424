@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
 
   void startTimer() {
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 5), () {
       navigateUser(); //It will redirect  after 3 seconds
     });
   }
