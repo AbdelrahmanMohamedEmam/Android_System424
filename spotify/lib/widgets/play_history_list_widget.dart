@@ -7,7 +7,6 @@ import 'package:spotify/widgets/play_history_item_widget.dart';
 import '../Providers/play_history_provider.dart';
 //import widgets
 
-
 class RecentlyPlayedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Models/play_history.dart';
+import 'package:spotify/Providers/play_history_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../tab_navigator.dart';
 
@@ -22,6 +24,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false);
+    final playHistory =
+        Provider.of<PlayHistoryProvider>(context, listen: false);
+    List<PlayHistory> recentlyPlayedartists =
+        playHistory.getRecentlyPlayedArtists;
     return Scaffold(
       backgroundColor: Colors.black,
       body: CustomScrollView(
@@ -76,7 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 22.5,
                     child: FloatingActionButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(TabNavigatorRoutes.userEditProfileScreen);
+                        Navigator.of(context).pushNamed(
+                            TabNavigatorRoutes.userEditProfileScreen);
                       },
                       backgroundColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
@@ -180,8 +187,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 25),
                       textAlign: TextAlign.center,
                     ),
+                    if (recentlyPlayedartists.length >= 1)
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                recentlyPlayedartists[0].context.image),
+                          ),
+                          title: Text(
+                            recentlyPlayedartists[0].context.name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'followers',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (recentlyPlayedartists.length >= 2)
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                recentlyPlayedartists[1].context.image),
+                          ),
+                          title: Text(
+                            recentlyPlayedartists[1].context.name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'followers',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (recentlyPlayedartists.length >= 3)
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                recentlyPlayedartists[2].context.image),
+                          ),
+                          title: Text(
+                            recentlyPlayedartists[2].context.name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'followers',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (recentlyPlayedartists.length > 3)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                              TabNavigatorRoutes.recentlyPlayedArtistsScreen);
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(left: 10, top: 10),
+                          child: Text(
+                            'See all',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
                     SizedBox(
-                      height: 500,
+                      height: 300,
                     ),
                   ],
                 );
