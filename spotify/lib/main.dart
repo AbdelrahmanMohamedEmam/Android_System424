@@ -102,9 +102,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lineto',
           ),
 
-
-          home: IntroScreen(),
+          //home: IntroScreen(),
           //home: SplashScreen(),
+          home: SplashScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
