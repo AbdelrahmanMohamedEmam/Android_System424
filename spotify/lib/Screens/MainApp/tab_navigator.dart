@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Screens/ArtistMode/add_album_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
@@ -15,7 +16,8 @@ import '../MainApp/Settings/user_playlists_screen.dart';
 import '../MainApp/Settings/user_followers_screen.dart';
 import '../MainApp/Settings/user_followings_screen.dart';
 import '../MainApp/Settings/user_edit_profile_screen.dart';
-
+import '../../Screens/ArtistMode/my_music_screen.dart';
+import '../../Screens/ArtistMode/add_album_screen.dart';
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
   TabItem.search: GlobalKey<NavigatorState>(),
@@ -41,6 +43,8 @@ class TabNavigatorRoutes {
   static const String userFollowingScreen = '//userFollowingScreen';
   static const String userEditProfileScreen = '//userEditProfileScreen';
   static const String changePasswordScreen = '//changePasswordScreen';
+  static const String myMusicScreen = '//my_music_screen';
+  static const String addAlbumScreen = '//add_album_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -83,7 +87,9 @@ class TabNavigator extends StatelessWidget {
     } else {
       return {
         TabNavigatorRoutes.artist: (context) => ArtistScreen(),
-        TabNavigatorRoutes.discographyScreen: (context) => ReleasesScreen()
+        TabNavigatorRoutes.discographyScreen: (context) => ReleasesScreen(),
+        TabNavigatorRoutes.myMusicScreen: (context) => MyMusicScreen(),
+        TabNavigatorRoutes.addAlbumScreen: (context) =>CreateAlbum(),
       };
     }
   }
