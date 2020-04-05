@@ -64,7 +64,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.home: (context) => HomeScreen(),
         TabNavigatorRoutes.settings: (context) => SettingsScreen(),
         TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
-        TabNavigatorRoutes.playlistScreen: (context) => PlaylistsListScreen(),
+       // TabNavigatorRoutes.playlistScreen: (context) => PlaylistsListScreen(),
         TabNavigatorRoutes.albumScreen: (context) => AlbumsListScreen(),
         TabNavigatorRoutes.profileScreen: (context) => ProfileScreen(),
         TabNavigatorRoutes.userPlaylistsScreen: (context) =>

@@ -10,11 +10,18 @@ class RecentlyPlayedArtistsScreen extends StatelessWidget {
         Provider.of<PlayHistoryProvider>(context, listen: false);
     final List<PlayHistory> recentlyPlayedArtists =
         playHistory.getRecentlyPlayedArtists;
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(48, 44, 44, 1),
+      backgroundColor: Color.fromRGBO(24, 20, 20, 1),
       appBar: AppBar(
-        title: Text('Recently played artists'),
-        backgroundColor: Color.fromRGBO(48, 44, 44, 1),
+        title: Container(
+          width: double.infinity,
+          child: Text(
+            'Recently played artists',
+            textAlign: TextAlign.left,
+          ),
+        ),
+        backgroundColor: Color.fromRGBO(24, 20, 20, 1),
       ),
       body: ListView.builder(
         itemCount: recentlyPlayedArtists.length,
@@ -41,6 +48,12 @@ class ListTileArtist extends StatelessWidget {
         style: TextStyle(
           color: Colors.white,
           fontSize: 20,
+        ),
+      ),
+      subtitle: Text(
+        'followers',
+        style: TextStyle(
+          color: Colors.grey,
         ),
       ),
     );

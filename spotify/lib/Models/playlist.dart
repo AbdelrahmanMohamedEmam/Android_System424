@@ -1,5 +1,6 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
+import 'package:spotify/Models/track.dart';
 
 //Import Models.
 import './external_url.dart';
@@ -41,6 +42,8 @@ class Playlist with ChangeNotifier {
   ///Refrence object to the tracks in this playlist.
   TracksRef tracks;
 
+  List<Track> tracks2;
+
   ///The type of this playlist.
   String type;
 
@@ -76,6 +79,7 @@ class Playlist with ChangeNotifier {
     this.popularity,
     this.noOfFollowers,
     this.category,
+    this.tracks2
   });
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(

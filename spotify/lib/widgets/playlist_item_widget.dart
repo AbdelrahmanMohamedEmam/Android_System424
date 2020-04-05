@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 import '../Models/playlist.dart';
 import '../Screens/MainApp/tab_navigator.dart';
@@ -14,7 +15,8 @@ class PlaylistWidget extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => PlaylistsListScreen(playlist.id)));
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setCurrentSong(Track(
                 id: '1',

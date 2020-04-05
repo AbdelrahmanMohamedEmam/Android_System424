@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Provider.of<PlayHistoryProvider>(context, listen: false);
     List<PlayHistory> recentlyPlayedartists =
         playHistory.getRecentlyPlayedArtists;
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: CustomScrollView(
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
-            backgroundColor: Colors.transparent,
+            backgroundColor: _isScrolled ? Colors.black : Colors.transparent,
             title: AnimatedOpacity(
               duration: Duration(milliseconds: 300),
               opacity: _isScrolled ? 1.0 : 0.0,
@@ -43,10 +44,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text(user.username),
             ),
             centerTitle: true,
-            actions: <Widget>[Icon(Icons.more_vert)],
-            expandedHeight: 300,
+            actions: <Widget>[
+              Icon(
+                Icons.more_vert,
+                color: Colors.grey,
+              )
+            ],
+            expandedHeight: deviceSize.height * 0.440,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(bottom: 8.0),
+              titlePadding:
+                  EdgeInsets.only(bottom: deviceSize.height * 0.011714),
               centerTitle: true,
               collapseMode: CollapseMode.parallax,
               background: Column(
@@ -54,14 +61,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 30, bottom: 20),
-                    height: 180,
-                    width: 150,
+                    margin: EdgeInsets.only(
+                      top: deviceSize.height * 0.0440,
+                      bottom: deviceSize.height * 0.02929,
+                    ),
+                    height: deviceSize.height * 0.264,
+                    width: deviceSize.width * 0.365,
                     child: CircleAvatar(
-                      maxRadius: 90,
+                      maxRadius: deviceSize.width * 0.219,
                       child: Text(
                         user.username[0],
-                        style: TextStyle(fontSize: 25),
+                        style: TextStyle(
+                          fontSize: deviceSize.height * 0.0367,
+                        ),
                       ),
                       backgroundColor: Colors.purple,
                     ),
@@ -70,16 +82,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     margin: EdgeInsets.all(10),
                     child: Text(
                       user.username,
+                      overflow: TextOverflow.fade,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25.0,
+                        fontSize: deviceSize.height * 0.0367,
                       ),
                     ),
                   ),
                   Container(
-                    width: 140,
-                    height: 22.5,
+                    width: deviceSize.width * 0.3407,
+                    height: deviceSize.height * 0.03295,
                     child: FloatingActionButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed(
@@ -87,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                       backgroundColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10), //
                           side: BorderSide(color: Colors.white)),
                       child: Text(
                         'EDIT PROFILE',
@@ -256,7 +269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                    if (recentlyPlayedartists.length > 3)
+                    if (recentlyPlayedartists.length > 2)
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pushNamed(

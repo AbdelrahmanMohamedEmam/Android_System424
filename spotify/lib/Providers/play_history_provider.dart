@@ -10,14 +10,19 @@ import '../Models/play_history.dart';
 
 class PlayHistoryProvider with ChangeNotifier {
   List<PlayHistory> _recentlyPlayed = [];
-  List<PlayHistory> _recentlyPlayedArtists = [];
 
   List<PlayHistory> get getRecentlyPlayed {
     return [..._recentlyPlayed];
   }
 
   List<PlayHistory> get getRecentlyPlayedArtists {
-    return [..._recentlyPlayedArtists];
+    List<PlayHistory> temp = [];
+    for (int i = 0; i < _recentlyPlayed.length; i++) {
+      if (_recentlyPlayed[i].context.type == "artist") {
+        temp.add(_recentlyPlayed[i]);
+      }
+    }
+    return [...temp];
   }
 
   void emptyList() {
@@ -31,9 +36,6 @@ class PlayHistoryProvider with ChangeNotifier {
     final List<PlayHistory> loadedPlaylists = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedPlaylists.add(PlayHistory.fromJson(extractedList[i]));
-      if (loadedPlaylists[i].context.type == "artist") {
-        _recentlyPlayedArtists.add(loadedPlaylists[i]);
-      }
     }
     _recentlyPlayed = loadedPlaylists;
     notifyListeners();
