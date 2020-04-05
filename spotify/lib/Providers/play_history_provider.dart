@@ -15,12 +15,22 @@ class PlayHistoryProvider with ChangeNotifier {
     return [..._recentlyPlayed];
   }
 
+  List<PlayHistory> get getRecentlyPlayedArtists {
+    List<PlayHistory> temp = [];
+    for (int i = 0; i < _recentlyPlayed.length; i++) {
+      if (_recentlyPlayed[i].context.type == "artist") {
+        temp.add(_recentlyPlayed[i]);
+      }
+    }
+    return [...temp];
+  }
+
   void emptyList() {
     _recentlyPlayed = [];
   }
 
   Future<void> fetchRecentlyPlayed() async {
-    const url = 'http://www.mocky.io/v2/5e85230d300000c14497ae39';
+    const url = 'http://www.mocky.io/v2/5e87e29131000059003f4771';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<PlayHistory> loadedPlaylists = [];

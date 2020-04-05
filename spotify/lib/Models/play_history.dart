@@ -12,8 +12,8 @@ class PlayHistory with ChangeNotifier {
   });
   factory PlayHistory.fromJson(Map<String, dynamic> json) {
     return PlayHistory(
-     // playedAt: json['playedAt'],
-     // context: json['context'],
+      playedAt: json['playedAt'],
+      context: Context.fromJson(json['context']),
     );
   }
 }
