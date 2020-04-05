@@ -65,7 +65,7 @@ class PremiumCard extends StatelessWidget {
                   height: deviceSize.height * 0.2,
                   width: deviceSize.width * 0.4,
                   child: Card(
-                    color:Color.fromRGBO(18, 161, 132, 1),
+                    color:Colors.green[800],//Color.fromRGBO(18, 161, 132, 1),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,

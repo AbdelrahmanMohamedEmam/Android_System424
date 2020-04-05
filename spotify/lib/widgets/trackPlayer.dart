@@ -37,7 +37,6 @@ class _MainWidgetState extends State<MainWidget> {
   PanelController _pc = new PanelController();
 
 
-  //final double _initFabHeight = 120;
   ///Palette Generator object to generate a matching background color for the panel.
   PaletteGenerator paletteGenerator;
 
@@ -394,7 +393,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.pause,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.08,
+                iconSize: deviceSize.height * 0.07,
                 onPressed: _player.pause,
               )
             else
@@ -404,7 +403,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.play_circle_filled,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.08,
+                iconSize: deviceSize.height * 0.07,
                 onPressed: _player.play,
               ),
 
@@ -417,7 +416,7 @@ class _MainWidgetState extends State<MainWidget> {
               iconSize: deviceSize.height * 0.05,
             ),
             SizedBox(
-              width: deviceSize.width * 0.12,
+              width: deviceSize.width * 0.11,
             ),
 
             ///Share this song button.

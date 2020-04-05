@@ -120,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();
-                // while (Navigator.of(context).canPop()) Navigator.pop(context);
+                //while (Navigator.of(context).canPop()) Navigator.pop(context);
                 Phoenix.rebirth(context);
               },
               title: Text(
