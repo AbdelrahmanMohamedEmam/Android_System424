@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/playlist.dart';
-import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
@@ -28,11 +27,15 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
     if (!_isInit) {
       playlistsProvider = Provider.of<PlaylistProvider>(context, listen: false)
           .fetchMadeForYouPlaylistTracksById(widget.playlistId)
-          .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+          .then(
+        (_) {
+          setState(
+            () {
+              _isLoading = false;
+            },
+          );
+        },
+      );
       playlistsProvider2 = Provider.of<PlaylistProvider>(context)
           .getMadeForYouPlaylistbyId(widget.playlistId);
       user = Provider.of<UserProvider>(context);
@@ -51,15 +54,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   @override
   Widget build(BuildContext context) {
     print('The list of songs in playlist screen is built');
-    
-
-
-
-    String image =
-        "https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default";
-    String playlistName = "Daily Mix 1";
-    String madeForName = "Made for Farah Amr";
-    String noOfLikes = "1 LIKE";
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -167,7 +161,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             padding: EdgeInsets.only(top: 10),
                             height: 50,
                             child: Text(
-                              'Made for' + user.username,
+                              'Made for ' + user.username + ' . ' + playlistsProvider2.popularity.toString()+' LIKES',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,
@@ -177,7 +171,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       ),
                     ),
 
-              
                     bottom: PreferredSize(
                       child: Transform.translate(
                         offset: Offset(0, 0),
@@ -196,9 +189,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       preferredSize: Size.fromHeight(60),
                     ),
                   ),
-                  /*SliverPadding(
-              padding: EdgeInsets.only(bottom: 10.0),
-            ),*/
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -217,14 +207,11 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return SizedBox(height: 600);
+                        return SizedBox(height: 300);
                       },
                       childCount: 1,
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 200,
-                  // ),
                 ],
               ),
             ),
