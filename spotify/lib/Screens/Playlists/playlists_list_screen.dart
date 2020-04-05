@@ -21,6 +21,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   @override
   Widget build(BuildContext context) {
     print('The list of songs in playlist screen is built');
+    
+
+
+
     String image =
         "https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default";
     String playlistName = "Daily Mix 1";
@@ -132,6 +136,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
               ),
 
               bottom: PreferredSize(
+                
                 child: Transform.translate(
                   offset: Offset(0, 0),
                   child: Container(
