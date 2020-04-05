@@ -217,9 +217,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       childCount: 1,
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 200,
-                  // ),
                 ],
               ),
             ),
