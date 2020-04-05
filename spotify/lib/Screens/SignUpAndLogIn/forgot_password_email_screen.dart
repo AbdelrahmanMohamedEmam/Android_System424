@@ -14,6 +14,8 @@ import '../../Models/http_exception.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
+
+///A screen to get the user email to send him a change password code.
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
   @override
