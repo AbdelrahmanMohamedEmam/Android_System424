@@ -17,17 +17,17 @@ class CheckEmailScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 5, deviceSize.width*0.05, deviceSize.width*0.03),
             child: Text(
               'Check you email',
-              style: TextStyle(color: Colors.white, fontSize: 28),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.075),
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 0, 0, 20),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.07, 0, deviceSize.width*0.05, deviceSize.width*0.05),
             child: Text(
               'We sent an email with a link to reset your password, kindly check your email and visit our website.',textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.04),
             ),
           ),
           Row(

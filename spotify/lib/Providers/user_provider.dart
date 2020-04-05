@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 ///Importing library to send http requests.
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
@@ -19,14 +18,17 @@ import '../Models/user_stats.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../API_Providers/userAPI.dart';
 
-///A provider to allow the screens to access the user data.
+///This class provides the data of the user to the whole application.
+///Provides the username, password, token, if he is premium or not, etc.
+///It is responsible to do authentication functions such as sign up, login, etc.
+///It is responsible to cache the data of the user to auto login him.
 class UserProvider with ChangeNotifier {
   final String baseUrl;
   UserProvider({this.baseUrl});
 
   ///SignUp and Login Attributes.
   ///
-  ///Contains the current user details.
+  ///An object of [User] that contains the current user details.
   User _user;
 
   ///Contains the token of the user.
@@ -42,6 +44,7 @@ class UserProvider with ChangeNotifier {
   bool _status;
 
   ///Facebook Login Attributes.
+  ///
   ///An object of facebook plugin.
   var facebookLogin = FacebookLogin();
 
@@ -51,8 +54,8 @@ class UserProvider with ChangeNotifier {
   ///Indicates if resetting password succeeded .
   bool resetSuccessful = false;
 
-  ///UserInfo Getters.
-  ///
+
+
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
     print(_user.role);
@@ -101,14 +104,15 @@ class UserProvider with ChangeNotifier {
     return _user.resetPasswordToken;
   }
 
-  ///UserInfo Setters.
-  ///
+
   ///Setting the user to a premium/free user.
   void setPremium(String premium) {
     _user.role = premium;
   }
 
   ///Initializing the user data after signing up/ logging in.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> setUser(String token) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
@@ -136,8 +140,7 @@ class UserProvider with ChangeNotifier {
     return _isLoggedInWithFB;
   }
 
-  ///AUTHENTICATION SECTION
-  ///
+
   /// Returns true if the user is authenticated.
   bool get isAuth {
     return token != null;
@@ -152,6 +155,8 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Sends a http request to signIn/signUp with facebook account.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signInWithFB() async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
@@ -185,6 +190,8 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Sends a request to signUp a new user.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
@@ -218,6 +225,8 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Sends a http request to sign in a user.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signIn(String email, String password) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
 
@@ -248,6 +257,8 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Sends a request to send an email to create a new password.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> forgetPassword(String email) async {
     UserAPI userAPI= UserAPI(baseUrl: baseUrl);
 
@@ -268,7 +279,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  ///Checks if the token cached is valid or not.
+  ///Checks if the token cached is valid or not to autologin the user.
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
@@ -288,6 +299,7 @@ class UserProvider with ChangeNotifier {
     _autoLogout();
     return true;
   }
+
 
   ///Nullify the data of the user to log him out.
   Future<void> logout() async {
@@ -314,5 +326,37 @@ class UserProvider with ChangeNotifier {
     }
     final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
+  }
+
+
+  ///Sends a http request to upgrade a user to premium.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  Future<void>  upgradePremium(String confirmationCode) async {
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    try {
+      final responseData = await userAPI.upgradePremium(confirmationCode, token);
+      if (responseData == true) {
+        setPremium('premium');
+        return;
+      }
+    } catch (error) {
+      print(error.toString());
+      throw error;
+    }
+  }
+
+
+  ///Sends a http request to send an email with a confirmation code to be a premium user.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  Future<void>  askForPremium() async {
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    try {
+
+      await userAPI.askForPremium(token);
+
+    } catch (error) {
+      print(error.toString());
+      throw error;
+    }
   }
 }

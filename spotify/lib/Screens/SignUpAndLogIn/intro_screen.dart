@@ -111,22 +111,22 @@ class _IntroScreenState extends State<IntroScreen> {
 
           ///'Millions of songs' Text.
           Container(
-            margin: EdgeInsets.fromLTRB(25, 10, 10, 5),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 10, 10, 5),
             child: Text(
               'Millions of songs.',
               style: TextStyle(
-                  fontSize: 30, color: Colors.white, fontFamily: 'Lineto'),
+                  fontSize: deviceSize.width*0.08, color: Colors.white, fontFamily: 'Lineto'),
               textAlign: TextAlign.left,
             ),
           ),
 
           ///'Free on Spotify' Text.
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 10, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 5, 10, 10),
             child: Text(
               'Free on Spotify.',
               style: TextStyle(
-                  fontSize: 30, color: Colors.white, fontFamily: 'Lineto'),
+                  fontSize: deviceSize.width*0.08, color: Colors.white, fontFamily: 'Lineto'),
               textAlign: TextAlign.left,
             ),
           ),
@@ -143,7 +143,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   color: Colors.green[700],
                   child: Text(
                     'SIGN UP FREE',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.045),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -181,7 +181,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 child: Text(
                   'LOG IN',
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: deviceSize.width*0.045,
                       color: Colors.grey,
                       decoration: TextDecoration.underline),
                 ),

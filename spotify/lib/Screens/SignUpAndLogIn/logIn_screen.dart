@@ -23,11 +23,22 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
+
+
+  ///Indicates if the password is visible to the user or not.
   bool _passwordVisible;
+
+  ///Indicates if the email and password are in the correct format or not.
   bool _validate;
+
+  ///Text controller for the password.
   final passwordController = TextEditingController();
+
+  ///Text controller fot the email.
   final emailController = TextEditingController();
 
+
+  ///Initializations.
   @override
   void initState() {
     _passwordVisible = false;
@@ -37,6 +48,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
 
 
+  ///A function to show an error dialog when needed.
   void _showErrorDialog(String message) {
     showDialog(
       barrierDismissible: false,
@@ -56,6 +68,10 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
+
+  ///A function called when 'Login' button is pressed.
+  ///It uses the [UserProvider] to send the a request to log the use in.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> _submit(userData) async {
     final _auth=Provider.of<UserProvider>(context, listen: false);
     try {
@@ -63,7 +79,6 @@ class _LogInScreenState extends State<LogInScreen> {
         userData['email'],
         userData['password'],
       );
-      print('1');
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);
@@ -95,8 +110,12 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
-    final _user = Provider.of<UserProvider>(context, listen: false);
+
+
+    //final _user = Provider.of<UserProvider>(context, listen: false);
     return  Scaffold(
       appBar: AppBar(
         title: Text('Log in'),
@@ -107,14 +126,14 @@ class _LogInScreenState extends State<LogInScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 5, 0, deviceSize.width*0.03),
             child: Text(
-              'Email or Username',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              'Email',
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: deviceSize.width*0.05),
             width: deviceSize.width * 0.9,
             child: TextFormField(
               controller: emailController,
@@ -130,16 +149,16 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(25, 20, 0, 5),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05,deviceSize.width*0.04, 0, deviceSize.width*0.03),
             child: Text(
               'Password',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.05),
             ),
           ),
           Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 25, top: 5, bottom: 20),
+                margin: EdgeInsets.only(left: deviceSize.width*0.05, top: 5, bottom: deviceSize.width*0.04),
                 width: deviceSize.width * 0.9,
                 child: TextFormField(
                   controller: passwordController,
@@ -183,7 +202,7 @@ class _LogInScreenState extends State<LogInScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top:deviceSize.width*0.05),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -191,7 +210,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   color: Colors.grey,
                   child: Text(
                     'LOGIN',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),
@@ -219,7 +238,7 @@ class _LogInScreenState extends State<LogInScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: EdgeInsets.only(top: deviceSize.width*0.04),
                 width: deviceSize.width * 0.6,
                 height: deviceSize.height * 0.05,
                 child: RaisedButton(
@@ -227,7 +246,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   color: Colors.transparent,
                   child: Text(
                     'Forgot Your Password?',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: deviceSize.width*0.03),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

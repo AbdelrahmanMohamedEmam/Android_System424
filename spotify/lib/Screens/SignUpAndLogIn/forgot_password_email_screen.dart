@@ -72,7 +72,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
 
     ///Checks if the reset succeeded.
     if (_auth.resetSuccessful) {
-      Navigator.of(context).popUntil(ModalRoute.withName('/'));
+      Navigator.of(context).pop();
       Navigator.pushNamed(context, CheckEmailScreen.routeName);
     }
   }
@@ -95,7 +95,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'Email',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.07),
             ),
           ),
 
