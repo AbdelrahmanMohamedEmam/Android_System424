@@ -21,19 +21,23 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
+  bool _isInit = false;
 
   @override
   void didChangeDependencies() {
-    playlistsProvider = Provider.of<PlaylistProvider>(context)
-        .fetchMadeForYouPlaylistTracksById(widget.playlistId)
-        .then((_) {
-      setState(() {
-        _isLoading = false;
+    if (!_isInit) {
+      playlistsProvider = Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYouPlaylistTracksById(widget.playlistId)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
       });
-    });
-    playlistsProvider2 = Provider.of<PlaylistProvider>(context)
-        .getMadeForYouPlaylistbyId(widget.playlistId);
-    user = Provider.of<UserProvider>(context);
+      playlistsProvider2 = Provider.of<PlaylistProvider>(context)
+          .getMadeForYouPlaylistbyId(widget.playlistId);
+      user = Provider.of<UserProvider>(context);
+    }
+    _isInit = true;
     super.didChangeDependencies();
   }
 
@@ -199,24 +203,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                               value: playlistsProvider2.tracks2[index],
                               child: SongItemPlaylistList(),
                             ),
-                            if (index == 6) SizedBox(height: 500),
                           ],
                         );
-
-                        // return Column(
-                        //   children: <Widget>[
-                        //     Container(
-                        //       height: 70,
-                        //       child: SongItemPlaylistList(
-                        //           playlistsProvider2.tracks2[index]),
-                        //       decoration: BoxDecoration(
-                        //         color: Color.fromRGBO(25, 20, 20, 7.0),
-                        //       ),
-                        //     )
-                        //   ],
-                        // );
                       },
-                      childCount: 6,
+                      childCount: playlistsProvider2.tracks2.length,
                     ),
                   ),
                   SliverList(
