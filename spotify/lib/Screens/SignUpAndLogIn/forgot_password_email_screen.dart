@@ -72,6 +72,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
 
     ///Checks if the reset succeeded.
     if (_auth.resetSuccessful) {
+      Navigator.of(context).popUntil(ModalRoute.withName('/'));
       Navigator.pushNamed(context, CheckEmailScreen.routeName);
     }
   }

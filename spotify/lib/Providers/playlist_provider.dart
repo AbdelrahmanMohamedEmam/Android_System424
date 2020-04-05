@@ -1,6 +1,7 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/Models/track.dart';
 
 //Import core libraries.
 import 'dart:convert';
@@ -42,6 +43,12 @@ class PlaylistProvider with ChangeNotifier {
     return [..._workoutPlaylists];
   }
 
+  Playlist getMadeForYouPlaylistbyId(String id) {
+    final playlistIndex =
+        _madeForYouPlaylists.indexWhere((playlist) => playlist.id == id);
+    return _madeForYouPlaylists[playlistIndex];
+  }
+
   void emptyLists() {
     _workoutPlaylists = [];
     _popularPlaylists = [];
@@ -66,7 +73,7 @@ class PlaylistProvider with ChangeNotifier {
     const url = 'http://www.mocky.io/v2/5e749724300000d431a5f4c6';
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
-    
+
     final List<Playlist> loadedPlaylists = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
@@ -101,5 +108,21 @@ class PlaylistProvider with ChangeNotifier {
     }
     _artistProfilePlaylists = loadedPlaylists;
     notifyListeners();
+  }
+
+  Future<void> fetchMadeForYouPlaylistTracksById(String id) async {
+    const url = 'http://www.mocky.io/v2/5e890f423100007b00d39bd2';
+    Playlist playlist = getMadeForYouPlaylistbyId(id);
+    final response = await http.get(url);
+    final extractedList = json.decode(response.body) as List;
+    final List<Track> loadedTracks = [];
+    for (int i = 0; i < extractedList.length; i++) {
+      loadedTracks.add(Track.fromJson2(extractedList[i]));
+    }
+    playlist.tracks2 = loadedTracks;
+    final playlistIndex =
+        _madeForYouPlaylists.indexWhere((playlist) => playlist.id == id);
+    _madeForYouPlaylists.removeAt(playlistIndex);
+    _madeForYouPlaylists.insert(playlistIndex, playlist);
   }
 }
