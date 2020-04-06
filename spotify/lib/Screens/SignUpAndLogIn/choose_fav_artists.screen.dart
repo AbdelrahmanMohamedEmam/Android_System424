@@ -8,6 +8,7 @@ import '../../Models/http_exception.dart';
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/artist_provider.dart';
+import '../../Models/artist.dart';
 
 ///Importing this file to use the circular widget for artist
 import '../../Widgets/fav_artist_item.dart';
@@ -15,35 +16,38 @@ import '../../Widgets/fav_artist_item.dart';
 
 
 
-class Artist {
+class Artist1 {
   String name;
   String id;
   String imageUrl;
-  Artist(this.name, this.id, this.imageUrl);
+  Artist1(this.name, this.id, this.imageUrl);
 }
 
 class ChooseFavArtists extends StatefulWidget {
   static const routeName = '/choose_fav_artists_screen';
-  final List<int> selectedIndices = [];
-   List<Artist> artists=[
-    Artist('Amr diab', '1','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
-    Artist('Mohamed Hamaki','2','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
-    Artist('Nancy Ajram','3','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
-    Artist('Sherine AbdelWahab','4','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
-    Artist('Fairouz','5','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
-    Artist('Coldplay','6','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
-    Artist('Maroon 5','7','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
-    Artist('Ed Sheeran','8','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
-    Artist('Amr diab', '9','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
-    Artist('Mohamed Hamaki','10','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
-    Artist('Nancy Ajram','11','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
-    Artist('Sherine AbdelWahab','12','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
-    Artist('Fairouz','13','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
-    Artist('Coldplay','14','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
-    Artist('Maroon 5','15','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
-    Artist('Ed Sheeran','16','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
-  ];
-  //List<Artist> artists=[];
+
+  /*
+   List<Artist1> artists=[
+    Artist1('Amr diab', '1','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
+    Artist1('Mohamed Hamaki','2','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
+    Artist1('Nancy Ajram','3','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
+    Artist1('Sherine AbdelWahab','4','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
+    Artist1('Fairouz','5','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
+    Artist1('Coldplay','6','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
+    Artist1('Maroon 5','7','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
+    Artist1('Ed Sheeran','8','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
+    Artist1('Amr diab', '9','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
+    Artist1('Mohamed Hamaki','10','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
+    Artist1('Nancy Ajram','11','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
+    Artist1('Sherine AbdelWahab','12','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
+    Artist1('Fairouz','13','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
+    Artist1('Coldplay','14','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
+    Artist1('Maroon 5','15','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
+    Artist1('Ed Sheeran','16','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
+  ];*/
+
+
+
 
 
 
@@ -59,19 +63,25 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
 
   List<bool> selected=[];
-
+  bool artistsLoaded;
+  List<Artist> artists=[];
+  List<int> selectedIndices = [];
 
   Future<void> _initializeList() async{
-  await Provider.of<ArtistProvider>(context, listen: false).fetchMultipleArtists();
-  //widget.artists= Provider.of<ArtistProvider>(context, listen: false).getMultipleArtists;
+    final artistProvider=Provider.of<ArtistProvider>(context, listen: false);
+    await artistProvider.fetchAllArtists().then((_){setState(() {
+      artistsLoaded=true;
+    });});
+    artists=  artistProvider.getAllArtists;
+    artists.forEach((_){
+      selected.add(false);
+    });
   }
 
   @override
   void initState()  {
-   // _initializeList();
-    widget.artists.forEach((_){
-      selected.add(false);
-    });
+    artistsLoaded=false;
+    _initializeList();
     super.initState();
   }
 
@@ -119,10 +129,10 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-
-      widget.selectedIndices.forEach((_){
+      selectedIndices.forEach((_){
         print(_.toString());
       });
+
 
     return Scaffold(
       appBar: AppBar(
@@ -137,10 +147,10 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
         backgroundColor: Colors.black,
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body: Column(
+      body: !artistsLoaded?CircularProgressIndicator():Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          widget.selectedIndices.length < 3
+          selectedIndices.length < 3
               ? SizedBox(
                   height: 0.001,
                 )
@@ -172,13 +182,13 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
               child: Column(
                 children: <Widget>[
                   Container(
-                      height:widget.selectedIndices.length < 3
+                      height:selectedIndices.length < 3
                           ? deviceSize.height * 0.8
                           : deviceSize.height * 0.7,
                       child: GridView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: widget.artists.length,
+                          itemCount: artists.length,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 160,
@@ -190,20 +200,20 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                             return InkWell(
                               onTap: (){
                                 setState(() {
-                                  if(widget.selectedIndices.contains(index)){
-                                    widget.selectedIndices.remove(index);
+                                  if(selectedIndices.contains(index)){
+                                    selectedIndices.remove(index);
                                   }
                                   else {
-                                    widget.selectedIndices.add(index);
+                                    selectedIndices.add(index);
                                   }
                                   selected[index]=!selected[index];
                                 });
                               },
                                 child:FavArtistItem(
                               selected: selected[index],
-                              id: widget.artists[index].id,
-                              artistName: widget.artists[index].name,
-                              imageUrl: widget.artists[index].imageUrl,
+                              id: artists[index].id,
+                              artistName: artists[index].name,
+                              imageUrl:artists[index].images[0].url,
                             ));
                           }))
                 ],

@@ -11,6 +11,7 @@ import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
 import 'package:charts_flutter/flutter.dart';
 
+
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
@@ -58,17 +59,26 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
 void main() async {
-  String mockUrl = 'https://b13325a9-1802-4805-ad26-6026c3b3eda3.mock.pstmn.io';
-  String url;
+
   runApp(
-    Phoenix(child: MyApp(url: mockUrl)),
+    Phoenix(child: MyApp(),)
   );
 }
 
 class MyApp extends StatelessWidget {
-  final String url;
-  MyApp({this.url});
-  // This widget is the root of your application.
+
+  ///API url.
+  String url;
+
+  ///Constructor.
+  MyApp();
+
+ ///A function to set the API url.
+ void setUrl(String configUrl){
+   url=configUrl;
+   print(url);
+ }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -104,7 +114,7 @@ class MyApp extends StatelessWidget {
 
           //home: IntroScreen(),
           //home: SplashScreen(),
-          home: SplashScreen(),
+          home: SplashScreen(setConfig: setUrl,),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),

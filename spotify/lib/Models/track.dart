@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 import '../Models/external_url.dart';
 import '../Models/external_id.dart';
 import '../Models/artist.dart';
 
 import '../utilities.dart';
 
-class Track {
+class Track with ChangeNotifier{
   final String name;
   final String id;
   final String album;
@@ -54,6 +56,15 @@ class Track {
       href: json['href'],
       previewUrl: json['previewUrl'],
       popularity: json['popularity'],
+      imgUrl: json['imageUrl']
+    );
+  }
+  factory Track.fromJson2(Map<String,dynamic> json)
+  {
+    return Track(
+      imgUrl: json['imageUrl'],
+      name: json['name'],
+      id: json['id'],
     );
   }
 }

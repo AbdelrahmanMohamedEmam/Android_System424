@@ -18,6 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<UserProvider>(context, listen: false);
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(48, 44, 44, 1),
@@ -35,22 +36,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Column(
           children: <Widget>[
             if (!_auth.isUserPremium())
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: Center(
-                  child: Text(
-                    'Free Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
+              Container(
+                height: deviceSize.height * 0.073,
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Center(
+                    child: Text(
+                      'Free Account',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: deviceSize.height * 0.0220,
+                      ),
                     ),
                   ),
                 ),
               ),
             if (!_auth.isUserPremium())
               Container(
-                height: 38,
-                width: 160,
+                height: deviceSize.height * 0.05564,
+                width: deviceSize.width * 0.39,
                 child: FloatingActionButton(
                   onPressed: () {
                     Navigator.of(context)
@@ -62,7 +66,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   child: Text(
                     'GO PREMIUM',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: deviceSize.height * 0.022,
+                    ),
                   ),
                 ),
               ),
@@ -98,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: Text(
                 'Notifications',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.grey,
                 ),
               ),
               subtitle: Text(
@@ -110,11 +117,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             ListTile(
               onTap: () {
-                
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();
-                // while (Navigator.of(context).canPop()) Navigator.pop(context);
+                //while (Navigator.of(context).canPop()) Navigator.pop(context);
                 Phoenix.rebirth(context);
               },
               title: Text(

@@ -37,15 +37,14 @@ class _MainWidgetState extends State<MainWidget> {
   PanelController _pc = new PanelController();
 
 
-  //final double _initFabHeight = 120;
   ///Palette Generator object to generate a matching background color for the panel.
   PaletteGenerator paletteGenerator;
 
   ///Background color for the palette.
-  Color background;
+  Color background=Colors.black87;
 
-  ///
-  //double _fabHeight;
+  ///Indicates background generated or not.
+  bool colorGenerated=false;
 
   ///The height of the sliding up panel (Opened).
   double _panelHeightOpen;
@@ -159,7 +158,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Initializations
   @override
-  void initState() {
+  void initState()  {
     collapsedHide=false;
     super.initState();
     init();
@@ -169,8 +168,7 @@ class _MainWidgetState extends State<MainWidget> {
     //panelState = PanelState.CLOSED;
     _player = AudioPlayer();
     if(song!=null) {
-     // _fabHeight = 120;
-      _generatePalette();
+      colorGenerated=false;
       downloading = true;
       downloaded = false;
       deleted = false;
@@ -187,8 +185,10 @@ class _MainWidgetState extends State<MainWidget> {
       PaletteGenerator _paletteGenerator =
       await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
           size: Size(110, 150), maximumColorCount: 20);
-      background = _paletteGenerator.darkMutedColor.color;
-
+      if(_paletteGenerator.darkMutedColor!=null) {
+        background = _paletteGenerator.darkMutedColor.color;
+        colorGenerated=true;
+      }
       setState(
             () {
           paletteGenerator = _paletteGenerator;
@@ -254,6 +254,10 @@ class _MainWidgetState extends State<MainWidget> {
         .of(context)
         .size;
 
+    ///Generating a matching background color if none is generated.
+    if(!colorGenerated)
+      _generatePalette();
+
     ///Assigning the whole size of the device to be the size of the panel (Opened).
     _panelHeightOpen = deviceSize.height * 1;
 
@@ -294,7 +298,6 @@ class _MainWidgetState extends State<MainWidget> {
 
     ///Check if there is a playing/paused song
     if(song!=null) {
-
       ///Deleting the song if finished.
       if (_player.playbackState == AudioPlaybackState.completed &&
           !deleted) {
@@ -390,7 +393,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.pause,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.08,
+                iconSize: deviceSize.height * 0.07,
                 onPressed: _player.pause,
               )
             else
@@ -400,7 +403,7 @@ class _MainWidgetState extends State<MainWidget> {
                   Icons.play_circle_filled,
                   color: Colors.white,
                 ),
-                iconSize: deviceSize.height * 0.08,
+                iconSize: deviceSize.height * 0.07,
                 onPressed: _player.play,
               ),
 
@@ -413,7 +416,7 @@ class _MainWidgetState extends State<MainWidget> {
               iconSize: deviceSize.height * 0.05,
             ),
             SizedBox(
-              width: deviceSize.width * 0.12,
+              width: deviceSize.width * 0.11,
             ),
 
             ///Share this song button.

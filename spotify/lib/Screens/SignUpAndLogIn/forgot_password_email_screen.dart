@@ -14,6 +14,8 @@ import '../../Models/http_exception.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
+
+///A screen to get the user email to send him a change password code.
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
   @override
@@ -72,6 +74,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
 
     ///Checks if the reset succeeded.
     if (_auth.resetSuccessful) {
+      Navigator.of(context).pop();
       Navigator.pushNamed(context, CheckEmailScreen.routeName);
     }
   }
@@ -94,7 +97,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'Email',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.07),
             ),
           ),
 

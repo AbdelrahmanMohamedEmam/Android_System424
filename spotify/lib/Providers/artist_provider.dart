@@ -34,6 +34,7 @@ class ArtistProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
   Future<void> fetchMultipleArtists() async {
     const url ="http://www.mocky.io/v2/5e87635f3100002a003f44d4";
     final response = await http.get(url);
@@ -49,7 +50,7 @@ class ArtistProvider with ChangeNotifier {
 
   ///function to get all artists for the 1st sign up
   Future<void> fetchAllArtists() async {
-    const url = "http://www.mocky.io/v2/5e87635f3100002a003f44d4";
+    const url = "http://www.mocky.io/v2/5e88c04a3100007c00d39a7d";
     final response = await http.get(
         url);
     final extractedList = json.decode(
