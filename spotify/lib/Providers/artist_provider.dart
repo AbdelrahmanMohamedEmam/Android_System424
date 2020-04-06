@@ -9,13 +9,12 @@ import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
 
 class ArtistProvider with ChangeNotifier {
-  List<Artist> _artist = [];
   Artist _choosedArtist;
   List<Artist> _returnMultiple = [];
   List<Artist> _returnAll = [];
 
-  Future<Artist> get getChoosedArtist async {
-    return _choosedArtist;
+  Artist get getChoosedArtist  {
+     return  _choosedArtist;
   }
 
   List<Artist> get getMultipleArtists {
@@ -32,8 +31,7 @@ class ArtistProvider with ChangeNotifier {
     final extractedList = json.decode(
         response.body);
     _choosedArtist = Artist.fromJson(extractedList);
-    notifyListeners(
-    );
+    notifyListeners();
   }
 
 

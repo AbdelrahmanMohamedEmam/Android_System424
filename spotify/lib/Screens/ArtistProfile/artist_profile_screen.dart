@@ -1,31 +1,51 @@
-import 'package:spotify/widgets/artist_info_widget.dart';
-import '../../widgets/album_widget_artist_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../widgets/featured_playlists_artist_profile.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
 import '../../Models/album.dart';
 import '../../Providers/album_provider.dart';
+import '../MainApp/tab_navigator.dart';
+import '../../widgets/album_widget_artist_profile.dart';
+import '../../widgets/featured_playlists_artist_profile.dart';
+import '../../widgets/suggested_artists_artist_profile.dart';
+import '../../widgets/artist_card_widget.dart';
+import '../../Providers/user_provider.dart';
+
 
 class ArtistProfileScreen extends StatefulWidget {
   @override
-  _ArtistProfileScreenState createState() => _ArtistProfileScreenState();
+  ArtistProfileScreenState createState() => ArtistProfileScreenState();
 }
 
-class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
-
-
-  bool _isInit = true;
-
+class ArtistProfileScreenState extends State<ArtistProfileScreen> {
+  bool _isLoading = false;
+  List<Artist> artists = [];
+  List<Playlist> playlists;
+  List<Album> albums;
+  bool _isInit = false;
+  Artist artistInfo;
+  String artistName;
+  String artistId;
+  ScrollController _scrollController;
+  var testLen = 1;
+  bool _isScrolled = false;
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_listenToScrollChange);
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() async {
-    if (_isInit) {
+    if (!_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      //String _user = Provider.of<UserProvider>(context , listen: false).token;
       await Provider.of<PlaylistProvider>(
           context, listen: false)
           .fetchArtistProfilePlaylists(
@@ -38,153 +58,127 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
           context, listen: false)
           .fetchPopularAlbums(
       );
-      //await Provider.of<ArtistProvider>(
-      //  context, listen: false)
-      //.fetchChoosedArtist(
-      //);
+      await Provider.of<ArtistProvider>(
+          context, listen: false)
+          .fetchChoosedArtist().then((_) {
+        setState(
+                () {
+              _isLoading = false;
+            });
+      }
+      );
+      _isInit = true;
     }
-    _isInit = false;
+
+
+    super.didChangeDependencies();
+  }
+  void _goToDiscography(BuildContext ctx)
+  {
+    Navigator.of(ctx).pushNamed(
+      TabNavigatorRoutes.discographyScreen,);
   }
 
-  String artistName = 'amr diab 32';
-  String artistNamePass;
-  String artistId;
-  String artistImageUrl;
-  int artistPopularity;
-  String artistBio;
-
-  String artistImage =
-      "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
-
-  void _goToDiscography(BuildContext ctx ,
-      //String id (to be added)
-      )
-  {
-    Navigator.of(ctx).pushNamed('/releases_screen' ,
-      //arguments: id ,   (to be added)
+  void _goToAbout(BuildContext ctx1) {
+    Navigator.of(ctx1).pushNamed(TabNavigatorRoutes.aboutInfoScreen
     );
   }
-  void _goToSongPromo(BuildContext ctx ,
-      //String id (to be added)
-      ) {
-    Navigator.of(
-        ctx).pushNamed(
-      '/promo_screen',);
+  void _listenToScrollChange() {
+    if (_scrollController.offset >= 140.0) {
+      setState(() {
+        _isScrolled = true;
+      });
+    } else {
+      setState(() {
+        _isScrolled = false;
+      });
+    }
   }
 
-  void _goToAbout(
-      BuildContext ctx1,
-      //arguments: id , name ,  (to be added)
-      ) {
-    Navigator.of(ctx1).pushNamed('/about_screen', arguments: {
-      "id": artistId,
-      "name": artistNamePass,
-      "image": artistImageUrl,
-      "popularity": artistPopularity.toString(),
-      "bio": artistBio,
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    //initialization();
-
-    final artistProvider = Provider.of<ArtistProvider>(context ,listen : false);
+    final deviceSize = MediaQuery.of(context).size;
+    final artistProvider = Provider.of<ArtistProvider>(context , listen: false);
     List<Artist> artists ;
     artists = artistProvider.getMultipleArtists;
-    //print(artists[0].externalUrls);
-    //Artist artistInfo;
-    //print(artists[1].name);
-    //artistInfo = artistProvider.getChoosedArtist;
-    // if(artistInfo.id!= null){
-    // artistId = artistInfo.id;
-    //}
-    //artistImageUrl = artistInfo.images[0].url;
-    //artistNamePass = artistInfo.name;
-    //artistBio = artistInfo.bio;
-    //artistPopularity = artistInfo.popularity;
-    //print(artistPopularity);
-    //print(artistPopularity);
-    // print(artistImageUrl);
-    //print('null is here');
-    //print(artistNamePass);
-
-    final playlistsProvider = Provider.of<PlaylistProvider>(context , listen : false);
+     artistInfo = artistProvider.getChoosedArtist;
+    final playlistsProvider = Provider.of<PlaylistProvider>(context , listen: false);
     List<Playlist> playlists;
     playlists = playlistsProvider.getArtistProfilePlaylists;
 
-    final albumProvider = Provider.of<AlbumProvider>(context);
+    final albumProvider = Provider.of<AlbumProvider>(context , listen: false);
     List<Album> albums;
     albums = albumProvider.getPopularAlbums;
 
-    return Scaffold(
+    return _isLoading
+    ? Scaffold(
+    backgroundColor: Colors.black,
+    body: Center(
+    child: CircularProgressIndicator(
+    backgroundColor: Colors.green[700],
+    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+    ),
+    ),
+    )
+
+     : Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         actions: <Widget>[
           FlatButton(
             child: Text('FOLLOW'),
             textColor: Colors.grey,
-            onPressed: () {},
+            //onPressed: () {},
           ),
           IconButton(
             icon: Icon(
               Icons.more_vert,
               color: Colors.grey,
             ),
+            //onPressed: () {},
           ),
         ],
       ),
-      body: Container(
-        color: Colors.black,
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            /*Container(
-              height: 250,
+      backgroundColor: Colors.black,
+      body: ListView(children: <Widget>[
+            Container(
+              height: deviceSize.height*0.6,
               width: double.infinity,
               child: ListView.builder(
-                  itemCount: 1,
-                  //scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                        value: artistInfo,
-                        child: ArtistCard(),
-                      )),
-            ),*/
-            //ArtistCard(),
-
+                itemCount: testLen,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: artistInfo,
+                  child: ArtistBackground(),
+                ),
+              ),
+            ),
             Container(
-              height: 40,
-              width: 50,
+              margin: EdgeInsets.only(right: deviceSize.width*0.25 , left: deviceSize.width*0.25),
+              height: deviceSize.height*0.07,
+              width: deviceSize.width*0.1,
               child: FloatingActionButton(
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.green[700],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
+                  borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: Text(
                   'SHUFFLE PLAY',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
-                //textColor: Colors.red,
-
-                //color: Colors.grey,
-                onPressed: () {},
+                //onPressed: () {},
               ),
             ),
-            Container(
-              height: 120,
-              padding: EdgeInsets.only(left: 20, right: 20 , top: 30 , bottom: 30),
-              color: Colors.black87,
-              child: FlatButton(child :
-              Text('Artist songs'),     //to be filled with artist's featured songs
-                textColor: Colors.white,
-                onPressed : () => _goToSongPromo(context),
-
-              ),
+            Padding(
+              padding: EdgeInsets.only(top :deviceSize.height*0.04 , bottom: deviceSize.height*0.02),
             ),
+
             Text(
               'Popular releases',
               textAlign: TextAlign.center,
@@ -195,7 +189,7 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
               ),
             ),
             Container(
-              height: 200,
+              height: deviceSize.height*0.3,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: albums.length,
@@ -207,8 +201,9 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                 ),
               ),
             ),
-            ButtonTheme(
-              minWidth: 5,
+            Container(
+              margin: EdgeInsets.only(right: deviceSize.width*0.18 , left: deviceSize.width*0.18),
+              padding: EdgeInsets.all(deviceSize.height*0.04),
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Colors.grey),
@@ -219,18 +214,15 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                 child: Text(
                   'SEE DISCOGRAPHY',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onPressed: () => _goToDiscography(
-                  context,
-                  //id (to be added)
-                ),
+                onPressed: () => _goToDiscography(context),
               ),
             ),
 
-            Container(
+           /* Container(
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Text(
                 'Featuring' + ' ' + artistName,
@@ -243,7 +235,8 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
             ),
 
             //row of featured playlists
-            Container(
+             Container(
+
               height: 200,
               width: double.infinity,
               child: ListView.builder(
@@ -253,10 +246,10 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     value: playlists[i],
                     child: FeaturedPlaylists(),
                   )),
-            ),
+            ),*/
 
             Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsets.only(top: deviceSize.height*0.01, bottom: deviceSize.height*0.01),
               child: Text(
                 'Fans also like ',
                 textAlign: TextAlign.center,
@@ -267,18 +260,19 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
               ),
             ),
             Container(
-              height: 200,
+              height: deviceSize.height*0.35,
               width: double.infinity,
               child: ListView.builder(
-                  itemCount: artists.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                    value: artists[i],
-                    child: suggesttedArtists(),
-                  )),
+                itemCount: artists.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: artists[i],
+                  child: suggesttedArtists(),
+                ),
+              ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsets.only(top: deviceSize.height*0.01, bottom:  deviceSize.height*0.01),
               child: Text(
                 'Artist Playlists',
                 textAlign: TextAlign.center,
@@ -288,8 +282,8 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     fontSize: 18),
               ),
             ),
-            Container(
-              height: 250,
+             Container(
+              height: deviceSize.height*0.35,
               width: double.infinity,
               child: ListView.builder(
                   itemCount: playlists.length,
@@ -299,9 +293,8 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     child: FeaturedPlaylists(),
                   )),
             ),
-
             Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsets.only(top: deviceSize.height*0.01, bottom:  deviceSize.height*0.01),
               child: Text(
                 'About',
                 textAlign: TextAlign.center,
@@ -312,39 +305,21 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
               ),
             ),
             InkWell(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      child: Image.network(
-                        artistImage,
-                        height: 300,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      top: 200,
-                      bottom: 80,
-                      left: 100,
-                      right: 100,
-                      child: Text(
-                        artistName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),
-                      ),
-                    ),
-                    //
-                  ],
+              child: Container(
+                height: deviceSize.height*0.6,
+                width: double.infinity,
+                child: ListView.builder(
+                  itemCount: testLen,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                    value: artistInfo,
+                    child: ArtistBackground(),
+                  ),
                 ),
-                onTap: () {} //=> _goToAbout(context),
+              ),
+            onTap: () =>_goToAbout(context),
             ),
-          ],
-        ),
+      ],
       ),
     );
   }

@@ -20,6 +20,8 @@ import 'Settings/recently_played_artists_screen.dart';
 
 import '../../Screens/ArtistMode/my_music_screen.dart';
 import '../../Screens/ArtistMode/add_album_screen.dart';
+import '../../Screens/ArtistMode/add_song_screen.dart';
+import '../ArtistProfile/about_info_screen.dart';
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
   TabItem.search: GlobalKey<NavigatorState>(),
@@ -49,6 +51,8 @@ class TabNavigatorRoutes {
       '//recentlyPlayedArtistsScreen';
   static const String myMusicScreen = '//my_music_screen';
   static const String addAlbumScreen = '//add_album_screen';
+  static const String addSongScreen = '//add_song_screen';
+  static const String aboutInfoScreen = '//about_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -96,6 +100,8 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.discographyScreen: (context) => ReleasesScreen(),
         TabNavigatorRoutes.myMusicScreen: (context) => MyMusicScreen(),
         TabNavigatorRoutes.addAlbumScreen: (context) =>CreateAlbum(),
+        TabNavigatorRoutes.addSongScreen: (context) => AddSongScreen(),
+        TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };
     }
   }
