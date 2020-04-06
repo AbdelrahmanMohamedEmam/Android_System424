@@ -69,7 +69,10 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
     if(_auth.isLoginSuccessfully)
     {
       try {
-        await _auth.setUser(_auth.token);
+        await _auth.setUser(_auth.token).then((_){
+          Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
+          Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
+        });
       }on HttpException catch (error) {
         var errorMessage = error.toString();
         _showErrorDialog(errorMessage);
@@ -79,8 +82,6 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         _showErrorDialog(errorMessage);
         return;
       }
-      //Navigator.of(context).popUntil(ModalRoute.withName('/'));
-      Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
     }
   }
 
