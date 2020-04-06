@@ -40,9 +40,9 @@ class Playlist with ChangeNotifier {
   String snapShotId;
 
   ///Refrence object to the tracks in this playlist.
-  TracksRef tracks;
+  TracksRef tracksRef;
 
-  List<Track> tracks2;
+  List<Track> tracks;
 
   ///The type of this playlist.
   String type;
@@ -59,28 +59,34 @@ class Playlist with ChangeNotifier {
   ///String indicating the category of the playlist.
   String category;
 
+  String createdAt;
+
+  bool isFetched=false;
+
   ///Constructor for class playlist with named arguments assignment.
   ///Required parameters:{href,id,name,uri}.
-  Playlist({
-    ///Initializations.
-    this.collaborative,
-    this.description,
-    this.externalUrls,
-    @required this.href,
-    @required this.id,
-    this.images,
-    @required this.name,
-    @required this.owner,
-    this.public,
-    this.snapShotId,
-    this.tracks,
-    this.type,
-    @required this.uri,
-    this.popularity,
-    this.noOfFollowers,
-    this.category,
-    this.tracks2
-  });
+  Playlist(
+      {
+      ///Initializations.
+      this.collaborative,
+      this.description,
+      this.externalUrls,
+      @required this.href,
+      @required this.id,
+      this.images,
+      @required this.name,
+      @required this.owner,
+      this.public,
+      this.snapShotId,
+      this.tracksRef,
+      this.type,
+      @required this.uri,
+      this.popularity,
+      this.noOfFollowers,
+      this.category,
+      this.tracks,
+      this.createdAt,
+      });
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
       collaborative: json['collaborative'],
@@ -93,12 +99,13 @@ class Playlist with ChangeNotifier {
       owner: parseString(json['owner']),
       public: json['public'],
       snapShotId: json['snapshot_id'],
-      tracks: TracksRef.fromJson(json['tracks']),
+      tracksRef: TracksRef.fromJson(json['tracks']),
       type: json['type'],
       uri: json['uri'],
       category: json['category'],
       noOfFollowers: json['noOfFollowers'],
       popularity: json['popularity'],
+      createdAt: json['createdAt']
     );
   }
 }

@@ -44,7 +44,7 @@ class _PanelState extends State<Panel> {
             ),
             Container(
               child: Text(
-                widget.song.album,
+                widget.song.album.name,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.05,
                   color: Colors.white,
@@ -69,7 +69,7 @@ class _PanelState extends State<Panel> {
           margin: EdgeInsets.only(
               top: deviceSize.height * 0.05, bottom: deviceSize.height * 0.05),
           child: Image.network(
-            widget.song.imgUrl,
+            widget.song.album.images[0],
           ),
         ),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[

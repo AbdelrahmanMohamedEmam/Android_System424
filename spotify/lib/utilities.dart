@@ -66,9 +66,15 @@ List<Artist> parceArtist(artistJson) {
   return artistList;
 }
 
-List<Track> parceTrack(trackJson) {
+List<Track> parceTrackPlaylists(trackJson) {
   var list = trackJson as List;
-  List<Track> trackList = list.map((data) => Track.fromJson(data)).toList();
+  List<Track> trackList = list.map((data) => Track.fromJsonPlaylist(data)).toList();
+  return trackList;
+}
+
+List<Track> parceTrackAlbums(trackJson) {
+  var list = trackJson as List;
+  List<Track> trackList = list.map((data) => Track.fromJsonAlbum(data)).toList();
   return trackList;
 }
 

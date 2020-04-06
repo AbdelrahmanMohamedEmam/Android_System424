@@ -41,10 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
       user = Provider.of<UserProvider>(context, listen: false);
       Provider.of<PlayHistoryProvider>(context, listen: false)
           .fetchRecentlyPlayed();
-
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylistTracksById(user.token);
-
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopularPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
@@ -120,14 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Column(
                           children: <Widget>[
                             RecentlyPlayedList(),
-                            PlaylistList('Most recent playlists'),
-                            PlaylistList('Popular playlists'),
-                            AlbumList('Popular albums'),
-                            AlbumList('Most Recent Albums'),
-                            PlaylistList('Pop'),
-                            PlaylistList('Jazz'),
-                            PlaylistList('Arabic'),
-                            PlaylistList('Happy'),
+                            PlaylistList(PlaylistCategory.mostRecentPlaylists),
+                            PlaylistList(PlaylistCategory.popularPlaylists),
+                            // AlbumList('Popular albums'),
+                            //AlbumList('Most Recent Albums'),
+                            PlaylistList(PlaylistCategory.pop),
+                            PlaylistList(PlaylistCategory.jazz),
+                            PlaylistList(PlaylistCategory.arabic),
+                            PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )
