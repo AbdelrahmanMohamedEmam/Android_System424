@@ -135,7 +135,7 @@ class MyApp extends StatelessWidget {
             OverviewScreen.routeName : (ctx) => OverviewScreen(),
             StatsScreen.routeName : (ctx) => StatsScreen(),
             MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-            addSongScreen.routeName : (ctx) => addSongScreen(),
+            AddSongScreen.routeName : (ctx) => AddSongScreen(),
           },
         ),
       ),

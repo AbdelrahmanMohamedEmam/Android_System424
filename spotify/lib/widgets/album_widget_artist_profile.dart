@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
+import '../Screens/MainApp/tab_navigator.dart';
 class LoadingAlbumsWidget extends StatelessWidget {
-  //String albumImage = "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
-  //String albumName = 'Sahran';
-  //String albumYear = '2020';
-  //LoadingAlbumsWidget(this.albumImage , this.albumName , this.albumYear);
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -14,11 +11,11 @@ class LoadingAlbumsWidget extends StatelessWidget {
       child:
       Row(children: <Widget>[
         Container(
-          padding : EdgeInsets.all(10),
+          padding : EdgeInsets.all(deviceSize.height*0.01),
           child: Image.network(
             album.images[0],
-            height: deviceSize.height *0.1,
-            width: deviceSize.width *0.1,
+            height: deviceSize.height *0.16,
+            width: deviceSize.width *0.16,
             fit: BoxFit.fill,
           ),
         ),
@@ -45,7 +42,9 @@ class LoadingAlbumsWidget extends StatelessWidget {
 
       ],
       ),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(TabNavigatorRoutes.albumScreen);
+      },
     );
 
 

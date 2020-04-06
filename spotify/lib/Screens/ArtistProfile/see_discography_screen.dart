@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../widgets/featured_playlists_artist_profile.dart';
-import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
-import '../../Models/playlist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
 import '../../Models/album.dart';
+import '../../Models/artist.dart';
 import '../../Providers/album_provider.dart';
 import '../../widgets/album_widget_artist_profile.dart';
 import '../../widgets/song_promo_card_artist_profile.dart';
+import '../../Providers/artist_provider.dart';
 
 
 class ReleasesScreen extends StatefulWidget {
@@ -18,6 +17,7 @@ class ReleasesScreen extends StatefulWidget {
 }
 
 class _ReleasesScreenState extends State<ReleasesScreen> {
+  Artist artistInfo;
   void didChangeDependencies() async  {
     await Provider.of<AlbumProvider>(
         context, listen: false)
@@ -28,16 +28,19 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    final albumProvider = Provider.of<AlbumProvider>(context);
+    final deviceSize = MediaQuery.of(context).size;
+    final artistProvider = Provider.of<ArtistProvider>(context , listen: false);
+    artistInfo = artistProvider.getChoosedArtist;
+    final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     List<Album> albums;
     albums = albumProvider.getPopularAlbums;
-    double heightAlbums = ((albums.length).toDouble())*100;
+    double heightAlbums = ((albums.length).toDouble())*150;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('Releases' ,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
@@ -50,7 +53,7 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
           scrollDirection: Axis.vertical,
           children: <Widget>[
             Container(
-              padding : EdgeInsets.only(top: 10 , bottom: 10),
+              padding : EdgeInsets.only(top: deviceSize.height*0.01, bottom: deviceSize.height*0.01),
               child: Text('Albums',
                 textAlign: TextAlign.start,
                 style: TextStyle(
@@ -75,7 +78,7 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
               ),
             ),
             Container(
-              padding : EdgeInsets.only(top: 10 , bottom: 10),
+              padding : EdgeInsets.only(top: deviceSize.height*0.01 , bottom: deviceSize.height*0.01),
               child: Text('Singles',
                 textAlign: TextAlign.start,
                 style: TextStyle(

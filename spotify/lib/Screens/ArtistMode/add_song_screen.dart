@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import '../../Providers/album_provider.dart';
+import 'package:provider/provider.dart';
+import '../../Providers/user_provider.dart';
 
-class addSongScreen extends StatefulWidget {
-  static const  routeName='/add_song_screen';
+
+class AddSongScreen extends StatefulWidget {
+  static const  routeName='//add_song_screen';
   @override
-  _addSongScreenState createState() => new _addSongScreenState();
+  _AddSongScreenState createState() => new _AddSongScreenState();
 }
 
-class _addSongScreenState extends State<addSongScreen> {
+class _AddSongScreenState extends State<AddSongScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
 
   String _fileName;
   String _path;
-  //Map<String, String> _paths;
   String _extension ;
   bool _loadingPath = false;
-  //bool _multiPick = false;
   bool _hasValidMime = false;
-  FileType _pickingType;
+  FileType _pickingType = FileType.audio;
   TextEditingController _controller = new TextEditingController();
   int _pathLen =1;
   Response response;
-  @override
+  final songNameController = TextEditingController();
+
   void initState() {
     super.initState();
     _controller.addListener(() => _extension = _controller.text);
@@ -38,8 +39,6 @@ class _addSongScreenState extends State<addSongScreen> {
       content: Text(message),
     ));
   }
-
-
   void _openFileExplorer() async {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
@@ -56,104 +55,72 @@ class _addSongScreenState extends State<addSongScreen> {
       });
     }
   }
-
-
-  void _uploadFile (filepath) async
+  void uploadF(BuildContext context , String path , String userToken , String songName , String id) async
   {
-    String fileName01 = basename(_path);
-    try {
-      FormData formData = new FormData.fromMap(
-          {
-            "files": [
-              MultipartFile.fromFile(_path,
-              filename: fileName01),
-        ],
+    bool check =
+        await Provider.of<AlbumProvider>(context , listen: false)
+        .uploadSong(path ,userToken ,songName ,id);
+    setState(() {
+      if(check)
+      {
+        Navigator.of(context).pop();
       }
-      );
-      print(fileName01);
-      response = await Dio().post('http://www.mocky.io/v2/5e7e7536300000e0134afb12' , data: formData );
-      print('hi');
-      print(formData.files[0]);
-      print(response);
-      _showScaffold("This is a SnackBar called from another place.");
-    } catch(e)
-    {
-      print('error');
-    }
+    });
+  }
 
-  }
-  void uploadF()
-  {
-    _uploadFile(_path);
-  }
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+    String _user = Provider.of<UserProvider>(context , listen: false).token;
+    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
+    //final albumId = routeArgs["id"];
+    String albumId = 'hjdksksl';
+    print('indecator');
+    print(albumId);
     return  Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green[700],
         title: const Text('Add new Song'),
       ),
       body: Container(
         color: Colors.black,
-        child: new Center(
-            child: new Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: new SingleChildScrollView(
-                child: new Column(
+        child:  Center(
+            child:  Padding(
+              padding:  EdgeInsets.only(left: deviceSize.width*0.01, right: deviceSize.width*0.01),
+              child:  SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    new Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: new DropdownButton(
-                        icon: Icon(Icons.arrow_drop_down_circle),
-                          hint: new Text('LOAD PATH FROM',
-                          style: TextStyle(color: Colors.grey
-                          ),
-                          ),
-                          value: _pickingType,
-                          items: <DropdownMenuItem>[
-                            new DropdownMenuItem(
-                              child: new Text('FROM AUDIO'),
-                              value: FileType.audio,
-                            ),
-                            new DropdownMenuItem(
-                              child: new Text('FROM IMAGE'),
-                              value: FileType.image,
-                            ),
-                          ],
-                          onChanged: (value) => setState(() {
-                            _pickingType = value;
-                            if (_pickingType != FileType.custom) {
-                              _controller.text = _extension = '';
-                            }
-                          })),
-                    ),
-                    new ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(width: 100.0),
-                      child: _pickingType == FileType.custom
-                          ? new TextFormField(
-                        maxLength: 15,
-                        autovalidate: true,
-                        controller: _controller,
-                        decoration: InputDecoration(labelText: 'File extension'),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: deviceSize.width * 0.02,
+                          bottom: deviceSize.width * 0.02,
+                          left: deviceSize.width * 0.2,
+                          right: deviceSize.width * 0.2),
+                      width: deviceSize.width * 0.4,
+                      child: TextFormField(
+                        controller: songNameController,
+                        decoration: InputDecoration(
+                          labelText: 'choose song name ',
+                          filled: true,
+                          fillColor: Colors.green[700],
+                          labelStyle: TextStyle(
+                              color: Colors.white),
+                        ),
+                        style: TextStyle(
+                            color: Colors.black),
+                        cursorColor: Theme
+                            .of(
+                            context)
+                            .primaryColor,
                         keyboardType: TextInputType.text,
-                        textCapitalization: TextCapitalization.none,
-                        validator: (value) {
-                          RegExp reg = new RegExp(r'[^a-zA-Z0-9]');
-                          if (reg.hasMatch(value)) {
-                            _hasValidMime = false;
-                            return 'Invalid format';
-                          }
-                          _hasValidMime = true;
-                          return null;
-                        },
-                      )
-                          : new Container(),
+                      ),
                     ),
+
                     new Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),
+                      padding: EdgeInsets.only(top: deviceSize.width*0.03, bottom: 0.05),
                       child: new RaisedButton(
                         onPressed: () => _openFileExplorer(),
                         child: new Text("Open file picker" ,
@@ -163,19 +130,18 @@ class _addSongScreenState extends State<addSongScreen> {
                     ),
                     new Builder(
                       builder: (BuildContext context) => _loadingPath
-                          ? Padding(padding: const EdgeInsets.only(bottom: 10.0), child: const CircularProgressIndicator())
+                          ? Padding(padding:EdgeInsets.only(bottom: deviceSize.width*0.01), child: CircularProgressIndicator())
                           : _path != null
                           ? new Container(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        height: MediaQuery.of(context).size.height * 0.50,
+                        padding:EdgeInsets.only(bottom: deviceSize.width*0.04),
+                        height: deviceSize.height * 0.25,
                         child: new Scrollbar(
                             child: new ListView.separated(
-                              itemCount: _pathLen,
+                              itemCount: _pathLen ,
                               itemBuilder: (BuildContext context, int index) {
                                 final String name = 'File name : '  + _fileName;
                                 final path = _path;
-
-                                return new ListTile(
+                                return ListTile(
                                   title: new Text(
                                     name,
                                     style: TextStyle(color: Colors.green),
@@ -185,19 +151,20 @@ class _addSongScreenState extends State<addSongScreen> {
                                   ),
                                 );
                               },
-                              separatorBuilder: (BuildContext context, int index) => new Divider(),
+                              separatorBuilder: (BuildContext context, int index) => Divider(),
                             )),
                       )
-                          : new Container(),
+                          :Container(),
                     ),
                     Container(
+                      margin: EdgeInsets.only(top : deviceSize.height*0.03),
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: uploadF,
+                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,albumId),
                         icon: Icon(Icons.add,
                         ),
-                        iconSize: 60,
+                        iconSize: deviceSize.width*0.1,
 
                       ),
                     )

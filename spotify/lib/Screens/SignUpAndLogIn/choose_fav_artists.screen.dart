@@ -62,7 +62,8 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
 
   Future<void> _initializeList() async{
-  await Provider.of<ArtistProvider>(context, listen: false).fetchMultipleArtists();
+  await Provider.of<ArtistProvider>(context, listen: false).fetchMultipleArtists(//"token to be added" , "id"
+       );
   //widget.artists= Provider.of<ArtistProvider>(context, listen: false).getMultipleArtists;
   }
 
