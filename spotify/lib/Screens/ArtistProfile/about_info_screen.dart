@@ -1,81 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spotify/Providers/artist_provider.dart';
+import 'package:provider/provider.dart';
+import '../../Models/artist.dart';
 
-class AboutScreen extends StatelessWidget {
-  static const routeName = '/about_screen';
+class AboutScreen extends StatefulWidget {
+  static const routeName = '//about_screen';
+
+  @override
+  _AboutScreenState createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  Artist artistInfo;
+
   @override
   Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
-    final artName = routeArgs["name"];
-    final artImage = routeArgs["image"];
-    final artBio = routeArgs["bio"];
-    final artPopularity = routeArgs["popularity"];
-    print(artPopularity);
-
+    final deviceSize = MediaQuery.of(context).size;
+    final artistProvider = Provider.of<ArtistProvider>(context , listen:  false);
+    artistInfo = artistProvider.getChoosedArtist;
+    print(artistInfo.artistInfo.biography);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          artName ,
+      backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+          artistInfo.name ,
           style: TextStyle(fontSize: 18 ,
           fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
         ),
-      ),
-      body: Container(
-        //width: double.infinity,
-        //height: double.infinity,
-        color: Colors.black,
-        child: ListView(
-          children: <Widget>[
-            Container(
-              height: 300,
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              child: Image.network(artImage)
-            ),
-            Container(
-                height: 50,
+        ),
+        body: ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(bottom: deviceSize.height*0.1),
+                height: deviceSize.height*0.4,
                 width: double.infinity,
-                padding: EdgeInsets.all(10),
-                child: Text(artPopularity ,
+                child: Image.network(artistInfo.images[0].url)
+              ),
+              Text("Biography : " ,
+                style: TextStyle(color: Colors.grey , fontSize: 18 , fontWeight: FontWeight.bold),
+              ),
+              Container(
+                padding: EdgeInsets.only(top:
+                  deviceSize.height*0.05 ,
+                    bottom:deviceSize.height*0.05 ,
+                    left: deviceSize.height*0.01 ,
+                    right: deviceSize.height*0.01
+                ),
+                child: Text(artistInfo.artistInfo.biography ,
                 style: TextStyle(
                   fontSize: 25,
-                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
                 ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 8 ,
-                left: 8 ,
               ),
-              child: Text('Monthly Listeneres',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400 ,
-                color: Colors.grey,
-              )
-                ,),
-            ),
-            SingleChildScrollView(
-              child: Container(
-                  height: 500,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  child: Text(artBio,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,)
-              ),
-
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+            ],
+          ),
+        );
+    }
 }
+

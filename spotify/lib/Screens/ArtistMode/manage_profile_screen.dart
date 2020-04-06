@@ -58,47 +58,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
         backgroundColor: Colors.black,
         title: Text('artist name will be added'),
       ),
-      drawer: Drawer(
 
-        child: Container(
-          color: Colors.black,
-          child: ListView(
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                accountName: Text('artist name'),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(artistImage),
-                ),
-              ),
-              ListTile(
-                title: Text('Overview',
-                style: TextStyle(
-                    color: Colors.grey,
-                ),
-                ),
-                onTap: () => _goToOverview(context),
-              ),
-              ListTile(
-                title: Text('Stats',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                onTap: () => _goToStats(context),
-              ),
-              ListTile(
-                title: Text('Your Music',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                onTap: () => _goToMymusic(context),
-              ),
-
-            ],
-          ),
-        ),
-      ),
 
 
 

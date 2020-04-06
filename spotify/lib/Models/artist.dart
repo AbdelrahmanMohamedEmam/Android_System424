@@ -2,14 +2,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artistInfo.dart';
 import './external_url.dart';
-//need to import something for followers
 import './follower.dart';
-//need to import something for genres
+import '../Models/user_stats.dart';
 import '../Models/image.dart';
 import '../utilities.dart';
 
 class Artist with ChangeNotifier{
-  final String externalUrls;
+  //final String externalUrls;
   final Follower followers;
   //final List<String> genres;
   final String href;
@@ -20,11 +19,12 @@ class Artist with ChangeNotifier{
   final String type;
   final String uri;
   final ArtistInfo artistInfo;
+  //final UserStats userStats;
 
   //final String bio;
 
   Artist({
-    this.externalUrls,
+    //this.externalUrls,
     this.followers,
     //this.genres,
     this.href,
@@ -36,24 +36,22 @@ class Artist with ChangeNotifier{
     this.uri ,
     //this.bio
     this.artistInfo,
-
+    //this.userStats,
   });
 
   factory Artist.fromJson(Map<String, dynamic> json) {
     //print(json['artistInfo']);
     return Artist(
-      externalUrls: json['external_urls'],
+      //externalUrls: json['external_urls'],
       followers: Follower.fromjson(json['followers']),
-      //genres: json['genres'],
       href: json['href'],
       id: json['id'],
       images: parceImage(json['images']),
       name: json['name'],
-      //popularity: json['popularity'],
       type: json['type'],
       uri: json['uri'],
-      //bio: json['bio'],
       artistInfo: ArtistInfo.fromJson(json['artistInfo']),
+      //userStats: UserStats.fromjson(json['userStats']),
     );
 
   }

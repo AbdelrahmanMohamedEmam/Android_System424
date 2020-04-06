@@ -79,7 +79,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         _showErrorDialog(errorMessage);
         return;
       }
-      Navigator.of(context).popUntil(ModalRoute.withName('/'));
+      //Navigator.of(context).popUntil(ModalRoute.withName('/'));
       Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
     }
   }
