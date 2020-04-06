@@ -11,14 +11,12 @@ import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
 import 'package:charts_flutter/flutter.dart';
 
-
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Screens/Song/song_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
-
 
 //Import Providers
 import 'Providers/play_history_provider.dart';
@@ -59,35 +57,35 @@ import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
 void main() async {
-
-  runApp(
-    Phoenix(child: MyApp(),)
-  );
+  runApp(Phoenix(
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-
   ///API url.
   String url;
 
   ///Constructor.
   MyApp();
 
- ///A function to set the API url.
- void setUrl(String configUrl){
-   url=configUrl;
-   print(url);
- }
+  ///A function to set the API url.
+  void setUrl(String configUrl) {
+    url = configUrl;
+    print(url);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: UserProvider(baseUrl: url),
+          value: UserProvider(
+            baseUrl: url,
+          ),
         ),
         ChangeNotifierProvider.value(
-          value: PlaylistProvider(),
+          value: PlaylistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: AlbumProvider(),
@@ -114,7 +112,9 @@ class MyApp extends StatelessWidget {
 
           //home: IntroScreen(),
           //home: SplashScreen(),
-          home: SplashScreen(setConfig: setUrl,),
+          home: SplashScreen(
+            setConfig: setUrl,
+          ),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
@@ -141,11 +141,11 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName : (ctx) => OverviewScreen(),
-            StatsScreen.routeName : (ctx) => StatsScreen(),
-            MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-            addSongScreen.routeName : (ctx) => addSongScreen(),
+            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
+            OverviewScreen.routeName: (ctx) => OverviewScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
+            addSongScreen.routeName: (ctx) => addSongScreen(),
           },
         ),
       ),
