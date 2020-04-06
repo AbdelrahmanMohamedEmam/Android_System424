@@ -19,8 +19,6 @@ import '../SignUpAndLogIn/intro_screen.dart';
 ///It decides which screen will be pushed next.
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash_screen';
-  Function setConfig;
-  SplashScreen({this.setConfig});
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -47,8 +45,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   ///Starting the animation of the logo.
   ///Start the timer.
   void initState() {
-
-    getUrl();
     urlInitialized=false;
     super.initState();
     _animationController= AnimationController(duration: Duration(milliseconds:700), vsync: this);
@@ -62,24 +58,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _animationController.forward();
     dataUpdated=false;
     startTimer();
-  }
-
-
-  ///Reading the API url from the config file in the assets.
-  ///It chooses between the mockUrl and the realUrl.
-  Future<void> getUrl() async {
-    final config= await rootBundle.loadString('assets/config.txt');
-    final option=config.substring(14,15);
-    if(option=='2')
-    {
-      widget.setConfig('http://spotify.mocklab.io');
-      urlInitialized=true;
-    }
-    else if (option=='1'){
-      widget.setConfig(option);
-      urlInitialized=true;
-    }
-    return;
   }
 
 
@@ -113,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     final _user = Provider.of<UserProvider>(context, listen: false);
 
     ///Try to auto login the user if the url is initialized.
-    if(!dataUpdated && urlInitialized) {
+    if(!dataUpdated) {
       _user.tryAutoLogin();
       isAuth = _user.isAuth;
       dataUpdated=isAuth;
