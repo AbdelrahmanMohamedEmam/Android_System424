@@ -1,6 +1,8 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/API_Providers/playlistAPI.dart';
+import 'package:spotify/Models/http_exception.dart';
 import 'package:spotify/Models/track.dart';
 
 //Import core libraries.
@@ -11,8 +13,11 @@ import '../Models/playlist.dart';
 
 ///Class PlaylistProvider.
 class PlaylistProvider with ChangeNotifier {
+  final String baseUrl;
+  PlaylistProvider({this.baseUrl});
+
   ///List of playlist objects categorized as made for you playlists.
-  List<Playlist> _madeForYouPlaylists = [];
+  List<Playlist> _mostRecentPlaylists = [];
 
   ///List of playlist objects categorized as popular playlists.
   List<Playlist> _popularPlaylists = [];
@@ -21,11 +26,20 @@ class PlaylistProvider with ChangeNotifier {
   List<Playlist> _artistProfilePlaylists = [];
 
   ///List of playlist objects categorized as workout playlists.
-  List<Playlist> _workoutPlaylists = [];
+  List<Playlist> _popPlaylists = [];
+
+  ///List of playlist objects categorized as workout playlists.
+  List<Playlist> _jazzPlaylists = [];
+
+  ///List of playlist objects categorized as workout playlists.
+  List<Playlist> _arabicPlaylists = [];
+
+  ///List of playlist objects categorized as workout playlists.
+  List<Playlist> _happyPlaylists = [];
 
   ///A method(getter) that returns a list of playlists (made for you playlists).
-  List<Playlist> get getMadeForYouPlaylists {
-    return [..._madeForYouPlaylists];
+  List<Playlist> get getMostRecentPlaylists {
+    return [..._mostRecentPlaylists];
   }
 
   ///A method(getter) that returns a list of playlists (popular playlists).
@@ -39,60 +53,138 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method(getter) that returns a list of playlists (workout playlists).
-  List<Playlist> get getWorkoutPlaylists {
-    return [..._workoutPlaylists];
+  List<Playlist> get getpopPlaylists {
+    return [..._popPlaylists];
   }
 
-  Playlist getMadeForYouPlaylistbyId(String id) {
+  ///A method(getter) that returns a list of playlists (workout playlists).
+  List<Playlist> get getJazzPlaylists {
+    return [..._jazzPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (workout playlists).
+  List<Playlist> get getArabicPlaylists {
+    return [..._arabicPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (workout playlists).
+  List<Playlist> get getHappyPlaylists {
+    return [..._happyPlaylists];
+  }
+
+  Playlist getMostRecentPlaylistsId(String id) {
     final playlistIndex =
-        _madeForYouPlaylists.indexWhere((playlist) => playlist.id == id);
-    return _madeForYouPlaylists[playlistIndex];
+        _mostRecentPlaylists.indexWhere((playlist) => playlist.id == id);
+    return _mostRecentPlaylists[playlistIndex];
   }
 
   void emptyLists() {
-    _workoutPlaylists = [];
+    _popPlaylists = [];
     _popularPlaylists = [];
-    _madeForYouPlaylists = [];
+    _mostRecentPlaylists = [];
   }
 
   ///A method that fetches for made for you playlists and set them in the made for you list.
-  Future<void> fetchMadeForYouPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e749227300000e613a5f49b';
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
-    final List<Playlist> loadedPlaylists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+  Future<void> fetchMostRecentPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList =
+          await playlistApi.fetchMostRecentPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _mostRecentPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _madeForYouPlaylists = loadedPlaylists;
-    notifyListeners();
   }
 
   ///A method that fetches for popular playlists and set them in the popular playlist list.
-  Future<void> fetchPopularPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e749724300000d431a5f4c6';
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
+  Future<void> fetchPopularPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchPopularPlaylistsApi(token);
 
-    final List<Playlist> loadedPlaylists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _popularPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _popularPlaylists = loadedPlaylists;
-    notifyListeners();
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
-  Future<void> fetchWorkoutPlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e749c66300000d431a5f4f4';
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
-    final List<Playlist> loadedPlaylists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+  Future<void> fetchPopPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchPopPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _popPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _workoutPlaylists = loadedPlaylists;
-    notifyListeners();
+  }
+
+  ///A method that fetches for workout playlists and set them in the workout list.
+  Future<void> fetchJazzPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchJazzPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _jazzPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for workout playlists and set them in the workout list.
+  Future<void> fetchArabicPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchArabicPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _arabicPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for workout playlists and set them in the workout list.
+  Future<void> fetchHappyPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchHappyPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _happyPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
   }
 
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
@@ -112,7 +204,7 @@ class PlaylistProvider with ChangeNotifier {
 
   Future<void> fetchMadeForYouPlaylistTracksById(String id) async {
     const url = 'http://www.mocky.io/v2/5e890f423100007b00d39bd2';
-    Playlist playlist = getMadeForYouPlaylistbyId(id);
+    Playlist playlist = getMostRecentPlaylistsId(id);
     final response = await http.get(url);
     final extractedList = json.decode(response.body) as List;
     final List<Track> loadedTracks = [];
@@ -121,8 +213,8 @@ class PlaylistProvider with ChangeNotifier {
     }
     playlist.tracks2 = loadedTracks;
     final playlistIndex =
-        _madeForYouPlaylists.indexWhere((playlist) => playlist.id == id);
-    _madeForYouPlaylists.removeAt(playlistIndex);
-    _madeForYouPlaylists.insert(playlistIndex, playlist);
+        _mostRecentPlaylists.indexWhere((playlist) => playlist.id == id);
+    _mostRecentPlaylists.removeAt(playlistIndex);
+    _mostRecentPlaylists.insert(playlistIndex, playlist);
   }
 }

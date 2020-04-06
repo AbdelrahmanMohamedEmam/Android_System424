@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/play_history_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Providers/user_provider.dart';
 
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
 
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   bool _isInit = false;
   bool _isConnected = false;
+  UserProvider user;
 
   @override
   void didChangeDependencies() {
@@ -36,16 +38,29 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = true;
       });
+      user = Provider.of<UserProvider>(context, listen: false);
       Provider.of<PlayHistoryProvider>(context, listen: false)
           .fetchRecentlyPlayed();
+
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylists();
+          .fetchMadeForYouPlaylistTracksById(user.token);
+
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopularPlaylists();
+          .fetchPopularPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchWorkoutPlaylists();
+          .fetchMostRecentPlaylists(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchPopPlaylists(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchJazzPlaylists(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchArabicPlaylists(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchHappyPlaylists(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums()
+          .fetchMostRecentAlbums(user.token);
+      Provider.of<AlbumProvider>(context, listen: false)
+          .fetchPopularAlbums(user.token)
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -105,10 +120,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Column(
                           children: <Widget>[
                             RecentlyPlayedList(),
-                            PlaylistList('Made for you'),
+                            PlaylistList('Most recent playlists'),
                             PlaylistList('Popular playlists'),
-                            PlaylistList('Workout'),
                             AlbumList('Popular albums'),
+                            AlbumList('Most Recent Albums'),
+                            PlaylistList('Pop'),
+                            PlaylistList('Jazz'),
+                            PlaylistList('Arabic'),
+                            PlaylistList('Happy'),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )

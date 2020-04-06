@@ -10,7 +10,8 @@ import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/premium_card.dart';
 import 'package:charts_flutter/flutter.dart';
-
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:global_configuration/global_configuration.dart';
 
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
@@ -18,7 +19,6 @@ import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Screens/Song/song_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
-
 
 //Import Providers
 import 'Providers/play_history_provider.dart';
@@ -58,39 +58,47 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
-void main() async {
+Future<String> setUrl() async {
+  String content = await rootBundle.loadString("assets/config.txt");
+  final option = content.substring(14, 15);
+  if (option == '2') {
+    return 'http://spotify.mocklab.io';
+  } else if (option == '1') {
+    return '';
+  }
+}
 
-  runApp(
-    Phoenix(child: MyApp(),)
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String url = await setUrl();
+
+  runApp(Phoenix(
+      child: MyApp(
+    url: url,
+  )));
 }
 
 class MyApp extends StatelessWidget {
-
   ///API url.
-  String url;
+  final String url;
 
-  ///Constructor.
-  MyApp();
-
- ///A function to set the API url.
- void setUrl(String configUrl){
-   url=configUrl;
-   print(url);
- }
+  MyApp({this.url});
 
   @override
   Widget build(BuildContext context) {
+    //  getUrl();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: UserProvider(baseUrl: url),
+          value: UserProvider(
+            baseUrl: url,
+          ),
         ),
         ChangeNotifierProvider.value(
-          value: PlaylistProvider(),
+          value: PlaylistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: AlbumProvider(),
+          value: AlbumProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: ArtistProvider(),
@@ -114,7 +122,7 @@ class MyApp extends StatelessWidget {
 
           //home: IntroScreen(),
           //home: SplashScreen(),
-          home: SplashScreen(setConfig: setUrl,),
+          home: SplashScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
@@ -141,11 +149,11 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName : (ctx) => OverviewScreen(),
-            StatsScreen.routeName : (ctx) => StatsScreen(),
-            MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-            AddSongScreen.routeName : (ctx) => AddSongScreen(),
+            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
+            OverviewScreen.routeName: (ctx) => OverviewScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
+            AddSongScreen.routeName: (ctx) => AddSongScreen(),
           },
         ),
       ),

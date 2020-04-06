@@ -37,7 +37,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         },
       );
       playlistsProvider2 = Provider.of<PlaylistProvider>(context)
-          .getMadeForYouPlaylistbyId(widget.playlistId);
+          .getMostRecentPlaylistsId(widget.playlistId);
       user = Provider.of<UserProvider>(context);
     }
     _isInit = true;
@@ -161,7 +161,11 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             padding: EdgeInsets.only(top: 10),
                             height: 50,
                             child: Text(
-                              'Made for ' + user.username + ' . ' + playlistsProvider2.popularity.toString()+' LIKES',
+                              'Made for ' +
+                                  user.username +
+                                  ' . ' +
+                                  playlistsProvider2.popularity.toString() +
+                                  ' LIKES',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,
