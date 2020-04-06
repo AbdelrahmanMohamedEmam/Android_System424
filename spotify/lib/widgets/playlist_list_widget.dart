@@ -8,25 +8,32 @@ import '../widgets/playlist_item_widget.dart';
 import '../Models/playlist.dart';
 
 class PlaylistList extends StatelessWidget {
-  final String categoryTitle;
-
-  PlaylistList(this.categoryTitle);
+  final PlaylistCategory playlistType;
+  String categoryTitle;
+  PlaylistList(this.playlistType);
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
     List<Playlist> playlists;
-    if (categoryTitle == 'Popular playlists') {
+
+    if (playlistType == PlaylistCategory.popularPlaylists) {
+      categoryTitle = 'Popular playlists';
       playlists = playlistsProvider.getPopularPlaylists;
-    } else if (categoryTitle == 'Most recent playlists') {
+    } else if (playlistType == PlaylistCategory.mostRecentPlaylists) {
+      categoryTitle = 'Most recent playlists';
       playlists = playlistsProvider.getMostRecentPlaylists;
-    } else if (categoryTitle == 'Pop') {
+    } else if (playlistType == PlaylistCategory.pop) {
+      categoryTitle = 'Pop';
       playlists = playlistsProvider.getpopPlaylists;
-    } else if (categoryTitle == 'Jazz') {
+    } else if (playlistType == PlaylistCategory.jazz) {
+      categoryTitle = 'Jazz';
       playlists = playlistsProvider.getJazzPlaylists;
-    } else if (categoryTitle == 'Arabic') {
+    } else if (playlistType == PlaylistCategory.arabic) {
+      categoryTitle = 'Arabic';
       playlists = playlistsProvider.getArabicPlaylists;
-    } else if (categoryTitle == 'Happy') {
+    } else if (playlistType == PlaylistCategory.happy) {
+      categoryTitle = 'Happy';
       playlists = playlistsProvider.getHappyPlaylists;
     }
 
@@ -64,7 +71,9 @@ class PlaylistList extends StatelessWidget {
                   margin: EdgeInsets.symmetric(
                     horizontal: deviceSize.width * 0.0244,
                   ),
-                  child: PlaylistWidget(),
+                  child: PlaylistWidget(
+                    playlistType: playlistType,
+                  ),
                 ),
               ),
             ),

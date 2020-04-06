@@ -14,26 +14,7 @@ class PlayHistoryWidget extends StatelessWidget {
     final playhistory = Provider.of<PlayHistory>(context);
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () {
-        Provider.of<PlayableTrackProvider>(context, listen: false)
-            .setCurrentSong(
-          Track(
-              id: '2',
-              name: 'Gamda Bas',
-              album: 'Sahran',
-              artists: [
-                Artist(
-                  name: 'Amr Diab',
-                  //bio: '',
-                )
-              ],
-              imgUrl:
-                  'https://i1.sndcdn.com/artworks-000685259938-at3rot-t500x500.jpg',
-              href:
-                  'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
-              trackNumber: 1),
-        );
-      },
+      onTap: () {},
       child: Container(
         height: deviceSize.height * 0.317,
         width: deviceSize.width * 0.341,

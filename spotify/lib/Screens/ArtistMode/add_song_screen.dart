@@ -55,11 +55,11 @@ class _AddSongScreenState extends State<AddSongScreen> {
       });
     }
   }
-  void uploadF(BuildContext context , String path , String userToken , String songName , String id) async
+  void uploadF(BuildContext context , String path , String userToken , String songName) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
-        .uploadSong(path ,userToken ,songName ,id);
+        .uploadSong('userToken' ,songName ,path);
     setState(() {
       if(check)
       {
@@ -74,7 +74,6 @@ class _AddSongScreenState extends State<AddSongScreen> {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context , listen: false).token;
     final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
-    //final albumId = routeArgs["id"];
     String albumId = 'hjdksksl';
     print('indecator');
     print(albumId);
@@ -161,7 +160,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,albumId),
+                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text),
                         icon: Icon(Icons.add,
                         ),
                         iconSize: deviceSize.width*0.1,

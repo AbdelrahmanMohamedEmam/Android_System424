@@ -29,7 +29,7 @@ class _CollapsedState extends State<Collapsed> {
                   children: <Widget>[
                     FadeInImage(
                       image: NetworkImage(
-                        widget.song.imgUrl,
+                        widget.song.album.images[0],
                       ),
                       height: deviceSize.height * 0.08,
                       placeholder: AssetImage('assets/images/temp.jpg'),

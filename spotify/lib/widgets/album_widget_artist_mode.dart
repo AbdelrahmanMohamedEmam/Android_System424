@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
 import '../Screens/MainApp/tab_navigator.dart';
+import '../Providers/album_provider.dart';
 
 // This is the type used by the popup menu below.
 enum choosed { delete, add_song , edit}
@@ -12,20 +13,22 @@ class ArtistModeAlbums extends StatefulWidget {
 }
 
 class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
-  String id;
+
   void _goToStats(BuildContext ctx ,)
   {
     Navigator.of(ctx).pushNamed('/stats_screen' ,);
   }
-  void _goToAddSong(BuildContext ctx)
+  void _goToAddSong(BuildContext ctx ,) //String id)
   {
 
-    Navigator.of(ctx).pushNamed(TabNavigatorRoutes.addSongScreen, arguments:{
-      "id" :id,
-    });
+    Navigator.of(ctx).pushNamed(TabNavigatorRoutes.addSongScreen,
+      //arguments: {
+      //"id" : id,
+      //}
+    );
   }
 
-  void choosedAction(choosed result)
+  void choosedAction(choosed result ,) //String id)
   {
     if (result == choosed.delete)
       {
@@ -36,7 +39,7 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
         _goToStats(context);
       }
     else {
-       _goToAddSong(context,);
+       _goToAddSong(context,); //id);
     }
   }
 
@@ -44,7 +47,6 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final album = Provider.of<Album>(context);
-    id =album.id;
     return InkWell(
       child:
       Row(children: <Widget>[
@@ -80,10 +82,12 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
               Container(
                 color: Colors.black,
                 child: PopupMenuButton<choosed>(
+
                   icon: Icon(Icons.more_vert,
                   color: Colors.white,
                   ),
-                  onSelected: choosedAction,
+                  //onSelected: (_) { choosedAction(value  , album.id);},
+                  onSelected:choosedAction,
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<choosed>>[
                         const PopupMenuItem<choosed>(
                         value: choosed.delete,

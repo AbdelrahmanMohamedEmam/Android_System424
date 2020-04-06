@@ -183,7 +183,7 @@ class _MainWidgetState extends State<MainWidget> {
   Future<void> _generatePalette() async {
     if(song!=null) {
       PaletteGenerator _paletteGenerator =
-      await PaletteGenerator.fromImageProvider(NetworkImage(song.imgUrl),
+      await PaletteGenerator.fromImageProvider(NetworkImage(song.album.images[0]),
           size: Size(110, 150), maximumColorCount: 20);
       if(_paletteGenerator.darkMutedColor!=null) {
         background = _paletteGenerator.darkMutedColor.color;
