@@ -29,7 +29,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     String albymByName = "Amr Diab";
     String releaseYear = "2020";
     String releaseDate = "May 6,2020";
-    return _isLoading
+    return /*_isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
             appBar: AppBar(
@@ -46,7 +46,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
               ),
             ),
           )
-        : Scaffold(
+        : */Scaffold(
             backgroundColor: Colors.black,
             body: SafeArea(
               child: CustomScrollView(
