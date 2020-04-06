@@ -245,6 +245,27 @@ class UserAPI{
     }
   }
 
-
-
+  Future<bool> followArtist(String token , String id) async {
+    try {
+      final response = await http.put(
+        baseUrl+'/me/following',
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+          headers: {
+          "authorization" : token
+        }
+      );
+      if(response.statusCode==304 || response.statusCode==200 || response.statusCode==204) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
 }
