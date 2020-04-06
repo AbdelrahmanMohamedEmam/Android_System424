@@ -24,6 +24,10 @@ class PlaylistList extends StatelessWidget {
       playlists = playlistsProvider.getpopPlaylists;
     } else if (categoryTitle == 'Jazz') {
       playlists = playlistsProvider.getJazzPlaylists;
+    } else if (categoryTitle == 'Arabic') {
+      playlists = playlistsProvider.getArabicPlaylists;
+    } else if (categoryTitle == 'Happy') {
+      playlists = playlistsProvider.getHappyPlaylists;
     }
 
     return Container(

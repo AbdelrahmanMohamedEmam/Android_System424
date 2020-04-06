@@ -58,29 +58,24 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import './Providers/artist_provider.dart';
 
-
-
-Future<String> setUrl() async{
+Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
-  final option=content.substring(14,15);
-  if(option=='2')
-  {
+  final option = content.substring(14, 15);
+  if (option == '2') {
     return 'http://spotify.mocklab.io';
-  }
-  else if (option=='1'){
+  } else if (option == '1') {
     return '';
   }
 }
 
 void main() async {
-
-
   WidgetsFlutterBinding.ensureInitialized();
-  String url= await setUrl();
+  String url = await setUrl();
 
-  runApp(
-    Phoenix(child: MyApp(url: url,))
-  );
+  runApp(Phoenix(
+      child: MyApp(
+    url: url,
+  )));
 }
 
 class MyApp extends StatelessWidget {
@@ -89,12 +84,9 @@ class MyApp extends StatelessWidget {
 
   MyApp({this.url});
 
-
-
-
   @override
   Widget build(BuildContext context) {
- //  getUrl();
+    //  getUrl();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -106,7 +98,7 @@ class MyApp extends StatelessWidget {
           value: PlaylistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: AlbumProvider(),
+          value: AlbumProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: ArtistProvider(),
@@ -157,11 +149,11 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName : (ctx) => OverviewScreen(),
-            StatsScreen.routeName : (ctx) => StatsScreen(),
-            MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-            AddSongScreen.routeName : (ctx) => AddSongScreen(),
+            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
+            OverviewScreen.routeName: (ctx) => OverviewScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
+            AddSongScreen.routeName: (ctx) => AddSongScreen(),
           },
         ),
       ),

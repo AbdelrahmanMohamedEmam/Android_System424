@@ -31,6 +31,12 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as workout playlists.
   List<Playlist> _jazzPlaylists = [];
 
+  ///List of playlist objects categorized as workout playlists.
+  List<Playlist> _arabicPlaylists = [];
+
+  ///List of playlist objects categorized as workout playlists.
+  List<Playlist> _happyPlaylists = [];
+
   ///A method(getter) that returns a list of playlists (made for you playlists).
   List<Playlist> get getMostRecentPlaylists {
     return [..._mostRecentPlaylists];
@@ -54,6 +60,16 @@ class PlaylistProvider with ChangeNotifier {
   ///A method(getter) that returns a list of playlists (workout playlists).
   List<Playlist> get getJazzPlaylists {
     return [..._jazzPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (workout playlists).
+  List<Playlist> get getArabicPlaylists {
+    return [..._arabicPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (workout playlists).
+  List<Playlist> get getHappyPlaylists {
+    return [..._happyPlaylists];
   }
 
   Playlist getMostRecentPlaylistsId(String id) {
@@ -131,6 +147,40 @@ class PlaylistProvider with ChangeNotifier {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
       }
       _jazzPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for workout playlists and set them in the workout list.
+  Future<void> fetchArabicPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchArabicPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _arabicPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for workout playlists and set them in the workout list.
+  Future<void> fetchHappyPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchHappyPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _happyPlaylists = loadedPlaylists;
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
