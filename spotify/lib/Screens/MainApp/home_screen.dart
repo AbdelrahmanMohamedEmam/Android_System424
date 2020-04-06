@@ -53,9 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
           .fetchPopPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchJazzPlaylists(user.token);
-
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchArabicPlaylists(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchHappyPlaylists(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums()
+          .fetchMostRecentAlbums(user.token);
+      Provider.of<AlbumProvider>(context, listen: false)
+          .fetchPopularAlbums(user.token)
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -118,8 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             PlaylistList('Most recent playlists'),
                             PlaylistList('Popular playlists'),
                             AlbumList('Popular albums'),
+                            AlbumList('Most Recent Albums'),
                             PlaylistList('Pop'),
                             PlaylistList('Jazz'),
+                            PlaylistList('Arabic'),
+                            PlaylistList('Happy'),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )

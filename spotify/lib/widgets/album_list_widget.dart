@@ -9,14 +9,17 @@ import '../Models/album.dart';
 
 class AlbumList extends StatelessWidget {
   final String categoryTitle;
-
   AlbumList(this.categoryTitle);
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final albumsProvider = Provider.of<AlbumProvider>(context);
     List<Album> albums;
-    albums = albumsProvider.getPopularAlbums;
+    if (categoryTitle == 'Popular albums') {
+      albums = albumsProvider.getPopularAlbums;
+    } else if (categoryTitle == 'Most Recent Albums') {
+      albums = albumsProvider.getMostRecentAlbums;
+    }
 
     return Container(
       height: (deviceSize.height) * 0.3880,
