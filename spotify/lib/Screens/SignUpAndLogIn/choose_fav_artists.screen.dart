@@ -70,7 +70,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
   Future<void> _initializeList() async{
     final artistProvider=Provider.of<ArtistProvider>(context, listen: false);
-    await artistProvider.fetchAllArtists().then((_){setState(() {
+    await artistProvider.fetchAllArtists('').then((_){setState(() {
       artistsLoaded=true;
     });});
     artists=  artistProvider.getAllArtists;

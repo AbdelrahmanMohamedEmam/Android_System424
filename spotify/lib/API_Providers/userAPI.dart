@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/API_Providers/albumAPI.dart';
 
 
 ///Importing models.
@@ -268,4 +269,5 @@ class UserAPI{
       throw HttpException(error.toString());
     }
   }
+
 }
