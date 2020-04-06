@@ -21,6 +21,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   bool _isScrolled = false;
   bool _isLoading = true;
   bool _isInit = false;
+  //bool _isButtonDisabled;
 
   @override
   void didChangeDependencies() {
@@ -48,6 +49,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
+    //_isButtonDisabled = false;
     super.initState();
   }
 
@@ -93,9 +95,11 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       PopupMenuButton(
                         itemBuilder: (_) => [
                           /*PopupMenuItem(child: Text('Like'),value:0),
-                  PopupMenuItem(child: Text('Share'),value:1),*/
+                  PopupMenuItem(child: Text('Share'),value:1),
                         ],
-                        icon: Icon(Icons.more_vert),
+                        
+                        icon: Icon(Icons.more_vert),*/
+
                       )
                     ],
                     expandedHeight: 340,

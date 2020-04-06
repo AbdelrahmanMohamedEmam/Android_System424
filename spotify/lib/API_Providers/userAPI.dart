@@ -80,7 +80,7 @@ class UserAPI{
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<Map<String, dynamic>> signIn(String email, String password) async{
-    final url = 'http://www.mocky.io/v2/5e8a7b0a2d00006e1a1a4663';
+    final url = baseUrl+'/signIn';
 
     try {
       final response = await http.post(
@@ -114,7 +114,7 @@ class UserAPI{
   Future<User> setUser(String token) async {
     try {
       final response = await http.get(
-        'http://www.mocky.io/v2/5e8a7c262d00003c1a1a466b',
+        baseUrl+'/me',
         headers: {'authorization': token},
       );
 
