@@ -17,7 +17,7 @@ class PlaylistsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
     List<Playlist> playlists;
-    playlists = playlistsProvider.getMadeForYouPlaylists;
+    playlists = playlistsProvider.getMostRecentPlaylists;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(

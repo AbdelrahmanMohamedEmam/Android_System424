@@ -208,7 +208,7 @@ class _MainWidgetState extends State<MainWidget> {
         downloading = true;
         print('Downloading...');
       });
-      await dio.download(song.href, '$dir/' + song.id).then((_){
+      await dio.download(song.uri, '$dir/' + song.id).then((_){
          setState(() {
             downloaded = true;
             downloading = false;

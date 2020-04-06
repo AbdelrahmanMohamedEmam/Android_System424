@@ -4,20 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-
 ///Import providers.
+import 'package:spotify/Providers/playable_track.dart';
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 import 'Providers/album_provider.dart';
 import './Providers/artist_provider.dart';
-import 'package:spotify/Providers/playable_track.dart';
 
 
 ///Importing screens to add paths.
-import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'Screens/MainApp/artist_screen.dart';
-import 'package:spotify/Widgets/trackPlayer.dart';
 import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
@@ -38,20 +35,19 @@ import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
 import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
+import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-
-
+import 'package:spotify/Widgets/trackPlayer.dart';
 
 ///A Function to read the configuration file before running the app.
 Future<String> setUrl() async{
+
   String content = await rootBundle.loadString("assets/config.txt");
-  final option=content.substring(14,15);
-  if(option=='2')
-  {
+  final option = content.substring(14, 15);
+  if (option == '2') {
     return 'http://spotify.mocklab.io';
-  }
-  else if (option=='1'){
+  } else if (option == '1') {
     return '';
   }
 }
@@ -61,36 +57,36 @@ void main() async {
 
   ///Setting the API url before running the app.
   WidgetsFlutterBinding.ensureInitialized();
-  String url= await setUrl();
+  String url = await setUrl();
 
-  runApp(
-    Phoenix(child: MyApp(url: url,))
-  );
+  runApp(Phoenix(
+      child: MyApp(
+    url: url,
+  )));
 }
 
 class MyApp extends StatelessWidget {
-
   ///API url.
   final String url;
 
   ///Constructor.
   MyApp({this.url});
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: UserProvider(baseUrl: url),
+          value: UserProvider(
+            baseUrl: url,
+            context: context,
+          ),
         ),
         ChangeNotifierProvider.value(
-          value: PlaylistProvider(),
+          value: PlaylistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: AlbumProvider(),
+          value: AlbumProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: ArtistProvider(),
@@ -139,11 +135,11 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName : (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName : (ctx) => OverviewScreen(),
-            StatsScreen.routeName : (ctx) => StatsScreen(),
-            MyMusicScreen.routeName : (ctx) => MyMusicScreen(),
-            AddSongScreen.routeName : (ctx) => AddSongScreen(),
+            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
+            OverviewScreen.routeName: (ctx) => OverviewScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
+            AddSongScreen.routeName: (ctx) => AddSongScreen(),
           },
         ),
       ),

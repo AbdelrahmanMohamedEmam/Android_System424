@@ -100,14 +100,14 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.06, 5, 0, 10),
             child: Text(
               'What\'s your name?',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize:  deviceSize.width*0.06),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: deviceSize.width*0.06),
             width: deviceSize.width * 0.9,
             child: TextFormField(
               controller: username,
@@ -131,7 +131,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: deviceSize.width*0.06),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -139,7 +139,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
                   color: Colors.grey,
                   child: Text(
                     'CREATE',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

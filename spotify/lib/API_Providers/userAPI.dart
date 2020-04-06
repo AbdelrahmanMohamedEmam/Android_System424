@@ -39,7 +39,11 @@ class UserAPI{
         ),
       );
       final responseData = jsonDecode(response.body);
-      return responseData;
+      if (responseData['message'] != null) {
+        throw HttpException(responseData['message']);
+      } else {
+        return responseData;
+      }
     } catch (error) {
       throw HttpException(error.toString());
     }
@@ -165,7 +169,6 @@ class UserAPI{
           final response = await http
               .post(baseUrl+'/loginWithFacebook', body: {
             "access token": token,
-            //"facebook id": facebookId,
           });
           final responseData = jsonDecode(response.body);
 
@@ -195,8 +198,6 @@ class UserAPI{
   Future<bool> upgradePremium(String confirmationCode, String token) async {
     try {
       final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
-        //body: {},
-        //+confirmationCode,
         headers: {'authorization': token},
       );
 
@@ -247,4 +248,30 @@ class UserAPI{
 
 
 
+  ///Sends a request to follow an artist given the id.
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> followArtist(String token , String id) async {
+    try {
+      final response = await http.put(
+        baseUrl+'/me/following',
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+          headers: {
+          "authorization" : token
+        }
+      );
+      if(response.statusCode==304 || response.statusCode==200 || response.statusCode==204) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
 }

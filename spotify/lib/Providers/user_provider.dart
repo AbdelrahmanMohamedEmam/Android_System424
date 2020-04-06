@@ -1,5 +1,6 @@
 ///Importing flutter material to use it's libraries.
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 ///Importing an API from facebook to use facebook login.
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -24,7 +25,9 @@ import '../API_Providers/userAPI.dart';
 ///It is responsible to cache the data of the user to auto login him.
 class UserProvider with ChangeNotifier {
   final String baseUrl;
-  UserProvider({this.baseUrl});
+  final BuildContext context;
+
+  UserProvider({this.baseUrl, this.context});
 
   ///SignUp and Login Attributes.
   ///
@@ -46,7 +49,8 @@ class UserProvider with ChangeNotifier {
   ///Facebook Login Attributes.
   ///
   ///An object of facebook plugin.
-  var facebookLogin = FacebookLogin();
+  var facebookLogin = FacebookLogin(
+  );
 
   ///Indicates if the user logs in with facebook.
   bool _isLoggedInWithFB = false;
@@ -54,11 +58,13 @@ class UserProvider with ChangeNotifier {
   ///Indicates if resetting password succeeded .
   bool resetSuccessful = false;
 
+  bool followSuccessful = false;
 
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
-    print(_user.role);
+    print(
+        _user.role);
     if (_user.role == 'premium' || _user.role == 'artist') {
       return true;
     } else {
@@ -114,14 +120,21 @@ class UserProvider with ChangeNotifier {
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> setUser(String token) async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
 
     try {
-      _user = await userAPI.setUser(_token);
-      print(_user.email);
+      _user = await userAPI.setUser(
+          _token);
+      print(
+          _user.email);
     } catch (error) {
-      print(error.toString());
-      throw HttpException(error.toString());
+      print(
+          error.toString(
+          ));
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
@@ -158,34 +171,65 @@ class UserProvider with ChangeNotifier {
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signInWithFB() async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
 
     try {
-      final responseData = await userAPI.signInWithFB();
+      final responseData = await userAPI.signInWithFB(
+      );
 
       if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+        throw HttpException(
+            responseData['message']);
       } else {
         _isLoggedInWithFB = true;
         _token = responseData['token'];
         _status = responseData['success'];
-        print(_token.toString());
-        _expiryDate = DateTime.now().add(Duration(days: 1));
-        _autoLogout();
-        notifyListeners();
-        final prefs = await SharedPreferences.getInstance();
+        String expiryDuration = responseData['expiryDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
+        print(
+            _token.toString(
+            ));
+        _expiryDate = DateTime.now(
+        ).add(
+            expireAfter);
+        print(_expiryDate);
+        _autoLogout(
+        );
+        notifyListeners(
+        );
+        final prefs = await SharedPreferences.getInstance(
+        );
         final userData = json.encode(
           {
             'token': _token,
-            'expiryDate': _expiryDate.toIso8601String(),
+            'expiryDate': _expiryDate.toIso8601String(
+            ),
           },
         );
-        print('FacebookLoginDone');
-        prefs.setString('userData', userData);
+        print(
+            'FacebookLoginDone');
+        prefs.setString(
+            'userData', userData);
       }
     } catch (error) {
       _isLoggedInWithFB = false;
-      throw HttpException(error.toString());
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
@@ -194,33 +238,64 @@ class UserProvider with ChangeNotifier {
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
     try {
       final responseData =
-          await userAPI.signUp(email, password, gender, username, dateOfBirth);
+      await userAPI.signUp(
+          email, password, gender, username, dateOfBirth);
 
       if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+        throw HttpException(
+            responseData['message']);
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
-        print(_token.toString());
-        _expiryDate = DateTime.now().add(Duration(days: 1));
-        _autoLogout();
-        notifyListeners();
-        final prefs = await SharedPreferences.getInstance();
+        String expiryDuration = responseData['expiryDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
+        print(
+            _token.toString(
+            ));
+        _expiryDate = DateTime.now(
+        ).add(expireAfter);
+        print(_expiryDate.toIso8601String());
+        _autoLogout(
+        );
+        notifyListeners(
+        );
+        final prefs = await SharedPreferences.getInstance(
+        );
         final userData = json.encode(
           {
             'token': _token,
-            'expiryDate': _expiryDate.toIso8601String(),
+            'expiryDate': _expiryDate.toIso8601String(
+            ),
           },
         );
-        print(responseData);
-        print('SignUpDone');
-        prefs.setString('userData', userData);
+        print(
+            responseData);
+        print(
+            'SignUpDone');
+        prefs.setString(
+            'userData', userData);
       }
     } catch (error) {
-      throw HttpException(error.toString());
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
@@ -228,30 +303,60 @@ class UserProvider with ChangeNotifier {
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> signIn(String email, String password) async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
 
     try {
-      final responseData = await userAPI.signIn(email, password);
+      final responseData = await userAPI.signIn(
+          email, password);
       if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+        throw HttpException(
+            responseData['message']);
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
-        _expiryDate = DateTime.now().add(Duration(days: 1));
-        _autoLogout();
-        notifyListeners();
-        print(responseData);
-        final prefs = await SharedPreferences.getInstance();
+        String expiryDuration = responseData['expiryDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
+
+        print(expiryDuration+ "EXPIRY DATE");
+        _expiryDate = DateTime.now(
+        ).add(expireAfter);
+        _autoLogout(
+        );
+        print(_expiryDate.toIso8601String());
+        notifyListeners(
+        );
+        print(
+            responseData);
+        final prefs = await SharedPreferences.getInstance(
+        );
         final userData = json.encode(
           {
             'token': _token,
-            'expiryDate': _expiryDate.toIso8601String(),
+            'expiryDate': _expiryDate.toIso8601String(
+            ),
           },
         );
-        prefs.setString('userData', userData);
+        prefs.setString(
+            'userData', userData);
       }
     } catch (error) {
-      print(error.toString());
+      print(
+          error.toString(
+          ));
       throw error;
     }
   }
@@ -260,43 +365,61 @@ class UserProvider with ChangeNotifier {
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> forgetPassword(String email) async {
-    UserAPI userAPI= UserAPI(baseUrl: baseUrl);
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
 
     try {
-      bool succeeded=await userAPI.forgetPassword(email);
+      bool succeeded = await userAPI.forgetPassword(
+          email);
 
       if (!succeeded) {
-        print('failed');
-        throw HttpException('Couldn\'t reset your password. Please try again later');
+        print(
+            'failed');
+        throw HttpException(
+            'Couldn\'t reset your password. Please try again later');
       } else {
-        print('succeeded');
+        print(
+            'succeeded');
         resetSuccessful = true;
       }
-      notifyListeners();
+      notifyListeners(
+      );
     } catch (error) {
-      print(error.toString());
+      print(
+          error.toString(
+          ));
       throw error;
     }
   }
 
   ///Checks if the token cached is valid or not to autologin the user.
   Future<bool> tryAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('userData')) {
+    final prefs = await SharedPreferences.getInstance(
+    );
+    if (!prefs.containsKey(
+        'userData')) {
       return false;
     }
     final extractedUserData =
-        json.decode(prefs.getString('userData')) as Map<String, Object>;
-    final expiryDate = DateTime.parse(extractedUserData['expiryDate']);
+    json.decode(
+        prefs.getString(
+            'userData')) as Map<String, Object>;
+    final expiryDate = DateTime.parse(
+        extractedUserData['expiryDate']);
 
-    if (expiryDate.isBefore(DateTime.now())) {
+    if (expiryDate.isBefore(
+        DateTime.now(
+        ))) {
       return false;
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    await setUser(_token);
-    notifyListeners();
-    _autoLogout();
+    await setUser(
+        _token);
+    notifyListeners(
+    );
+    _autoLogout(
+    );
     return true;
   }
 
@@ -309,38 +432,56 @@ class UserProvider with ChangeNotifier {
     _user = null;
     _isLoggedInWithFB = null;
     _authTimer = null;
-    print('token expires');
+    print(
+        'token expires');
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer.cancel(
+      );
       _authTimer = null;
     }
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    notifyListeners();
+    final prefs = await SharedPreferences.getInstance(
+    );
+    prefs.clear(
+    );
+    Phoenix.rebirth(context);
+    notifyListeners(
+    );
   }
 
   ///Nullify the user automatically and reset the timer to log him out.
   void _autoLogout() {
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer.cancel(
+      );
     }
-    final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
-    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
+    final timeToExpiry = _expiryDate
+        .difference(
+        DateTime.now(
+        ))
+        .inSeconds;
+    _authTimer = Timer(
+        Duration(
+            seconds: timeToExpiry), logout);
   }
 
 
   ///Sends a http request to upgrade a user to premium.
   ///An object from the API provider [UserAPI] to send requests is created.
-  Future<void>  upgradePremium(String confirmationCode) async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+  Future<void> upgradePremium(String confirmationCode) async {
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
     try {
-      final responseData = await userAPI.upgradePremium(confirmationCode, token);
+      final responseData = await userAPI.upgradePremium(
+          confirmationCode, token);
       if (responseData == true) {
-        setPremium('premium');
+        setPremium(
+            'premium');
         return;
       }
     } catch (error) {
-      print(error.toString());
+      print(
+          error.toString(
+          ));
       throw error;
     }
   }
@@ -348,14 +489,47 @@ class UserProvider with ChangeNotifier {
 
   ///Sends a http request to send an email with a confirmation code to be a premium user.
   ///An object from the API provider [UserAPI] to send requests is created.
-  Future<void>  askForPremium() async {
-    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+  Future<void> askForPremium() async {
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
     try {
-
-      await userAPI.askForPremium(token);
-
+      await userAPI.askForPremium(
+          token);
     } catch (error) {
-      print(error.toString());
+      print(
+          error.toString(
+          ));
+      throw error;
+    }
+  }
+
+
+
+
+  ///Sends a http request to follow a user given an id.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  Future<void> follow(String id) async {
+    UserAPI userAPI = UserAPI(
+        baseUrl: baseUrl);
+    try {
+      bool succeeded = await userAPI.followArtist(
+          token, id);
+      if (!succeeded) {
+        print(
+            'failed');
+        throw HttpException(
+            'Couldn\,t follow this user');
+      } else {
+        print(
+            'succeeded');
+        followSuccessful = true;
+      }
+      notifyListeners(
+      );
+    } catch (error) {
+      print(
+          error.toString(
+          ));
       throw error;
     }
   }

@@ -18,10 +18,16 @@ class PlaylistList extends StatelessWidget {
     List<Playlist> playlists;
     if (categoryTitle == 'Popular playlists') {
       playlists = playlistsProvider.getPopularPlaylists;
-    } else if (categoryTitle == 'Made for you') {
-      playlists = playlistsProvider.getMadeForYouPlaylists;
-    } else if (categoryTitle == 'Workout') {
-      playlists = playlistsProvider.getWorkoutPlaylists;
+    } else if (categoryTitle == 'Most recent playlists') {
+      playlists = playlistsProvider.getMostRecentPlaylists;
+    } else if (categoryTitle == 'Pop') {
+      playlists = playlistsProvider.getpopPlaylists;
+    } else if (categoryTitle == 'Jazz') {
+      playlists = playlistsProvider.getJazzPlaylists;
+    } else if (categoryTitle == 'Arabic') {
+      playlists = playlistsProvider.getArabicPlaylists;
+    } else if (categoryTitle == 'Happy') {
+      playlists = playlistsProvider.getHappyPlaylists;
     }
 
     return Container(
