@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/API_Providers/albumAPI.dart';
 
 
 ///Importing models.
@@ -245,6 +246,28 @@ class UserAPI{
     }
   }
 
-
+  Future<bool> followArtist(String token , String id) async {
+    try {
+      final response = await http.put(
+        baseUrl+'/me/following',
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+          headers: {
+          "authorization" : token
+        }
+      );
+      if(response.statusCode==304 || response.statusCode==200 || response.statusCode==204) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
 
 }

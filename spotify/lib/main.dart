@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
           value: AlbumProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: ArtistProvider(),
+          value: ArtistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: PlayableTrackProvider(),

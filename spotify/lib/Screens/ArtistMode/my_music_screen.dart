@@ -20,6 +20,10 @@ class MyMusicScreen extends StatefulWidget {
 class _MyMusicScreenState extends State<MyMusicScreen> {
   ScrollController _scrollController;
   bool _isScrolled = false;
+  String token;
+  String id;
+  String name;
+  String imageUrl;
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
@@ -36,7 +40,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
         _isLoading = true;
       });
       await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums('')
+          .fetchMyAlbums( '' , '5abSRg0xN1NV3gLbuvX24M')
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -46,7 +50,6 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     }
     super.didChangeDependencies();
   }
-
   void _goToCreateAlbum(
     BuildContext ctx,
   ) {
@@ -70,13 +73,20 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       '/stats_screen',
     );
   }
+  void setUserInfo() {
+    final user = Provider.of<UserProvider>(context, listen: false);
+    token = user.token;
+    name = user.username;
+    imageUrl = user.userImage[0].url;
+    print(name);
+  }
 
-  /*void reloadAlbums()
+  void reloadAlbums()
   {
     setState(() {
       didChangeDependencies();
     });
-  }*/
+  }
   void _listenToScrollChange() {
     if (_scrollController.offset >= 140.0) {
       setState(() {
@@ -92,10 +102,11 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
   @override
   Widget build(BuildContext context) {
     print('my music built');
-    final user = Provider.of<UserProvider>(context, listen: false);
+
+    
     final deviceSize = MediaQuery.of(context).size;
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
-    albums = albumProvider.getPopularAlbums;
+    albums = albumProvider.getMyAlbums;
     //reloadAlbums();
     return _isLoading
         ? Scaffold(

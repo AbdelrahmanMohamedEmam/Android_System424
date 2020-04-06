@@ -48,11 +48,11 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       await Provider.of<PlaylistProvider>(context, listen: false)
           .fetchArtistProfilePlaylists();
       await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchMultipleArtists();
+          .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
       await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums('');
+          .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
       await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist()
+          .fetchChoosedArtist('' , '5abSRg0xN1NV3gLbuvX24M')
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -90,6 +90,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
+    final user = Provider.of<UserProvider>(context, listen: false);
+
     List<Artist> artists;
     artists = artistProvider.getMultipleArtists;
     artistInfo = artistProvider.getChoosedArtist;
