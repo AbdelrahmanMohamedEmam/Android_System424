@@ -8,6 +8,7 @@ import '../../Models/http_exception.dart';
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/artist_provider.dart';
+import '../../Providers/user_provider.dart';
 import '../../Models/artist.dart';
 
 ///Importing this file to use the circular widget for artist
