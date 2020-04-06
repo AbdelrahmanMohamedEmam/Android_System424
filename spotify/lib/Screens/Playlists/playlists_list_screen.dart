@@ -7,16 +7,17 @@ import 'package:spotify/Providers/user_provider.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
 
 class PlaylistsListScreen extends StatefulWidget {
+  final PlaylistCategory playlistType;
   final String playlistId;
-  PlaylistsListScreen(this.playlistId);
+  PlaylistsListScreen({this.playlistType, this.playlistId});
   @override
   _PlaylistsListScreenState createState() => _PlaylistsListScreenState();
 }
 
 class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   var playlistsProvider;
-  var user;
-  Playlist playlistsProvider2;
+  UserProvider user;
+  Playlist playlists;
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
@@ -25,23 +26,17 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
 
   @override
   void didChangeDependencies() {
-    if (!_isInit) {
-      playlistsProvider = Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMadeForYouPlaylistTracksById(widget.playlistId)
-          .then(
-        (_) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
-        },
-      );
-      playlistsProvider2 = Provider.of<PlaylistProvider>(context)
-          .getMostRecentPlaylistsId(widget.playlistId);
-      user = Provider.of<UserProvider>(context);
-    }
-    _isInit = true;
+    user = Provider.of<UserProvider>(context);
+    Provider.of<PlaylistProvider>(context, listen: false)
+        .fetchPlaylistsTracksById(
+            widget.playlistId, user.token, widget.playlistType)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+        playlists = Provider.of<PlaylistProvider>(context,listen:false)
+            .getMostRecentPlaylistsId(widget.playlistId);
+      });
+    });
     super.didChangeDependencies();
   }
 
@@ -78,7 +73,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       opacity: _isScrolled ? 1.0 : 0.0,
                       curve: Curves.ease,
                       child: Text(
-                        playlistsProvider2.name,
+                        playlists.name,
                         style: TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
@@ -125,7 +120,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             ),
                             width: double.infinity,
                             child: Image.network(
-                              playlistsProvider2.images[0],
+                              playlists.images[0],
                               //colorBlendMode: BlendMode.colorBurn,
                               //fit: BoxFit.fitHeight,
                             ),
@@ -144,7 +139,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                               ),
                             ),
                             child: Text(
-                              playlistsProvider2.name,
+                              playlists.name,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
                               textAlign: TextAlign.center,
@@ -168,7 +163,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                               'Made for ' +
                                   user.username +
                                   ' . ' +
-                                  playlistsProvider2.popularity.toString() +
+                                  playlists.popularity.toString() +
                                   ' LIKES',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
@@ -203,13 +198,13 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         return Column(
                           children: <Widget>[
                             ChangeNotifierProvider.value(
-                              value: playlistsProvider2.tracks2[index],
+                              value: playlists.tracks[index],
                               child: SongItemPlaylistList(),
                             ),
                           ],
                         );
                       },
-                      childCount: playlistsProvider2.tracks2.length,
+                      childCount: playlists.tracks.length,
                     ),
                   ),
                   SliverList(

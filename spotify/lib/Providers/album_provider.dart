@@ -14,6 +14,7 @@ import '../Models/album.dart';
 ///Class AlbumProvider
 class AlbumProvider with ChangeNotifier {
   final String baseUrl;
+
   AlbumProvider({this.baseUrl});
 
   ///List of album objects categorized as popular albums.
@@ -46,100 +47,121 @@ class AlbumProvider with ChangeNotifier {
 
   ///A method that fetches for popular albums and set them in the popular albums list.
   Future<void> fetchPopularAlbums(String token) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      final extractedList = await albumApi.fetchPopularAlbumsApi(token);
+      final extractedList = await albumApi.fetchPopularAlbumsApi(
+          token);
       final List<Album> loadedAlbum = [];
       for (int i = 0; i < extractedList.length; i++) {
-        loadedAlbum.add(Album.fromJson(extractedList[i]));
+        loadedAlbum.add(
+            Album.fromJson(
+                extractedList[i]));
       }
       _popularAlbums = loadedAlbum;
-      notifyListeners();
+      notifyListeners(
+      );
     } catch (error) {
-      throw HttpException(error.toString());
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
   ///A method that fetches for popular albums and set them in the popular albums list.
   Future<void> fetchMostRecentAlbums(String token) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      final extractedList = await albumApi.fetchMostRecentAlbumsApi(token);
+      final extractedList = await albumApi.fetchMostRecentAlbumsApi(
+          token);
       final List<Album> loadedAlbum = [];
       for (int i = 0; i < extractedList.length; i++) {
-        loadedAlbum.add(Album.fromJson(extractedList[i]));
+        loadedAlbum.add(
+            Album.fromJson(
+                extractedList[i]));
       }
       _mostrecentAlbums = loadedAlbum;
-      notifyListeners();
+      notifyListeners(
+      );
     } catch (error) {
-      throw HttpException(error.toString());
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
-  Future<void> fetchMyAlbums() async {
-    const url = 'http://www.mocky.io/v2/5e8a21df2d00007b001a453e';
-    final response = await http.get(url);
-    final extractedList0 = json.decode(response.body) as List;
-    final List<Album> loadedAlbum = [];
-    for (int i = 0; i < extractedList0.length; i++) {
-      loadedAlbum.add(Album.fromJson(extractedList0[i]));
+  Future<void> fetchMyAlbums(String token, String id) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
+    try {
+      final extractedList = await albumApi.fetchMyAlbumsApi(
+          token, id);
+      final List<Album> loadedAlbum = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedAlbum.add(
+            Album.fromJson(
+                extractedList[i]));
+      }
+      _myAlbums = loadedAlbum;
+      notifyListeners(
+      );
+    } catch (error) {
+      throw HttpException(
+          error.toString(
+          ));
     }
-    _myAlbums = loadedAlbum;
-    print(extractedList0);
-    notifyListeners();
+  }
+
+  Future<void> fetchArtistAlbums(String token, String id) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
+    try {
+      final extractedList = await albumApi.fetchArtistAlbumsApi(
+          token, id);
+      final List<Album> loadedAlbum = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedAlbum.add(
+            Album.fromJson(
+                extractedList[i]));
+      }
+      _myAlbums = loadedAlbum;
+      notifyListeners(
+      );
+    } catch (error) {
+      throw HttpException(
+          error.toString(
+          ));
+    }
   }
 
   Future<bool> uploadImage(File file, String token, String albumName,
       String albumType, String _currentTime) async {
-    //bool success;
-    String _token = token;
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      FormData formData = new FormData.fromMap({
-        "files": MultipartFile.fromFile(
-          file.path,
-        ),
-        "releaseDate": _currentTime,
-        "name": albumName,
-        "type": albumType,
-        // "genres": ,
-      });
-      Dio dio = new Dio();
-      dio.options.headers["authorization"] = _token;
-      Response response = await dio.post(
-          'http://www.mocky.io/v2/5e7e7536300000e0134afb12',
-          data: formData);
-      notifyListeners();
-      return true;
-    } catch (response) {
-      print('error');
-      notifyListeners();
-      return false;
+      bool check = await albumApi.uploadAlbumApi(
+          file, token, albumName, albumType, _currentTime);
+      return check;
+    } catch (error) {
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 
-  Future<bool> uploadSong(
-      String path, String token, String songName, String albumId) async {
+
+  Future<bool> uploadSong( String token, String songName , String path) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      FormData formData = new FormData.fromMap({
-        "name": songName,
-        "trackAudio": MultipartFile.fromFile(
-          path,
-        ),
-      });
-      Dio dio = new Dio();
-      dio.options.headers["authorization"] = token;
-      Response response = await dio.post(
-          'http://www.mocky.io/v2/5e7e7536300000e0134afb12' //album id to be added to the url
-          ,
-          data: formData);
-      print(response);
-      notifyListeners();
-      return true;
-      //_showScaffold("This is a SnackBar called from another place.");
-    } catch (response) {
-      print('error');
-      notifyListeners();
-      return false;
+      bool check = await albumApi.uploadSongApi(
+          token, songName, path);
+      return check;
+    } catch (error) {
+      throw HttpException(
+          error.toString(
+          ));
     }
   }
 }

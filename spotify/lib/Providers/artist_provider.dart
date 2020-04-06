@@ -7,8 +7,11 @@ import '../Models/user_stats.dart';
 import '../Models/user.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
+import '../API_Providers/artistAPI.dart';
 
 class ArtistProvider with ChangeNotifier {
+  final String baseUrl;
+  ArtistProvider({this.baseUrl});
   Artist _choosedArtist;
   List<Artist> _returnMultiple = [];
   List<Artist> _returnAll = [];
@@ -25,46 +28,46 @@ class ArtistProvider with ChangeNotifier {
     return [..._returnAll];
   }
 
-  Future<void> fetchChoosedArtist() async {
-    const url = 'http://www.mocky.io/v2/5e838e2b3000003a31cf3f05';
-    final response = await http.get(url);
-    final extractedList = json.decode(
-        response.body);
-    _choosedArtist = Artist.fromJson(extractedList);
-    notifyListeners();
+  Future<void> fetchChoosedArtist(String token , String id) async {
+    //const url = 'http://www.mocky.io/v2/5e838e2b3000003a31cf3f05';
+    ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
+    try {
+      Artist extractedArtist = await artistsApi.fetchChosenApi(token, id);
+      _choosedArtist = extractedArtist;
+    }catch (error)
+    {
+      throw HttpException(error.toString());
+    }
   }
 
-
-  Future<void> fetchMultipleArtists() async {
-    const url ="http://www.mocky.io/v2/5e87635f3100002a003f44d4";
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
-    final List<Artist> loadedArtists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedArtists.add(Artist.fromJson(extractedList[i]));
+  Future<void> fetchMultipleArtists(String token , String id) async {
+    ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await artistsApi.fetchMultiApi(token , id);
+      final List<Artist> loadedArtist = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedArtist.add(Artist.fromJson(extractedList[i]));
+      }
+      _returnMultiple = loadedArtist;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _returnMultiple = loadedArtists;
-    notifyListeners(
-    );
   }
 
   ///function to get all artists for the 1st sign up
-  Future<void> fetchAllArtists() async {
-    const url = "http://www.mocky.io/v2/5e88c04a3100007c00d39a7d";
-    final response = await http.get(
-        url);
-    final extractedList = json.decode(
-        response.body) as List;
-    print(
-        extractedList.length);
-    final List<Artist> loadedArtists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedArtists.add(
-          Artist.fromJson(
-              extractedList[i]));
+  Future<void> fetchAllArtists(String token) async {
+    ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await artistsApi.fetchAllApi(token);
+      final List<Artist> loadedArtist = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedArtist.add(Artist.fromJson(extractedList[i]));
+      }
+      _returnAll = loadedArtist;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _returnAll = loadedArtists;
-    notifyListeners(
-    );
   }
 }

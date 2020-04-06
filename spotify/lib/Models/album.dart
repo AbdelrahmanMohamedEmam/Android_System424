@@ -2,6 +2,7 @@
 
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
+import 'package:spotify/Models/artist.dart';
 
 //Import model files.
 import '../Models/external_url.dart';
@@ -16,7 +17,7 @@ class Album with ChangeNotifier {
   String albumType;
 
   ///A list of artist objects. the artists of the album {required}.
-  //final List<Artist> artists;
+  final List<Artist> artists;
 
   ///A list of of strings for the copyrights of the album.
   List<String> copyrights;
@@ -54,12 +55,14 @@ class Album with ChangeNotifier {
   ///The spotify uri for this album{required}.
   final String uri;
 
+  final int totalTracks;
+
   ///Constructor for class album with named arguments assignment.
   ///Required parameters:{href,id,name,artists,uri}.
   Album({
     ///Initializations.
     this.albumType,
-    //@required this.artists,
+    @required this.artists,
     this.copyrights,
     this.externalUrls,
     this.genres,
@@ -72,25 +75,26 @@ class Album with ChangeNotifier {
     this.releaseDate,
     this.type,
     @required this.uri,
+    this.totalTracks,
   });
 
   ///A method that parses a mapped object from a json file and returns an album object.
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-      albumType: json['albumType'],
-      //artists: json['artists'],
-      copyrights: parseString(json['copyrights']),
-      externalUrls: parceExternalUrl(json['externalUrls']),
-      genres: parseString(json['genres']),
-      href: json['href'],
-      id: json['id'],
-      images: parseString(json['images']),
-      label: json['label'],
-      name: json['name'],
-      popularity: json['popularity'],
-      releaseDate: json['releaseDate'],
-      type: json['type'],
-      uri: json['uri'],
-    );
+        albumType: json['albumType'],
+        artists: json['artists'],
+        copyrights: parseString(json['copyrights']),
+        externalUrls: parceExternalUrl(json['externalUrls']),
+        genres: parseString(json['genres']),
+        href: json['href'],
+        id: json['id'],
+        images: parseString(json['images']),
+        label: json['label'],
+        name: json['name'],
+        popularity: json['popularity'],
+        releaseDate: json['releaseDate'],
+        type: json['type'],
+        uri: json['uri'],
+        totalTracks: json['total_tracks']);
   }
 }
