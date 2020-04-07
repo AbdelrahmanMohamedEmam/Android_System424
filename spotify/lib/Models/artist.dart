@@ -13,7 +13,7 @@ class Artist with ChangeNotifier{
   //final List<String> genres;
   final String href;
   final String id;
-  final List<Image> images;
+  final List<String> images;
   final String name;
   //final int  popularity;
   final String type;
@@ -45,8 +45,8 @@ class Artist with ChangeNotifier{
       //externalUrls: json['external_urls'],
       followers: Follower.fromjson(json['followers']),
       href: json['href'],
-      id: json['id'],
-      images: parceImage(json['images']),
+      id: json['_id'],
+      images: parseString(json['images']),
       name: json['name'],
       type: json['type'],
       uri: json['uri'],

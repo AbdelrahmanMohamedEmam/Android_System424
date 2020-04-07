@@ -61,9 +61,9 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
   void _goToOverview(
     BuildContext ctx,
   ) {
-    Navigator.of(ctx).pushNamed(
-      '/overview_screen',
-    );
+    //Navigator.of(ctx).pushNamed(
+      //TabNavigatorRoutes.artist,
+    //);
   }
 
   void _goToStats(

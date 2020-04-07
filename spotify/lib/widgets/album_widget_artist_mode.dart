@@ -22,7 +22,7 @@ String id;
   void _goToAddSong(BuildContext ctx ,String id)
   {
 
-    Navigator.of(ctx).pushNamed(TabNavigatorRoutes.addSongScreen,
+    Navigator.of(ctx).pushNamed(AddSongScreen.routeName,
       arguments: {
       "id" : id,
       }

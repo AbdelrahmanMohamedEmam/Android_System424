@@ -15,11 +15,14 @@ import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
 
 class ArtistProfileScreen extends StatefulWidget {
+  final String id;
+  ArtistProfileScreen(this.id);
   @override
   ArtistProfileScreenState createState() => ArtistProfileScreenState();
 }
 
 class ArtistProfileScreenState extends State<ArtistProfileScreen> {
+
   bool _isLoading = false;
   List<Artist> artists = [];
   List<Playlist> playlists;
@@ -44,15 +47,17 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       setState(() {
         _isLoading = true;
       });
+      final user = Provider.of<UserProvider>(context, listen: false).token;
+      print(user);
       //String _user = Provider.of<UserProvider>(context , listen: false).token;
-      await Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchArtistProfilePlaylists();
+      //await Provider.of<PlaylistProvider>(context, listen: false)
+        //  .fetchArtistProfilePlaylists(user , '5abSRg0xN1NV3gLbuvX24M');
+      //await Provider.of<ArtistProvider>(context, listen: false)
+        //  .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
+      //await Provider.of<AlbumProvider>(context, listen: false)
+       //   .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
       await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
-      await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
-      await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist('' , '5abSRg0xN1NV3gLbuvX24M')
+          .fetchChoosedArtist(user , widget.id)
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -90,8 +95,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-    final user = Provider.of<UserProvider>(context, listen: false);
-
     List<Artist> artists;
     artists = artistProvider.getMultipleArtists;
     artistInfo = artistProvider.getChoosedArtist;

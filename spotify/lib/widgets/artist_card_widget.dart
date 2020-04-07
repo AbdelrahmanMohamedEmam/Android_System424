@@ -20,7 +20,7 @@ class ArtistBackground extends StatelessWidget {
             child: FadeInImage(
               placeholder: AssetImage('assets/images/temp.jpg'),
               image: NetworkImage(
-                artistsInformation.images[0].url,
+                artistsInformation.images[0],
               ),
             ),
           ),
