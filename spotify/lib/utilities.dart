@@ -103,10 +103,10 @@ List<String> parseString(stringJson) {
   return imageList;
 }
 
-Map<String, dynamic> parseRequest(var json, String type) {
+List<dynamic> parseRequest(var json, String type) {
   Map<String, dynamic> dataMap = json.decode(json.body);
   Map<String, dynamic> dataMap2 = dataMap['data'];
-  return dataMap2['$type'];
+  return dataMap2['$type'] as List;
 }
 
 /*List<ArtistInfo> parceArtistInfo(ArtistInfoJason) {
