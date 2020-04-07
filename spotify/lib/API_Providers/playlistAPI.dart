@@ -77,10 +77,10 @@ class PlaylistAPI {
     try {
       final response = await http.get(
         url,
-        headers:{"authorization": "Bearer " + token},
+        headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-          Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['playlists'] as List;
         return extractedList;
@@ -105,7 +105,7 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-         Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['playlists'] as List;
         return extractedList;
@@ -194,7 +194,11 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        final extractedList = json.decode(response.body) as List;
+        print(response.body);
+        Map<String,dynamic> temp=json.decode(response.body);
+        Map<String,dynamic>temp2=temp['data'];
+        final extractedList = temp2['tracksArray'] as List;
+
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

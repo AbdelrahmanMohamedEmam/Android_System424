@@ -81,24 +81,23 @@ class Album with ChangeNotifier {
   ///A method that parses a mapped object from a json file and returns an album object.
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-      albumType: json['albumType'] == null ? null : json['albumType'],
+      albumType: json['albumType'] == null ? "" : json['albumType'],
       //artists: json['artists'] == null ? null : json['artists'],
       copyrights:
-         json['copyrights'] == null ? null : parseString(json['copyrights']),
-      externalUrls: json['externalUrls'] == null
-         ? null
-          : parseString(json['externalUrls']),
-      genres: json['genres'] == null ? null : parseString(json['genres']),
-      href: json['href'] == null ? null : json['href'],
-      id: json['_id'] == null ? null : json['_id'],
-      images: json['image'] == null ? null : json['image'],
-      label: json['label'] == null ? null : json['label'],
-      name: json['name'] == null ? null : json['name'],
-       popularity: json['popularity'] == null ? null : json['popularity'],
-       releaseDate: json['releaseDate'] == null ? null : json['releaseDate'],
-       type: json['type'] == null ? null : json['type'],
-       uri: json['uri'] == null ? null : json['uri'],
-       totalTracks: json['total_tracks'] == null ? null : json['total_tracks'],
+          json['copyrights'] == null ? [] : parseString(json['copyrights']),
+      externalUrls:
+          json['externalUrls'] == null ? [] : parseString(json['externalUrls']),
+      genres: json['genres'] == null ? [] : parseString(json['genres']),
+      href: json['href'] == null ? "" : json['href'],
+      id: json['_id'] == null ? "" : json['_id'],
+      images: json['image'] == null ? "" : json['image'],
+      label: json['label'] == null ? "" : json['label'],
+      name: json['name'] == null ? "" : json['name'],
+      popularity: json['popularity'] == null ? 0 : json['popularity'],
+      releaseDate: json['releaseDate'] == null ? "" : json['releaseDate'],
+      type: json['type'] == null ? "" : json['type'],
+      uri: json['uri'] == null ? "" : json['uri'],
+      totalTracks: json['total_tracks'] == null ? 0 : json['total_tracks'],
     );
   }
 }

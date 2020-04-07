@@ -16,6 +16,7 @@ class PlaylistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final playlist = Provider.of<Playlist>(context);
     final deviceSize = MediaQuery.of(context).size;
+
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -60,8 +61,10 @@ class PlaylistWidget extends StatelessWidget {
             ),
             Container(
               height: deviceSize.height * 0.0440,
+              width: double.infinity,
               child: Text(
                 playlist.description,
+                textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.0292,

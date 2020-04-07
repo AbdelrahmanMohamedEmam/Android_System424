@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
+import 'package:spotify/utilities.dart';
 import '../API_Providers/artistAPI.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -29,7 +30,6 @@ class AlbumAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['albums'] as List;
-        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

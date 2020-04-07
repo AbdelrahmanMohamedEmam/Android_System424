@@ -96,7 +96,7 @@ class Playlist with ChangeNotifier {
           ? null
           : parceExternalUrl(json['externalUrls']),
       href: json['href'] == null ? null : json['href'],
-      id: json['_id'] == null ? null : json['id'],
+      id: json['_id'],
       images: json['images'] == null ? null : parseString(json['images']),
       name: json['name'] == null ? null : json['name'],
       owner: json['owner'] == null ? null : parceOwner(json['owner']),
