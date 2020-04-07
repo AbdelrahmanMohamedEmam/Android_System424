@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
 import '../Screens/MainApp/tab_navigator.dart';
-import '../Providers/album_provider.dart';
+//import '../Providers/album_provider.dart';
+import '../Screens/ArtistMode/add_song_screen.dart';
 
 // This is the type used by the popup menu below.
 enum choosed { delete, add_song , edit}
@@ -13,18 +14,18 @@ class ArtistModeAlbums extends StatefulWidget {
 }
 
 class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
-
+String id;
   void _goToStats(BuildContext ctx ,)
   {
     Navigator.of(ctx).pushNamed('/stats_screen' ,);
   }
-  void _goToAddSong(BuildContext ctx ,) //String id)
+  void _goToAddSong(BuildContext ctx ,String id)
   {
 
     Navigator.of(ctx).pushNamed(TabNavigatorRoutes.addSongScreen,
-      //arguments: {
-      //"id" : id,
-      //}
+      arguments: {
+      "id" : id,
+      }
     );
   }
 
@@ -39,7 +40,7 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
         _goToStats(context);
       }
     else {
-       _goToAddSong(context,); //id);
+       _goToAddSong(context, id);
     }
   }
 
@@ -47,6 +48,8 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final album = Provider.of<Album>(context);
+    id = album.id;
+    print(id);
     return InkWell(
       child:
       Row(children: <Widget>[

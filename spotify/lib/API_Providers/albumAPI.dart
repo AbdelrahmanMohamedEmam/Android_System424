@@ -151,5 +151,4 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-
 }

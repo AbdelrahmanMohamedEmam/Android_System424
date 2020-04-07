@@ -156,7 +156,7 @@ class AlbumProvider with ChangeNotifier {
         baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadSongApi(
-          token, songName, path);
+          token, songName, path );
       return check;
     } catch (error) {
       throw HttpException(
