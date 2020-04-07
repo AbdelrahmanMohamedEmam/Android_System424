@@ -33,8 +33,25 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         .then((_) {
       setState(() {
         _isLoading = false;
-        playlists = Provider.of<PlaylistProvider>(context,listen:false)
-            .getMostRecentPlaylistsId(widget.playlistId);
+        if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getMostRecentPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.arabic) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getArabicPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.happy) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getHappyPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.jazz) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getJazzPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.pop) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getPopPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.popularPlaylists) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getPopularPlaylistsId(widget.playlistId);
+        }
       });
     });
     super.didChangeDependencies();
@@ -90,11 +107,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       PopupMenuButton(
                         itemBuilder: (_) => [
                           /*PopupMenuItem(child: Text('Like'),value:0),
-                  PopupMenuItem(child: Text('Share'),value:1),
+                  PopupMenuItem(child: Text('Share'),value:1),*/
                         ],
-                        
-                        icon: Icon(Icons.more_vert),*/
-
+                        icon: Icon(Icons.more_vert),
                       )
                     ],
                     expandedHeight: 340,
