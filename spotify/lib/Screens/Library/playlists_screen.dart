@@ -46,7 +46,7 @@ class PlaylistsScreen extends StatelessWidget {
     );
   }
 }
-///////////////This part will be added later to create a playlist for the first timt
+///////////////This part will be added later to create a playlist for the first time
 
 /*child: Column(mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

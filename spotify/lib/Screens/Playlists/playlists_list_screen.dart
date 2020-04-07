@@ -5,6 +5,7 @@ import 'package:spotify/Models/playlist.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class PlaylistsListScreen extends StatefulWidget {
   final PlaylistCategory playlistType;
@@ -22,6 +23,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   bool _isScrolled = false;
   bool _isLoading = true;
   bool _isInit = false;
+  PaletteGenerator paletteGenerator;
+  Color background = Colors.black87;
+  bool colorGenerated = false;
 
   @override
   void didChangeDependencies() {
@@ -32,8 +36,25 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         .then((_) {
       setState(() {
         _isLoading = false;
-        playlists = Provider.of<PlaylistProvider>(context, listen: false)
-            .getMostRecentPlaylistsId(widget.playlistId);
+        if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getMostRecentPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.arabic) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getArabicPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.happy) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getHappyPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.jazz) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getJazzPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.pop) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getPopPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.popularPlaylists) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getPopularPlaylistsId(widget.playlistId);
+        }
       });
     });
     super.didChangeDependencies();
@@ -43,12 +64,34 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
+    colorGenerated = false;
     super.initState();
+  }
+
+  Future<void> _generatePalette() async {
+    if (playlists != null) {
+      PaletteGenerator _paletteGenerator =
+          await PaletteGenerator.fromImageProvider(
+              NetworkImage(playlists.images[0]),
+              size: Size(110, 150),
+              maximumColorCount: 20);
+      if (_paletteGenerator.darkMutedColor != null) {
+        background = _paletteGenerator.darkMutedColor.color;
+        colorGenerated = true;
+      }
+      setState(
+        () {
+          paletteGenerator = _paletteGenerator;
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     print('The list of songs in playlist screen is built');
+    if (!colorGenerated) _generatePalette();
+    final deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -72,28 +115,33 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       curve: Curves.ease,
                       child: Text(
                         playlists.name,
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: deviceSize.height * 0.0292), //20
                         textAlign: TextAlign.center,
                       ),
                     ),
                     centerTitle: true,
-                    backgroundColor: Color.fromRGBO(25, 20, 20, 7.0),
-                    //backgroundColor: Colors.black,
+                    backgroundColor: background,
                     actions: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.favorite_border),
-                        onPressed: () {},
-                        iconSize: 26,
+                        icon: Icon(
+                          Icons.favorite_border,
+                          color: Colors.white54,
+                        ),
+                        onPressed: null,
+                        iconSize: deviceSize.width * 0.059, //26
                       ),
                       PopupMenuButton(
-                        itemBuilder: (_) => [
-                          /*PopupMenuItem(child: Text('Like'),value:0),
-                  PopupMenuItem(child: Text('Share'),value:1),*/
-                        ],
-                        icon: Icon(Icons.more_vert),
+                        enabled: false,
+                        itemBuilder: (_) => [],
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.white54,
+                        ),
                       )
                     ],
-                    expandedHeight: 340,
+                    expandedHeight: deviceSize.height * 0.52, //340
                     pinned: true,
                     floating: false,
                     elevation: 0,
@@ -102,82 +150,55 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(top: 50, bottom: 15),
-                            height: 210,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(100, 150, 180, 5.0),
-                                  Color(0xFF191414),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: FractionalOffset(1.0, 0.1),
-                              ),
-                            ),
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.07,
+                                bottom: deviceSize.height *
+                                    0.02), //top:50, bottom:15
+                            height: deviceSize.height * 0.33,
                             width: double.infinity,
                             child: Image.network(
                               playlists.images[0],
-                              //colorBlendMode: BlendMode.colorBurn,
-                              //fit: BoxFit.fitHeight,
                             ),
                           ),
                           Container(
-                            height: 27,
+                            height: deviceSize.height * 0.035, //27
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(100, 150, 180, 5.0),
-                                  Color(0xFF191414),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: FractionalOffset(1.0, 0.1),
-                              ),
-                            ),
                             child: Text(
                               playlists.name,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: deviceSize.height * 0.029), //20
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Container(
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(100, 150, 180, 5.0),
-                                  Color(0xFF191414),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: FractionalOffset(1.0, 0.1),
-                              ),
-                            ),
-                            padding: EdgeInsets.only(top: 10),
-                            height: 50,
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.0146),
+                            height: deviceSize.height * 0.073,
                             child: Text(
                               'Made for ' +
                                   user.username +
                                   ' . ' +
                                   playlists.popularity.toString() +
                                   ' LIKES',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: deviceSize.height * 0.02),
                               textAlign: TextAlign.center,
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     bottom: PreferredSize(
                       child: Transform.translate(
                         offset: Offset(0, 0),
                         child: Container(
-                          width: 140.0,
+                          width: deviceSize.width * 0.3406,
                           child: FloatingActionButton(
-                            onPressed: () {},
-                            backgroundColor: Colors.green,
+                            onPressed: null,
+                            backgroundColor: Colors.green[700],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),
@@ -185,7 +206,8 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                           ),
                         ),
                       ),
-                      preferredSize: Size.fromHeight(60),
+                      preferredSize:
+                          Size.fromHeight(deviceSize.height * 0.0878),
                     ),
                   ),
                   SliverList(
@@ -206,7 +228,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return SizedBox(height: 300);
+                        return SizedBox(height: deviceSize.height * 0.29282);
                       },
                       childCount: 1,
                     ),
@@ -218,7 +240,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   }
 
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 140.0) {
+    if (_scrollController.offset >= 100.0) {
       setState(() {
         _isScrolled = true;
       });
