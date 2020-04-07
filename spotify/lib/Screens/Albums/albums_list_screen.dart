@@ -59,23 +59,21 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                 textAlign: TextAlign.center,
               ),
               centerTitle: true,
-              //backgroundColor: Color.fromRGBO(25, 20, 20, 7.0),
               backgroundColor: Colors.black,
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
+                  icon: Icon(Icons.favorite_border,color: Colors.white54),
+                  onPressed: null,
                   iconSize: 26,
                 ),
                 PopupMenuButton(
-                  itemBuilder: (_) => [
-                    /*PopupMenuItem(child: Text('Like'),value:0),
-                  PopupMenuItem(child: Text('Share'),value:1),*/
-                  ],
-                  icon: Icon(Icons.more_vert),
+                  enabled: false,
+                  itemBuilder: (_) =>
+                   [],
+                  icon: Icon(Icons.more_vert,color: Colors.white54),
                 )
               ],
-              expandedHeight: 340,
+              expandedHeight: 400,
 
               pinned: true,
               floating: false,
@@ -100,12 +98,11 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                       width: double.infinity,
                       child: Image.network(
                         image,
-                        //colorBlendMode: BlendMode.colorBurn,
-                        //fit: BoxFit.fitHeight,
+                        
                       ),
                     ),
                     Container(
-                      height: 27,
+                      height: 40,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -122,9 +119,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
+                      padding: EdgeInsets.only(bottom: 15),
                     ),
-                    Container(), //////white box
                     Container(
+                      height: 22,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -136,10 +134,52 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           end: FractionalOffset(1.0, 0.1),
                         ),
                       ),
-                      padding: EdgeInsets.only(top: 10),
+                      child: Container(
+                        width: 100,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: Colors.grey[400]),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.shuffle,
+                                size: 14,
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Text(
+                                'LISTEN IN SHUFFLE',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
                       height: 50,
+                      padding: EdgeInsets.only(top:7),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromRGBO(100, 150, 180, 5.0),
+                            Color(0xFF191414),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: FractionalOffset(1.0, 0.1),
+                        ),
+                      ),
                       child: Text(
-                        'Album by  ' + albymByName + ' . ' + releaseDate.substring(0,4),
+                        'Album by  ' +
+                            albymByName +
+                            ' . ' +
+                            releaseDate.substring(0, 4),
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                         textAlign: TextAlign.center,
                       ),
@@ -151,9 +191,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                 child: Transform.translate(
                   offset: Offset(0, 0),
                   child: Container(
-                    width: 140.0,
+                    width: 190.0,
                     child: FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: null,
                       backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
@@ -165,29 +205,29 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                 preferredSize: Size.fromHeight(60),
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Column(
-                    children: <Widget>[
-                      ChangeNotifierProvider.value(
-                        //value: ,
-                        child: SongItemPlaylistList(),
-                      ),
-                    ],
-                  );
-                },
-                childCount: 6,
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return SizedBox(height: 300);
-                },
-                childCount: 1,
-              ),
-            ),
+            // SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) {
+            //       return Column(
+            //         children: <Widget>[
+            //           ChangeNotifierProvider.value(
+            //             //value: ,
+            //             child: SongItemPlaylistList(),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //     childCount: 6,
+            //   ),
+            // ),
+            // SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) {
+            //       return SizedBox(height: 300);
+            //     },
+            //     childCount: 1,
+            //   ),
+            // ),
           ],
         ),
       ),

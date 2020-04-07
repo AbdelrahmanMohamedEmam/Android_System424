@@ -60,16 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchHappyPlaylists(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
-          .fetchMostRecentAlbums(user.token)
+          .fetchMostRecentAlbums(user.token);
+
+      Provider.of<AlbumProvider>(context, listen: false)
+          .fetchPopularAlbums(user.token)
           .then((_) {
         setState(() {
           _isLoading = false;
         });
       });
-      // ;
-      // Provider.of<AlbumProvider>(context, listen: false)
-      //     .fetchPopularAlbums(user.token)
-
     }
 
     super.didChangeDependencies();
@@ -126,8 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             RecentlyPlayedList(),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
-                            // AlbumList('Popular albums'),
-                            //AlbumList('Most Recent Albums'),
+                            AlbumList('Popular albums'),
+                            AlbumList('Most Recent Albums'),
                             PlaylistList(PlaylistCategory.pop),
                             PlaylistList(PlaylistCategory.jazz),
                             PlaylistList(PlaylistCategory.arabic),

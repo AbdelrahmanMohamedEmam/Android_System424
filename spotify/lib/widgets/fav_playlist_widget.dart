@@ -11,7 +11,7 @@ class FavPlaylistWidget extends StatelessWidget {
     final playlist = Provider.of<Playlist>(context);
 
     return InkWell(
-      onTap: () {},
+      onTap: null,
       child: ListTile(
         leading: Image.network(playlist.images[0]),
         title: Text(

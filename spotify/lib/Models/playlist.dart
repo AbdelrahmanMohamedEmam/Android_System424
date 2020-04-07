@@ -92,7 +92,7 @@ class Playlist with ChangeNotifier {
         description: json['description'],
         externalUrls: parceExternalUrl(json['externalUrls']),
         href: json['href'],
-        id: json['_id'],
+        id: json['id'],
         images: parseString(json['images']),
         name: json['name'],
         owner: json['owner'] == null ? [] : parseString(json['owner']),
