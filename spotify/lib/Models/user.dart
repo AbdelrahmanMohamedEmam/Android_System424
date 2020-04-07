@@ -4,6 +4,7 @@ import '../Models/external_url.dart';
 import '../Models/image.dart';
 import '../Models/follower.dart';
 import '../Models/user_stats.dart';
+import '../Models/artistInfo.dart';
 
 ///Importing utilities file to parse objects.
 import '../utilities.dart';
@@ -28,6 +29,11 @@ class User {
   final UserStats userStats;
   final String resetPasswordToken;
   final String resetPasswordExpires;
+  final ArtistInfo artistInfo;
+  final String becomePremiumToken;
+  final String becomePremiumExpires;
+  final String becomeArtistToken;
+  final String becomeArtistExpires;
 
 
 ///A constructor with named parameters.
@@ -49,6 +55,11 @@ class User {
     this.resetPasswordToken,
     this.role,
     this.resetPasswordExpires,
+    this.artistInfo,
+    this.becomePremiumToken,
+    this.becomePremiumExpires,
+    this.becomeArtistToken,
+    this.becomeArtistExpires
   });
 
 ///A factory method to decode the Json user into a user object.
@@ -59,18 +70,23 @@ class User {
       password: json['password'],
       dateOfBirth: json['dateOfBirth'],
       gender: json['gender'],
-      uri: json['uri'],
+      //uri: json['uri'],
       //following: parceFollower(json['following']),
       //followers: parceFollower(json['followers']),
-      userStats: UserStats.fromjson(json['userStats']),
-      product: json['product'],
+      //userStats: UserStats.fromjson(json['userStats']),
+      //product: json['product'],
       name: json['name'],
-      externalUrl: ExternalUrl.fromJson(json['externalUrls']),
-      href: json['href'],
-      images: parceImage(json['images']),
-      role: json['role'],
-      resetPasswordToken: json['resetPasswordToken'],
+      //externalUrl: ExternalUrl.fromJson(json['externalUrls']),
+      //href: json['href'],
+      //images: parceImage(json['images']),
+      //role: json['role'],
+      //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
+      /*resetPasswordToken: json['resetPasswordToken'],
       resetPasswordExpires: json['resetPasswordExpires'],
+      becomePremiumToken: json['becomePremiumToken'],
+      becomePremiumExpires:	json['becomePremiumExpires'],
+      becomeArtistToken:json['becomeArtistToken'],
+      becomeArtistExpires:json['becomeArtistExpires']*/
     );
   }
 }

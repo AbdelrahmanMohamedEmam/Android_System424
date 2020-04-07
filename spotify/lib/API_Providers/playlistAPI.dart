@@ -6,8 +6,9 @@ import 'package:spotify/Models/http_exception.dart';
 class PlaylistEndPoints {
   static const String playlists = '/playlists';
   static const String tracks = '/tracks';
+
   static const String popular = '/popular';
-  static const String mostRecent = '/most-recent';
+  static const String mostRecent = '/top?sort=-createdAt';
   static const String pop = '/pop';
   static const String jazz = '/jazz';
   static const String arabic = '/arabic';
@@ -26,7 +27,7 @@ class PlaylistAPI {
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer" + token},
       );
       if (response.statusCode == 200) {
         final extractedList = json.decode(response.body) as List;
@@ -40,15 +41,20 @@ class PlaylistAPI {
   }
 
   Future<List> fetchMostRecentPlaylistsApi(String token) async {
-    final url =
-        baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.mostRecent;
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/most-recent'; //PlaylistEndPoints.mostRecent;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        final extractedList = json.decode(response.body) as List;
+        // Map<String, dynamic> temp = json.decode(response.body);
+        // Map<String, dynamic> temp2 = temp['data'];
+        final extractedList =
+            json.decode(response.body); //temp2['playlist'] as List;
+        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

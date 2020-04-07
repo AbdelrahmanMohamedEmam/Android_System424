@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import '../Models/track.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 

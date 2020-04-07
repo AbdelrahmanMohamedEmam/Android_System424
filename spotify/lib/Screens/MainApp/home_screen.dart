@@ -44,7 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopularPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMostRecentPlaylists(user.token);
+          .fetchMostRecentPlaylists(user.token)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
@@ -54,14 +60,16 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchHappyPlaylists(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
-          .fetchMostRecentAlbums(user.token);
-      Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums(user.token)
+          .fetchMostRecentAlbums(user.token)
           .then((_) {
         setState(() {
           _isLoading = false;
         });
       });
+      // ;
+      // Provider.of<AlbumProvider>(context, listen: false)
+      //     .fetchPopularAlbums(user.token)
+
     }
 
     super.didChangeDependencies();

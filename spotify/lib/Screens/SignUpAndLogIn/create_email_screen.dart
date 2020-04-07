@@ -45,7 +45,7 @@ class _CreateEmailScreenState extends State<CreateEmailScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'What\'s your email?',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
             ),
           ),
 
@@ -85,7 +85,7 @@ class _CreateEmailScreenState extends State<CreateEmailScreen> {
                   color: Colors.grey,
                   child: Text(
                     'NEXT',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

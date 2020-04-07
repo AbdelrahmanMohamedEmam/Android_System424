@@ -1,53 +1,24 @@
-//Import Packages
-import 'package:dio/dio.dart';
+///Import dart and flutter libraries to use.
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-import 'package:spotify/Widgets/premium_card.dart';
-import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:global_configuration/global_configuration.dart';
 
+///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
-import 'package:spotify/Screens/MainApp/splash_Screen.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
-import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
-import 'package:spotify/Screens/Song/song_screen.dart';
-import 'package:spotify/Widgets/trackPlayer.dart';
-
-//Import Providers
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 import 'Providers/album_provider.dart';
+import './Providers/artist_provider.dart';
 
-//Import Screens
+
+///Importing screens to add paths.
 import 'Screens/MainApp/artist_screen.dart';
 import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
-
-//import 'Screens/ArtistProfile/';
-import 'Screens/ArtistProfile/see_discography_screen.dart';
-import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
-import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
-//import 'Screens/ArtistMode/';
-import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
-import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
-import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
-import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
-//import 'Screens/MainApp/splash_Screen.dart';
-
-import 'Screens/ArtistProfile/see_discography_screen.dart';
-import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
 import 'Screens/SignUpAndLogIn/choose_gender_screen.dart';
@@ -56,19 +27,35 @@ import 'Screens/SignUpAndLogIn/create_email_screen.dart';
 import 'Screens/SignUpAndLogIn/create_password_screen.dart';
 import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
-import './Providers/artist_provider.dart';
+import 'Screens/ArtistProfile/see_discography_screen.dart';
+import 'Screens/ArtistProfile/about_info_screen.dart';
+import 'Screens/ArtistProfile/song_promo_screen.dart';
+import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
+import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
+import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
+import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
+import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
+import 'package:spotify/Screens/MainApp/splash_Screen.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
+import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 
-Future<String> setUrl() async {
+///A Function to read the configuration file before running the app.
+Future<String> setUrl() async{
+
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
     return 'http://spotify.mocklab.io';
   } else if (option == '1') {
-    return '';
+    return 'http://138.91.114.14/api';
   }
 }
 
+
 void main() async {
+
+  ///Setting the API url before running the app.
   WidgetsFlutterBinding.ensureInitialized();
   String url = await setUrl();
 
@@ -82,16 +69,17 @@ class MyApp extends StatelessWidget {
   ///API url.
   final String url;
 
+  ///Constructor.
   MyApp({this.url});
 
   @override
   Widget build(BuildContext context) {
-    //  getUrl();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
           value: UserProvider(
             baseUrl: url,
+            context: context,
           ),
         ),
         ChangeNotifierProvider.value(
@@ -120,8 +108,6 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lineto',
           ),
 
-          //home: IntroScreen(),
-          //home: SplashScreen(),
           home: SplashScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),

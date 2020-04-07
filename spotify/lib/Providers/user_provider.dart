@@ -1,5 +1,6 @@
 ///Importing flutter material to use it's libraries.
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 ///Importing an API from facebook to use facebook login.
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -24,8 +25,9 @@ import '../API_Providers/userAPI.dart';
 ///It is responsible to cache the data of the user to auto login him.
 class UserProvider with ChangeNotifier {
   final String baseUrl;
+  final BuildContext context;
 
-  UserProvider({this.baseUrl});
+  UserProvider({this.baseUrl, this.context});
 
   ///SignUp and Login Attributes.
   ///
@@ -183,13 +185,28 @@ class UserProvider with ChangeNotifier {
         _isLoggedInWithFB = true;
         _token = responseData['token'];
         _status = responseData['success'];
+        String expiryDuration = responseData['expireDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
         print(
             _token.toString(
             ));
         _expiryDate = DateTime.now(
         ).add(
-            Duration(
-                days: 1));
+            expireAfter);
+        print(_expiryDate);
         _autoLogout(
         );
         notifyListeners(
@@ -234,13 +251,27 @@ class UserProvider with ChangeNotifier {
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
+        String expiryDuration = responseData['expireDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          print(index.toString());
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
         print(
             _token.toString(
             ));
         _expiryDate = DateTime.now(
-        ).add(
-            Duration(
-                days: 1));
+        ).add(expireAfter);
+        print(_expiryDate.toIso8601String());
         _autoLogout(
         );
         notifyListeners(
@@ -278,22 +309,35 @@ class UserProvider with ChangeNotifier {
     try {
       final responseData = await userAPI.signIn(
           email, password);
+      print(responseData);
       if (responseData['message'] != null) {
         throw HttpException(
             responseData['message']);
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
+        print("This issssss"+_token);
+        String expiryDuration = responseData['expireDate'];
+        Duration expireAfter;
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(minutes: int.parse(expiryDuration));
+        }
+
         _expiryDate = DateTime.now(
-        ).add(
-            Duration(
-                days: 1));
+        ).add(expireAfter);
         _autoLogout(
         );
+        print(_expiryDate.toIso8601String());
         notifyListeners(
         );
-        print(
-            responseData);
         final prefs = await SharedPreferences.getInstance(
         );
         final userData = json.encode(
@@ -396,6 +440,7 @@ class UserProvider with ChangeNotifier {
     );
     prefs.clear(
     );
+    Phoenix.rebirth(context);
     notifyListeners(
     );
   }
@@ -455,6 +500,11 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+
+
+
+  ///Sends a http request to follow a user given an id.
+  ///An object from the API provider [UserAPI] to send requests is created.
   Future<void> follow(String id) async {
     UserAPI userAPI = UserAPI(
         baseUrl: baseUrl);
@@ -465,7 +515,7 @@ class UserProvider with ChangeNotifier {
         print(
             'failed');
         throw HttpException(
-            'Couldn\'t reset your password. Please try again later');
+            'Couldn\,t follow this user');
       } else {
         print(
             'succeeded');

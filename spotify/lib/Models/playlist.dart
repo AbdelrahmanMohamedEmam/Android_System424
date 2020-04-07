@@ -61,51 +61,49 @@ class Playlist with ChangeNotifier {
 
   String createdAt;
 
-  bool isFetched=false;
+  bool isFetched = false;
 
   ///Constructor for class playlist with named arguments assignment.
   ///Required parameters:{href,id,name,uri}.
-  Playlist(
-      {
-      ///Initializations.
-      this.collaborative,
-      this.description,
-      this.externalUrls,
-      @required this.href,
-      @required this.id,
-      this.images,
-      @required this.name,
-      @required this.owner,
-      this.public,
-      this.snapShotId,
-      this.tracksRef,
-      this.type,
-      @required this.uri,
-      this.popularity,
-      this.noOfFollowers,
-      this.category,
-      this.tracks,
-      this.createdAt,
-      });
+  Playlist({
+    ///Initializations.
+    this.collaborative,
+    this.description,
+    this.externalUrls,
+    @required this.href,
+    @required this.id,
+    this.images,
+    @required this.name,
+    @required this.owner,
+    this.public,
+    this.snapShotId,
+    this.tracksRef,
+    this.type,
+    @required this.uri,
+    this.popularity,
+    this.noOfFollowers,
+    this.category,
+    this.tracks,
+    this.createdAt,
+  });
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
-      collaborative: json['collaborative'],
-      description: json['description'],
-      externalUrls: parceExternalUrl(json['externalUrls']),
-      href: json['href'],
-      id: json['id'],
-      images: parseString(json['images']),
-      name: json['name'],
-      owner: parseString(json['owner']),
-      public: json['public'],
-      snapShotId: json['snapshot_id'],
-      tracksRef: TracksRef.fromJson(json['tracks']),
-      type: json['type'],
-      uri: json['uri'],
-      category: json['category'],
-      noOfFollowers: json['noOfFollowers'],
-      popularity: json['popularity'],
-      createdAt: json['createdAt']
-    );
+        collaborative: json['collaborative'],
+        description: json['description'],
+        externalUrls: parceExternalUrl(json['externalUrls']),
+        href: json['href'],
+        id: json['_id'],
+        images: parseString(json['images']),
+        name: json['name'],
+        owner: json['owner'] == null ? [] : parseString(json['owner']),
+        public: json['public'],
+        snapShotId: json['snapshot_id'],
+        tracksRef: TracksRef.fromJson(json['tracks']),
+        type: json['type'],
+        uri: json['uri'],
+        category: json['category'],
+        noOfFollowers: json['noOfFollowers'],
+        popularity: json['popularity'],
+        createdAt: json['createdAt']);
   }
 }

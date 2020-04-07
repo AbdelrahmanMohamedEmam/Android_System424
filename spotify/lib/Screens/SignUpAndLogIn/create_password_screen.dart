@@ -51,16 +51,16 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
         children: <Widget>[
           ///'Create a password' text.
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.06, 5, 0, deviceSize.width*0.04),
             child: Text(
               'Create a password',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
             ),
           ),
 
           ///Text Input Field for the password.
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: deviceSize.width*0.06),
             width: deviceSize.width * 0.9,
             child: TextFormField(
               decoration: InputDecoration(
@@ -94,7 +94,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: deviceSize.width*0.06),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -102,7 +102,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   color: Colors.grey,
                   child: Text(
                     'NEXT',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),
