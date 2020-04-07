@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/Models/artist.dart';
-import 'package:spotify/Models/track.dart';
-import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 import '../Models/playlist.dart';
-import '../Screens/MainApp/tab_navigator.dart';
+
 
 class PlaylistWidget extends StatelessWidget {
   final PlaylistCategory playlistType;

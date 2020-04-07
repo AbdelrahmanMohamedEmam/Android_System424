@@ -118,24 +118,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return Column(
                   children: <Widget>[
                     Container(
-                      height: 50,
+                      height: deviceSize.height * 0.07327,
                       margin: EdgeInsets.only(bottom: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              user.userStats.playlistsNumber != 0
-                                  ? Navigator.of(context).pushNamed(
-                                      TabNavigatorRoutes.userPlaylistsScreen)
-                                  : null;
+                              // user.userStats[0].playlistsNumber != 0
+                              //     ? Navigator.of(context).pushNamed(
+                              //         TabNavigatorRoutes.userPlaylistsScreen)
+                              //     : null;
                             },
                             child: Container(
-                              height: 50,
+                              height: deviceSize.height * 0.07327,
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    user.userStats.playlistsNumber.toString(),
+                                    '0',
+                                    // user.userStats[0].playlistsNumber
+                                    //     .toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
@@ -148,17 +150,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              user.userStats.followersNumber != 0
-                                  ? Navigator.of(context).pushNamed(
-                                      TabNavigatorRoutes.userFollowersScreen)
-                                  : null;
+                              // user.userStats[0].followersNumber != 0
+                              //     ? Navigator.of(context).pushNamed(
+                              //         TabNavigatorRoutes.userFollowersScreen)
+                              //     : null;
                             },
                             child: Container(
-                              height: 50,
+                              height: deviceSize.height * 0.07327,
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    user.userStats.followersNumber.toString(),
+                                    '0',
+                                    /*user.userStats[0].followersNumber
+                                        .toString(),*/
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
@@ -171,17 +175,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              user.userStats.followingNumber != 0
-                                  ? Navigator.of(context).pushNamed(
-                                      TabNavigatorRoutes.userFollowingScreen)
-                                  : null;
+                              // user.userStats[0].followingNumber != 0
+                              //     ? Navigator.of(context).pushNamed(
+                              //         TabNavigatorRoutes.userFollowingScreen)
+                              //     : null;
                             },
                             child: Container(
-                              height: 50,
+                              height: deviceSize.height * 0.07327,
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    user.userStats.followingNumber.toString(),
+                                    '0',
+                                    // user.userStats[0].followingNumber
+                                    //     .toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
@@ -195,102 +201,102 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Text(
-                      'Recently played artists',
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
-                    if (recentlyPlayedartists.length >= 1)
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                recentlyPlayedartists[0].context.image),
-                          ),
-                          title: Text(
-                            recentlyPlayedartists[0].context.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'followers',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    if (recentlyPlayedartists.length >= 2)
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                recentlyPlayedartists[1].context.image),
-                          ),
-                          title: Text(
-                            recentlyPlayedartists[1].context.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'followers',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    if (recentlyPlayedartists.length >= 3)
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                recentlyPlayedartists[2].context.image),
-                          ),
-                          title: Text(
-                            recentlyPlayedartists[2].context.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'followers',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    if (recentlyPlayedartists.length > 2)
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                              TabNavigatorRoutes.recentlyPlayedArtistsScreen);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          child: Text(
-                            'See all',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                    SizedBox(
-                      height: 300,
-                    ),
+                    // Text(
+                    //   'Recently played artists',
+                    //   style: TextStyle(color: Colors.white, fontSize: 25),
+                    //   textAlign: TextAlign.center,
+                    // ),
+                    // if (recentlyPlayedartists.length >= 1)
+                    //   Container(
+                    //     margin: EdgeInsets.only(left: 10),
+                    //     child: ListTile(
+                    //       leading: CircleAvatar(
+                    //         backgroundImage: NetworkImage(
+                    //             recentlyPlayedartists[0].context.image),
+                    //       ),
+                    //       title: Text(
+                    //         recentlyPlayedartists[0].context.name,
+                    //         style: TextStyle(
+                    //           fontSize: 20,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //       subtitle: Text(
+                    //         'followers',
+                    //         style: TextStyle(
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // if (recentlyPlayedartists.length >= 2)
+                    //   Container(
+                    //     margin: EdgeInsets.only(left: 10),
+                    //     child: ListTile(
+                    //       leading: CircleAvatar(
+                    //         backgroundImage: NetworkImage(
+                    //             recentlyPlayedartists[1].context.image),
+                    //       ),
+                    //       title: Text(
+                    //         recentlyPlayedartists[1].context.name,
+                    //         style: TextStyle(
+                    //           fontSize: 20,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //       subtitle: Text(
+                    //         'followers',
+                    //         style: TextStyle(
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // if (recentlyPlayedartists.length >= 3)
+                    //   Container(
+                    //     margin: EdgeInsets.only(left: 10),
+                    //     child: ListTile(
+                    //       leading: CircleAvatar(
+                    //         backgroundImage: NetworkImage(
+                    //             recentlyPlayedartists[2].context.image),
+                    //       ),
+                    //       title: Text(
+                    //         recentlyPlayedartists[2].context.name,
+                    //         style: TextStyle(
+                    //           fontSize: 20,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //       subtitle: Text(
+                    //         'followers',
+                    //         style: TextStyle(
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // if (recentlyPlayedartists.length > 2)
+                    //   GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.of(context).pushNamed(
+                    //           TabNavigatorRoutes.recentlyPlayedArtistsScreen);
+                    //     },
+                    //     child: Container(
+                    //       width: double.infinity,
+                    //       margin: EdgeInsets.only(left: 10, top: 10),
+                    //       child: Text(
+                    //         'See all',
+                    //         textAlign: TextAlign.left,
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 20,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // SizedBox(
+                    //   height: 600/*deviceSize.height * 0.440*/,
+                    // ),
                   ],
                 );
               },
