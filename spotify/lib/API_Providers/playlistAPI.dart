@@ -26,7 +26,7 @@ class PlaylistAPI {
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer" + token},
       );
       if (response.statusCode == 200) {
         final extractedList = json.decode(response.body) as List;

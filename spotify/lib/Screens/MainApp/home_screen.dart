@@ -39,29 +39,31 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = true;
       });
       user = Provider.of<UserProvider>(context, listen: false);
-      Provider.of<PlayHistoryProvider>(context, listen: false)
-          .fetchRecentlyPlayed();
+      // Provider.of<PlayHistoryProvider>(context, listen: false)
+      //     .fetchRecentlyPlayed();
+      // Provider.of<PlaylistProvider>(context, listen: false)
+      //     .fetchPopularPlaylists(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopularPlaylists(user.token);
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMostRecentPlaylists(user.token);
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchPopPlaylists(user.token);
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchJazzPlaylists(user.token);
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchArabicPlaylists(user.token);
-      Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchHappyPlaylists(user.token);
-      Provider.of<AlbumProvider>(context, listen: false)
-          .fetchMostRecentAlbums(user.token);
-      Provider.of<AlbumProvider>(context, listen: false)
-          .fetchPopularAlbums(user.token)
+          .fetchMostRecentPlaylists(user.token)
           .then((_) {
         setState(() {
           _isLoading = false;
         });
       });
+      ;
+      // Provider.of<PlaylistProvider>(context, listen: false)
+      //     .fetchPopPlaylists(user.token);
+      // Provider.of<PlaylistProvider>(context, listen: false)
+      //     .fetchJazzPlaylists(user.token);
+      // Provider.of<PlaylistProvider>(context, listen: false)
+      //     .fetchArabicPlaylists(user.token);
+      // Provider.of<PlaylistProvider>(context, listen: false)
+      //     .fetchHappyPlaylists(user.token);
+      // Provider.of<AlbumProvider>(context, listen: false)
+      //     .fetchMostRecentAlbums(user.token);
+      // Provider.of<AlbumProvider>(context, listen: false)
+      //     .fetchPopularAlbums(user.token)
+
     }
 
     super.didChangeDependencies();
@@ -115,15 +117,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                            RecentlyPlayedList(),
+                            //RecentlyPlayedList(),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
-                            PlaylistList(PlaylistCategory.popularPlaylists),
+                            //PlaylistList(PlaylistCategory.popularPlaylists),
                             // AlbumList('Popular albums'),
-                            //AlbumList('Most Recent Albums'),
-                            PlaylistList(PlaylistCategory.pop),
-                            PlaylistList(PlaylistCategory.jazz),
-                            PlaylistList(PlaylistCategory.arabic),
-                            PlaylistList(PlaylistCategory.happy),
+                            // AlbumList('Most Recent Albums'),
+                            // PlaylistList(PlaylistCategory.pop),
+                            // PlaylistList(PlaylistCategory.jazz),
+                            // PlaylistList(PlaylistCategory.arabic),
+                            // PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )
