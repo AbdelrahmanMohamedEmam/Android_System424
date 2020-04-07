@@ -3,7 +3,7 @@ import 'package:spotify/utilities.dart';
 
 class ArtistInfo {
   final String biography;
-  final String popularity;
+  final int popularity;
   final List<String> genres;
   ArtistInfo({
     this.biography,
