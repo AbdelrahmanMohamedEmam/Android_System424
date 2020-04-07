@@ -235,20 +235,21 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
-
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
-  Future<void> fetchArtistProfilePlaylists() async {
-    const url = 'http://www.mocky.io/v2/5e749724300000d431a5f4c6';
-    //const url = 'http://www.mocky.io/v2/5e6f9a36330000a7cbf07af1';
-    //const url = 'http://www.mocky.io/v2/5e6e243e2f00005800a037ae';
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
-    final List<Playlist> loadedPlaylists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+  Future<void> fetchArtistProfilePlaylists(String token , String id) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchArtistPlaylistsApi(token , id);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _artistProfilePlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _artistProfilePlaylists = loadedPlaylists;
-    notifyListeners();
   }
 
   Future<void> fetchMostRecentPlaylistTracksById(

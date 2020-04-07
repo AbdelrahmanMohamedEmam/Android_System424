@@ -21,36 +21,46 @@ class ArtistAPI {
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {'authorization': "Bearer " + token},
       );
       if (response.statusCode == 200 ) {
         final extractedList = json.decode(response.body) ;
+        print(response.body);
         var choosedArtist = Artist.fromJson(
             extractedList);
+        print('test artist single');
+        print(response);
+        print(extractedList);
+        //print(choosedArtist);
         return choosedArtist;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
+      print('error artist single');
+      print(token);
       throw HttpException(error.toString());
     }
   }
 
   Future<List> fetchMultiApi(String token , String id) async {
     final url = baseUrl +
-        ArtistEndPoints.artists +'/' + id + ArtistEndPoints.relatedArtists;
+        ArtistEndPoints.artists + '/' + id + ArtistEndPoints.relatedArtists;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {'authorization' : "Bearer " + token},
       );
       if (response.statusCode == 200) {
         final extractedList = json.decode(response.body) as List;
+        print('test artist');
+        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
+      print('error artist');
       throw HttpException(error.toString());
     }
   }

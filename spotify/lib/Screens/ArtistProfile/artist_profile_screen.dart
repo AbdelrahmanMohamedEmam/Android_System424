@@ -44,15 +44,17 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       setState(() {
         _isLoading = true;
       });
+      final user = Provider.of<UserProvider>(context, listen: false).token;
+      print(user);
       //String _user = Provider.of<UserProvider>(context , listen: false).token;
-      await Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchArtistProfilePlaylists();
+      //await Provider.of<PlaylistProvider>(context, listen: false)
+        //  .fetchArtistProfilePlaylists(user , '5abSRg0xN1NV3gLbuvX24M');
+      //await Provider.of<ArtistProvider>(context, listen: false)
+        //  .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
+      //await Provider.of<AlbumProvider>(context, listen: false)
+       //   .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
       await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
-      await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
-      await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist('' , '5abSRg0xN1NV3gLbuvX24M')
+          .fetchChoosedArtist(user , '5e8c5393ae0f2d9d920d4fcc')
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -90,8 +92,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-    final user = Provider.of<UserProvider>(context, listen: false);
-
     List<Artist> artists;
     artists = artistProvider.getMultipleArtists;
     artistInfo = artistProvider.getChoosedArtist;
