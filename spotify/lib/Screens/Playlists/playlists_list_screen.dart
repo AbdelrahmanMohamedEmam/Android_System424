@@ -32,7 +32,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         .then((_) {
       setState(() {
         _isLoading = false;
-        playlists = Provider.of<PlaylistProvider>(context,listen:false)
+        playlists = Provider.of<PlaylistProvider>(context, listen: false)
             .getMostRecentPlaylistsId(widget.playlistId);
       });
     });

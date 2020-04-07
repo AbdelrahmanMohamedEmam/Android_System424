@@ -1,5 +1,6 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
+import 'package:spotify/Models/owner.dart';
 import 'package:spotify/Models/track.dart';
 
 //Import Models.
@@ -31,7 +32,7 @@ class Playlist with ChangeNotifier {
   final String name;
 
   ///List of strings for the href of the owners of the playlist.
-  final List<String> owner;
+  final List<Owner> owner;
 
   ///Boolean indicating if this playlist is public or not.
   bool public;
@@ -70,16 +71,16 @@ class Playlist with ChangeNotifier {
     this.collaborative,
     this.description,
     this.externalUrls,
-    @required this.href,
-    @required this.id,
+    this.href,
+    this.id,
     this.images,
-    @required this.name,
-    @required this.owner,
+    this.name,
+    this.owner,
     this.public,
     this.snapShotId,
     this.tracksRef,
     this.type,
-    @required this.uri,
+    this.uri,
     this.popularity,
     this.noOfFollowers,
     this.category,
@@ -88,22 +89,28 @@ class Playlist with ChangeNotifier {
   });
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
-        collaborative: json['collaborative'],
-        description: json['description'],
-        externalUrls: parceExternalUrl(json['externalUrls']),
-        href: json['href'],
-        id: json['_id'],
-        images: parseString(json['images']),
-        name: json['name'],
-        owner: json['owner'] == null ? [] : parseString(json['owner']),
-        public: json['public'],
-        snapShotId: json['snapshot_id'],
-        tracksRef: TracksRef.fromJson(json['tracks']),
-        type: json['type'],
-        uri: json['uri'],
-        category: json['category'],
-        noOfFollowers: json['noOfFollowers'],
-        popularity: json['popularity'],
-        createdAt: json['createdAt']);
+      collaborative:
+          json['collaborative'] == null ? true : json['collaborative'],
+      description: json['description'] == null ? null : json['description'],
+      externalUrls: json['externalUrls'] == null
+          ? null
+          : parceExternalUrl(json['externalUrls']),
+      href: json['href'] == null ? null : json['href'],
+      id: json['_id'] == null ? null : json['id'],
+      images: json['images'] == null ? null : parseString(json['images']),
+      name: json['name'] == null ? null : json['name'],
+      owner: json['owner'] == null ? null : parceOwner(json['owner']),
+      public: json['public'] == null ? true : json['public'],
+      snapShotId: json['snapshot_id'] == null ? null : json['snapshot_id'],
+      tracksRef:
+          json['tracks'] == null ? null : TracksRef.fromJson(json['tracks']),
+      type: json['type'] == null ? null : json['type'],
+      uri: json['uri'] == null ? null : json['uri'],
+      category: json['category'] == null ? null : json['category'],
+      noOfFollowers:
+          json['noOfFollowers'] == null ? null : json['noOfFollowers'],
+      popularity: json['popularity'] == null ? null : json['popularity'],
+      createdAt: json['createdAt'] == null ? null : json['createdAt'],
+    );
   }
 }

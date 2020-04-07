@@ -7,8 +7,8 @@ class Follower {
   });
   factory Follower.fromjson(Map<String, dynamic> json) {
     return Follower(
-      href: json['href'],
-      total: json['total'],
+      href: json['href'] == null ? null : json['href'],
+      total: json['total'] == null ? 0 : json['total'],
     );
   }
 }

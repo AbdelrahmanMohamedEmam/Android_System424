@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
@@ -11,7 +12,6 @@ import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 import 'Providers/album_provider.dart';
 import './Providers/artist_provider.dart';
-
 
 ///Importing screens to add paths.
 import 'Screens/MainApp/artist_screen.dart';
@@ -41,8 +41,7 @@ import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 
 ///A Function to read the configuration file before running the app.
-Future<String> setUrl() async{
-
+Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
@@ -52,9 +51,7 @@ Future<String> setUrl() async{
   }
 }
 
-
 void main() async {
-
   ///Setting the API url before running the app.
   WidgetsFlutterBinding.ensureInitialized();
   String url = await setUrl();
@@ -95,7 +92,10 @@ class MyApp extends StatelessWidget {
           value: PlayableTrackProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: PlayHistoryProvider(),
+          value: PlayHistoryProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
+          value: CategoriesProvider(baseUrl: url),
         )
       ],
       child: Consumer<UserProvider>(
@@ -107,7 +107,6 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.black,
             fontFamily: 'Lineto',
           ),
-
           home: SplashScreen(),
           routes: {
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),

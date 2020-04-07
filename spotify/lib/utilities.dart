@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
 import 'package:spotify/Models/artistInfo.dart';
+import 'package:spotify/Models/user_stats.dart';
 
 import './Models/tracks_ref.dart';
 import './Models/external_url.dart';
@@ -41,7 +45,7 @@ List<Follower> parceFollower(followerJason) {
 
 List<Owner> parceOwner(ownerJson) {
   var list = ownerJson as List;
-  List<Owner> ownerList = list.map((data) => Owner.fromjason(data)).toList();
+  List<Owner> ownerList = list.map((data) => Owner.fromJson(data)).toList();
   return ownerList;
 }
 
@@ -68,14 +72,23 @@ List<Artist> parceArtist(artistJson) {
 
 List<Track> parceTrackPlaylists(trackJson) {
   var list = trackJson as List;
-  List<Track> trackList = list.map((data) => Track.fromJsonPlaylist(data)).toList();
+  List<Track> trackList =
+      list.map((data) => Track.fromJsonPlaylist(data)).toList();
   return trackList;
 }
 
 List<Track> parceTrackAlbums(trackJson) {
   var list = trackJson as List;
-  List<Track> trackList = list.map((data) => Track.fromJsonAlbum(data)).toList();
+  List<Track> trackList =
+      list.map((data) => Track.fromJsonAlbum(data)).toList();
   return trackList;
+}
+
+List<UserStats> parceUserStats(userStatsJson) {
+  var list = userStatsJson as List;
+  List<UserStats> userStats =
+      list.map((data) => UserStats.fromJson(data)).toList();
+  return userStats;
 }
 
 List<TracksRef> parceTrackRef(trackRefJson) {
@@ -90,7 +103,11 @@ List<String> parseString(stringJson) {
   return imageList;
 }
 
-
+Map<String, dynamic> parseRequest(var json, String type) {
+  Map<String, dynamic> dataMap = json.decode(json.body);
+  Map<String, dynamic> dataMap2 = dataMap['data'];
+  return dataMap2['$type'];
+}
 
 /*List<ArtistInfo> parceArtistInfo(ArtistInfoJason) {
   var list = ArtistInfoJason as List;

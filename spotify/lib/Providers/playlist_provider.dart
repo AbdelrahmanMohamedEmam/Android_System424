@@ -11,15 +11,6 @@ import 'dart:convert';
 //Import Models.
 import '../Models/playlist.dart';
 
-// class PlaylistCategory {
-//   static const String popularPlaylists = 'Popular playlists';
-//   static const String mostRecentPlaylists = 'Most recent playlists';
-//   static const String jazz = 'Jazz';
-//   static const String happy = 'Happy';
-//   static const String arabic = 'Arabic';
-//   static const String pop = 'Pop';
-// }
-
 enum PlaylistCategory {
   popularPlaylists,
   mostRecentPlaylists,
@@ -169,10 +160,10 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
-  Future<void> fetchPopPlaylists(String token) async {
+  Future<void> fetchPopPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchPopPlaylistsApi(token);
+      final extractedList = await playlistApi.fetchPopPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -186,10 +177,10 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
-  Future<void> fetchJazzPlaylists(String token) async {
+  Future<void> fetchJazzPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchJazzPlaylistsApi(token);
+      final extractedList = await playlistApi.fetchJazzPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -203,10 +194,11 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
-  Future<void> fetchArabicPlaylists(String token) async {
+  Future<void> fetchArabicPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchArabicPlaylistsApi(token);
+      final extractedList =
+          await playlistApi.fetchArabicPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -220,10 +212,10 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
-  Future<void> fetchHappyPlaylists(String token) async {
+  Future<void> fetchHappyPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchHappyPlaylistsApi(token);
+      final extractedList = await playlistApi.fetchHappyPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
