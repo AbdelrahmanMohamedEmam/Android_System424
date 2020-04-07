@@ -5,10 +5,10 @@ class ExternalId {
     this.type,
     this.id,
   });
-    factory ExternalId.fromjson(Map<String, dynamic> json) {
+  factory ExternalId.fromjson(Map<String, dynamic> json) {
     return ExternalId(
-      type: json['type'],
-      id: json['id'],
+      type: json['type'] == null ? "" : json['type'],
+      id: json['_id'] == null ? "" : json['_id'],
     );
-    }
+  }
 }
