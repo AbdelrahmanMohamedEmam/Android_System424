@@ -188,7 +188,8 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                               selected: selected[index],
                               id: artists[index].id,
                               artistName: artists[index].name,
-                              imageUrl:artists[index].images[0].url,
+                              imageUrl: "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
+                                  // artists[index].images[0],
                             ));
                           }))
                 ],

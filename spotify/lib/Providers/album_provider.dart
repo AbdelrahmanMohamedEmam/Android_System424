@@ -180,10 +180,13 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> uploadSong(String token, String songName, String path) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+
+  Future<bool> uploadSong( String token, String songName , String path , String id) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      bool check = await albumApi.uploadSongApi(token, songName, path);
+      bool check = await albumApi.uploadSongApi(
+          token, songName, path  , id);
       return check;
     } catch (error) {
       throw HttpException(error.toString());

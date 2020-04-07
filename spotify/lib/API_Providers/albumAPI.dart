@@ -153,7 +153,7 @@ class AlbumAPI {
   }
   //'http://www.mocky.io/v2/5e7e7536300000e0134afb12'
 
-  Future<bool> uploadSongApi(String token, String songName, String path) async {
+  Future<bool> uploadSongApi(String token, String songName, String path , String id) async {
     final url = baseUrl +
         AlbumEndPoints.forArtist +
         AlbumEndPoints.albums +
@@ -164,6 +164,7 @@ class AlbumAPI {
         "trackAudio": MultipartFile.fromFile(
           path,
         ),
+        "id" : id,
       });
       Dio dio = new Dio();
       dio.options.headers["authorization"] = token;

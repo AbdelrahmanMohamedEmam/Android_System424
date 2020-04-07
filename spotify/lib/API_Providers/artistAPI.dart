@@ -21,36 +21,54 @@ class ArtistAPI {
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer " + token},
       );
-      if (response.statusCode == 200 ) {
-        final extractedList = json.decode(response.body) ;
-        var choosedArtist = Artist.fromJson(
+      print('test111114584s');
+      print(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 200 ||response.statusCode == 211 ) {
+        print('test11111');
+        //final extractedList = json.decode(response.body) ;
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> extractedList = temp['data'];
+        //final extractedList = temp2['playlists'] as List;9
+        print(response.body);
+        print(extractedList);
+        Artist choosedArtist = Artist.fromJson(
             extractedList);
+        print('test artist single');
+        print(response);
+        print(extractedList);
+        //print(choosedArtist);
         return choosedArtist;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
+      print('error artist single');
+      print(token);
       throw HttpException(error.toString());
     }
   }
 
   Future<List> fetchMultiApi(String token , String id) async {
     final url = baseUrl +
-        ArtistEndPoints.artists +'/' + id + ArtistEndPoints.relatedArtists;
+        ArtistEndPoints.artists + '/' + id + ArtistEndPoints.relatedArtists;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {'authorization' : "Bearer " + token},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 ||response.statusCode == 211) {
         final extractedList = json.decode(response.body) as List;
+        print('test artist');
+        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
+      print('error artist');
       throw HttpException(error.toString());
     }
   }
@@ -63,7 +81,7 @@ class ArtistAPI {
         url,
         headers: {'authorization': token},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 ||response.statusCode == 211) {
         final extractedList = json.decode(response.body) as List;
         return extractedList;
       } else {

@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
+import '../API_Providers/artistAPI.dart';
 
 class PlaylistEndPoints {
   static const String playlists = '/playlists';
@@ -12,6 +13,7 @@ class PlaylistEndPoints {
   static const String jazz = '/jazz';
   static const String arabic = '/arabic';
   static const String happy = '/happy';
+  static const String artistCreated = '/artist-created-playlists';
   static const browse = '/browse';
   static const categories = '/categories';
 }
@@ -30,6 +32,8 @@ class PlaylistAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
+      print("hello");
+      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
@@ -164,12 +168,28 @@ class PlaylistAPI {
     }
   }
 
+  // Future<List> fetchPlaylistsTracksApi(String token, String id) async {
+  //   final url = baseUrl + ArtistEndPoints.artists + '/' +
+  //       id + PlaylistEndPoints.artistCreated;
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: {'authorization': token},
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final extractedList = json.decode(response.body) as List;
+  //       return extractedList;
+  //     } else {
+  //       throw HttpException(json.decode(response.body)['message'].toString());
+  //     }
+  //   } catch (error) {
+  //     throw HttpException(error.toString());
+  //   }
+  // }
+
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl +
-        PlaylistEndPoints.playlists +
-        '/' +
-        id +
-        PlaylistEndPoints.tracks;
+    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
+
     try {
       final response = await http.get(
         url,
@@ -177,8 +197,30 @@ class PlaylistAPI {
       );
       if (response.statusCode == 200) {
         print(response.body);
-        Map<String,dynamic> temp=json.decode(response.body);
-        Map<String,dynamic>temp2=temp['data'];
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['tracksArray'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
+    final url = baseUrl + ArtistEndPoints.artists + '/' +
+        id + PlaylistEndPoints.artistCreated;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['tracksArray'] as List;
 
         return extractedList;
