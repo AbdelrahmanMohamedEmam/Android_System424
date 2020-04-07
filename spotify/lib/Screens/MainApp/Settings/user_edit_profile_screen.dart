@@ -61,7 +61,7 @@ class UserEditProfileScreen extends StatelessWidget {
             ),
             child: Text(
               'CHANGE PHOTO',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center,
             ),
           ),

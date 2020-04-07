@@ -10,7 +10,7 @@ class Owner {
   final String uri;
   final String href;
   final List<ExternalUrl> externalUrls;
-  final List<Image> images;
+  final String images;
   final List<String> followers;
   final List<UserStats> userstats;
   Owner({
@@ -25,18 +25,18 @@ class Owner {
   });
   factory Owner.fromJson(Map<String, dynamic> json) {
     return Owner(
-      id: json['_id'] == null ? null : json['id'],
-      name: json['name'] == null ? null : json['name'],
-      uri: json['uri'] == null ? null : json['uri'],
-      href: json['href'] == null ? null : json['href'],
+      id: json['_id'] == null ? "" : json['id'],
+      name: json['name'] == null ? "" : json['name'],
+      uri: json['uri'] == null ? "" : json['uri'],
+      href: json['href'] == null ? "" : json['href'],
       externalUrls: json['externalUrls'] == null
-          ? null
+          ? ""
           : parceExternalUrl(json['externalUrls']),
-      images: json['images'] == null ? null : parceImage(json['images']),
-       followers:
-           json['followers'] == null ? [] : parseString(json['followers']),
-       userstats:
-           json['userStats'] == null ? null : parceUserStats(json['userStats']),
+      images: json['images'] == null ? "" : json['images'],
+      // followers:
+      //     json['followers'] == null ? [] : parseString(json['followers']),
+      // userstats:
+      //     json['userStats'] == null ? [] : parceUserStats(json['userStats']),
     );
   }
 }
