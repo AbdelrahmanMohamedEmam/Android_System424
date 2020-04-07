@@ -8,12 +8,12 @@ import '../Models/image.dart';
 import '../utilities.dart';
 
 class Artist with ChangeNotifier{
-  //final String externalUrls;
-  final Follower followers;
+  final List<String> externalUrls;
+  final List<String> followers;
   //final List<String> genres;
   final String href;
   final String id;
-  final List<String> images;
+  //final List<String> images;
   final String name;
   //final int  popularity;
   final String type;
@@ -24,12 +24,12 @@ class Artist with ChangeNotifier{
   //final String bio;
 
   Artist({
-    //this.externalUrls,
+    this.externalUrls,
     this.followers,
     //this.genres,
     this.href,
     this.id,
-    this.images,
+    //this.images,
     this.name ,
     //this.popularity ,
     this.type ,
@@ -42,13 +42,13 @@ class Artist with ChangeNotifier{
   factory Artist.fromJson(Map<String, dynamic> json) {
     //print(json['artistInfo']);
     return Artist(
-      //externalUrls: json['external_urls'],
-      followers: Follower.fromjson(json['followers']),
+      externalUrls: parseString(json['externalUrls']),
+      followers: parseString(json['followers']),
       href: json['href'],
       id: json['_id'],
-      images: parseString(json['images']),
+      //images: parseString(json['images']),
       name: json['name'],
-      type: json['type'],
+      type: json['role'],
       uri: json['uri'],
       artistInfo: ArtistInfo.fromJson(json['artistInfo']),
       //userStats: UserStats.fromjson(json['userStats']),

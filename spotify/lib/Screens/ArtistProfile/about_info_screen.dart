@@ -38,7 +38,8 @@ class _AboutScreenState extends State<AboutScreen> {
                 padding: EdgeInsets.only(bottom: deviceSize.height*0.1),
                 height: deviceSize.height*0.4,
                 width: double.infinity,
-                child: Image.network(artistInfo.images[0])
+                child: Image.network(//artistInfo.images[0])
+                    "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",),
               ),
               Text("Biography : " ,
                 style: TextStyle(color: Colors.grey , fontSize: 18 , fontWeight: FontWeight.bold),

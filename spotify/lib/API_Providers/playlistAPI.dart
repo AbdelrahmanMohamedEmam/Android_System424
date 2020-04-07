@@ -168,8 +168,7 @@ class PlaylistAPI {
   }
 
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
     try {
       final response = await http.get(
         url,
@@ -187,7 +186,8 @@ class PlaylistAPI {
   }
 
   Future<List> fetchArtistPlaylistsApi(String token , String id) async {
-    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
+    final url = baseUrl + ArtistEndPoints.artists + '/' +
+        id + PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,
