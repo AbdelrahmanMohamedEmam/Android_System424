@@ -76,9 +76,10 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
   void setUserInfo() {
     final user = Provider.of<UserProvider>(context, listen: false);
     token = user.token;
-    name = user.username;
-    imageUrl = user.userImage[0].url;
-    print(name);
+
+    //name = user.username;
+    //imageUrl = user.userImage[0].url;
+    print(token);
   }
 
   void reloadAlbums()
@@ -108,6 +109,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     albums = albumProvider.getMyAlbums;
     //reloadAlbums();
+    setUserInfo();
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,

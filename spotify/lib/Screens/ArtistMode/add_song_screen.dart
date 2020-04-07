@@ -10,6 +10,8 @@ import '../../Providers/user_provider.dart';
 
 
 class AddSongScreen extends StatefulWidget {
+  //final String id;
+  //AddSongScreen(this.id);
   static const  routeName='//add_song_screen';
   @override
   _AddSongScreenState createState() => new _AddSongScreenState();
@@ -17,7 +19,6 @@ class AddSongScreen extends StatefulWidget {
 
 class _AddSongScreenState extends State<AddSongScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   String _fileName;
   String _path;
   String _extension ;
@@ -26,6 +27,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   FileType _pickingType = FileType.audio;
   TextEditingController _controller = new TextEditingController();
   int _pathLen =1;
+  //String id;
   Response response;
   final songNameController = TextEditingController();
 
@@ -55,11 +57,11 @@ class _AddSongScreenState extends State<AddSongScreen> {
       });
     }
   }
-  void uploadF(BuildContext context , String path , String userToken , String songName) async
+  void uploadF(BuildContext context , String path , String userToken , String songName,) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
-        .uploadSong('userToken' ,songName ,path);
+        .uploadSong('userToken' ,songName ,path );
     setState(() {
       if(check)
       {
@@ -74,9 +76,10 @@ class _AddSongScreenState extends State<AddSongScreen> {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context , listen: false).token;
     final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
-    String albumId = 'hjdksksl';
+    //widget.id = routeArgs["id"];
+    //String albumId = 'hjdksksl';
     print('indecator');
-    print(albumId);
+    //print(widget.id);
     return  Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
