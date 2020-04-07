@@ -28,6 +28,11 @@ class UserAPI{
   Future<Map<String, dynamic>> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
     try {
+      print("email" +email+
+        "password"+ password+
+        "gender" +gender+
+        "dateOfBirth"+ dateOfBirth+
+        "name"+ username);
       final responseData = await Dio().post(
         baseUrl+'/signUp',
         options: Options(
@@ -66,12 +71,15 @@ class UserAPI{
     try {
       final response = await Dio().post(
        url,
+        options: Options(validateStatus: (_){return true;}),
         data: jsonEncode(
           {
             "email": email,
           },
         ),
       );
+      print(response);
+      print(response.data);
      if(response.statusCode==204 || response.statusCode==200) {
        return true;
      }
@@ -188,7 +196,7 @@ class UserAPI{
               baseUrl+'/loginWithFacebook',
               options: Options(validateStatus: (_){return true;}),
               data: {
-            "access token": token,
+            "access_token": token,
           });
           //final responseData = jsonDecode(response.body);
           print(responseData);
@@ -218,7 +226,7 @@ class UserAPI{
   Future<bool> upgradePremium(String confirmationCode, String token) async {
     try {
       final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer "+token},
       );
 
       final responseData = jsonDecode(response.body);
@@ -245,7 +253,7 @@ class UserAPI{
   Future<void> askForPremium(String token) async {
     try {
       final response = await http.post(baseUrl+'/me/premium',
-        headers: {'authorization': token},
+        headers: {"authorization":"Bearer "+ token},
       );
 
       final responseData = jsonDecode(response.body);

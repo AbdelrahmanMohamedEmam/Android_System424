@@ -53,8 +53,9 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         userData['email'],
         userData['password'],
         userData['gender'],
-        userData['dateOfBirth'],
         username.text,
+        userData['dateOfBirth'],
+
       );
     } on HttpException catch (error) {
       var errorMessage = error.toString();

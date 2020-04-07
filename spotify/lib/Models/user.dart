@@ -22,7 +22,8 @@ class User {
   final String uri;
   final String href;
   final ExternalUrl externalUrl;
-  final List<Image> images;
+  final String images;
+  //final List<Image> images;
   //final List<Follower> followers;
   //final List<Follower> following;
   String product;
@@ -74,11 +75,10 @@ class User {
       //following: parceFollower(json['following']),
       //followers: parceFollower(json['followers']),
       //userStats: UserStats.fromjson(json['userStats']),
-      //product: json['product'],
       name: json['name'],
       //externalUrl: ExternalUrl.fromJson(json['externalUrls']),
       href: json['href']==null?null:json['href'],
-      images: json['images']==null?null:parceImage(json['images']),
+      images: json['images']==null?null:json['images']//parceImage(json['images']),
       //role: json['role'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );

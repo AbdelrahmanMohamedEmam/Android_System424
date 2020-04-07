@@ -163,7 +163,7 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
                         _validate = false;
                       });
                     } else {
-                      _submit(emailController.toString());
+                      _submit(emailController.text);
                     }
                   },
                 ),
