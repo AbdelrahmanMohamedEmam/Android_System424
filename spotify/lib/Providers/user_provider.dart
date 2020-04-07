@@ -402,7 +402,7 @@ class UserProvider with ChangeNotifier {
         prefs.getString(
             'userData')) as Map<String, Object>;
     final expiryDate = DateTime.parse(
-        extractedUserData['expireDate']);
+        extractedUserData['expiryDate']);
 
     if (expiryDate.isBefore(
         DateTime.now(

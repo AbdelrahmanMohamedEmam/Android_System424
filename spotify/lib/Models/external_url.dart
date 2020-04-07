@@ -15,7 +15,7 @@ class ExternalUrl {
   ///A method that parses a mapped object from a json file and returns an externalUrl object.
   factory ExternalUrl.fromJson(Map<String, dynamic> json) {
     return ExternalUrl(
-      url: json['url'],
+      url: json['url'] == null ? null : json['url'],
     );
   }
 }
