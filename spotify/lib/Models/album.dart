@@ -23,7 +23,7 @@ class Album with ChangeNotifier {
   List<String> copyrights;
 
   ///An list of objects containing  the url and its type of the object.
-  List<ExternalUrl> externalUrls;
+  List<String> externalUrls;
 
   ///A list of sring describing the genres of the album ex:"synthwave".
   List<String> genres;
@@ -35,7 +35,7 @@ class Album with ChangeNotifier {
   final String id;
 
   ///A list of url strings containig the images of the album.
-  List<String> images;
+  String images;
 
   ///String describing the label of the album.
   String label;
@@ -62,39 +62,43 @@ class Album with ChangeNotifier {
   Album({
     ///Initializations.
     this.albumType,
-    @required this.artists,
+    this.artists,
     this.copyrights,
     this.externalUrls,
     this.genres,
-    @required this.href,
-    @required this.id,
+    this.href,
+    this.id,
     this.images,
     this.label,
-    @required this.name,
+    this.name,
     this.popularity,
     this.releaseDate,
     this.type,
-    @required this.uri,
+    this.uri,
     this.totalTracks,
   });
 
   ///A method that parses a mapped object from a json file and returns an album object.
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
-        albumType: json['albumType'],
-        artists: json['artists'],
-        copyrights: parseString(json['copyrights']),
-        externalUrls: parceExternalUrl(json['externalUrls']),
-        genres: parseString(json['genres']),
-        href: json['href'],
-        id: json['id'],
-        images: parseString(json['images']),
-        label: json['label'],
-        name: json['name'],
-        popularity: json['popularity'],
-        releaseDate: json['releaseDate'],
-        type: json['type'],
-        uri: json['uri'],
-        totalTracks: json['total_tracks']);
+      albumType: json['albumType'] == null ? null : json['albumType'],
+      //artists: json['artists'] == null ? null : json['artists'],
+      copyrights:
+         json['copyrights'] == null ? null : parseString(json['copyrights']),
+      externalUrls: json['externalUrls'] == null
+         ? null
+          : parseString(json['externalUrls']),
+      genres: json['genres'] == null ? null : parseString(json['genres']),
+      href: json['href'] == null ? null : json['href'],
+      id: json['_id'] == null ? null : json['_id'],
+      images: json['image'] == null ? null : json['image'],
+      label: json['label'] == null ? null : json['label'],
+      name: json['name'] == null ? null : json['name'],
+       popularity: json['popularity'] == null ? null : json['popularity'],
+       releaseDate: json['releaseDate'] == null ? null : json['releaseDate'],
+       type: json['type'] == null ? null : json['type'],
+       uri: json['uri'] == null ? null : json['uri'],
+       totalTracks: json['total_tracks'] == null ? null : json['total_tracks'],
+    );
   }
 }

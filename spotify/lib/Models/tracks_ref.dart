@@ -16,8 +16,8 @@ class TracksRef {
   ///A method that parses a mapped object from a json file and returns a TracksRef object.
   factory TracksRef.fromJson(Map<String, dynamic> json) {
     return TracksRef(
-      href: json['href'],
-      total: json['total'],
+      href: json['href'] == null ? null : json['href'],
+      total: json['total'] == null ? null : json['total'],
     );
   }
 }

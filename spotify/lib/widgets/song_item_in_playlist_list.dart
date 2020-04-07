@@ -9,7 +9,6 @@ class SongItemPlaylistList extends StatelessWidget {
     final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
 
-    //String artistName = "Maitre";
     return InkWell(
       onTap: () {
         track.setCurrentSong(song);
@@ -28,14 +27,18 @@ class SongItemPlaylistList extends StatelessWidget {
           spacing: 3,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.favorite_border),
-              onPressed: () {},
-              color: Colors.white,
+              icon: Icon(
+                Icons.favorite_border,
+                color: Colors.white54,
+              ),
+              onPressed: null,
             ),
             IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {},
-              color: Colors.white,
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white54,
+              ),
+              onPressed: null,
             ),
           ],
         ),
