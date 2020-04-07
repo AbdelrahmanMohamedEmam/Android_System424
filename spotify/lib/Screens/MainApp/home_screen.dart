@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       });
     }
+    _isInit = true;
     super.didChangeDependencies();
   }
 

@@ -99,7 +99,7 @@ class Playlist with ChangeNotifier {
       id: json['_id'],
       images: json['images'] == null ? null : parseString(json['images']),
       name: json['name'] == null ? null : json['name'],
-      owner: json['owner'] == null ? null : parceOwner(json['owner']),
+      //owner: json['owner'] == null ? null : parceOwner(json['owner']),
       public: json['public'] == null ? true : json['public'],
       snapShotId: json['snapshot_id'] == null ? null : json['snapshot_id'],
       tracksRef:

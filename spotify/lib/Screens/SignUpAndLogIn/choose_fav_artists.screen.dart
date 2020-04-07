@@ -188,7 +188,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                               selected: selected[index],
                               id: artists[index].id,
                               artistName: artists[index].name,
-                              imageUrl:artists[index].images[0].url,
+                              imageUrl:artists[index].images[0],
                             ));
                           }))
                 ],

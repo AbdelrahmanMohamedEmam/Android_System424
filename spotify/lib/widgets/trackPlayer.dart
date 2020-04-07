@@ -211,15 +211,11 @@ class _MainWidgetState extends State<MainWidget> {
         downloading = true;
         print('Downloading...');
       });
-  
 
-     
+      
       await dio.download
       (
-
-          "http://138.91.114.14/api/tracks/"+song.href+'/audio',
-          //"https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3",
-          //"http://138.91.114.14/api/tracks/5e8c5397d61dd69e09ebb87e/audio",
+          song.href+'/audio',
           '$dir/' + song.id,
           options: Options(
           headers: {"authorization":"Bearer "+user.token,},

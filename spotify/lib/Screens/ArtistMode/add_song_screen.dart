@@ -10,8 +10,6 @@ import '../../Providers/user_provider.dart';
 
 
 class AddSongScreen extends StatefulWidget {
-  //final String id;
-  //AddSongScreen(this.id);
   static const  routeName='//add_song_screen';
   @override
   _AddSongScreenState createState() => new _AddSongScreenState();
@@ -27,7 +25,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   FileType _pickingType = FileType.audio;
   TextEditingController _controller = new TextEditingController();
   int _pathLen =1;
-  //String id;
+  String id;
   Response response;
   final songNameController = TextEditingController();
 
@@ -57,11 +55,11 @@ class _AddSongScreenState extends State<AddSongScreen> {
       });
     }
   }
-  void uploadF(BuildContext context , String path , String userToken , String songName,) async
+  void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
-        .uploadSong('userToken' ,songName ,path );
+        .uploadSong('userToken' ,songName ,path , id);
     setState(() {
       if(check)
       {
@@ -76,7 +74,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context , listen: false).token;
     final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
-    //widget.id = routeArgs["id"];
+    id = routeArgs["id"];
     //String albumId = 'hjdksksl';
     print('indecator');
     //print(widget.id);
@@ -163,7 +161,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text),
+                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,id),
                         icon: Icon(Icons.add,
                         ),
                         iconSize: deviceSize.width*0.1,
