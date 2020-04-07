@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
           value: ArtistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: PlayableTrackProvider(),
+          value: PlayableTrackProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: PlayHistoryProvider(baseUrl: url),

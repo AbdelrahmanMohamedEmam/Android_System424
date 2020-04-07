@@ -212,7 +212,7 @@ class _MainWidgetState extends State<MainWidget> {
         print('Downloading...');
       });
 
-      
+
       await dio.download
       (
           song.href+'/audio',
@@ -227,6 +227,7 @@ class _MainWidgetState extends State<MainWidget> {
               String progress = ((receive/total)*100).toStringAsFixed(0)+"%";
               print(progress);}); }
             ).then((_){
+
          setState(() {
             downloaded = true;
             downloading = false;
@@ -284,6 +285,9 @@ class _MainWidgetState extends State<MainWidget> {
     final currentTrackProvider=Provider.of<PlayableTrackProvider>(context, listen: true);
 
 
+    final user=Provider.of<UserProvider>(context, listen: true);
+
+
     ///Checking if there is a song requested to be played in the playable track provider.
     if(currentTrackProvider.getWaitingStatus()){
       setState(() {
@@ -329,6 +333,7 @@ class _MainWidgetState extends State<MainWidget> {
         print('About to play');
         if (_player.playbackState != AudioPlaybackState.connecting &&
             _player.playbackState != AudioPlaybackState.none) {
+
           print('Ready');
           _player.play();
           readyToPlay = false;
@@ -338,6 +343,7 @@ class _MainWidgetState extends State<MainWidget> {
           Timer(Duration(milliseconds: 500), () {
             setState(() {
               print('Timer Dne');
+              currentTrackProvider.addToRecentlyPlayed(song.album.uri, song.uri, 'artist', user.token);
               readyToPlay = false;
               _player.play();
             });

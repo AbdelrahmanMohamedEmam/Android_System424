@@ -93,7 +93,7 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Returns the user's images.
-  /*List<img.Image>*/String get userImage {
+  List<String>get userImage {
     return _user.images;
   }
 
