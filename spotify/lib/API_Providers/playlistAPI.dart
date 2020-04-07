@@ -169,16 +169,41 @@ class PlaylistAPI {
     }
   }
 
+  // Future<List> fetchPlaylistsTracksApi(String token, String id) async {
+  //   final url = baseUrl + ArtistEndPoints.artists + '/' +
+  //       id + PlaylistEndPoints.artistCreated;
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: {'authorization': token},
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final extractedList = json.decode(response.body) as List;
+  //       return extractedList;
+  //     } else {
+  //       throw HttpException(json.decode(response.body)['message'].toString());
+  //     }
+  //   } catch (error) {
+  //     throw HttpException(error.toString());
+  //   }
+  // }
+
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/' +
+        id +
+        PlaylistEndPoints.tracks;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        final extractedList = json.decode(response.body) as List;
+        print(response.body);
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['tracksArray'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -188,7 +213,7 @@ class PlaylistAPI {
     }
   }
 
-  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
+  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
     final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
     try {
       final response = await http.get(
@@ -197,8 +222,8 @@ class PlaylistAPI {
       );
       if (response.statusCode == 200) {
         print(response.body);
-        Map<String,dynamic> temp=json.decode(response.body);
-        Map<String,dynamic>temp2=temp['data'];
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['tracksArray'] as List;
 
         return extractedList;
