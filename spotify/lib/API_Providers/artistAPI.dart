@@ -25,7 +25,11 @@ class ArtistAPI {
       );
       if (response.statusCode == 200 ) {
         final extractedList = json.decode(response.body) ;
+        //Map<String, dynamic> temp = json.decode(response.body);
+        //Map<String, dynamic> extractedList = temp['data'];
+        //final extractedList = temp2['playlists'] as List;9
         print(response.body);
+        print(extractedList);
         var choosedArtist = Artist.fromJson(
             extractedList);
         print('test artist single');

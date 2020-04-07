@@ -15,11 +15,14 @@ import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
 
 class ArtistProfileScreen extends StatefulWidget {
+  final String id;
+  ArtistProfileScreen(this.id);
   @override
   ArtistProfileScreenState createState() => ArtistProfileScreenState();
 }
 
 class ArtistProfileScreenState extends State<ArtistProfileScreen> {
+
   bool _isLoading = false;
   List<Artist> artists = [];
   List<Playlist> playlists;
@@ -54,7 +57,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       //await Provider.of<AlbumProvider>(context, listen: false)
        //   .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
       await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist(user , '5e8c5393ae0f2d9d920d4fcc')
+          .fetchChoosedArtist(user , widget.id)
           .then((_) {
         setState(() {
           _isLoading = false;

@@ -45,7 +45,7 @@ class Artist with ChangeNotifier{
       //externalUrls: json['external_urls'],
       followers: Follower.fromjson(json['followers']),
       href: json['href'],
-      id: json['id'],
+      id: json['_id'],
       images: parseString(json['images']),
       name: json['name'],
       type: json['type'],

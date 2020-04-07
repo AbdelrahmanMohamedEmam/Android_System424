@@ -23,6 +23,6 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     //Artist artistInfo01;
     //artistInfo01 = artistProvider01.getChoosedArtist;
     //print(artistInfo01.name);
-    return ArtistProfileScreen();
+    return ArtistProfileScreen('5e8c5393ae0f2d9d920d4fcc');
   }
 }
