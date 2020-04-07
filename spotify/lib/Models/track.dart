@@ -37,7 +37,7 @@ class Track with ChangeNotifier {
   factory Track.fromJsonPlaylist(Map<String, dynamic> json) {
     return Track(
       name: json['name'],
-      id: json['id'],
+      id: json['_id'],
       album: Album.fromJson(json['album']),
       trackNumber: json['trackNumber'],
       artists: parceArtist(json['artists']),

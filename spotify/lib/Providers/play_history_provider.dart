@@ -1,6 +1,8 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:spotify/API_Providers/playHistoryAPI.dart';
+import 'package:spotify/Models/http_exception.dart';
 
 //Import core libraries.
 import 'dart:convert';
@@ -9,6 +11,8 @@ import 'dart:convert';
 import '../Models/play_history.dart';
 
 class PlayHistoryProvider with ChangeNotifier {
+  final String baseUrl;
+  PlayHistoryProvider({this.baseUrl});
   List<PlayHistory> _recentlyPlayed = [];
 
   List<PlayHistory> get getRecentlyPlayed {
@@ -29,15 +33,18 @@ class PlayHistoryProvider with ChangeNotifier {
     _recentlyPlayed = [];
   }
 
-  Future<void> fetchRecentlyPlayed() async {
-    const url = 'http://www.mocky.io/v2/5e87e29131000059003f4771';
-    final response = await http.get(url);
-    final extractedList = json.decode(response.body) as List;
-    final List<PlayHistory> loadedPlaylists = [];
-    for (int i = 0; i < extractedList.length; i++) {
-      loadedPlaylists.add(PlayHistory.fromJson(extractedList[i]));
+  Future<void> fetchRecentlyPlayed(String token) async {
+    PlayHistoryAPI playHistoryAPI = PlayHistoryAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playHistoryAPI.fetchRecentlyPlayedApi(token);
+      final List<PlayHistory> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(PlayHistory.fromJson(extractedList[i]));
+      }
+      _recentlyPlayed = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
-    _recentlyPlayed = loadedPlaylists;
-    notifyListeners();
   }
 }
