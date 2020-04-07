@@ -8,7 +8,6 @@ class SongItemPlaylistList extends StatelessWidget {
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
-
     return InkWell(
       onTap: () {
         track.setCurrentSong(song);

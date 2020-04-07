@@ -6,7 +6,6 @@ import 'package:spotify/Models/http_exception.dart';
 class PlaylistEndPoints {
   static const String playlists = '/playlists';
   static const String tracks = '/tracks';
-
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
   static const String pop = '/pop';
