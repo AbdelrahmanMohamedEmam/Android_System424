@@ -79,8 +79,8 @@ class TabNavigator extends StatelessWidget {
             UserFollowingScreen(),
         TabNavigatorRoutes.userEditProfileScreen: (context) =>
             UserEditProfileScreen(),
-        // TabNavigatorRoutes.changePasswordScreen: (context) =>
-        //     ChangePasswordScreen(),
+        TabNavigatorRoutes.changePasswordScreen: (context) =>
+            ChangePasswordScreen(),
         TabNavigatorRoutes.recentlyPlayedArtistsScreen: (context) =>
             RecentlyPlayedArtistsScreen(),
       };
