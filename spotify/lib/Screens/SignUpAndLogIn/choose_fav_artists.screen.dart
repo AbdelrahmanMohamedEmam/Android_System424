@@ -26,42 +26,11 @@ class Artist1 {
 
 class ChooseFavArtists extends StatefulWidget {
   static const routeName = '/choose_fav_artists_screen';
-
-  /*
-   List<Artist1> artists=[
-    Artist1('Amr diab', '1','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
-    Artist1('Mohamed Hamaki','2','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
-    Artist1('Nancy Ajram','3','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
-    Artist1('Sherine AbdelWahab','4','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
-    Artist1('Fairouz','5','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
-    Artist1('Coldplay','6','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
-    Artist1('Maroon 5','7','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
-    Artist1('Ed Sheeran','8','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
-    Artist1('Amr diab', '9','https://i1.sndcdn.com/artworks-000658549528-9mu6tf-t500x500.jpg' ),
-    Artist1('Mohamed Hamaki','10','https://i1.sndcdn.com/avatars-000607873275-iw3z9m-t500x500.jpg'),
-    Artist1('Nancy Ajram','11','https://i1.sndcdn.com/artworks-000091444083-dn5ew5-t500x500.jpg'),
-    Artist1('Sherine AbdelWahab','12','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ6ET8CFFcJkcfcZDmgcxxWGVvCp1Kmy3VnaAxtcngViQrDhJF3'),
-    Artist1('Fairouz','13','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGJMPuR-1noMtv9f87F2dsMRbtLMZYHBZUUPCGaoyEkrs6YSST'),
-    Artist1('Coldplay','14','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTZbhv4o5A2mARqRK_9WyPaLaHer4WoW5rllVOe0DDPub-AW0gr'),
-    Artist1('Maroon 5','15','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSsvikKGyM3IS_Q20frloufT1iQA5m8hb24E4wAR797epgMzK42'),
-    Artist1('Ed Sheeran','16','https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSkak3MjPzEfxLWouP_k49NePh4efSobdn4Cky0wxzSAHGSrz8R'),
-  ];*/
-
-
-
-
-
-
-
-
-
   @override
   _ChooseFavArtistsState createState() => _ChooseFavArtistsState();
 }
 
 class _ChooseFavArtistsState extends State<ChooseFavArtists> {
-
-
 
   List<bool> selected=[];
   bool artistsLoaded;
@@ -109,9 +78,14 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
   Future<void> _submit() async {
 
-    //final _artistProvider=Provider.of<ArtistProvider>(context, listen: false);
+    final _user=Provider.of<UserProvider>(context, listen: false);
     try {
-      //Call the request to add the fav artists
+      int length=selectedIndices.length;
+      for (int i=0; i<length; i++){
+        final id=artists[selectedIndices[i]].id;
+        print("this id"+id);
+        await _user.follow(id);
+      }
     } on HttpException catch (error) {
       var errorMessage = error.toString();
       _showErrorDialog(errorMessage);

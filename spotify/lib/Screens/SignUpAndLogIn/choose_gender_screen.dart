@@ -33,16 +33,16 @@ class ChooseGenderScreen extends StatelessWidget {
         children: <Widget>[
           ///'What is your gender' Text.
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.06, 5, 0, deviceSize.width*0.03),
             child: Text(
               'What\'s your gender?',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
             ),
           ),
 
           ///The drop down menu showing both genders as choices.
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: deviceSize.width*0.06),
             width: deviceSize.width * 0.9,
             child: FormBuilderDropdown(
               onChanged: (value){
@@ -70,7 +70,7 @@ class ChooseGenderScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: deviceSize.width*0.06),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -78,7 +78,7 @@ class ChooseGenderScreen extends StatelessWidget {
                   color: Colors.grey,
                   child: Text(
                     'NEXT',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

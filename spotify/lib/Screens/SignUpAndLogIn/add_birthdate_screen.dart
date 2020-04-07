@@ -89,16 +89,16 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
         children: <Widget>[
           ///'What's your date of birth' text.
           Container(
-            margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 5, 0, deviceSize.width*0.04),
             child: Text(
               'What\'s your date of birth?',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
             ),
           ),
 
           ///Text field showing the selected date.
           Container(
-            margin: EdgeInsets.only(left: 25),
+            margin: EdgeInsets.only(left: deviceSize.width*0.05),
             width: deviceSize.width * 0.9,
             child: TextField(
               enabled: true,
@@ -128,7 +128,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: EdgeInsets.only(top: deviceSize.width*0.05),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -136,7 +136,7 @@ class _AddBirthDateScreenState extends State<AddBirthDateScreen> {
                   color: Colors.grey,
                   child: Text(
                     'NEXT',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: deviceSize.width*0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

@@ -36,7 +36,7 @@ class CheckEmailScreen extends StatelessWidget {
               Container(
 
                 child: Image.asset('assets/images/check_email.png', height: deviceSize.height*0.2),
-                margin: EdgeInsets.fromLTRB(20, 50, 10, 10),
+                margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, deviceSize.width*0.1, deviceSize.width*0.03, deviceSize.width*0.04),
               ),
             ],)
         ],

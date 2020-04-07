@@ -238,7 +238,7 @@ class _MainWidgetState extends State<MainWidget> {
   ///Freeing the memory after closing the app.
   @override
   void dispose() {
-    if(downloaded)
+    if(downloaded!= null && downloaded)
       deleteFile();
     _player.dispose();
     super.dispose();
