@@ -48,7 +48,7 @@ Future<String> setUrl() async{
   if (option == '2') {
     return 'http://spotify.mocklab.io';
   } else if (option == '1') {
-    return '';
+    return 'http://138.91.114.14/api';
   }
 }
 

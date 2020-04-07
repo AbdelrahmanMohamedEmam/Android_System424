@@ -70,7 +70,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
     {
       try {
         await _auth.setUser(_auth.token).then((_){
-          Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
+         // Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
           Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
         });
       }on HttpException catch (error) {

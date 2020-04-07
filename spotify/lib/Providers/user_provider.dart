@@ -185,7 +185,7 @@ class UserProvider with ChangeNotifier {
         _isLoggedInWithFB = true;
         _token = responseData['token'];
         _status = responseData['success'];
-        String expiryDuration = responseData['expiryDate'];
+        String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
         if (expiryDuration.endsWith('d')){
 
@@ -251,7 +251,7 @@ class UserProvider with ChangeNotifier {
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
-        String expiryDuration = responseData['expiryDate'];
+        String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
         if (expiryDuration.endsWith('d')){
 
@@ -309,29 +309,28 @@ class UserProvider with ChangeNotifier {
     try {
       final responseData = await userAPI.signIn(
           email, password);
+      print(responseData);
       if (responseData['message'] != null) {
         throw HttpException(
             responseData['message']);
       } else {
         _token = responseData['token'];
         _status = responseData['success'];
-        String expiryDuration = responseData['expiryDate'];
+        print("This issssss"+_token);
+        String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
         if (expiryDuration.endsWith('d')){
 
           int index=expiryDuration.indexOf('d');
-          print(index.toString());
           expiryDuration=expiryDuration.substring(0,index);
           expireAfter=Duration(days: int.parse(expiryDuration));
 
         }else if(expiryDuration.endsWith('s')){
           int index=expiryDuration.indexOf(' ');
-          print(index.toString());
           expiryDuration=expiryDuration.substring(0,index);
           expireAfter=Duration(minutes: int.parse(expiryDuration));
         }
 
-        print(expiryDuration+ "EXPIRY DATE");
         _expiryDate = DateTime.now(
         ).add(expireAfter);
         _autoLogout(
@@ -339,8 +338,6 @@ class UserProvider with ChangeNotifier {
         print(_expiryDate.toIso8601String());
         notifyListeners(
         );
-        print(
-            responseData);
         final prefs = await SharedPreferences.getInstance(
         );
         final userData = json.encode(
@@ -405,7 +402,7 @@ class UserProvider with ChangeNotifier {
         prefs.getString(
             'userData')) as Map<String, Object>;
     final expiryDate = DateTime.parse(
-        extractedUserData['expiryDate']);
+        extractedUserData['expireDate']);
 
     if (expiryDate.isBefore(
         DateTime.now(

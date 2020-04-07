@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:spotify/API_Providers/albumAPI.dart';
 
 
@@ -35,7 +36,7 @@ class UserAPI{
             "password": password,
             "gender": gender,
             "dateOfBirth": dateOfBirth,
-            "username": username,
+            "name": username,
           },
         ),
       );
@@ -59,9 +60,9 @@ class UserAPI{
   final url= baseUrl+'/resetPassword';
 
     try {
-      final response = await http.post(
+      final response = await Dio().post(
        url,
-        body: jsonEncode(
+        data: jsonEncode(
           {
             "email": email,
           },
@@ -88,22 +89,25 @@ class UserAPI{
     final url = baseUrl+'/signIn';
 
     try {
-      final response = await http.post(
+      print(email);
+      print(password);
+      final responseData = await Dio().post(
         url,
-        body: jsonEncode(
+        data:  json.encode(
           {
             "email": email,
-            "password": password,
+            "password": password
           },
         ),
       );
+      print(responseData.statusCode);
+      print(responseData.data);
 
-      final responseData = jsonDecode(response.body);
 
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+      if (responseData.data['message'] != null) {
+        throw HttpException(responseData.data['message']);
       } else {
-        return responseData;
+        return responseData.data;
       }
     } catch (error) {
       throw error;
@@ -118,14 +122,19 @@ class UserAPI{
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<User> setUser(String token) async {
     try {
+      print("TOKEN"+token);
+
       final response = await http.get(
         baseUrl+'/me',
-        headers: {'authorization': token},
+        headers:
+        {
+          "authorization": "Bearer "+token,
+        }
+
       );
 
       final responseData = jsonDecode(response.body);
       print(responseData);
-
       User _user;
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
