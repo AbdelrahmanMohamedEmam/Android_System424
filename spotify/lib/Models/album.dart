@@ -3,6 +3,7 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artist.dart';
+import 'package:spotify/Models/track.dart';
 
 //Import model files.
 import '../Models/external_url.dart';
@@ -56,6 +57,11 @@ class Album with ChangeNotifier {
   final String uri;
 
   final int totalTracks;
+  
+  List<Track> tracks;
+
+bool isFetched = false;
+
 
   ///Constructor for class album with named arguments assignment.
   ///Required parameters:{href,id,name,artists,uri}.
@@ -76,6 +82,7 @@ class Album with ChangeNotifier {
     this.type,
     this.uri,
     this.totalTracks,
+    this.tracks,
   });
 
   ///A method that parses a mapped object from a json file and returns an album object.

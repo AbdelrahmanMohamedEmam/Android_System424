@@ -42,31 +42,93 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   }
 
   @override
-  void didChangeDependencies() async {
-    if (!_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      final user = Provider.of<UserProvider>(context, listen: false).token;
-      print(user);
-      //String _user = Provider.of<UserProvider>(context , listen: false).token;
-      //await Provider.of<PlaylistProvider>(context, listen: false)
-        //  .fetchArtistProfilePlaylists(user , '5abSRg0xN1NV3gLbuvX24M');
-      //await Provider.of<ArtistProvider>(context, listen: false)
-        //  .fetchMultipleArtists('' , '5abSRg0xN1NV3gLbuvX24M');
-      //await Provider.of<AlbumProvider>(context, listen: false)
-       //   .fetchArtistAlbums('' ,'5abSRg0xN1NV3gLbuvX24M' );
-      await Provider.of<ArtistProvider>(context, listen: false)
-          .fetchChoosedArtist(user , widget.id)
-          .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-      _isInit = true;
-    }
 
-    super.didChangeDependencies();
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Loading Failed'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              //to be popped in the next phase
+              Navigator.of(ctx).pushReplacementNamed(TabNavigatorRoutes.search);
+            },
+          )
+        ],
+      ),
+    );
+  }
+  bool relatedArtists = true;
+  bool checkAlbums = true;
+  bool checkPlaylist = true;
+
+  void didChangeDependencies() async {
+    try {
+      if (!_isInit) {
+        setState(
+                () {
+              _isLoading = true;
+            });
+        final user = Provider
+            .of<UserProvider>(context, listen: false).token;
+        try {
+          await Provider.of<PlaylistProvider>(
+              context, listen: false)
+              .fetchArtistProfilePlaylists(
+              user, widget.id);
+        } catch(e)
+    {
+      checkPlaylist = false;
+    }
+        try {
+          await Provider.of<ArtistProvider>(
+              context, listen: false)
+              .fetchMultipleArtists(
+              user , widget.id);
+        } catch (e)
+        {
+          setState(() {
+            relatedArtists = false;
+          });
+        }
+        try {
+          await Provider.of<AlbumProvider>(
+              context, listen: false)
+              .fetchArtistAlbums(
+              user, widget.id);
+        } catch(e)
+    {
+      setState(() {
+        checkAlbums = false;
+      });
+
+    }
+        await Provider.of<ArtistProvider>(
+            context, listen: false)
+            .fetchChoosedArtist(
+            user, widget.id)
+            .then(
+                (_) {
+              setState(
+                      () {
+                    _isLoading = false;
+                  });
+            });
+        _isInit = true;
+      }
+
+      super.didChangeDependencies(
+      );
+    }catch (error)
+    {
+      var errorMessage = 'Something went wrong in loading please try again';
+      _showErrorDialog(errorMessage);
+      return;
+    }
   }
 
   void _goToDiscography(BuildContext ctx) {
@@ -177,7 +239,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                       top: deviceSize.height * 0.04,
                       bottom: deviceSize.height * 0.02),
                 ),
-                Text(
+                checkAlbums ? Text(
                   'Popular releases',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -185,7 +247,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
-                ),
+                ): null,
                 Container(
                   height: deviceSize.height * 0.3,
                   width: double.infinity,
@@ -195,7 +257,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         const NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                      value: albums[i],
+                      value: checkAlbums ? albums[i] : null ,
                       child: LoadingAlbumsWidget(),
                     ),
                   ),
@@ -253,28 +315,29 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                   padding: EdgeInsets.only(
                       top: deviceSize.height * 0.01,
                       bottom: deviceSize.height * 0.01),
-                  child: Text(
+                  child: relatedArtists ?Text(
                     'Fans also like ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
-                  ),
+                  ) : null
                 ),
+
                 Container(
-                  height: deviceSize.height * 0.35,
+                  height: relatedArtists ?deviceSize.height * 0.35 : 0,
                   width: double.infinity,
                   child: ListView.builder(
                     itemCount: artists.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                      value: artists[i],
+                      value: relatedArtists ?artists[i] : null,
                       child: suggesttedArtists(),
                     ),
                   ),
                 ),
-                Container(
+                checkPlaylist ?Container(
                   padding: EdgeInsets.only(
                       top: deviceSize.height * 0.01,
                       bottom: deviceSize.height * 0.01),
@@ -286,7 +349,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
                   ),
-                ),
+                ): null,
                 Container(
                   height: deviceSize.height * 0.35,
                   width: double.infinity,
@@ -295,7 +358,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(
                             value: playlists[i],
-                            child: FeaturedPlaylists(),
+                            child: checkPlaylist?FeaturedPlaylists() : null,
                           )),
                 ),
                 Container(

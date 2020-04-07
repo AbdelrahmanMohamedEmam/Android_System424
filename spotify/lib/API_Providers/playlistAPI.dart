@@ -7,7 +7,6 @@ import '../API_Providers/artistAPI.dart';
 class PlaylistEndPoints {
   static const String playlists = '/playlists';
   static const String tracks = '/tracks';
-
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
   static const String pop = '/pop';
@@ -189,11 +188,8 @@ class PlaylistAPI {
   // }
 
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl +
-        PlaylistEndPoints.playlists +
-        '/' +
-        id +
-        PlaylistEndPoints.tracks;
+    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
+
     try {
       final response = await http.get(
         url,
@@ -213,8 +209,9 @@ class PlaylistAPI {
     }
   }
 
-  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
-    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
+  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
+    final url = baseUrl + ArtistEndPoints.artists + '/' +
+        id + PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,
