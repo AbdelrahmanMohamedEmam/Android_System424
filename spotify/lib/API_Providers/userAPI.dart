@@ -28,9 +28,12 @@ class UserAPI{
   Future<Map<String, dynamic>> signUp(String email, String password, String gender,
       String username, String dateOfBirth) async {
     try {
-      final response = await http.post(
+      final responseData = await Dio().post(
         baseUrl+'/signUp',
-        body: jsonEncode(
+        options: Options(
+            validateStatus:(_){return true;}
+            ),
+        data: jsonEncode(
           {
             "email": email,
             "password": password,
@@ -40,11 +43,12 @@ class UserAPI{
           },
         ),
       );
-      final responseData = jsonDecode(response.body);
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+      print(responseData);
+      //final responseData = jsonDecode(response.body);
+      if (responseData.data['message'] != null) {
+        throw HttpException(responseData.data['message']);
       } else {
-        return responseData;
+        return responseData.data;
       }
     } catch (error) {
       throw HttpException(error.toString());
@@ -93,6 +97,11 @@ class UserAPI{
       print(password);
       final responseData = await Dio().post(
         url,
+        options: Options(
+          validateStatus:(_){return true;},
+          receiveDataWhenStatusError: true,
+
+        ),
         data:  json.encode(
           {
             "email": email,
@@ -100,8 +109,7 @@ class UserAPI{
           },
         ),
       );
-      print(responseData.statusCode);
-      print(responseData.data);
+      print(responseData.statusMessage);
 
 
       if (responseData.data['message'] != null) {
@@ -170,22 +178,24 @@ class UserAPI{
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=' +
                 token);
         final profile = jsonDecode(graphResponse.body);
-        print(profile.toString());
-        print(token);
+        //print(profile.toString());
+        //print(token);
 
         String facebookId = profile['id'];
 
         try {
-          final response = await http
-              .post(baseUrl+'/loginWithFacebook', body: {
+          final responseData = await Dio().post(
+              baseUrl+'/loginWithFacebook',
+              options: Options(validateStatus: (_){return true;}),
+              data: {
             "access token": token,
           });
-          final responseData = jsonDecode(response.body);
-
-          if (responseData['message'] != null) {
-            throw HttpException(responseData['message']);
+          //final responseData = jsonDecode(response.body);
+          print(responseData);
+          if (responseData.data['message'] != null) {
+            throw HttpException(responseData.data['message']);
           } else {
-            return responseData;
+            return responseData.data;
           }
         } catch (error) {
           throw HttpException(error.toString());

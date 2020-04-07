@@ -256,7 +256,6 @@ class UserProvider with ChangeNotifier {
         if (expiryDuration.endsWith('d')){
 
           int index=expiryDuration.indexOf('d');
-          print(index.toString());
           expiryDuration=expiryDuration.substring(0,index);
           expireAfter=Duration(days: int.parse(expiryDuration));
 
@@ -402,7 +401,7 @@ class UserProvider with ChangeNotifier {
         prefs.getString(
             'userData')) as Map<String, Object>;
     final expiryDate = DateTime.parse(
-        extractedUserData['expireDate']);
+        extractedUserData['expiryDate']);
 
     if (expiryDate.isBefore(
         DateTime.now(
