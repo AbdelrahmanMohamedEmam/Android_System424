@@ -14,13 +14,14 @@ class SongItemPlaylistList extends StatelessWidget {
         track.setCurrentSong(song);
       },
       child: ListTile(
-        leading: Image.network(song.album.images[0]),
+        leading: Image.network(
+            'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*song.album.images[0]*/),
         title: Text(
           song.name,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Text(
-          song.artists[0].name,
+          'maitre gem', //song.artists[0].name,
           style: TextStyle(color: Colors.grey),
         ),
         trailing: Wrap(

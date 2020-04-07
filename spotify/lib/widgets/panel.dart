@@ -19,87 +19,97 @@ class _PanelState extends State<Panel> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return widget.song==null?Container(height: 0,):Column(
-      children: <Widget>[
-        SizedBox(
-          height: deviceSize.height * 0.05,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: deviceSize.width * 0.02),
-              child: IconButton(
-                icon: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.white,
-                ),
-                iconSize: deviceSize.height * 0.05,
-                onPressed: () {
-                  widget.pc.close();
-                  widget.toHide(false);
-                },
-              ),
-            ),
-            Container(
-              child: Text(
-                widget.song.album.name,
-                style: TextStyle(
-                  fontSize: deviceSize.width * 0.05,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(right: deviceSize.width * 0.03),
-              child: IconButton(
-                onPressed: (){},
-                icon: Icon(
-                  Icons.more_horiz,
-                  color: Colors.white24,
-                ),
-                iconSize: deviceSize.height * 0.05,
-              ),
-            ),
-          ],
-        ),
-        Container(
-          height: deviceSize.height * 0.45,
-          margin: EdgeInsets.only(
-              top: deviceSize.height * 0.05, bottom: deviceSize.height * 0.05),
-          child: Image.network(
-            widget.song.album.images[0],
-          ),
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-                left: deviceSize.width * 0.05, bottom: deviceSize.height * .01),
-            child: Text(
-              widget.song.name,
-              style: TextStyle(
-                  color: Colors.white, fontSize: deviceSize.width * 0.06),
-            ),
+    return widget.song == null
+        ? Container(
+            height: 0,
           )
-        ]),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  left: deviceSize.width * 0.065,
-                  bottom: deviceSize.height * .02),
-              child: Text(
-                widget.song.artists[0].name,
-                style: TextStyle(
-                    color: Colors.white60, fontSize: deviceSize.width * 0.045),
+        : Column(
+            children: <Widget>[
+              SizedBox(
+                height: deviceSize.height * 0.05,
               ),
-            )
-          ],
-        ),
-        widget.bar,
-        widget.toolBar,
-      ],
-    );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: deviceSize.width * 0.02),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Colors.white,
+                      ),
+                      iconSize: deviceSize.height * 0.05,
+                      onPressed: () {
+                        widget.pc.close();
+                        widget.toHide(false);
+                      },
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      widget.song.album.name,
+                      style: TextStyle(
+                        fontSize: deviceSize.width * 0.05,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: deviceSize.width * 0.03),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.more_horiz,
+                        color: Colors.white24,
+                      ),
+                      iconSize: deviceSize.height * 0.05,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                height: deviceSize.height * 0.45,
+                margin: EdgeInsets.only(
+                    top: deviceSize.height * 0.05,
+                    bottom: deviceSize.height * 0.05),
+                child: Image.network(
+                  'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*widget.song.album.images[0]*/,
+                ),
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: deviceSize.width * 0.05,
+                          bottom: deviceSize.height * .01),
+                      child: Text(
+                        widget.song.name,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: deviceSize.width * 0.06),
+                      ),
+                    )
+                  ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: deviceSize.width * 0.065,
+                        bottom: deviceSize.height * .02),
+                    child: Text(
+                      /*widget.song.artists[0].name*/ 'amr diab',
+                      style: TextStyle(
+                          color: Colors.white60,
+                          fontSize: deviceSize.width * 0.045),
+                    ),
+                  )
+                ],
+              ),
+              widget.bar,
+              widget.toolBar,
+            ],
+          );
   }
 }

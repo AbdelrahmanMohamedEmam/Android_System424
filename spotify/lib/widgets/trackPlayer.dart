@@ -10,6 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:path_provider/path_provider.dart' as path;
+import 'package:spotify/Providers/user_provider.dart';
 
 ///Importing widgets to use it.
 import 'collapsed.dart';
@@ -102,7 +103,7 @@ class _MainWidgetState extends State<MainWidget> {
     });
 
   }
-
+  
 
   ///A map of global keys, holding a key for each tab.
   static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
@@ -183,7 +184,7 @@ class _MainWidgetState extends State<MainWidget> {
   Future<void> _generatePalette() async {
     if(song!=null) {
       PaletteGenerator _paletteGenerator =
-      await PaletteGenerator.fromImageProvider(NetworkImage(song.album.images[0]),
+      await PaletteGenerator.fromImageProvider(NetworkImage('https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default'/*song.album.images[0]*/),
           size: Size(110, 150), maximumColorCount: 20);
       if(_paletteGenerator.darkMutedColor!=null) {
         background = _paletteGenerator.darkMutedColor.color;
@@ -201,14 +202,22 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
+    final user =Provider.of<UserProvider>(context,listen:false);
     Dio dio = new Dio();
+      try{ 
     var dir = (await path.getExternalStorageDirectory()).path;
-    try {
+   
       setState(() {
         downloading = true;
         print('Downloading...');
       });
-      await dio.download(song.uri, '$dir/' + song.id).then((_){
+  
+
+     
+      await dio.download
+      (
+        
+        song.href+'/audio', '$dir/' + song.id,options: Options(headers: {"authorization":"Bearer "+user.token,})).then((_){
          setState(() {
             downloaded = true;
             downloading = false;
@@ -219,7 +228,7 @@ class _MainWidgetState extends State<MainWidget> {
             toHide(true);
           });
         });
-    } catch (e) {}
+    } catch (e) {e.toString();}
   }
 
 
