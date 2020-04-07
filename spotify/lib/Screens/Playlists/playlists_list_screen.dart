@@ -22,7 +22,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
-  bool _isInit = false;
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
