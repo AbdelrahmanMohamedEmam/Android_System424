@@ -224,16 +224,16 @@ class UserAPI{
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<bool> upgradePremium(String confirmationCode, String token) async {
+    print(confirmationCode);
     try {
-      final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
+        final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
         headers: {"authorization": "Bearer "+token},
       );
 
-      final responseData = jsonDecode(response.body);
       print(response.statusCode);
 
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+      if (response.statusCode != 204) {
+        throw HttpException('Couldn\'t upgrade you, sorry for that.');
       } else if (response.statusCode==204 || response.statusCode==200) {
         return true;
       }
@@ -251,26 +251,33 @@ class UserAPI{
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> askForPremium(String token) async {
+    print('PREMIUM REQUEST');
+    print(token);
     try {
-      final response = await http.post(baseUrl+'/me/premium',
-        headers: {"authorization":"Bearer "+ token},
+      final response = await http.post(
+        baseUrl+'/me/premium',
+        headers: {
+          "authorization": "Bearer "+token,
+        },
       );
 
-      final responseData = jsonDecode(response.body);
       print(response.statusCode);
+      //final responseData = jsonDecode(response.body);
+      //print(responseData);
 
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+        if (response.statusCode!=204) {
+        throw HttpException('Couldn\'t send an email');
       } else if (response.statusCode==204 || response.statusCode==200) {
         print('asked for premium successfully');
         return;
       }
       else{
-        throw HttpException('Couldn\'t send a request to send an email');
+        //print(responseData);
+        //throw HttpException('Couldn\'t send a request to send an email');
       }
     } catch (error) {
       print(error.toString());
-      throw HttpException(error.toString());
+      //throw HttpException(error.toString());
     }
   }
 

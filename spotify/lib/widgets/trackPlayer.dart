@@ -216,8 +216,21 @@ class _MainWidgetState extends State<MainWidget> {
      
       await dio.download
       (
-        
-        song.href+'/audio', '$dir/' + song.id,options: Options(headers: {"authorization":"Bearer "+user.token,})).then((_){
+
+          "http://138.91.114.14/api/tracks/"+song.href+'/audio',
+          //"https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3",
+          //"http://138.91.114.14/api/tracks/5e8c5397d61dd69e09ebb87e/audio",
+          '$dir/' + song.id,
+          options: Options(
+          headers: {"authorization":"Bearer "+user.token,},
+        validateStatus: (_){return true;}
+          //responseType: ResponseType;
+      ),
+          onReceiveProgress: (receive,total)
+          { setState(() {
+              String progress = ((receive/total)*100).toStringAsFixed(0)+"%";
+              print(progress);}); }
+            ).then((_){
          setState(() {
             downloaded = true;
             downloading = false;
@@ -228,7 +241,7 @@ class _MainWidgetState extends State<MainWidget> {
             toHide(true);
           });
         });
-    } catch (e) {e.toString();}
+    } catch (e) {print(e.toString());}
   }
 
 

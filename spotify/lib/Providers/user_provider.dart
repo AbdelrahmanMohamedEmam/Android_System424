@@ -63,8 +63,7 @@ class UserProvider with ChangeNotifier {
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
-    print(
-        _user.role);
+    print(_user.role);
     if (_user.role == 'premium' || _user.role == 'artist') {
       return true;
     } else {
@@ -490,7 +489,7 @@ class UserProvider with ChangeNotifier {
         baseUrl: baseUrl);
     try {
       await userAPI.askForPremium(
-          token);
+          _token);
     } catch (error) {
       print(
           error.toString(

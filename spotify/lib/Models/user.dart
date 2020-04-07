@@ -78,8 +78,8 @@ class User {
       name: json['name'],
       //externalUrl: ExternalUrl.fromJson(json['externalUrls']),
       href: json['href']==null?null:json['href'],
-      images: json['images']==null?null:json['images']//parceImage(json['images']),
-      //role: json['role'],
+      images: json['images']==null?null:json['images'],//parceImage(json['images']),
+      role: json['role'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );
   }
