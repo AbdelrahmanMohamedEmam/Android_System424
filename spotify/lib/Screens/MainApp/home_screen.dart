@@ -119,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                            // RecentlyPlayedList(),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
-                            AlbumList('Popular albums'),
-                            AlbumList('Most Recent Albums'),
+                            AlbumList(AlbumCategory.mostRecentAlbums),
+                            AlbumList(AlbumCategory.popularAlbums),
                             if (categoriesProvider.isPop)
                               PlaylistList(PlaylistCategory.pop),
                             if (categoriesProvider.isJazz)
