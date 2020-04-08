@@ -58,6 +58,7 @@ class PlaylistAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
+        print(temp2);
         final extractedList = temp2['playlist'] as List;
         return extractedList;
       } else {
@@ -188,8 +189,11 @@ class PlaylistAPI {
   // }
 
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl + PlaylistEndPoints.playlists + '/'+id+PlaylistEndPoints.tracks;
-
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/' +
+        id +
+        PlaylistEndPoints.tracks;
     try {
       final response = await http.get(
         url,
@@ -209,9 +213,12 @@ class PlaylistAPI {
     }
   }
 
-  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,

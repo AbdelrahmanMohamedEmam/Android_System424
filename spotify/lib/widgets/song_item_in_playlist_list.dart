@@ -14,7 +14,7 @@ class SongItemPlaylistList extends StatelessWidget {
       },
       child: ListTile(
         leading: Image.network(
-            'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*song.album.images[0]*/),
+            song.album.image),
         title: Text(
           song.name,
           style: TextStyle(color: Colors.white),

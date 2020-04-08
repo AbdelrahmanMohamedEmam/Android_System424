@@ -29,7 +29,7 @@ class _CollapsedState extends State<Collapsed> {
                   children: <Widget>[
                     FadeInImage(
                       image: NetworkImage(
-                        'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*widget.song.album.images[0]*/,
+                        widget.song.album.image,
                       ),
                       height: deviceSize.height * 0.08,
                       placeholder: AssetImage('assets/images/temp.jpg'),
@@ -40,13 +40,18 @@ class _CollapsedState extends State<Collapsed> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        Container(
+                          width: deviceSize.width*0.3,
+                          child: Text(
                           widget.song.name,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: deviceSize.width * 0.05,
+                            fontSize: deviceSize.width * 0.04,
                             color: Colors.white,
                           ),
                         ),
+                        ),
+
                         Text(
                           'ARTIST NAME'/*widget.song.artists[0].name*/,
                           style: TextStyle(
@@ -57,7 +62,7 @@ class _CollapsedState extends State<Collapsed> {
                       ],
                     ),
                     SizedBox(
-                      width: deviceSize.width * 0.4,
+                      width: deviceSize.width * 0.3,
                     ),
                     widget.playButton,
                   ],

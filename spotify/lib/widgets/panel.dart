@@ -74,7 +74,7 @@ class _PanelState extends State<Panel> {
                     top: deviceSize.height * 0.05,
                     bottom: deviceSize.height * 0.05),
                 child: Image.network(
-                  'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*widget.song.album.images[0]*/,
+                  widget.song.album.image,
                 ),
               ),
               Row(

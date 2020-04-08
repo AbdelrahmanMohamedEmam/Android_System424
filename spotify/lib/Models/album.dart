@@ -36,7 +36,9 @@ class Album with ChangeNotifier {
   final String id;
 
   ///A list of url strings containig the images of the album.
-  String images;
+  List<String> images;
+
+  String image;
 
   ///String describing the label of the album.
   String label;
@@ -57,11 +59,10 @@ class Album with ChangeNotifier {
   final String uri;
 
   final int totalTracks;
-  
+
   List<Track> tracks;
 
-bool isFetched = false;
-
+  bool isFetched = false;
 
   ///Constructor for class album with named arguments assignment.
   ///Required parameters:{href,id,name,artists,uri}.
@@ -75,6 +76,7 @@ bool isFetched = false;
     this.href,
     this.id,
     this.images,
+    this.image,
     this.label,
     this.name,
     this.popularity,
@@ -89,7 +91,7 @@ bool isFetched = false;
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       albumType: json['albumType'] == null ? "" : json['albumType'],
-      //artists: json['artists'] == null ? null : json['artists'],
+      // //artists: json['artists'] == null ? null : json['artists'],
       copyrights:
           json['copyrights'] == null ? [] : parseString(json['copyrights']),
       externalUrls:
@@ -97,7 +99,8 @@ bool isFetched = false;
       genres: json['genres'] == null ? [] : parseString(json['genres']),
       href: json['href'] == null ? "" : json['href'],
       id: json['_id'] == null ? "" : json['_id'],
-      images: json['images'] == null ? "" : json['images'],
+      images: json['images'] == null ? [] : parseString(json['images']),
+      image: json['image'] == null ? "" : json['image'],
       label: json['label'] == null ? "" : json['label'],
       name: json['name'] == null ? "" : json['name'],
       popularity: json['popularity'] == null ? 0 : json['popularity'],
