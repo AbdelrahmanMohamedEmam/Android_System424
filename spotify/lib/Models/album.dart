@@ -91,7 +91,7 @@ class Album with ChangeNotifier {
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       albumType: json['albumType'] == null ? "" : json['albumType'],
-      // //artists: json['artists'] == null ? null : json['artists'],
+      artists: json['artists'] == null ? null : parceArtist(json['artists']),
       copyrights:
           json['copyrights'] == null ? [] : parseString(json['copyrights']),
       externalUrls:

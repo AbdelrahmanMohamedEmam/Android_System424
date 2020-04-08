@@ -21,7 +21,7 @@ import '../Models/track.dart';
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Text(
-          'maitre gem', //song.artists[0].name,
+          song.artists[0].name,
           style: TextStyle(color: Colors.grey),
         ),
         trailing: Wrap(

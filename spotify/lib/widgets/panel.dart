@@ -100,7 +100,7 @@ class _PanelState extends State<Panel> {
                         left: deviceSize.width * 0.065,
                         bottom: deviceSize.height * .02),
                     child: Text(
-                      /*widget.song.artists[0].name*/ 'amr diab',
+                      widget.song.artists[0].name,// 'amr diab',
                       style: TextStyle(
                           color: Colors.white60,
                           fontSize: deviceSize.width * 0.045),

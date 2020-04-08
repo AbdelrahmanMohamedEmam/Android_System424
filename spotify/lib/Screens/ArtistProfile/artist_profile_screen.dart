@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Widgets/album_widget_artist_profile.dart';
 import 'package:spotify/widgets/song_promo_card_artist_profile.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Models/artist.dart';
@@ -15,7 +16,11 @@ import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
 import '../../Providers/track_provider.dart';
+import '../../Widgets/album_widget_artist_profile.dart';
+import '../../Widgets/album_widget_artist_mode.dart';
 import '../../Models/track.dart';
+import 'dart:io';
+import 'dart:async';
 
 class ArtistProfileScreen extends StatefulWidget {
   final String id;
@@ -34,10 +39,15 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   Artist artistInfo;
   String artistName;
   String artistId;
+
+  bool isScreenLoading=true;
   var testLen = 1;
   bool _isScrolled = false;
   @override
   void initState() {
+    Timer(Duration(seconds: 3),(){
+      isScreenLoading=false;
+    });
     super.initState();
   }
 
@@ -110,8 +120,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
               });
         }
 
-      try {
-        await Provider.of<TrackProvider>(
+      /*try {
+       / await Provider.of<TrackProvider>(
             context, listen: false)
             .fetchArtistTopTracks(
             user, widget.id).then ((_) {
@@ -126,7 +136,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
           checkTracks = false;
         });
 
-    }
+    }*/
     await Provider.of<ArtistProvider>(
             context, listen: false)
             .fetchChoosedArtist(
@@ -173,9 +183,9 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     List<Album> albums;
     albums = albumProvider.getArtistAlbums;
 
-    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
-    List<Track> tracks;
-    tracks = tracksProvider.getTopTracks;
+    //final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
+    //List<Track> tracks;
+    //tracks = tracksProvider.getTopTracks;
 
     return _isLoading
         ? Scaffold(
@@ -247,7 +257,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                       top: deviceSize.height * 0.04,
                       bottom: deviceSize.height * 0.02),
                 ),
-                checkAlbums ? Text(
+                /*checkAlbums ?*/ /*Text(
                   'Popular releases',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -260,16 +270,16 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                   height: deviceSize.height * 0.3,
                   width: double.infinity,
                   child: ListView.builder(
-                    itemCount: tracks.length,
+                    itemCount: albums.length,
                     physics:
                          NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                      value:  checkTracks ? tracks[i] : null  ,
-                      child: SongPromoCard(),
+                      value:  checkTracks ? albums[i] : null  ,
+                      child: LoadingAlbumsWidget(),
                     ),
                   ),
-                ): null,
+                ): null,*/
                 Container(
                   margin: EdgeInsets.only(
                       right: deviceSize.width * 0.18,

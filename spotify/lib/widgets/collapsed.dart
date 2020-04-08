@@ -53,7 +53,7 @@ class _CollapsedState extends State<Collapsed> {
                         ),
 
                         Text(
-                          'ARTIST NAME'/*widget.song.artists[0].name*/,
+                          widget.song.artists[0].name,
                           style: TextStyle(
                             fontSize: deviceSize.width * 0.03,
                             color: Colors.white60,

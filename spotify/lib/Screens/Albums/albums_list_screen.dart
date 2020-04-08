@@ -179,7 +179,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
                             child: Text(
-                              'Album by Amr Diab . ' +albums.releaseDate.substring(0, 4),
+                              'Album by '+ albums.artists[0].name+ '.' +albums.releaseDate.substring(0, 4),
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,
