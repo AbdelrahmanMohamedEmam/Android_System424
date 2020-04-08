@@ -227,11 +227,13 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
+
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
-  Future<void> fetchArtistProfilePlaylists(String token , String id) async {
+  Future<void> fetchArtistProfilePlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchArtistPlaylistsApi(token , id);
+      final extractedList =
+          await playlistApi.fetchArtistPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -377,6 +379,7 @@ class PlaylistProvider with ChangeNotifier {
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
+          print(extractedList);
           for (int i = 0; i < extractedList.length; i++) {
             loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
           }

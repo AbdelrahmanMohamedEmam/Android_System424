@@ -71,7 +71,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
     if (playlists != null) {
       PaletteGenerator _paletteGenerator = await PaletteGenerator.fromImageProvider(
           NetworkImage(
-              'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*playlists.images[0]*/),
+               playlists.images[0]),
           size: Size(110, 150),
           maximumColorCount: 20);
       if (_paletteGenerator.darkMutedColor != null) {
