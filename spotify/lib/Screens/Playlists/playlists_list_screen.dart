@@ -197,7 +197,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                           width: deviceSize.width * 0.3406,
                           child: FloatingActionButton(
                             onPressed: null,
-                            backgroundColor: Colors.green[700],
+                            backgroundColor: Colors.grey[400],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),

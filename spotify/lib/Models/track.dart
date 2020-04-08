@@ -34,7 +34,7 @@ class Track with ChangeNotifier {
     this.href,
     this.popularity,
   });
-  factory Track.fromJsonPlaylist(Map<String, dynamic> json) {
+  factory Track.fromJson(Map<String, dynamic> json) {
     return Track(
       name: json['name'],
       id: json['_id'],
@@ -50,11 +50,13 @@ class Track with ChangeNotifier {
       popularity: json['popularity'],
     );
   }
+  /*
   factory Track.fromJsonAlbum(Map<String, dynamic> json) {
     return Track(
       name: json['name'],
-      id: json['id'],
-      album: json['album'],
+      id: json['_id'],
+     // album: json['album'],
+     album: Album.fromJson(json['album']),
       trackNumber: json['trackNumber'],
       //artists: parceArtist(json['artists']),
       type: json['type'],
@@ -65,5 +67,5 @@ class Track with ChangeNotifier {
       href: json['href'],
       popularity: json['popularity'],
     );
-  }
+  }*/
 }
