@@ -13,6 +13,8 @@ class AlbumEndPoints {
   static const String mostRecent = '/top?sort=-createdAt';
   static const String forArtist = '/me';
   static const String track = '/tracks';
+  static const String tracks = '/tracks';
+
 }
 
 class AlbumAPI {
@@ -29,7 +31,9 @@ class AlbumAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
+        print("3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         final extractedList = temp2['albums'] as List;
+         print(extractedList[0]);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -50,6 +54,7 @@ class AlbumAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['albums'] as List;
+        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -67,6 +72,8 @@ class AlbumAPI {
         url,
         headers: {'authorization': "Bearer " + token},
       );
+      print(response.body);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
@@ -95,6 +102,29 @@ class AlbumAPI {
         print(response.statusCode);
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<List> fetchAlbumsTracksApi(String token, String id) async {
+    final url =
+        baseUrl + AlbumEndPoints.albums + '/' + id + AlbumEndPoints.tracks;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['tracksArray'] as List;
+
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -133,7 +163,8 @@ class AlbumAPI {
   }
   //'http://www.mocky.io/v2/5e7e7536300000e0134afb12'
 
-  Future<bool> uploadSongApi(String token, String songName, String path , String id) async {
+  Future<bool> uploadSongApi(
+      String token, String songName, String path, String id) async {
     final url = baseUrl +
         AlbumEndPoints.forArtist +
         AlbumEndPoints.albums + '/' + id +

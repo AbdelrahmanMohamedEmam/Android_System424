@@ -18,6 +18,7 @@ enum PlaylistCategory {
   happy,
   arabic,
   pop,
+  artist,
 }
 
 ///Class PlaylistProvider.
@@ -115,6 +116,12 @@ class PlaylistProvider with ChangeNotifier {
     final playlistIndex =
         _popPlaylists.indexWhere((playlist) => playlist.id == id);
     return _popPlaylists[playlistIndex];
+  }
+
+  Playlist getArtistPlaylistsbyId(String id) {
+    final playlistIndex =
+    _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
+    return _artistProfilePlaylists[playlistIndex];
   }
 
   void emptyLists() {
@@ -227,11 +234,13 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
+
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
-  Future<void> fetchArtistProfilePlaylists(String token , String id) async {
+  Future<void> fetchArtistProfilePlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await playlistApi.fetchArtistPlaylistsApi(token , id);
+      final extractedList =
+          await playlistApi.fetchArtistPlaylistsApi(token, id);
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -254,7 +263,7 @@ class PlaylistProvider with ChangeNotifier {
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
 
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -274,7 +283,7 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList =
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -294,7 +303,7 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList =
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -314,7 +323,7 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList =
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -334,7 +343,7 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList =
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -354,7 +363,7 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList =
           await playlistAPI.fetchPlaylistsTracksApi(token, id);
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+        loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       playlist.tracks = loadedTracks;
       final playlistIndex =
@@ -377,8 +386,9 @@ class PlaylistProvider with ChangeNotifier {
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
+          print(extractedList);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -398,7 +408,7 @@ class PlaylistProvider with ChangeNotifier {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -418,7 +428,7 @@ class PlaylistProvider with ChangeNotifier {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -437,7 +447,7 @@ class PlaylistProvider with ChangeNotifier {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -456,7 +466,7 @@ class PlaylistProvider with ChangeNotifier {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -475,7 +485,7 @@ class PlaylistProvider with ChangeNotifier {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -487,6 +497,26 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
+
+      if(playlistCategory == PlaylistCategory.artist)
+        {
+          Playlist playlist = getPopPlaylistsId(id);
+          if (!playlist.isFetched) {
+            final extractedList =
+            await playlistApi.fetchPlaylistsTracksApi(token, id);
+            for (int i = 0; i < extractedList.length; i++) {
+              loadedTracks.add(Track.fromJson(extractedList[i]));
+            }
+            playlist.tracks = loadedTracks;
+            final playlistIndex =
+            _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
+            _artistProfilePlaylists.removeAt(playlistIndex);
+            playlist.isFetched = true;
+            _artistProfilePlaylists.insert(playlistIndex, playlist);
+          } else {
+            return;
+          }
+        }
     } catch (error) {
       throw HttpException(error.toString());
     }

@@ -3,6 +3,7 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artist.dart';
+import 'package:spotify/Models/track.dart';
 
 //Import model files.
 import '../Models/external_url.dart';
@@ -35,7 +36,9 @@ class Album with ChangeNotifier {
   final String id;
 
   ///A list of url strings containig the images of the album.
-  String images;
+  List<String> images;
+
+  String image;
 
   ///String describing the label of the album.
   String label;
@@ -57,6 +60,10 @@ class Album with ChangeNotifier {
 
   final int totalTracks;
 
+  List<Track> tracks;
+
+  bool isFetched = false;
+
   ///Constructor for class album with named arguments assignment.
   ///Required parameters:{href,id,name,artists,uri}.
   Album({
@@ -69,6 +76,7 @@ class Album with ChangeNotifier {
     this.href,
     this.id,
     this.images,
+    this.image,
     this.label,
     this.name,
     this.popularity,
@@ -76,13 +84,14 @@ class Album with ChangeNotifier {
     this.type,
     this.uri,
     this.totalTracks,
+    this.tracks,
   });
 
   ///A method that parses a mapped object from a json file and returns an album object.
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       albumType: json['albumType'] == null ? "" : json['albumType'],
-      //artists: json['artists'] == null ? null : json['artists'],
+      // //artists: json['artists'] == null ? null : json['artists'],
       copyrights:
           json['copyrights'] == null ? [] : parseString(json['copyrights']),
       externalUrls:
@@ -90,7 +99,8 @@ class Album with ChangeNotifier {
       genres: json['genres'] == null ? [] : parseString(json['genres']),
       href: json['href'] == null ? "" : json['href'],
       id: json['_id'] == null ? "" : json['_id'],
-      images: json['image'] == null ? "" : json['image'],
+      images: json['images'] == null ? [] : parseString(json['images']),
+      image: json['image'] == null ? "" : json['image'],
       label: json['label'] == null ? "" : json['label'],
       name: json['name'] == null ? "" : json['name'],
       popularity: json['popularity'] == null ? 0 : json['popularity'],

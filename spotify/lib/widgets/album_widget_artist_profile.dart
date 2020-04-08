@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Screens/Albums/albums_list_screen.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
 import '../Screens/MainApp/tab_navigator.dart';
@@ -13,7 +15,7 @@ class LoadingAlbumsWidget extends StatelessWidget {
         Container(
           padding : EdgeInsets.all(deviceSize.height*0.01),
           child: Image.network(
-            album.images[0],
+            album.image,
             height: deviceSize.height *0.16,
             width: deviceSize.width *0.16,
             fit: BoxFit.fill,
@@ -43,7 +45,7 @@ class LoadingAlbumsWidget extends StatelessWidget {
       ],
       ),
       onTap: () {
-        Navigator.of(context).pushNamed(TabNavigatorRoutes.albumScreen);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlbumsListScreen(albumType: AlbumCategory.artist, albumtId: album.id,)));
       },
     );
 

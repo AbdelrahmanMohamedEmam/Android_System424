@@ -20,8 +20,11 @@ class _SongPromoCardState extends State<SongPromoCard> {
 
   //String artist = 'AmrDiab123';
 
+
   @override
   Widget build(BuildContext context) {
+    final playabletrack = Provider.of<PlayableTrackProvider>(context , listen: false);
+
     final trackProvider = Provider.of<Track>(context);
     //List <Track> tracks = trackProvider.getTopTracks;
     final deviceSize = MediaQuery.of(context).size;
@@ -60,6 +63,7 @@ class _SongPromoCardState extends State<SongPromoCard> {
         ],
       ),
       onTap: () {
+        playabletrack.setCurrentSong(trackProvider);
         //Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
       },
     );

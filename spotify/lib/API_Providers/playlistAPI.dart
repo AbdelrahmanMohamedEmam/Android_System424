@@ -8,7 +8,6 @@ import '../API_Providers/artistAPI.dart';
 class PlaylistEndPoints {
   static const String playlists = '/playlists';
   static const String tracks = '/tracks';
-
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
   static const String pop = '/pop';
@@ -60,6 +59,7 @@ class PlaylistAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
+        print(temp2);
         final extractedList = temp2['playlist'] as List;
         return extractedList;
       } else {
@@ -190,8 +190,11 @@ class PlaylistAPI {
   // }
 
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.happy;
-
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/' +
+        id +
+        PlaylistEndPoints.tracks;
     try {
       final response = await http.get(
         url,

@@ -22,7 +22,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
-  bool _isInit = false;
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
@@ -55,6 +54,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getPopularPlaylistsId(widget.playlistId);
         }
+       else if (widget.playlistType == PlaylistCategory.artist) {
+        playlists = Provider.of<PlaylistProvider>(context, listen: false)
+            .getArtistPlaylistsbyId(widget.playlistId);
+      }
       });
     });
     super.didChangeDependencies();
@@ -72,7 +75,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
     if (playlists != null) {
       PaletteGenerator _paletteGenerator = await PaletteGenerator.fromImageProvider(
           NetworkImage(
-              'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*playlists.images[0]*/),
+               playlists.images[0]),
           size: Size(110, 150),
           maximumColorCount: 20);
       if (_paletteGenerator.darkMutedColor != null) {
@@ -198,7 +201,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                           width: deviceSize.width * 0.3406,
                           child: FloatingActionButton(
                             onPressed: null,
-                            backgroundColor: Colors.green[700],
+                            backgroundColor: Colors.grey[400],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),

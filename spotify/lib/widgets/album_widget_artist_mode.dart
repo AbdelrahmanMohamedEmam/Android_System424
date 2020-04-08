@@ -58,7 +58,7 @@ String id;
           Container(
             padding : EdgeInsets.all(10),
             child: Image.network(
-              album.images[0],
+              album.image,
               height: deviceSize.height *0.13,
               width: deviceSize.width *0.2,
               fit: BoxFit.fill,
@@ -69,6 +69,7 @@ String id;
             children: <Widget>[
             Text(album.name ,
               style: TextStyle(color : Colors.white , fontSize: 18 , ),
+              overflow: TextOverflow.ellipsis,
             ),
 
             Container(

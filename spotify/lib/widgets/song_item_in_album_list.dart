@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import '../Models/track.dart';
 
-class SongItemPlaylistList extends StatelessWidget {
+ class SongItemAlbumList  extends StatelessWidget {
+   final String imgURL;
+   SongItemAlbumList(this.imgURL);
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
@@ -13,8 +15,7 @@ class SongItemPlaylistList extends StatelessWidget {
         track.setCurrentSong(song);
       },
       child: ListTile(
-        leading: Image.network(
-            song.album.image),
+        leading: Image.network(imgURL),
         title: Text(
           song.name,
           style: TextStyle(color: Colors.white),
@@ -43,6 +44,8 @@ class SongItemPlaylistList extends StatelessWidget {
           ],
         ),
       ),
+
+
     );
   }
 }
