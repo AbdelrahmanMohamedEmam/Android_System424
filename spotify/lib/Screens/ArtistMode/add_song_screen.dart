@@ -10,6 +10,12 @@ import '../../Providers/user_provider.dart';
 
 
 class AddSongScreen extends StatefulWidget {
+  @override
+  final String id;
+  AddSongScreen({this.id});
+  String get getId {
+    return id;
+  }
   static const  routeName='//add_song_screen';
   @override
   _AddSongScreenState createState() => new _AddSongScreenState();
@@ -59,7 +65,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
-        .uploadSong('userToken' ,songName ,path , id);
+        .uploadSong(userToken ,songName ,path , id);
     setState(() {
       if(check)
       {
@@ -73,8 +79,9 @@ class _AddSongScreenState extends State<AddSongScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context , listen: false).token;
+    print(_user);
     final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
-    id = routeArgs["id"];
+    //id = routeArgs["id"];
     //String albumId = 'hjdksksl';
     print('indecator');
     //print(widget.id);
@@ -161,7 +168,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,id),
+                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
                         icon: Icon(Icons.add,
                         ),
                         iconSize: deviceSize.width*0.1,

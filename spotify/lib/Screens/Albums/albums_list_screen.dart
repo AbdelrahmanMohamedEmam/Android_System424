@@ -39,6 +39,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getPopularAlbumsId(widget.albumtId);
         }
+        else if (widget.albumType == AlbumCategory.artist) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMyAlbumId(widget.albumtId);
+        }
       });
     });
     super.didChangeDependencies();
@@ -220,11 +224,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             //   ),
                             // ),
                             child: Text(
-                              'Album by Amr Diab  ' /*+
-                            albymByName*/
-                                  +
-                                  ' . ' +
-                                  albums.releaseDate.substring(0, 4),
+                              'Album by '+ albums.artists[0].name+ '.' +albums.releaseDate.substring(0, 4),
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,

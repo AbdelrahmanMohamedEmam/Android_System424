@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 import '../Models/playlist.dart';
 
 class FeaturedPlaylists extends StatelessWidget {
@@ -8,7 +10,7 @@ class FeaturedPlaylists extends StatelessWidget {
   Widget build(BuildContext context) {
     final playlist = Provider.of<Playlist>(context);
     return InkWell(
-      onTap: () {},
+      onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlaylistsListScreen(playlistId:  playlist.id,playlistType: PlaylistCategory.artist, )));},
       child: Card(
         elevation: 20,
         color: Colors.black,

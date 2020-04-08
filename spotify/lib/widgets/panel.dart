@@ -47,6 +47,7 @@ class _PanelState extends State<Panel> {
                   ),
                   Container(
                     child: Text(
+                      //'ALBUM NAME',
                       widget.song.album.name,
                       style: TextStyle(
                         fontSize: deviceSize.width * 0.05,
@@ -73,7 +74,7 @@ class _PanelState extends State<Panel> {
                     top: deviceSize.height * 0.05,
                     bottom: deviceSize.height * 0.05),
                 child: Image.network(
-                  'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*widget.song.album.images[0]*/,
+                  widget.song.album.image,
                 ),
               ),
               Row(
@@ -99,7 +100,7 @@ class _PanelState extends State<Panel> {
                         left: deviceSize.width * 0.065,
                         bottom: deviceSize.height * .02),
                     child: Text(
-                      /*widget.song.artists[0].name*/ 'amr diab',
+                      widget.song.artists[0].name,// 'amr diab',
                       style: TextStyle(
                           color: Colors.white60,
                           fontSize: deviceSize.width * 0.045),

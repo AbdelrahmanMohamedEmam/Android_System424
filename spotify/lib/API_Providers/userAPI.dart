@@ -24,9 +24,17 @@ class UserAPI {
   Future<Map<String, dynamic>> signUp(String email, String password,
       String gender, String username, String dateOfBirth) async {
     try {
-      final response = await http.post(
-        baseUrl + '/signUp',
-        body: jsonEncode(
+      print("email" +email+
+        "password"+ password+
+        "gender" +gender+
+        "dateOfBirth"+ dateOfBirth+
+        "name"+ username);
+      final responseData = await Dio().post(
+        baseUrl+'/signUp',
+        options: Options(
+            validateStatus:(_){return true;}
+            ),
+        data: jsonEncode(
           {
             "email": email,
             "password": password,
@@ -36,11 +44,12 @@ class UserAPI {
           },
         ),
       );
-      final responseData = jsonDecode(response.body);
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
+      print(responseData);
+      //final responseData = jsonDecode(response.body);
+      if (responseData.data['message'] != null) {
+        throw HttpException(responseData.data['message']);
       } else {
-        return responseData;
+        return responseData.data;
       }
     } catch (error) {
       throw HttpException(error.toString());
@@ -55,18 +64,24 @@ class UserAPI {
 
     try {
       final response = await Dio().post(
-        url,
+       url,
+        options: Options(validateStatus: (_){return true;}),
+
         data: jsonEncode(
           {
             "email": email,
           },
         ),
       );
-      if (response.statusCode == 204 || response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
+
+      print(response);
+      print(response.data);
+     if(response.statusCode==204 || response.statusCode==200) {
+       return true;
+     }
+     else {
+         return false;
+     }
     } catch (error) {
       print(error.toString());
       throw error;
@@ -84,12 +99,19 @@ class UserAPI {
       print(password);
       final responseData = await Dio().post(
         url,
-        data: json.encode(
-          {"email": email, "password": password},
+        options: Options(
+          validateStatus:(_){return true;},
+          receiveDataWhenStatusError: true,
+
+        ),
+        data:  json.encode(
+          {
+            "email": email,
+            "password": password
+          },
         ),
       );
-      print(responseData.statusCode);
-      print(responseData.data);
+      print(responseData.statusMessage);
 
       if (responseData.data['message'] != null) {
         throw HttpException(responseData.data['message']);
@@ -148,22 +170,24 @@ class UserAPI {
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=' +
                 token);
         final profile = jsonDecode(graphResponse.body);
-        print(profile.toString());
-        print(token);
+        //print(profile.toString());
+        //print(token);
 
         String facebookId = profile['id'];
 
         try {
-          final response =
-              await http.post(baseUrl + '/loginWithFacebook', body: {
-            "access token": token,
+          final responseData = await Dio().post(
+              baseUrl+'/loginWithFacebook',
+              options: Options(validateStatus: (_){return true;}),
+              data: {
+            "access_token": token,
           });
-          final responseData = jsonDecode(response.body);
-
-          if (responseData['message'] != null) {
-            throw HttpException(responseData['message']);
+          //final responseData = jsonDecode(response.body);
+          print(responseData);
+          if (responseData.data['message'] != null) {
+            throw HttpException(responseData.data['message']);
           } else {
-            return responseData;
+            return responseData.data;
           }
         } catch (error) {
           throw HttpException(error.toString());
@@ -183,18 +207,18 @@ class UserAPI {
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<bool> upgradePremium(String confirmationCode, String token) async {
+    print(confirmationCode);
     try {
-      final response = await http.post(
-        baseUrl + '/me/upgrade/' + confirmationCode,
-        headers: {'authorization': token},
+        final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
+        headers: {"authorization": "Bearer "+token},
+
       );
 
-      final responseData = jsonDecode(response.body);
       print(response.statusCode);
 
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
-      } else if (response.statusCode == 204 || response.statusCode == 200) {
+      if (response.statusCode != 204) {
+        throw HttpException('Couldn\'t upgrade you, sorry for that.');
+      } else if (response.statusCode==204 || response.statusCode==200) {
         return true;
       } else {
         throw HttpException('Request failed! Check again later.');
@@ -209,26 +233,33 @@ class UserAPI {
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> askForPremium(String token) async {
+    print('PREMIUM REQUEST');
+    print(token);
     try {
       final response = await http.post(
-        baseUrl + '/me/premium',
-        headers: {'authorization': token},
+        baseUrl+'/me/premium',
+        headers: {
+          "authorization": "Bearer "+token,
+        },
       );
 
-      final responseData = jsonDecode(response.body);
       print(response.statusCode);
+      //final responseData = jsonDecode(response.body);
+      //print(responseData);
 
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
-      } else if (response.statusCode == 204 || response.statusCode == 200) {
+        if (response.statusCode!=204) {
+        throw HttpException('Couldn\'t send an email');
+      } else if (response.statusCode==204 || response.statusCode==200) {
         print('asked for premium successfully');
         return;
-      } else {
-        throw HttpException('Couldn\'t send a request to send an email');
+      }
+      else{
+        //print(responseData);
+        //throw HttpException('Couldn\'t send a request to send an email');
       }
     } catch (error) {
       print(error.toString());
-      throw HttpException(error.toString());
+      //throw HttpException(error.toString());
     }
   }
 

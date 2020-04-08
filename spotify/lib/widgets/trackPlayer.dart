@@ -202,6 +202,9 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
+    print('Track Name:' +song.name);
+    //print('Album Name:' +song.album.name);
+    print('Uri Name:' +song.uri);
     final user =Provider.of<UserProvider>(context,listen:false);
     Dio dio = new Dio();
       try{ 
@@ -211,13 +214,24 @@ class _MainWidgetState extends State<MainWidget> {
         downloading = true;
         print('Downloading...');
       });
-  
 
-     
+
+
       await dio.download
       (
-        
-        song.href+'/audio', '$dir/' + song.id,options: Options(headers: {"authorization":"Bearer "+user.token,})).then((_){
+              song.href+'/audio',
+              //'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+              '$dir/'+ song.id,
+              options: Options(
+              headers: {"authorization":"Bearer "+user.token,},
+              validateStatus: (_){return true;}
+      ),
+          onReceiveProgress: (receive,total)
+          { setState(() {
+              String progress = ((receive/total)*100).toStringAsFixed(0)+"%";
+              print(progress);}); }
+            ).then((_){
+
          setState(() {
             downloaded = true;
             downloading = false;
@@ -228,7 +242,7 @@ class _MainWidgetState extends State<MainWidget> {
             toHide(true);
           });
         });
-    } catch (e) {e.toString();}
+    } catch (e) {print(e.toString());}
   }
 
 
@@ -273,6 +287,9 @@ class _MainWidgetState extends State<MainWidget> {
     ///Instantiating a current track provider to get the current track.
     ///Listen is true to rebuilt when a song is added to the provider.
     final currentTrackProvider=Provider.of<PlayableTrackProvider>(context, listen: true);
+
+
+    final user=Provider.of<UserProvider>(context, listen: true);
 
 
     ///Checking if there is a song requested to be played in the playable track provider.
@@ -320,6 +337,7 @@ class _MainWidgetState extends State<MainWidget> {
         print('About to play');
         if (_player.playbackState != AudioPlaybackState.connecting &&
             _player.playbackState != AudioPlaybackState.none) {
+
           print('Ready');
           _player.play();
           readyToPlay = false;
@@ -328,7 +346,8 @@ class _MainWidgetState extends State<MainWidget> {
           print('Not Ready');
           Timer(Duration(milliseconds: 500), () {
             setState(() {
-              print('Timer Dne');
+              print('Timer Done');
+              currentTrackProvider.addToRecentlyPlayed(song.album.uri, song.uri, 'album', user.token);
               readyToPlay = false;
               _player.play();
             });

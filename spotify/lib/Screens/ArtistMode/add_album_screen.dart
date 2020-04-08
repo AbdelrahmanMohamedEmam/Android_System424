@@ -21,7 +21,9 @@ class _CreateAlbumState extends State<CreateAlbum> {
   final albumNameController = TextEditingController();
   final albumTypeController =TextEditingController();
   final currentTimeController =TextEditingController();
-  String dropdownValue = 'Single';
+  String dropdownValue1 = 'Single';
+  String dropdownValue2 = 'rock';
+
 
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -30,15 +32,15 @@ class _CreateAlbumState extends State<CreateAlbum> {
     });
   }
 
-  void _createAlbum(BuildContext ctx , String _userToken) async
+  void _createAlbum(BuildContext ctx , String _userToken ) async
   {
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
-        .uploadImage(imageURI ,_userToken ,albumNameController.text ,dropdownValue , _currentTime );
+        .uploadImage(imageURI ,_userToken ,albumNameController.text ,dropdownValue1 , _currentTime , dropdownValue2 );
     setState(() {
       if(check)
       {
-        _currentTime = null;
+        _currentTime = '0';
         Navigator.of(ctx).pop();
       }
     });
@@ -123,14 +125,14 @@ class _CreateAlbumState extends State<CreateAlbum> {
                   color: Colors.green[700],
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
-                    value: dropdownValue,
+                    value: dropdownValue1,
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 12,
                     style: TextStyle(color: Colors.black , fontSize: 12 , fontWeight: FontWeight.bold),
                     onChanged: (String newValue) {
                       setState(() {
-                        dropdownValue = newValue;
+                        dropdownValue1 = newValue;
                       });
                     },
                     items: <String>['Single', 'Remix', 'Compilation', 'Split' , 'Cover' , 'Live' , 'Sound Track' , 'Studio']
@@ -149,6 +151,42 @@ class _CreateAlbumState extends State<CreateAlbum> {
                 ),
                   ),
                 ),
+              Container(
+                margin: EdgeInsets.only(
+                    top: deviceSize.width * 0.02,
+                    bottom: deviceSize.width * 0.02,
+                    left: deviceSize.width * 0.2,
+                    right: deviceSize.width * 0.2),
+                width: deviceSize.width * 0.4,
+                color: Colors.green[700],
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: dropdownValue2,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 12,
+                    style: TextStyle(color: Colors.black , fontSize: 12 , fontWeight: FontWeight.bold),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue2 = newValue;
+                      });
+                    },
+                    items: <String>['pop', 'rock', 'jazz', 'house' , 'classic' , 'sha3by']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Container(
+                          margin: EdgeInsets.only(left: deviceSize.width*0.01),
+                          child: Text(value , style:
+                          TextStyle(color: Colors.white
+                          ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
               Row(
                 children: <Widget>[
                   FloatingActionButton(
@@ -242,6 +280,9 @@ class _CreateAlbumState extends State<CreateAlbum> {
             ),
           ),
         ),
+              SizedBox(
+                height: deviceSize.height * 0.1713,
+              )
         ],
               ),
           ),

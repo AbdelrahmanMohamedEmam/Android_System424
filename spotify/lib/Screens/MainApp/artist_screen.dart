@@ -10,38 +10,18 @@ class ArtistScreen extends StatelessWidget {
     static const   routeName='/artist_screen';
   @override
   Widget build(BuildContext context) {
-    //bool user = Provider.of<UserProvider>(context, listen: false).isUserArtist();
+    bool user = Provider.of<UserProvider>(context, listen: false).isUserArtist();
+    print(user.toString());
     print('The artist screen is build');
-    if (//user
-    true ){
-      return ArtistProfileScreen('5e8ca9999fc0e2db0516e4c0');
-
+    if (!user){
+      return ArtistProfileScreen("5e8cd05712fb247de895f052");
+        //MyMusicScreen();
     }
-    /*else
+    else
       {
-        return Scaffold(
-          backgroundColor: Colors.black,
-            appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text('Artist' , style: TextStyle(
-            color: Colors.white,
-            fontSize: 16
-        ),
-            ),
-            ),
-          body: Center(
-            child: Text('You Are Not An Artist' ,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20
-            ),
-            ),
-          ),
-        );
-      }*/
+        return MyMusicScreen();
+      }
 
-    //ArtistProfileScreen();
-    //ManageProfileScreen();
-    //MyMusicScreen();
+
   }
 }

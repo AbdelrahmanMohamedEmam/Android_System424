@@ -94,7 +94,7 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Returns the user's images.
-  List<img.Image> get userImage {
+  List<String>get userImage {
     return _user.images;
   }
 
@@ -222,13 +222,16 @@ class UserProvider with ChangeNotifier {
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
-        if (expiryDuration.endsWith('d')) {
-          int index = expiryDuration.indexOf('d');
-          print(index.toString());
-          expiryDuration = expiryDuration.substring(0, index);
-          expireAfter = Duration(days: int.parse(expiryDuration));
-        } else if (expiryDuration.endsWith('s')) {
-          int index = expiryDuration.indexOf(' ');
+
+        if (expiryDuration.endsWith('d')){
+
+          int index=expiryDuration.indexOf('d');
+          expiryDuration=expiryDuration.substring(0,index);
+          expireAfter=Duration(days: int.parse(expiryDuration));
+
+        }else if(expiryDuration.endsWith('s')){
+          int index=expiryDuration.indexOf(' ');
+
           print(index.toString());
           expiryDuration = expiryDuration.substring(0, index);
           expireAfter = Duration(minutes: int.parse(expiryDuration));
@@ -395,7 +398,9 @@ class UserProvider with ChangeNotifier {
   Future<void> askForPremium() async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      await userAPI.askForPremium(token);
+      await userAPI.askForPremium(
+          _token);
+
     } catch (error) {
       print(error.toString());
       throw error;

@@ -40,7 +40,7 @@ import 'package:spotify/Screens/MainApp/splash_Screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
-
+import './Providers/track_provider.dart';
 ///A Function to read the configuration file before running the app.
 Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
@@ -81,6 +81,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider.value(
+          value: TrackProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
           value: PlaylistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
@@ -90,7 +93,7 @@ class MyApp extends StatelessWidget {
           value: ArtistProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
-          value: PlayableTrackProvider(),
+          value: PlayableTrackProvider(baseUrl: url),
         ),
         ChangeNotifierProvider.value(
           value: PlayHistoryProvider(baseUrl: url),

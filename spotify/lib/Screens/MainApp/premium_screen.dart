@@ -99,6 +99,9 @@ class _PremiumScreenState extends State<PremiumScreen> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -106,10 +109,26 @@ class _PremiumScreenState extends State<PremiumScreen> {
     final deviceSize = MediaQuery.of(context).size;
     final _user = Provider.of<UserProvider>(context, listen: false);
 
+    Future<void> requestPremium() async{
+      try {
+        await _user.askForPremium();
+      }catch(error){
+        setState(() {
+          _isLoading = false;
+          _showErrorDialog(error.toString());
+        });
+      }
+    }
+
+
 
     if(!_isEmailSent && !_user.isUserPremium()){
-      _user.askForPremium();
+      requestPremium();
+      print('ENTERED PREMIUM');
+      _isEmailSent=true;
     }
+
+
 
     ///If the screen is loading show a circular progress.
     return _isLoading

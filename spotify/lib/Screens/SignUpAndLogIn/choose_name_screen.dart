@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
+import 'package:spotify/Widgets/trackPlayer.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the screens to navigate to it.
@@ -53,8 +54,9 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         userData['email'],
         userData['password'],
         userData['gender'],
-        userData['dateOfBirth'],
         username.text,
+        userData['dateOfBirth'],
+
       );
     } on HttpException catch (error) {
       var errorMessage = error.toString();
@@ -71,7 +73,8 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
       try {
         await _auth.setUser(_auth.token).then((_){
          // Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
-          Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
+         // Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
+          Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
         });
       }on HttpException catch (error) {
         var errorMessage = error.toString();

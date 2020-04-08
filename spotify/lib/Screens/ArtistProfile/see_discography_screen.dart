@@ -8,6 +8,8 @@ import '../../Providers/album_provider.dart';
 import '../../widgets/album_widget_artist_profile.dart';
 import '../../widgets/song_promo_card_artist_profile.dart';
 import '../../Providers/artist_provider.dart';
+import '../../Providers/track_provider.dart';
+import '../../Models/track.dart';
 
 class ReleasesScreen extends StatefulWidget {
   static const routeName = '/releases_screen';
@@ -31,8 +33,11 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
     artistInfo = artistProvider.getChoosedArtist;
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     List<Album> albums;
-    albums = albumProvider.getPopularAlbums;
+    albums = albumProvider.getArtistAlbums;
     double heightAlbums = ((albums.length).toDouble()) * 150;
+    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
+    List<Track> tracks;
+    tracks = tracksProvider.getTopTracks;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -94,12 +99,20 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                 ),
               ),
             ),
-            SongPromoCard(), //to be changed with list view
-            SongPromoCard(),
-            SongPromoCard(),
-            SongPromoCard(),
-            SongPromoCard(),
-            SongPromoCard(),
+            Container(
+              height: deviceSize.height * 0.3,
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: tracks.length,
+                physics:
+                NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: tracks[i] ,
+                  child: SongPromoCard(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
