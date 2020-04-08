@@ -39,7 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchPopularAlbums(user.token);
       Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchMostRecentPlaylists(user.token);
+          .fetchMostRecentPlaylists(user.token)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopularPlaylists(user.token);
       categoriesProvider.fetchHomeScreenCategories(user.token).then((_) {
@@ -116,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                           // RecentlyPlayedList(),
+                            // RecentlyPlayedList(),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
                             AlbumList(AlbumCategory.mostRecentAlbums),

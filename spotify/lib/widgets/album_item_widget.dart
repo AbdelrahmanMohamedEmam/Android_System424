@@ -11,6 +11,9 @@ class AlbumWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final album = Provider.of<Album>(context);
+    print("enta d5lt album item");
+    print(album.id);
+    print(albumCategory);
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
@@ -32,7 +35,8 @@ class AlbumWidget extends StatelessWidget {
               height: deviceSize.height * 0.205,
               width: deviceSize.width * 0.341,
               child: FadeInImage(
-                image: NetworkImage(album.images[0]),
+                image: NetworkImage(
+                    album.image),
                 placeholder: AssetImage('assets/images/album.png'),
                 fit: BoxFit.fill,
               ),
