@@ -29,7 +29,7 @@ class _CollapsedState extends State<Collapsed> {
                   children: <Widget>[
                     FadeInImage(
                       image: NetworkImage(
-                        'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*widget.song.album.images[0]*/,
+                        '"https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default"' /*widget.song.album.images[0]*/,
                       ),
                       height: deviceSize.height * 0.08,
                       placeholder: AssetImage('assets/images/temp.jpg'),

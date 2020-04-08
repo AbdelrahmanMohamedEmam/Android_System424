@@ -58,11 +58,6 @@ class AlbumProvider with ChangeNotifier {
     return _popularAlbums[albumIndex];
   }
 
-  Album getMyAlbumId(String id) {
-    final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
-    return _myAlbums[albumIndex];
-  }
-
   void emptyLists() {
     _popularAlbums = [];
     _mostrecentAlbums = [];
@@ -142,7 +137,7 @@ class AlbumProvider with ChangeNotifier {
       final extractedList = await albumAPI.fetchAlbumsTracksApi(token, id);
 
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJson(extractedList[i]));
+        loadedTracks.add(Track.fromJsonAlbum(extractedList[i]));
       }
       album.tracks = loadedTracks;
       final albumIndex =
@@ -162,7 +157,7 @@ class AlbumProvider with ChangeNotifier {
       final extractedList = await albumAPI.fetchAlbumsTracksApi(token, id);
 
       for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJson(extractedList[i]));
+        loadedTracks.add(Track.fromJsonAlbum(extractedList[i]));
       }
       album.tracks = loadedTracks;
       final albumIndex = _popularAlbums.indexWhere((album) => album.id == id);
@@ -185,11 +180,13 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> uploadSong(
-      String token, String songName, String path, String id) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+
+  Future<bool> uploadSong( String token, String songName , String path , String id) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      bool check = await albumApi.uploadSongApi(token, songName, path, id);
+      bool check = await albumApi.uploadSongApi(
+          token, songName, path  , id);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
@@ -207,7 +204,7 @@ class AlbumProvider with ChangeNotifier {
         if (!album.isFetched) {
           final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJson(extractedList[i]));
+            loadedTracks.add(Track.fromJsonAlbum(extractedList[i]));
           }
           album.tracks = loadedTracks;
           final albumIndex =
@@ -225,7 +222,7 @@ class AlbumProvider with ChangeNotifier {
         if (!album.isFetched) {
           final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJson(extractedList[i]));
+            loadedTracks.add(Track.fromJsonAlbum(extractedList[i]));
           }
           album.tracks = loadedTracks;
           final albumIndex =
@@ -237,23 +234,7 @@ class AlbumProvider with ChangeNotifier {
           return;
         }
       }
-      //////////////////////////////////////////////////////
-      if (albumCategory == AlbumCategory.myAlbums) {
-        Album album = getMyAlbumId(id);
-        if (!album.isFetched) {
-          final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
-          for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJson(extractedList[i]));
-          }
-          album.tracks = loadedTracks;
-          final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
-          _myAlbums.removeAt(albumIndex);
-          album.isFetched = true;
-          _myAlbums.insert(albumIndex, album);
-        } else {
-          return;
-        }
-      }
+      
     } catch (error) {
       throw HttpException(error.toString());
     }
