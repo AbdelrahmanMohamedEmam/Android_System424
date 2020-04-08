@@ -160,7 +160,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
                           color: Colors.grey,
                         ),
                       ),
-                      onTap: () => _goToStats(context),
+                      //onTap: () => _goToStats(context),
                     ),
                   ],
                 ),
