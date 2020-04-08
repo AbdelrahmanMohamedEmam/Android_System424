@@ -5,28 +5,24 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:spotify/API_Providers/albumAPI.dart';
 
-
 ///Importing models.
 import '../Models/http_exception.dart';
 import '../Models/user.dart';
 
-
 ///This class provides functions to send all the requests required from [UserProvider].
 ///It provides authentication requests, such as sign up, sign in requests.
 ///It provides user related requests, such as upgrade user to premium.
-class UserAPI{
-
+class UserAPI {
   final String baseUrl;
   UserAPI({this.baseUrl});
-
 
   ///Facebook Login Attributes.
   ///An object of facebook plugin.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   var facebookLogin = FacebookLogin();
 
-  Future<Map<String, dynamic>> signUp(String email, String password, String gender,
-      String username, String dateOfBirth) async {
+  Future<Map<String, dynamic>> signUp(String email, String password,
+      String gender, String username, String dateOfBirth) async {
     try {
       print("email" +email+
         "password"+ password+
@@ -60,24 +56,24 @@ class UserAPI{
     }
   }
 
-
-
   ///Sends a request to send an email to create a new password.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<bool> forgetPassword(String email) async {
-  final url= baseUrl+'/resetPassword';
+    final url = baseUrl + '/resetPassword';
 
     try {
       final response = await Dio().post(
        url,
         options: Options(validateStatus: (_){return true;}),
+
         data: jsonEncode(
           {
             "email": email,
           },
         ),
       );
+
       print(response);
       print(response.data);
      if(response.statusCode==204 || response.statusCode==200) {
@@ -86,19 +82,17 @@ class UserAPI{
      else {
          return false;
      }
-
     } catch (error) {
       print(error.toString());
       throw error;
     }
   }
 
-
   ///Sends a request to get the authentication token of the user to sign him in.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<Map<String, dynamic>> signIn(String email, String password) async{
-    final url = baseUrl+'/signIn';
+  Future<Map<String, dynamic>> signIn(String email, String password) async {
+    final url = baseUrl + '/signIn';
 
     try {
       print(email);
@@ -119,7 +113,6 @@ class UserAPI{
       );
       print(responseData.statusMessage);
 
-
       if (responseData.data['message'] != null) {
         throw HttpException(responseData.data['message']);
       } else {
@@ -128,26 +121,18 @@ class UserAPI{
     } catch (error) {
       throw error;
     }
-
   }
-
-
 
   ///Sends a request to get the data of the user.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<User> setUser(String token) async {
     try {
-      print("TOKEN"+token);
+      print("TOKEN" + token);
 
-      final response = await http.get(
-        baseUrl+'/me',
-        headers:
-        {
-          "authorization": "Bearer "+token,
-        }
-
-      );
+      final response = await http.get(baseUrl + '/me', headers: {
+        "authorization": "Bearer " + token,
+      });
 
       final responseData = jsonDecode(response.body);
       print(responseData);
@@ -172,11 +157,10 @@ class UserAPI{
     }
   }
 
-
   ///Sends a http request to signIn/signUp with facebook account.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<Map<String,dynamic>> signInWithFB() async {
+  Future<Map<String, dynamic>> signInWithFB() async {
     final result = await facebookLogin.logInWithReadPermissions(['email']);
 
     switch (result.status) {
@@ -219,7 +203,6 @@ class UserAPI{
     }
   }
 
-
   ///Sends a request to upgrade the user to be a premium user.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
@@ -228,6 +211,7 @@ class UserAPI{
     try {
         final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
         headers: {"authorization": "Bearer "+token},
+
       );
 
       print(response.statusCode);
@@ -236,8 +220,7 @@ class UserAPI{
         throw HttpException('Couldn\'t upgrade you, sorry for that.');
       } else if (response.statusCode==204 || response.statusCode==200) {
         return true;
-      }
-      else{
+      } else {
         throw HttpException('Request failed! Check again later.');
       }
     } catch (error) {
@@ -245,7 +228,6 @@ class UserAPI{
       throw HttpException(error.toString());
     }
   }
-
 
   ///Sends a request to send an email with a confirmation code to be a premium user.
   ///Throws an error if request failed.
@@ -281,28 +263,23 @@ class UserAPI{
     }
   }
 
-
-
   ///Sends a request to follow an artist given the id.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<bool> followArtist(String token , String id) async {
+  Future<bool> followArtist(String token, String id) async {
     try {
-      final response = await http.put(
-        baseUrl+'/me/following',
-        body: jsonEncode(
-          {
-            "id": id,
-          },
-        ),
-          headers: {
-          "authorization" : token
-        }
-      );
-      if(response.statusCode==304 || response.statusCode==200 || response.statusCode==204) {
+      final response = await http.put(baseUrl + '/me/following',
+          body: jsonEncode(
+            {
+              "id": id,
+            },
+          ),
+          headers: {"authorization": token});
+      if (response.statusCode == 304 ||
+          response.statusCode == 200 ||
+          response.statusCode == 204) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     } catch (error) {
@@ -310,4 +287,29 @@ class UserAPI{
     }
   }
 
+  Future<bool> changePasswordApi(
+      String token, String newPassword, String oldPassword) async {
+    print(token);
+    final response = await Dio().put(baseUrl + '/me' + '/changePassword',
+        data: json.encode(
+          {"newPassword": newPassword, "passwordConfirmation": oldPassword},
+        ),
+        options: Options(
+          validateStatus: (_) {
+            return true;
+          },
+          headers: {
+            "authorization": "Bearer " + token,
+          },
+        ));
+    print(newPassword);
+    print(oldPassword);
+    print(response.statusCode);
+    print(response.data);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Screens/Albums/albums_list_screen.dart';
 import '../Models/album.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 
 class AlbumWidget extends StatelessWidget {
+  final AlbumCategory albumCategory;
+  AlbumWidget({this.albumCategory});
   @override
   Widget build(BuildContext context) {
     final album = Provider.of<Album>(context);
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(TabNavigatorRoutes.albumScreen);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AlbumsListScreen(
+              albumType: albumCategory,
+              albumtId: album.id,
+            ),
+          ),
+        );
       },
       child: Container(
         height: deviceSize.height * 0.317,

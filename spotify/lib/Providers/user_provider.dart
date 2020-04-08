@@ -4,6 +4,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 ///Importing an API from facebook to use facebook login.
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 ///Importing library to send http requests.
 import 'dart:convert';
@@ -422,6 +423,22 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print(error.toString());
+      throw error;
+    }
+  }
+
+  Future<void> changePassword(
+      String token, String newpassword, String oldPassword) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      bool success =
+          await userApi.changePasswordApi(token, newpassword, oldPassword);
+      if (success) {
+        _user.password = newpassword;
+      } else {
+        throw HttpException('Something went wrong please try again later!!');
+      }
+    } catch (error) {
       throw error;
     }
   }

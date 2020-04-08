@@ -1,5 +1,7 @@
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spotify/Providers/user_provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -13,20 +15,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _confirmPasswordVisible;
 
   ///Indicates if the data is validated or not.
-  bool _validate;
+  bool _validateOld;
+  bool _validateNew;
 
   bool _matching;
 
   ///Text controller to keep track with the password field.
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final oldPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
 
   ///Initialization.
   @override
   void initState() {
     _passwordVisible = false;
     _confirmPasswordVisible = false;
-    _validate = true;
+    _validateOld = true;
+    _validateNew = true;
     _matching = true;
     super.initState();
   }
@@ -35,6 +39,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
+    final user = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Change password'),
@@ -50,7 +55,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               margin: EdgeInsets.fromLTRB(
                   deviceSize.width * 0.06, 5, 0, deviceSize.width * 0.04),
               child: Text(
-                'Password',
+                'Old Password',
                 style: TextStyle(
                     color: Colors.white, fontSize: deviceSize.width * 0.06),
               ),
@@ -62,12 +67,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               width: deviceSize.width * 0.9,
               child: TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'Old password',
                   filled: true,
                   fillColor: Colors.grey,
                   helperText: 'Use at least 8 characters.',
                   helperStyle:
-                      TextStyle(color: _validate ? Colors.grey : Colors.red),
+                      TextStyle(color: _validateOld ? Colors.grey : Colors.red),
                   labelStyle: TextStyle(color: Colors.white38),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -86,7 +91,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: !_passwordVisible,
                 style: TextStyle(color: Colors.white),
                 cursorColor: Theme.of(context).primaryColor,
-                controller: passwordController,
+                controller: oldPasswordController,
               ),
             ),
 
@@ -107,12 +112,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               width: deviceSize.width * 0.9,
               child: TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Confirm Password',
+                  labelText: 'New Password',
                   filled: true,
                   fillColor: Colors.grey,
-                  helperText:
-                      _matching ? '' : 'Please enter a matching password',
-                  helperStyle: TextStyle(color: Colors.red),
+                  helperText: 'Use at least 8 characters.',
+                  helperStyle: _validateNew
+                      ? TextStyle(color: Colors.grey)
+                      : TextStyle(color: Colors.red),
                   labelStyle: TextStyle(color: Colors.white38),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -131,7 +137,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 obscureText: !_confirmPasswordVisible,
                 style: TextStyle(color: Colors.white),
                 cursorColor: Theme.of(context).primaryColor,
-                controller: confirmPasswordController,
+                controller: newPasswordController,
               ),
             ),
 
@@ -154,16 +160,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       borderRadius: BorderRadius.circular(28.0),
                     ),
                     onPressed: () {
-                      if (passwordController.text ==
-                          confirmPasswordController.text) {
-                        _matching = true;
-                        if (passwordController.text.length >= 8) {
+                      setState(() {
+                        if (oldPasswordController.text.length > 7) {
+                          if (newPasswordController.text.length > 7) {
+                            user.changePassword(user.token, newPasswordController.text,oldPasswordController.text);
+                          } else {
+                            _validateNew = false;
+                          }
                         } else {
-                          _validate = false;
+                          _validateOld = false;
                         }
-                      } else {
-                        _matching = false;
-                      }
+                      });
                     },
                   ),
                 ),
@@ -171,6 +178,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message, String title) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
       ),
     );
   }

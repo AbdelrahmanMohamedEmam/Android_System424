@@ -8,16 +8,19 @@ import '../widgets/album_item_widget.dart';
 import '../Models/album.dart';
 
 class AlbumList extends StatelessWidget {
-  final String categoryTitle;
-  AlbumList(this.categoryTitle);
+  String categoryTitle;
+  AlbumCategory albumCategory;
+  AlbumList(this.albumCategory);
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final albumsProvider = Provider.of<AlbumProvider>(context);
     List<Album> albums;
-    if (categoryTitle == 'Popular albums') {
+    if (albumCategory == AlbumCategory.mostRecentAlbums) {
+      categoryTitle = 'Most recent albums';
       albums = albumsProvider.getPopularAlbums;
-    } else if (categoryTitle == 'Most Recent Albums') {
+    } else if (albumCategory == AlbumCategory.popularAlbums) {
+      categoryTitle = 'Popular Albums';
       albums = albumsProvider.getMostRecentAlbums;
     }
 
@@ -55,7 +58,9 @@ class AlbumList extends StatelessWidget {
                   margin: EdgeInsets.symmetric(
                     horizontal: deviceSize.width * 0.0244,
                   ),
-                  child: AlbumWidget(),
+                  child: AlbumWidget(
+                    albumCategory: albumCategory,
+                  ),
                 ),
               ),
             ),

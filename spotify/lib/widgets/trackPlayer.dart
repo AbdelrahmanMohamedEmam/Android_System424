@@ -202,6 +202,9 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
+    print('Track Name:' +song.name);
+    //print('Album Name:' +song.album.name);
+    print('Uri Name:' +song.uri);
     final user =Provider.of<UserProvider>(context,listen:false);
     Dio dio = new Dio();
       try{ 
@@ -213,14 +216,15 @@ class _MainWidgetState extends State<MainWidget> {
       });
 
 
+
       await dio.download
       (
-          song.href+'/audio',
-          '$dir/' + song.id,
-          options: Options(
-          headers: {"authorization":"Bearer "+user.token,},
-        validateStatus: (_){return true;}
-          //responseType: ResponseType;
+              song.href+'/audio',
+              //'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+              '$dir/'+ song.id,
+              options: Options(
+              headers: {"authorization":"Bearer "+user.token,},
+              validateStatus: (_){return true;}
       ),
           onReceiveProgress: (receive,total)
           { setState(() {
@@ -342,8 +346,8 @@ class _MainWidgetState extends State<MainWidget> {
           print('Not Ready');
           Timer(Duration(milliseconds: 500), () {
             setState(() {
-              print('Timer Dne');
-              currentTrackProvider.addToRecentlyPlayed(song.album.uri, song.uri, 'artist', user.token);
+              print('Timer Done');
+              currentTrackProvider.addToRecentlyPlayed(song.album.uri, song.uri, 'album', user.token);
               readyToPlay = false;
               _player.play();
             });

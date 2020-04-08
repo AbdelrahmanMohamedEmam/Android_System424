@@ -1,34 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Models/album.dart';
+import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class AlbumsListScreen extends StatefulWidget {
+  final AlbumCategory albumType;
+  final String albumtId;
+  AlbumsListScreen({this.albumType, this.albumtId});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
 }
 
 class _AlbumsListScreenState extends State<AlbumsListScreen> {
+  var albumsProvider;
+  UserProvider user;
+  Album albums;
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
+  PaletteGenerator paletteGenerator;
+  Color background = Colors.black87;
+  bool colorGenerated = false;
+  @override
+  void didChangeDependencies() {
+    user = Provider.of<UserProvider>(context);
+    Provider.of<AlbumProvider>(context, listen: false)
+        .fetchAlbumsTracksById(widget.albumtId, user.token, widget.albumType)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+        if (widget.albumType == AlbumCategory.mostRecentAlbums) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMostRecentAlbumsId(widget.albumtId);
+        } else if (widget.albumType == AlbumCategory.popularAlbums) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getPopularAlbumsId(widget.albumtId);
+        }
+      });
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
+    colorGenerated = false;
     super.initState();
+  }
+
+  Future<void> _generatePalette() async {
+    if (albums != null) {
+      PaletteGenerator _paletteGenerator = await PaletteGenerator.fromImageProvider(
+          NetworkImage(
+              'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default' /*playlists.images[0]*/),
+          size: Size(110, 150),
+          maximumColorCount: 20);
+      if (_paletteGenerator.darkMutedColor != null) {
+        background = _paletteGenerator.darkMutedColor.color;
+        colorGenerated = true;
+      }
+      setState(
+        () {
+          paletteGenerator = _paletteGenerator;
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     print('The list of songs in album screen is built');
 
-    String image =
-        "https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default";
-    String albumName = "Sahran";
-    String albymByName = "Amr Diab";
-    String releaseDate = "1981-11-5";
-    return /*_isLoading
+    if (!colorGenerated) _generatePalette();
+    return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
             appBar: AppBar(
@@ -45,7 +93,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
               ),
             ),
           )
-        : */
+        : 
         Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -54,27 +102,25 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           slivers: <Widget>[
             SliverAppBar(
               title: Text(
-                albumName,
+                albums.name,
                 style: TextStyle(color: Colors.white, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               centerTitle: true,
-              backgroundColor: Colors.black,
+              backgroundColor: background,
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.favorite_border,color: Colors.white54),
+                  icon: Icon(Icons.favorite_border, color: Colors.white54),
                   onPressed: null,
                   iconSize: 26,
                 ),
                 PopupMenuButton(
                   enabled: false,
-                  itemBuilder: (_) =>
-                   [],
-                  icon: Icon(Icons.more_vert,color: Colors.white54),
+                  itemBuilder: (_) => [],
+                  icon: Icon(Icons.more_vert, color: Colors.white54),
                 )
               ],
               expandedHeight: 400,
-
               pinned: true,
               floating: false,
               elevation: 0,
@@ -85,37 +131,36 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     Container(
                       padding: EdgeInsets.only(top: 50, bottom: 15),
                       height: 210,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(100, 150, 180, 5.0),
-                            Color(0xFF191414),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: FractionalOffset(1.0, 0.1),
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       Color.fromRGBO(100, 150, 180, 5.0),
+                      //       Color(0xFF191414),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: FractionalOffset(1.0, 0.1),
+                      //   ),
+                      // ),
                       width: double.infinity,
                       child: Image.network(
-                        image,
-                        
+                        albums.images[0],
                       ),
                     ),
                     Container(
                       height: 40,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(100, 150, 180, 5.0),
-                            Color(0xFF191414),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: FractionalOffset(1.0, 0.1),
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       Color.fromRGBO(100, 150, 180, 5.0),
+                      //       Color(0xFF191414),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: FractionalOffset(1.0, 0.1),
+                      //   ),
+                      // ),
                       child: Text(
-                        albumName,
+                        albums.name,
                         style: TextStyle(color: Colors.white, fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
@@ -124,16 +169,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     Container(
                       height: 22,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(100, 150, 180, 5.0),
-                            Color(0xFF191414),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: FractionalOffset(1.0, 0.1),
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       Color.fromRGBO(100, 150, 180, 5.0),
+                      //       Color(0xFF191414),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: FractionalOffset(1.0, 0.1),
+                      //   ),
+                      // ),
                       child: Container(
                         width: 100,
                         child: DecoratedBox(
@@ -162,24 +207,24 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                       ),
                     ),
                     Container(
-                      width: double.infinity,
+                      width: 40,
                       height: 50,
-                      padding: EdgeInsets.only(top:7),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(100, 150, 180, 5.0),
-                            Color(0xFF191414),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: FractionalOffset(1.0, 0.1),
-                        ),
-                      ),
+                      padding: EdgeInsets.only(top: 7),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       Color.fromRGBO(100, 150, 180, 5.0),
+                      //       Color(0xFF191414),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: FractionalOffset(1.0, 0.1),
+                      //   ),
+                      // ),
                       child: Text(
-                        'Album by  ' +
-                            albymByName +
+                        'Album by Amr Diab  ' /*+
+                            albymByName*/ +
                             ' . ' +
-                            releaseDate.substring(0, 4),
+                            albums.releaseDate.substring(0, 4),
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                         textAlign: TextAlign.center,
                       ),
@@ -205,29 +250,29 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                 preferredSize: Size.fromHeight(60),
               ),
             ),
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate(
-            //     (context, index) {
-            //       return Column(
-            //         children: <Widget>[
-            //           ChangeNotifierProvider.value(
-            //             //value: ,
-            //             child: SongItemPlaylistList(),
-            //           ),
-            //         ],
-            //       );
-            //     },
-            //     childCount: 6,
-            //   ),
-            // ),
-            // SliverList(
-            //   delegate: SliverChildBuilderDelegate(
-            //     (context, index) {
-            //       return SizedBox(height: 300);
-            //     },
-            //     childCount: 1,
-            //   ),
-            // ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Column(
+                    children: <Widget>[
+                      ChangeNotifierProvider.value(
+                        value: albums.tracks[index],
+                        child: SongItemPlaylistList(),
+                      ),
+                    ],
+                  );
+                },
+                childCount: albums.tracks.length,
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return SizedBox(height: 300);
+                },
+                childCount: 1,
+              ),
+            ),
           ],
         ),
       ),

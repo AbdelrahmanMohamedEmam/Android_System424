@@ -47,6 +47,7 @@ class _PanelState extends State<Panel> {
                   ),
                   Container(
                     child: Text(
+                      //'ALBUM NAME',
                       widget.song.album.name,
                       style: TextStyle(
                         fontSize: deviceSize.width * 0.05,

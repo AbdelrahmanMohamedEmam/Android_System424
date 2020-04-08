@@ -12,7 +12,7 @@ class AlbumEndPoints {
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
   static const String forArtist = '/me';
-  static const String track = '/track';
+  static const String tracks = '/tracks';
 }
 
 class AlbumAPI {
@@ -97,6 +97,35 @@ class AlbumAPI {
     }
   }
 
+  Future<List> fetchAlbumsTracksApi(String token, String id) async {
+    final url = baseUrl +
+        AlbumEndPoints.albums +
+        '/' +
+        id +
+        AlbumEndPoints.tracks;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        Map<String,dynamic> temp=json.decode(response.body);
+        Map<String,dynamic>temp2=temp['data'];
+        final extractedList = temp2['tracksArray'] as List;
+
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+
+
+
   Future<bool> uploadAlbumApi(File file, String token, String albumName,
       String albumType, String _currentTime) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
@@ -128,7 +157,7 @@ class AlbumAPI {
     final url = baseUrl +
         AlbumEndPoints.forArtist +
         AlbumEndPoints.albums +
-        AlbumEndPoints.track;
+        AlbumEndPoints.tracks;
     try {
       FormData formData = new FormData.fromMap({
         "name": songName,
@@ -150,3 +179,4 @@ class AlbumAPI {
     }
   }
 }
+
