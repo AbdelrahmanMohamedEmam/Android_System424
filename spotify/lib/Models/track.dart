@@ -40,7 +40,7 @@ class Track with ChangeNotifier {
       id: json['_id'],
       album: Album.fromJson(json['album']),
       trackNumber: json['trackNumber'],
-      //artists: parceArtist(json['artists']),
+      artists: parceArtist(json['artists']),
       type: json['type'],
       durationMs: json['durationMs'],
       //externalIds: parceExternalId(json['externalIds']),
@@ -67,5 +67,7 @@ class Track with ChangeNotifier {
       href: json['href'],
       popularity: json['popularity'],
     );
+<<<<<<< HEAD
   }*/
+
 }

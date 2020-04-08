@@ -40,6 +40,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getPopularAlbumsId(widget.albumtId);
         }
+        else if (widget.albumType == AlbumCategory.artist) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMyAlbumId(widget.albumtId);
+        }
       });
     });
     super.didChangeDependencies();

@@ -54,6 +54,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getPopularPlaylistsId(widget.playlistId);
         }
+       else if (widget.playlistType == PlaylistCategory.artist) {
+        playlists = Provider.of<PlaylistProvider>(context, listen: false)
+            .getArtistPlaylistsbyId(widget.playlistId);
+      }
       });
     });
     super.didChangeDependencies();

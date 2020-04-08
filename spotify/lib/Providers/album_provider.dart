@@ -16,6 +16,7 @@ enum AlbumCategory {
   popularAlbums,
   mostRecentAlbums,
   myAlbums,
+  artist,
 }
 
 ///Class AlbumProvider
@@ -32,12 +33,14 @@ class AlbumProvider with ChangeNotifier {
 
   ///List of album objects categorized as made b y artist albums.
   List<Album> _myAlbums = [];
-
+  List<Album> artistAlbums = [];
   ///A method(getter) that returns a list of albums (popular albums).
   List<Album> get getPopularAlbums {
     return [..._popularAlbums];
   }
-
+  List<Album> get getArtistAlbums {
+    return [...artistAlbums];
+  }
   ///A method(getter) that returns a list of albums (my albums).
   List<Album> get getMyAlbums {
     return [..._myAlbums];
@@ -59,8 +62,8 @@ class AlbumProvider with ChangeNotifier {
   }
 
   Album getMyAlbumId(String id) {
-    final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
-    return _myAlbums[albumIndex];
+    final albumIndex = artistAlbums.indexWhere((album) => album.id == id);
+    return artistAlbums[albumIndex];
   }
 
   void emptyLists() {
@@ -104,15 +107,20 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchMyAlbums(String token, String id) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+
+  Future<void> fetchMyAlbums(String token) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
-      final extractedList = await albumApi.fetchMyAlbumsApi(token, id);
+      final extractedList = await albumApi.fetchMyAlbumsApi(
+          token);
       final List<Album> loadedAlbum = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
       _myAlbums = loadedAlbum;
+      print(loadedAlbum[0].name);
+      print(loadedAlbum[0].image);
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
@@ -127,6 +135,10 @@ class AlbumProvider with ChangeNotifier {
       for (int i = 0; i < extractedList.length; i++) {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
+      artistAlbums = loadedAlbum;
+      notifyListeners(
+      );
+
       _myAlbums = loadedAlbum;
       notifyListeners();
     } catch (error) {
@@ -174,11 +186,13 @@ class AlbumProvider with ChangeNotifier {
   }
 
   Future<bool> uploadImage(File file, String token, String albumName,
-      String albumType, String _currentTime) async {
-    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+
+      String albumType, String _currentTime , String genre) async {
+    AlbumAPI albumApi = AlbumAPI(
+        baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadAlbumApi(
-          file, token, albumName, albumType, _currentTime);
+          file, token, albumName, albumType, _currentTime , genre);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
@@ -238,7 +252,7 @@ class AlbumProvider with ChangeNotifier {
         }
       }
       //////////////////////////////////////////////////////
-      if (albumCategory == AlbumCategory.myAlbums) {
+      if (albumCategory == AlbumCategory.artist) {
         Album album = getMyAlbumId(id);
         if (!album.isFetched) {
           final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
@@ -246,10 +260,10 @@ class AlbumProvider with ChangeNotifier {
             loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           album.tracks = loadedTracks;
-          final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
-          _myAlbums.removeAt(albumIndex);
+          final albumIndex = artistAlbums.indexWhere((album) => album.id == id);
+          artistAlbums.removeAt(albumIndex);
           album.isFetched = true;
-          _myAlbums.insert(albumIndex, album);
+          artistAlbums.insert(albumIndex, album);
         } else {
           return;
         }

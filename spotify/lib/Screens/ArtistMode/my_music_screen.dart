@@ -39,8 +39,10 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       setState(() {
         _isLoading = true;
       });
+      final user = Provider.of<UserProvider>(context, listen: true).token;
+      print(user);
       await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchMyAlbums( '' , '5abSRg0xN1NV3gLbuvX24M')
+          .fetchMyAlbums(user)
           .then((_) {
         setState(() {
           _isLoading = false;
@@ -73,17 +75,10 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       '/stats_screen',
     );
   }
-  void setUserInfo() {
-    final user = Provider.of<UserProvider>(context, listen: false);
-    token = user.token;
-
-    //name = user.username;
-    //imageUrl = user.userImage[0].url;
-    print(token);
-  }
 
   void reloadAlbums()
   {
+   // _isInit = false;
     setState(() {
       didChangeDependencies();
     });
@@ -109,7 +104,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     albums = albumProvider.getMyAlbums;
     //reloadAlbums();
-    setUserInfo();
+    //setUserInfo();
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -123,7 +118,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text('my music screen'),
+              title: Text('My Music Screen'),
               actions: <Widget>[
                 Container(
                   padding: EdgeInsets.all(deviceSize.width * 0.03),
@@ -178,12 +173,10 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
               child: ListView(
                 children: <Widget>[
                   Container(
-                    height: deviceSize.height * 0.6,
-                    width: double.infinity,
+                    height: deviceSize.height*0.4,
+                    width: deviceSize.width*0.5,
                     child: ListView.builder(
                       itemCount: albums.length,
-                      physics:
-                          const NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(
                         value: albums[i],

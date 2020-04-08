@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/widgets/song_promo_card_artist_profile.dart';
 import '../../Models/playlist.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Providers/artist_provider.dart';
@@ -13,6 +14,8 @@ import '../../widgets/featured_playlists_artist_profile.dart';
 import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
+import '../../Providers/track_provider.dart';
+import '../../Models/track.dart';
 
 class ArtistProfileScreen extends StatefulWidget {
   final String id;
@@ -31,13 +34,10 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   Artist artistInfo;
   String artistName;
   String artistId;
-  ScrollController _scrollController;
   var testLen = 1;
   bool _isScrolled = false;
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_listenToScrollChange);
     super.initState();
   }
 
@@ -65,9 +65,9 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   bool relatedArtists = true;
   bool checkAlbums = true;
   bool checkPlaylist = true;
+  bool checkTracks = true;
 
   void didChangeDependencies() async {
-    try {
       if (!_isInit) {
         setState(
                 () {
@@ -82,7 +82,10 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
               user, widget.id);
         } catch(e)
     {
-      checkPlaylist = false;
+      setState(() {
+        checkPlaylist = false;
+      });
+
     }
         try {
           await Provider.of<ArtistProvider>(
@@ -100,14 +103,31 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
               context, listen: false)
               .fetchArtistAlbums(
               user, widget.id);
-        } catch(e)
-    {
-      setState(() {
-        checkAlbums = false;
-      });
+        } catch(e) {
+          setState(
+                  () {
+                checkAlbums = false;
+              });
+        }
+
+      try {
+        await Provider.of<TrackProvider>(
+            context, listen: false)
+            .fetchArtistTopTracks(
+            user, widget.id).then ((_) {
+          setState(
+                  () {
+                _isLoading = false;
+              });
+        });
+      } catch(e)
+      {
+        setState(() {
+          checkTracks = false;
+        });
 
     }
-        await Provider.of<ArtistProvider>(
+    await Provider.of<ArtistProvider>(
             context, listen: false)
             .fetchChoosedArtist(
             user, widget.id)
@@ -123,12 +143,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
 
       super.didChangeDependencies(
       );
-    }catch (error)
-    {
-      var errorMessage = 'Something went wrong in loading please try again';
-      _showErrorDialog(errorMessage);
-      return;
-    }
+
   }
 
   void _goToDiscography(BuildContext ctx) {
@@ -141,17 +156,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     Navigator.of(ctx1).pushNamed(TabNavigatorRoutes.aboutInfoScreen);
   }
 
-  void _listenToScrollChange() {
-    if (_scrollController.offset >= 140.0) {
-      setState(() {
-        _isScrolled = true;
-      });
-    } else {
-      setState(() {
-        _isScrolled = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,10 +168,14 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
         Provider.of<PlaylistProvider>(context, listen: false);
     List<Playlist> playlists;
     playlists = playlistsProvider.getArtistProfilePlaylists;
-
+    //print(playlists[0].name);
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     List<Album> albums;
-    albums = albumProvider.getPopularAlbums;
+    albums = albumProvider.getArtistAlbums;
+
+    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
+    List<Track> tracks;
+    tracks = tracksProvider.getTopTracks;
 
     return _isLoading
         ? Scaffold(
@@ -248,20 +256,20 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     fontSize: 18,
                   ),
                 ): null,
-                Container(
+                checkTracks ? Container(
                   height: deviceSize.height * 0.3,
                   width: double.infinity,
                   child: ListView.builder(
-                    itemCount: albums.length,
+                    itemCount: tracks.length,
                     physics:
-                        const NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
+                         NeverScrollableScrollPhysics(), //to be replaced with fixed 4 items
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                      value: checkAlbums ? albums[i] : null ,
-                      child: LoadingAlbumsWidget(),
+                      value:  checkTracks ? tracks[i] : null  ,
+                      child: SongPromoCard(),
                     ),
                   ),
-                ),
+                ): null,
                 Container(
                   margin: EdgeInsets.only(
                       right: deviceSize.width * 0.18,
@@ -350,17 +358,17 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         fontSize: 18),
                   ),
                 ): null,
-                Container(
+                checkPlaylist ? Container(
                   height: deviceSize.height * 0.35,
                   width: double.infinity,
                   child: ListView.builder(
                       itemCount: playlists.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                            value: playlists[i],
-                            child: checkPlaylist?FeaturedPlaylists() : null,
+                            value:  playlists[i]  ,
+                            child: FeaturedPlaylists(),
                           )),
-                ),
+                ): null,
                 Container(
                   padding: EdgeInsets.only(
                       top: deviceSize.height * 0.01,

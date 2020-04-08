@@ -7,8 +7,8 @@ import '../Models/artist.dart';
 class ArtistEndPoints {
   static const String albums = '/albums';
   static const String artists = '/artists';
-  static const String relatedArtists = '/relatedArtists';
-  static const String topTracks = '/topTracks';
+  static const String relatedArtists = '/related-artists';
+  static const String topTracks = '/top-tracks';
 }
 
 class ArtistAPI {
@@ -23,23 +23,12 @@ class ArtistAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
-      print('test111114584s');
-      print(response.body);
-      print(response.statusCode);
       if (response.statusCode == 200 ||response.statusCode == 211 ) {
-        print('test11111');
-        //final extractedList = json.decode(response.body) ;
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
-        //final extractedList = temp2['playlists'] as List;9
-        print(response.body);
-        print(extractedList);
+       // print(extractedList);
         Artist choosedArtist = Artist.fromJson(
             extractedList);
-        print('test artist single');
-        print(response);
-        print(extractedList);
-        //print(choosedArtist);
         return choosedArtist;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -60,15 +49,15 @@ class ArtistAPI {
         headers: {'authorization' : "Bearer " + token},
       );
       if (response.statusCode == 200 ||response.statusCode == 211) {
-        final extractedList = json.decode(response.body) as List;
-        print('test artist');
-        print(extractedList);
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedList = temp['data'] as List;
         return extractedList;
+
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
-      print('error artist');
+      print('error multi  artist');
       throw HttpException(error.toString());
     }
   }
