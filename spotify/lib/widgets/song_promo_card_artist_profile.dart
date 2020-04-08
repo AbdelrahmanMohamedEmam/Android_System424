@@ -4,6 +4,8 @@ import '../Models/artist.dart';
 import '../Providers/playable_track.dart';
 import 'package:provider/provider.dart';
 import '../Screens/MainApp/tab_navigator.dart';
+import '../Providers/track_provider.dart';
+import '../Models/track.dart';
 
 class SongPromoCard extends StatefulWidget {
   @override
@@ -12,14 +14,16 @@ class SongPromoCard extends StatefulWidget {
 
 class _SongPromoCardState extends State<SongPromoCard> {
   String image =
-      "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
+     "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
 
-  String name = 'Sahran';
+  //String name = 'Sahran';
 
-  String artist = 'AmrDiab123';
+  //String artist = 'AmrDiab123';
 
   @override
   Widget build(BuildContext context) {
+    final trackProvider = Provider.of<Track>(context);
+    //List <Track> tracks = trackProvider.getTopTracks;
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       child: Row(
@@ -39,52 +43,24 @@ class _SongPromoCardState extends State<SongPromoCard> {
           ),
           Column(children: <Widget>[
             Text(
-              name,
+              trackProvider.name,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
               ),
             ),
             Text(
-              artist,
+              trackProvider.name,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 14,
               ),
             ),
           ]),
-          SizedBox(
-            width: deviceSize.width * 0.32,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.favorite,
-                  color: Colors.grey[50],
-                ),
-                //onPressed : () {}
-              ),
-              IconButton(
-                  icon: Icon(
-                    Icons.do_not_disturb_off,
-                    color: Colors.grey[50],
-                  ),
-                  onPressed: () {}),
-              IconButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.grey[50],
-                  ),
-                  onPressed: () {}),
-            ],
-          ),
         ],
       ),
       onTap: () {
-        Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
+        //Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
       },
     );
   }

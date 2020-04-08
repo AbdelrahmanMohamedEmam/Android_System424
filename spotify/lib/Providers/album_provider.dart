@@ -25,12 +25,14 @@ class AlbumProvider with ChangeNotifier {
 
   ///List of album objects categorized as made b y artist albums.
   List<Album> _myAlbums = [];
-
+  List<Album> artistAlbums = [];
   ///A method(getter) that returns a list of albums (popular albums).
   List<Album> get getPopularAlbums {
     return [..._popularAlbums];
   }
-
+  List<Album> get getArtistAlbums {
+    return [...artistAlbums];
+  }
   ///A method(getter) that returns a list of albums (my albums).
   List<Album> get getMyAlbums {
     return [..._myAlbums];
@@ -91,12 +93,12 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchMyAlbums(String token, String id) async {
+  Future<void> fetchMyAlbums(String token) async {
     AlbumAPI albumApi = AlbumAPI(
         baseUrl: baseUrl);
     try {
       final extractedList = await albumApi.fetchMyAlbumsApi(
-          token, id);
+          token);
       final List<Album> loadedAlbum = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedAlbum.add(
@@ -125,7 +127,7 @@ class AlbumProvider with ChangeNotifier {
             Album.fromJson(
                 extractedList[i]));
       }
-      _myAlbums = loadedAlbum;
+      artistAlbums = loadedAlbum;
       notifyListeners(
       );
     } catch (error) {
@@ -136,12 +138,12 @@ class AlbumProvider with ChangeNotifier {
   }
 
   Future<bool> uploadImage(File file, String token, String albumName,
-      String albumType, String _currentTime) async {
+      String albumType, String _currentTime , String genre) async {
     AlbumAPI albumApi = AlbumAPI(
         baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadAlbumApi(
-          file, token, albumName, albumType, _currentTime);
+          file, token, albumName, albumType, _currentTime , genre);
       return check;
     } catch (error) {
       throw HttpException(

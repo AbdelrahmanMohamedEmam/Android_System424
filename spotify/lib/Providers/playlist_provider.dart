@@ -491,4 +491,5 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
+
 }

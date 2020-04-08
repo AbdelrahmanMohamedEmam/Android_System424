@@ -12,7 +12,7 @@ class AlbumEndPoints {
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
   static const String forArtist = '/me';
-  static const String track = '/track';
+  static const String track = '/tracks';
 }
 
 class AlbumAPI {
@@ -59,16 +59,17 @@ class AlbumAPI {
     }
   }
 
-  Future<List> fetchMyAlbumsApi(String token, String id) async {
+  Future<List> fetchMyAlbumsApi(String token) async {
     final url =
-        baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums + '/' + id;
+        baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {'authorization': "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        final extractedList = json.decode(response.body) as List;
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedList = temp['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -80,14 +81,20 @@ class AlbumAPI {
 
   Future<List> fetchArtistAlbumsApi(String token, String id) async {
     final url =
-        baseUrl + ArtistEndPoints.artists + '/' + id + AlbumEndPoints.albums;
+        baseUrl +ArtistEndPoints.artists +'/' + id +  AlbumEndPoints.albums;
     try {
       final response = await http.get(
         url,
-        headers: {'authorization': token},
+        headers: {'authorization': "Bearer " + token},
       );
+      print(response.body);
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        final extractedList = json.decode(response.body) as List;
+        print('kkkkkkkk');
+        print(response.body);
+        print(response.statusCode);
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedList = temp['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -98,21 +105,23 @@ class AlbumAPI {
   }
 
   Future<bool> uploadAlbumApi(File file, String token, String albumName,
-      String albumType, String _currentTime) async {
+      String albumType, String _currentTime , String genre) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
       FormData formData = new FormData.fromMap({
+        "releaseDate": _currentTime,
+        "name": albumName,
+        "albumType": albumType,
+        "genre": genre,
         "image": MultipartFile.fromFile(
           file.path,
         ),
-        "releaseDate": _currentTime,
-        "name": albumName,
-        "type": albumType,
-        // "genres": ,
       });
       Dio dio = new Dio();
-      dio.options.headers["authorization"] = token;
-      Response response = await dio.post(url, data: formData);
+      dio.options.headers["authorization"] = "Bearer " + token;
+      Response response = await dio.post(url, data: formData , options: Options(validateStatus: (_) {return true;}),);
+      print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -127,19 +136,26 @@ class AlbumAPI {
   Future<bool> uploadSongApi(String token, String songName, String path , String id) async {
     final url = baseUrl +
         AlbumEndPoints.forArtist +
-        AlbumEndPoints.albums +
+        AlbumEndPoints.albums + '/' + id +
         AlbumEndPoints.track;
+    print(songName);
+    print(path);
+    print(id);
+    print(MultipartFile.fromFile(
+      path
+    ));
     try {
       FormData formData = new FormData.fromMap({
         "name": songName,
         "trackAudio": MultipartFile.fromFile(
           path,
         ),
-        "id" : id,
       });
       Dio dio = new Dio();
-      dio.options.headers["authorization"] = token;
-      Response response = await dio.post(url, data: formData);
+      dio.options.headers["authorization"] = "Bearer " + token;
+      Response response = await dio.post(url, data: formData ,  options: Options(validateStatus: (_) {return true;}),);
+      print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         return true;
       } else {
