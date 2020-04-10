@@ -40,7 +40,6 @@ dependencies:
   dio: ^3.0.9
   path_provider: ^1.6.5
   font_awesome_flutter: ^8.8.1
-  connectivity: ^0.4.8+2
   flutter_slidable: ^0.5.4
   global_configuration: ^1.5.0
   mockito: ^4.1.1

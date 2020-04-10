@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/Models/artist.dart';
-import 'package:spotify/Models/play_history.dart';
-import 'package:spotify/Models/track.dart';
-import 'package:spotify/Providers/playable_track.dart';
 
-//import '../Models/play_history.dart';
-//import '../Screens/Playlists/playlists_list_screen.dart';
+import 'package:spotify/Models/play_history.dart';
 
 class PlayHistoryWidget extends StatelessWidget {
   @override

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/Models/play_history.dart';
-import 'package:spotify/Providers/play_history_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../tab_navigator.dart';
 
@@ -24,10 +22,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false);
-    final playHistory =
-        Provider.of<PlayHistoryProvider>(context, listen: false);
-    List<PlayHistory> recentlyPlayedartists =
-        playHistory.getRecentlyPlayedArtists;
+    // final playHistory =
+    //     Provider.of<PlayHistoryProvider>(context, listen: false);
+    // List<PlayHistory> recentlyPlayedartists =
+    //     playHistory.getRecentlyPlayedArtists;
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -308,6 +306,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  ///Functions to listen to the control of scrolling.
   void _listenToScrollChange() {
     if (_scrollController.offset >= 48.0) {
       setState(() {

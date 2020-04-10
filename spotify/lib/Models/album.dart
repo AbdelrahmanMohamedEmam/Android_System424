@@ -1,15 +1,14 @@
-//All objects concerning artist are commented until they are finalized.
-
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Models/track.dart';
 //Import model files.
 //import '../Models/artist.dart';
+
 //Import utilities file.
 import '../utilities.dart';
 
-///Album class.
+///Album class that describes the album model that will be displayed.
 class Album with ChangeNotifier {
   ///The type of the album sent ex:"single".
   String albumType;
@@ -55,10 +54,13 @@ class Album with ChangeNotifier {
   ///The spotify uri for this album{required}.
   final String uri;
 
+  ///The total number of tracks included in this album.
   final int totalTracks;
 
+  ///List of track objects that are in this album.
   List<Track> tracks;
 
+  ///Boolean to ensure that an album is not fetched more than once.
   bool isFetched = false;
 
   ///Constructor for class album with named arguments assignment.

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Models/album.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
-import 'package:spotify/widgets/song_item_in_album_list.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -79,7 +78,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     print('The list of songs in album screen is built');
 
     if (!colorGenerated) _generatePalette();
-    final deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -135,6 +133,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           Container(
                             padding: EdgeInsets.only(top: 50, bottom: 15),
                             height: 210,
+                            // decoration: BoxDecoration(
+                            //   gradient: LinearGradient(
+                            //     colors: [
+                            //       Color.fromRGBO(100, 150, 180, 5.0),
+                            //       Color(0xFF191414),
+                            //     ],
+                            //     begin: Alignment.topLeft,
+                            //     end: FractionalOffset(1.0, 0.1),
+                            //   ),
+                            // ),
                             width: double.infinity,
                             child: Image.network(
                               albums.image,
@@ -143,6 +151,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           Container(
                             height: 40,
                             width: double.infinity,
+                            // decoration: BoxDecoration(
+                            //   gradient: LinearGradient(
+                            //     colors: [
+                            //       Color.fromRGBO(100, 150, 180, 5.0),
+                            //       Color(0xFF191414),
+                            //     ],
+                            //     begin: Alignment.topLeft,
+                            //     end: FractionalOffset(1.0, 0.1),
+                            //   ),
+                            // ),
                             child: Text(
                               albums.name,
                               style:
@@ -153,31 +171,58 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           ),
                           Container(
                             height: 22,
-                              width: 175,
-                              color: Colors.grey[400],
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.shuffle,
-                                    size: 14,
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    'LISTEN IN SHUFFLE',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ), 
+                            width: double.infinity,
+                            // decoration: BoxDecoration(
+                            //   gradient: LinearGradient(
+                            //     colors: [
+                            //       Color.fromRGBO(100, 150, 180, 5.0),
+                            //       Color(0xFF191414),
+                            //     ],
+                            //     begin: Alignment.topLeft,
+                            //     end: FractionalOffset(1.0, 0.1),
+                            //   ),
+                            // ),
+                            child: Container(
+                              width: 100,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: Colors.grey[400]),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.shuffle,
+                                      size: 14,
+                                    ),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
+                                    Text(
+                                      'LISTEN IN SHUFFLE',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 12),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           Container(
-                            width: double.infinity,
+                            width: 40,
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
+                            // decoration: BoxDecoration(
+                            //   gradient: LinearGradient(
+                            //     colors: [
+                            //       Color.fromRGBO(100, 150, 180, 5.0),
+                            //       Color(0xFF191414),
+                            //     ],
+                            //     begin: Alignment.topLeft,
+                            //     end: FractionalOffset(1.0, 0.1),
+                            //   ),
+                            // ),
                             child: Text(
                               'Album by '+ albums.artists[0].name+ '.' +albums.releaseDate.substring(0, 4),
                               style:
@@ -195,7 +240,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           width: 190.0,
                           child: FloatingActionButton(
                             onPressed: null,
-                            backgroundColor: Colors.grey[400],
+                            backgroundColor: Colors.green,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
                             ),
@@ -213,7 +258,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           children: <Widget>[
                             ChangeNotifierProvider.value(
                               value: albums.tracks[index],
-                              child: SongItemAlbumList(albums.image.toString()),
+                              child: SongItemPlaylistList(),
                             ),
                           ],
                         );

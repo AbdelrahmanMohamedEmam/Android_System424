@@ -1,27 +1,30 @@
+//Importing libraries from external packages.
 import 'package:flutter/material.dart';
+//Importing Screens
 import 'package:spotify/Screens/ArtistMode/add_album_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
 import 'package:spotify/Screens/MainApp/library_screen.dart';
 import 'package:spotify/Screens/MainApp/premium_screen.dart';
-import '../../widgets/bottom_navigation_bar.dart';
+import '../../Screens/ArtistMode/my_music_screen.dart';
+import '../../Screens/ArtistMode/add_album_screen.dart';
+import '../../Screens/ArtistMode/add_song_screen.dart';
 import './home_screen.dart';
-import './Settings/setting_screen.dart';
-import './search_screen.dart';
-import '../ArtistProfile/see_discography_screen.dart';
-import '../Playlists/playlists_list_screen.dart';
 import '../Albums/albums_list_screen.dart';
 import '../MainApp/Settings/user_playlists_screen.dart';
 import '../MainApp/Settings/user_followers_screen.dart';
 import '../MainApp/Settings/user_followings_screen.dart';
 import '../MainApp/Settings/user_edit_profile_screen.dart';
+import './Settings/setting_screen.dart';
+import './search_screen.dart';
+import '../ArtistProfile/see_discography_screen.dart';
 import 'Settings/recently_played_artists_screen.dart';
-
-import '../../Screens/ArtistMode/my_music_screen.dart';
-import '../../Screens/ArtistMode/add_album_screen.dart';
-import '../../Screens/ArtistMode/add_song_screen.dart';
 import '../ArtistProfile/about_info_screen.dart';
+//Importing widgets.
+import '../../widgets/bottom_navigation_bar.dart';
+
+///A map of [TabItem] and a [GlobalKey] with [NavigatorState].
 Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.home: GlobalKey<NavigatorState>(),
   TabItem.search: GlobalKey<NavigatorState>(),
@@ -30,6 +33,7 @@ Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
   TabItem.artist: GlobalKey<NavigatorState>(),
 };
 
+///Class Tab navigator routes for nested navigator route names.
 class TabNavigatorRoutes {
   static const String home = '/';
   static const String search = '/';
@@ -57,10 +61,17 @@ class TabNavigatorRoutes {
 
 class TabNavigator extends StatelessWidget {
   TabNavigator({this.navigatorKey, this.tabItem, this.route});
+
+  ///String has an initial route to the tab.
   final String route;
+
+  ///GlobalKey to identify this tab.
   final GlobalKey<NavigatorState> navigatorKey;
+
+  ///Tab item value to identify the [TabItem] for this Navigator.
   final TabItem tabItem;
 
+  ///A method that returns a map of [String] and [WidgetBuilder] to build the nested root.
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
       {int materialIndex: 500}) {
     if (tabItem == TabItem.home) {
@@ -68,7 +79,6 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.home: (context) => HomeScreen(),
         TabNavigatorRoutes.settings: (context) => SettingsScreen(),
         TabNavigatorRoutes.premium2: (context) => PremiumScreen(),
-       // TabNavigatorRoutes.playlistScreen: (context) => PlaylistsListScreen(),
         TabNavigatorRoutes.albumScreen: (context) => AlbumsListScreen(),
         TabNavigatorRoutes.profileScreen: (context) => ProfileScreen(),
         TabNavigatorRoutes.userPlaylistsScreen: (context) =>
@@ -99,7 +109,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.artist: (context) => ArtistScreen(),
         TabNavigatorRoutes.discographyScreen: (context) => ReleasesScreen(),
         TabNavigatorRoutes.myMusicScreen: (context) => MyMusicScreen(),
-        TabNavigatorRoutes.addAlbumScreen: (context) =>CreateAlbum(),
+        TabNavigatorRoutes.addAlbumScreen: (context) => CreateAlbum(),
         TabNavigatorRoutes.addSongScreen: (context) => AddSongScreen(),
         TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };

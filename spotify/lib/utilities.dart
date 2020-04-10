@@ -1,7 +1,4 @@
-import 'dart:convert';
 
-import 'package:http/http.dart';
-import 'package:spotify/Models/artistInfo.dart';
 import 'package:spotify/Models/user_stats.dart';
 
 import './Models/tracks_ref.dart';

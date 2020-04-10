@@ -1,25 +1,39 @@
+//Importing libraries from external packages.
 import 'package:flutter/material.dart';
+//Importing providers.
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/categories_provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
-import 'package:spotify/Screens/MainApp/tab_navigator.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import './tab_navigator.dart';
+//Importing Screens.
+import 'package:spotify/Screens/MainApp/tab_navigator.dart';
+//Importing widgets.
 import '../../widgets/playlist_list_widget.dart';
 import '../../widgets/album_list_widget.dart';
-import './tab_navigator.dart';
 
 class HomeScreen extends StatefulWidget {
+  ///Static variable for the route name of this screen.
   static const routeName = '/home_screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ///A boolean to indicate the screen is loading or not.
   bool _isLoading = false;
+
+  ///A boolean to indicate the screen is initiallized or not.
   bool _isInit = false;
+
+  ///A userprovider[UserProvider] variable to get all the user's details.
   UserProvider user;
+
+  ///A categoryprovider[CategoriesProvider] variable to get all the home screen categories.
   CategoriesProvider categoriesProvider;
+
+  ///A categoryprovider[PlaylistProvider] variable to get all the home screen categories.
   PlaylistProvider playlistProvider;
 
   @override

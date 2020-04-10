@@ -1,11 +1,15 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:spotify/API_Providers/albumAPI.dart';
-import 'package:spotify/Models/track.dart';
 import 'dart:io';
+
+//Importing API provider.
+import 'package:spotify/API_Providers/albumAPI.dart';
+
 //Import Models.
 import '../Models/album.dart';
+import 'package:spotify/Models/track.dart';
 
+///Enum To describe Category of the album ex:(Popular,Most Recent,...).
 enum AlbumCategory {
   popularAlbums,
   mostRecentAlbums,
@@ -15,61 +19,70 @@ enum AlbumCategory {
 
 ///Class AlbumProvider
 class AlbumProvider with ChangeNotifier {
+  ///The base Url for this provider.
   final String baseUrl;
 
+  ///Constructor with named arguments assignment.
   AlbumProvider({this.baseUrl});
 
   ///List of album objects categorized as popular albums.
   List<Album> _popularAlbums = [];
 
-  ///List of album objects categorized as popular albums.
+  ///List of album objects categorized as Most Recent albums.
   List<Album> _mostrecentAlbums = [];
 
-  ///List of album objects categorized as made b y artist albums.
+  ///List of album objects categorized as made by artist albums.
   List<Album> _myAlbums = [];
+
+  ///List of album objects categorized as the artist albums.
   List<Album> artistAlbums = [];
+
   ///A method(getter) that returns a list of albums (popular albums).
   List<Album> get getPopularAlbums {
     return [..._popularAlbums];
   }
+
+  ///A method(getter) that returns a list of albums (artistAlbums).
   List<Album> get getArtistAlbums {
     return [...artistAlbums];
   }
+
   ///A method(getter) that returns a list of albums (my albums).
   List<Album> get getMyAlbums {
     return [..._myAlbums];
   }
 
-  ///A method(getter) that returns a list of albums (my albums).
+  ///A method(getter) that returns a list of albums (mostrecentAlbums).
   List<Album> get getMostRecentAlbums {
     return [..._mostrecentAlbums];
   }
 
+  ///A method that takes an id for an album and returns the album object with this id located at the MostRecentAlbums List
   Album getMostRecentAlbumsId(String id) {
     final albumIndex = _mostrecentAlbums.indexWhere((album) => album.id == id);
     return _mostrecentAlbums[albumIndex];
   }
 
+  ///A method that takes an id for an album and returns the album object with this id located at the PopularAlbums List
   Album getPopularAlbumsId(String id) {
     final albumIndex = _popularAlbums.indexWhere((album) => album.id == id);
     return _popularAlbums[albumIndex];
   }
 
+  ///A method that takes an id for an album and returns the album object with this id located at the MyAlbums List
   Album getMyAlbumId(String id) {
     final albumIndex = artistAlbums.indexWhere((album) => album.id == id);
     return artistAlbums[albumIndex];
   }
 
+  ///A method to empty the lists from album objects.
   void emptyLists() {
     _popularAlbums = [];
     _mostrecentAlbums = [];
   }
 
-  //bool getSuccess() {
-  //return _success;
-  //}
-
   ///A method that fetches for popular albums and set them in the popular albums list.
+  ///It requires a parameter of type [String] token to verify the user.
   Future<void> fetchPopularAlbums(String token) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
@@ -85,7 +98,8 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  ///A method that fetches for popular albums and set them in the popular albums list.
+  ///A method that fetches for Most Recent albums and set them in the Most Recent albums list.
+  ///It requires a parameter of type [String] token to verify the user.
   Future<void> fetchMostRecentAlbums(String token) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
@@ -101,13 +115,12 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-
+  ///A method that fetches for Most Recent albums and set them in the My Albums  list.
+  ///It requires a parameter of type [String] token to verify the user.
   Future<void> fetchMyAlbums(String token) async {
-    AlbumAPI albumApi = AlbumAPI(
-        baseUrl: baseUrl);
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await albumApi.fetchMyAlbumsApi(
-          token);
+      final extractedList = await albumApi.fetchMyAlbumsApi(token);
       final List<Album> loadedAlbum = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
@@ -121,6 +134,7 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
+  ///A method that fetches for Most Recent albums and set them in the Artists albums  list.
   Future<void> fetchArtistAlbums(String token, String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
@@ -130,8 +144,7 @@ class AlbumProvider with ChangeNotifier {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
       artistAlbums = loadedAlbum;
-      notifyListeners(
-      );
+      notifyListeners();
 
       _myAlbums = loadedAlbum;
       notifyListeners();
@@ -140,53 +153,12 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchMostRecentAlbumsById(String id, String token) async {
-    AlbumAPI albumAPI = AlbumAPI(baseUrl: baseUrl);
-    try {
-      Album album = getMostRecentAlbumsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList = await albumAPI.fetchAlbumsTracksApi(token, id);
-
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJson(extractedList[i]));
-      }
-      album.tracks = loadedTracks;
-      final albumIndex =
-          _mostrecentAlbums.indexWhere((album) => album.id == id);
-      _mostrecentAlbums.removeAt(albumIndex);
-      _mostrecentAlbums.insert(albumIndex, album);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchPopularAlbumsById(String id, String token) async {
-    AlbumAPI albumAPI = AlbumAPI(baseUrl: baseUrl);
-    try {
-      Album album = getPopularAlbumsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList = await albumAPI.fetchAlbumsTracksApi(token, id);
-
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJson(extractedList[i]));
-      }
-      album.tracks = loadedTracks;
-      final albumIndex = _popularAlbums.indexWhere((album) => album.id == id);
-      _popularAlbums.removeAt(albumIndex);
-      _popularAlbums.insert(albumIndex, album);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
   Future<bool> uploadImage(File file, String token, String albumName,
-
-      String albumType, String _currentTime , String genre) async {
-    AlbumAPI albumApi = AlbumAPI(
-        baseUrl: baseUrl);
+      String albumType, String _currentTime, String genre) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadAlbumApi(
-          file, token, albumName, albumType, _currentTime , genre);
+          file, token, albumName, albumType, _currentTime, genre);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
@@ -204,11 +176,12 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
+  ///A method that fetches for a tracks for a certain album in the albums List according to the [AlbumCategory].
+  ///It takes a [string] token for verification and id for identification,[AlbumCategory] to identify which list to add in.
   Future<void> fetchAlbumsTracksById(
       String id, String token, AlbumCategory albumCategory) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
-      ////////////////////////////////////////////////////////////
       final List<Track> loadedTracks = [];
       if (albumCategory == AlbumCategory.mostRecentAlbums) {
         Album album = getMostRecentAlbumsId(id);
@@ -227,7 +200,6 @@ class AlbumProvider with ChangeNotifier {
           return;
         }
       }
-      //////////////////////////////////////////////////////////////////////
       if (albumCategory == AlbumCategory.popularAlbums) {
         Album album = getPopularAlbumsId(id);
         if (!album.isFetched) {
@@ -245,7 +217,6 @@ class AlbumProvider with ChangeNotifier {
           return;
         }
       }
-      //////////////////////////////////////////////////////
       if (albumCategory == AlbumCategory.artist) {
         Album album = getMyAlbumId(id);
         if (!album.isFetched) {
