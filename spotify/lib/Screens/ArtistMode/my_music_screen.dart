@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
+//import 'package:dio/dio.dart';
+//import 'package:flutter/services.dart';
 import '../../Models/album.dart';
 import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/album_widget_artist_mode.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import '../../Screens/MainApp/tab_navigator.dart';
 import '../../Providers/user_provider.dart';
 
 class MyMusicScreen extends StatefulWidget {
+  ///route name to get to the screen from navigator.
   static const routeName = '//my_music_screen';
-
   @override
   _MyMusicScreenState createState() => _MyMusicScreenState();
 }
 
 class _MyMusicScreenState extends State<MyMusicScreen> {
-  ScrollController _scrollController;
-  bool _isScrolled = false;
+  //ScrollController _scrollController;
+  //bool _isScrolled = false;
+  ///String to store user token to be used in http request/
   String token;
+
+  ///String to store id of the album to pass it to add song screen.
   String id;
+
+  ///String to store name of the album to pass it to add song screen.
   String name;
+
+  ///String to store image url of the album to pass it to add song screen.
   String imageUrl;
+  File imageURI;
+
+  ///String to control loading indicator.
+  bool _isLoading = false;
+
+  ///String to prevent re fetch data when re build screen.
+  bool _isInit = false;
+
+  ///List to store the fetched list of albums in this screen.
+  List<Album> albums;
+
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(_listenToScrollChange);
+    //_scrollController = ScrollController();
+    //_scrollController.addListener(_listenToScrollChange);
     super.initState();
   }
 
-  File imageURI;
-  bool _isLoading = false;
-  bool _isInit = false;
-  List<Album> albums;
+  ///Fetching data to the screen from providers.
   void didChangeDependencies() async {
     if (!_isInit) {
       setState(() {
@@ -52,6 +67,8 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     }
     super.didChangeDependencies();
   }
+
+  ///navigating to [CreateAlbum] screen.
   void _goToCreateAlbum(
     BuildContext ctx,
   ) {
@@ -60,14 +77,15 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     );
   }
 
+  ///navigating to [overview] screen.
   void _goToOverview(
     BuildContext ctx,
   ) {
-    //Navigator.of(ctx).pushNamed(
-      //TabNavigatorRoutes.artist,
-    //);
+    Navigator.of(ctx).pushNamed(
+      TabNavigatorRoutes.artist,
+    );
   }
-
+  ///navigating to [stats] screen.
   void _goToStats(
     BuildContext ctx,
   ) {
@@ -75,7 +93,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       '/stats_screen',
     );
   }
-
+/// a method used to reload albums list in case of adding new album.
   void reloadAlbums()
   {
    // _isInit = false;
@@ -83,7 +101,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       didChangeDependencies();
     });
   }
-  void _listenToScrollChange() {
+  /*void _listenToScrollChange() {
     if (_scrollController.offset >= 140.0) {
       setState(() {
         _isScrolled = true;
@@ -93,13 +111,11 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
         _isScrolled = false;
       });
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     print('my music built');
-
-    
     final deviceSize = MediaQuery.of(context).size;
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     albums = albumProvider.getMyAlbums;

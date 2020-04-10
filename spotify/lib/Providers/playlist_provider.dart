@@ -1,13 +1,8 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:spotify/API_Providers/playlistAPI.dart';
 import 'package:spotify/Models/http_exception.dart';
 import 'package:spotify/Models/track.dart';
-
-//Import core libraries.
-import 'dart:convert';
-
 //Import Models.
 import '../Models/playlist.dart';
 
@@ -235,7 +230,7 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
-  ///A method that fetches for artist profile playlists and set them in the artist profle list.
+  ///A method that fetches for artist profile playlists and set them in the artist profile list.
   Future<void> fetchArtistProfilePlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {

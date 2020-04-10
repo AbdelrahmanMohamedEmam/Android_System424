@@ -1,14 +1,8 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
 import 'package:spotify/API_Providers/albumAPI.dart';
 import 'package:spotify/Models/track.dart';
 import 'dart:io';
-
-//Import core libraries.
-import 'dart:convert';
-
 //Import Models.
 import '../Models/album.dart';
 
