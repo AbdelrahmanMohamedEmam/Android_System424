@@ -175,7 +175,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
+                        //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
                         icon: Icon(Icons.add,
                         ),
                         iconSize: deviceSize.width*0.1,

@@ -281,7 +281,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
           height: deviceSize.height * 0.07,
           width: deviceSize.width * 0.1,
           child: FloatingActionButton(
-            onPressed: () => _createAlbum(context, _user),
+           // onPressed: () => _createAlbum(context, _user),
             backgroundColor: Colors.blueGrey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
