@@ -38,8 +38,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         } else if (widget.albumType == AlbumCategory.popularAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getPopularAlbumsId(widget.albumtId);
-        }
-        else if (widget.albumType == AlbumCategory.artist) {
+        } else if (widget.albumType == AlbumCategory.artist) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMyAlbumId(widget.albumtId);
         }
@@ -48,6 +47,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     super.didChangeDependencies();
   }
 
+  ///Initialization.
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -56,6 +56,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     super.initState();
   }
 
+  ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
     if (albums != null) {
       PaletteGenerator _paletteGenerator =
@@ -133,16 +134,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           Container(
                             padding: EdgeInsets.only(top: 50, bottom: 15),
                             height: 210,
-                            // decoration: BoxDecoration(
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Color.fromRGBO(100, 150, 180, 5.0),
-                            //       Color(0xFF191414),
-                            //     ],
-                            //     begin: Alignment.topLeft,
-                            //     end: FractionalOffset(1.0, 0.1),
-                            //   ),
-                            // ),
                             width: double.infinity,
                             child: Image.network(
                               albums.image,
@@ -151,16 +142,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           Container(
                             height: 40,
                             width: double.infinity,
-                            // decoration: BoxDecoration(
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Color.fromRGBO(100, 150, 180, 5.0),
-                            //       Color(0xFF191414),
-                            //     ],
-                            //     begin: Alignment.topLeft,
-                            //     end: FractionalOffset(1.0, 0.1),
-                            //   ),
-                            // ),
                             child: Text(
                               albums.name,
                               style:
@@ -172,16 +153,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           Container(
                             height: 22,
                             width: double.infinity,
-                            // decoration: BoxDecoration(
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Color.fromRGBO(100, 150, 180, 5.0),
-                            //       Color(0xFF191414),
-                            //     ],
-                            //     begin: Alignment.topLeft,
-                            //     end: FractionalOffset(1.0, 0.1),
-                            //   ),
-                            // ),
                             child: Container(
                               width: 100,
                               child: DecoratedBox(
@@ -213,18 +184,11 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             width: 40,
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
-                            // decoration: BoxDecoration(
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Color.fromRGBO(100, 150, 180, 5.0),
-                            //       Color(0xFF191414),
-                            //     ],
-                            //     begin: Alignment.topLeft,
-                            //     end: FractionalOffset(1.0, 0.1),
-                            //   ),
-                            // ),
                             child: Text(
-                              'Album by '+ albums.artists[0].name+ '.' +albums.releaseDate.substring(0, 4),
+                              'Album by ' +
+                                  albums.artists[0].name +
+                                  '.' +
+                                  albums.releaseDate.substring(0, 4),
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,
@@ -280,6 +244,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           );
   }
 
+  ///Functions to listen to the control of scrolling.
   void _listenToScrollChange() {
     if (_scrollController.offset >= 140.0) {
       setState(() {

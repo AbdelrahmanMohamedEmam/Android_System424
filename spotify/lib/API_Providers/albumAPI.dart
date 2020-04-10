@@ -13,7 +13,6 @@ class AlbumEndPoints {
   static const String forArtist = '/me';
   static const String track = '/tracks';
   static const String tracks = '/tracks';
-
 }
 
 class AlbumAPI {
@@ -31,7 +30,7 @@ class AlbumAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['albums'] as List;
-         print(extractedList[0]);
+        print(extractedList[0]);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -63,8 +62,7 @@ class AlbumAPI {
   }
 
   Future<List> fetchMyAlbumsApi(String token) async {
-    final url =
-        baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
+    final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
       final response = await http.get(
         url,
@@ -86,7 +84,7 @@ class AlbumAPI {
 
   Future<List> fetchArtistAlbumsApi(String token, String id) async {
     final url =
-        baseUrl +ArtistEndPoints.artists +'/' + id +  AlbumEndPoints.albums;
+        baseUrl + ArtistEndPoints.artists + '/' + id + AlbumEndPoints.albums;
     try {
       final response = await http.get(
         url,
@@ -95,7 +93,6 @@ class AlbumAPI {
       print(response.body);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        print('kkkkkkkk');
         print(response.body);
         print(response.statusCode);
         Map<String, dynamic> temp = json.decode(response.body);
@@ -131,10 +128,11 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
+
   ///A method that uploads new album in artist mode.
   ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[ReleaseDate],[AlbumType] as input parameters.
   Future<bool> uploadAlbumApi(File file, String token, String albumName,
-      String albumType, String _currentTime , String genre) async {
+      String albumType, String _currentTime, String genre) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
       FormData formData = new FormData.fromMap({
@@ -148,7 +146,13 @@ class AlbumAPI {
       });
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
-      Response response = await dio.post(url, data: formData , options: Options(validateStatus: (_) {return true;}),);
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(validateStatus: (_) {
+          return true;
+        }),
+      );
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -165,14 +169,14 @@ class AlbumAPI {
       String token, String songName, String path, String id) async {
     final url = baseUrl +
         AlbumEndPoints.forArtist +
-        AlbumEndPoints.albums + '/' + id +
+        AlbumEndPoints.albums +
+        '/' +
+        id +
         AlbumEndPoints.track;
     print(songName);
     print(path);
     print(id);
-    print(MultipartFile.fromFile(
-      path
-    ));
+    print(MultipartFile.fromFile(path));
     try {
       FormData formData = new FormData.fromMap({
         "name": songName,
@@ -182,7 +186,13 @@ class AlbumAPI {
       });
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
-      Response response = await dio.post(url, data: formData ,  options: Options(validateStatus: (_) {return true;}),);
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(validateStatus: (_) {
+          return true;
+        }),
+      );
       if (response.statusCode == 200) {
         return true;
       } else {
