@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
-import 'package:spotify/Models/playlist.dart';
 import '../API_Providers/artistAPI.dart';
 
 class PlaylistEndPoints {
