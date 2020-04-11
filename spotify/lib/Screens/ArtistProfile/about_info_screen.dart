@@ -5,21 +5,28 @@ import 'package:provider/provider.dart';
 import '../../Models/artist.dart';
 
 class AboutScreen extends StatefulWidget {
+  ///route name to get to the screen from navigator.
   static const routeName = '//about_screen';
-
   @override
   _AboutScreenState createState() => _AboutScreenState();
 }
 
 class _AboutScreenState extends State<AboutScreen> {
+
+  ///variable of type artist to accses the info fetched from artist provider.
   Artist artistInfo;
 
   @override
   Widget build(BuildContext context) {
+    ///getting device size due to responsiveness issues.
     final deviceSize = MediaQuery.of(context).size;
+
+    ///artist provider object to get the ArtistInfo data from the artist object.
     final artistProvider = Provider.of<ArtistProvider>(context , listen:  false);
-    artistInfo = artistProvider.getChoosedArtist;
-    print(artistInfo.artistInfo.biography);
+
+    ///calling getter function.
+    artistInfo = artistProvider.getChosenArtist;
+
     return Scaffold(
       backgroundColor: Colors.black,
         appBar: AppBar(

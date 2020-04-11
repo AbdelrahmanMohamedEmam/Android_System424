@@ -5,9 +5,6 @@ import '../tab_navigator.dart';
 import '../../../Providers/user_provider.dart';
 import '../../../Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
-// import '../../Providers/playable_track.dart';
-// import '../../Models/track.dart';
-// import '../../Models/artist.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

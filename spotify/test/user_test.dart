@@ -1,9 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotify/API_Providers/userAPI.dart' as user;
-import 'package:mockito/mockito.dart';
 
 
-class MockClient extends Mock implements user.UserAPI {}
 
 void main() async{
 

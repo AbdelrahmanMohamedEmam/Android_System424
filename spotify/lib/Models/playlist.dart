@@ -60,8 +60,10 @@ class Playlist with ChangeNotifier {
   ///String indicating the category of the playlist.
   String category;
 
+  ///String that describes the the time this playlist was created at.
   String createdAt;
 
+  ///A bool to decide either this playlist object's data is fetched or not.
   bool isFetched = false;
 
   ///Constructor for class playlist with named arguments assignment.
@@ -87,6 +89,8 @@ class Playlist with ChangeNotifier {
     this.tracks,
     this.createdAt,
   });
+
+  ///A method that parses a mapped object from a json file and returns an Playlist object.
   factory Playlist.fromJson(Map<String, dynamic> json) {
     return Playlist(
       collaborative:

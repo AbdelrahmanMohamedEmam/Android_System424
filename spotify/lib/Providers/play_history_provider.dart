@@ -1,24 +1,30 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+
+//Import Providers and models.
 import 'package:spotify/API_Providers/playHistoryAPI.dart';
 import 'package:spotify/Models/http_exception.dart';
-
-//Import core libraries.
-import 'dart:convert';
 
 //Import Models.
 import '../Models/play_history.dart';
 
+///Class PlayHistory Provider
 class PlayHistoryProvider with ChangeNotifier {
+  ///The baseUrl for this provider.
   final String baseUrl;
+
+  ///Constructor with named argument assignment.
   PlayHistoryProvider({this.baseUrl});
+
+  ///List of playhistory objects for recentlyplayed.
   List<PlayHistory> _recentlyPlayed = [];
 
+  ///A Method getter to retrun recently played list.
   List<PlayHistory> get getRecentlyPlayed {
     return [..._recentlyPlayed];
   }
 
+  ///A Method getter to retrun recently played artists list.
   List<PlayHistory> get getRecentlyPlayedArtists {
     List<PlayHistory> temp = [];
     for (int i = 0; i < _recentlyPlayed.length; i++) {
@@ -29,10 +35,13 @@ class PlayHistoryProvider with ChangeNotifier {
     return [...temp];
   }
 
+  ///A method to empty the list.
   void emptyList() {
     _recentlyPlayed = [];
   }
 
+  ///A method that fetches recently played List and set them in recently played list.
+  ///It takes a [String] token for verification.
   Future<void> fetchRecentlyPlayed(String token) async {
     PlayHistoryAPI playHistoryAPI = PlayHistoryAPI(baseUrl: baseUrl);
     try {

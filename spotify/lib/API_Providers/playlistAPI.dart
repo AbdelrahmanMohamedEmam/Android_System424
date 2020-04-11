@@ -1,7 +1,6 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:spotify/API_Providers/albumAPI.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../API_Providers/artistAPI.dart';
 
@@ -215,7 +214,8 @@ class PlaylistAPI {
   }
 
 
-
+  ///A method that fetches top tracks for artist profile.
+  ///takes [token],[ArtistId] as input parameters.
   Future<List> fetchArtistTopTracksApi(String token, String id) async {
     final url = baseUrl + ArtistEndPoints.artists + '/' + id + ArtistEndPoints.topTracks;
 
@@ -236,7 +236,8 @@ class PlaylistAPI {
       throw HttpException(error.toString());
     }
   }
-
+  ///A method that fetches artist-created playlist(s).
+  ///takes [token],[ArtistId] as input parameters.
   Future<List> fetchArtistPlaylistsApi(String token , String id) async {
     final url = baseUrl + ArtistEndPoints.artists + '/' +
         id + PlaylistEndPoints.artistCreated;

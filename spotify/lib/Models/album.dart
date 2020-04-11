@@ -1,18 +1,14 @@
-//All objects concerning artist are commented until they are finalized.
-
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Models/track.dart';
-
 //Import model files.
-import '../Models/external_url.dart';
 //import '../Models/artist.dart';
 
 //Import utilities file.
 import '../utilities.dart';
 
-///Album class.
+///Album class that describes the album model that will be displayed.
 class Album with ChangeNotifier {
   ///The type of the album sent ex:"single".
   String albumType;
@@ -26,7 +22,7 @@ class Album with ChangeNotifier {
   ///An list of objects containing  the url and its type of the object.
   List<String> externalUrls;
 
-  ///A list of sring describing the genres of the album ex:"synthwave".
+  ///A list of string describing the genres of the album ex:"synthwave".
   List<String> genres;
 
   ///A link to the web api end point providing all details of this album{required}.
@@ -35,7 +31,7 @@ class Album with ChangeNotifier {
   ///Base 62-identifier of this object (album){required}.
   final String id;
 
-  ///A list of url strings containig the images of the album.
+  ///A list of url strings containing the images of the album.
   List<String> images;
 
   String image;
@@ -58,10 +54,13 @@ class Album with ChangeNotifier {
   ///The spotify uri for this album{required}.
   final String uri;
 
+  ///The total number of tracks included in this album.
   final int totalTracks;
 
+  ///List of track objects that are in this album.
   List<Track> tracks;
 
+  ///Boolean to ensure that an album is not fetched more than once.
   bool isFetched = false;
 
   ///Constructor for class album with named arguments assignment.
