@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
+import 'package:spotify/Models/playlist.dart';
 import '../API_Providers/artistAPI.dart';
 
 class PlaylistEndPoints {
@@ -32,8 +33,6 @@ class PlaylistAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
-      print("hello");
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
@@ -58,8 +57,8 @@ class PlaylistAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
-        print(temp2);
         final extractedList = temp2['playlist'] as List;
+
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -200,7 +199,6 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        print(response.body);
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['tracksArray'] as List;
@@ -213,10 +211,12 @@ class PlaylistAPI {
     }
   }
 
-
-
   Future<List> fetchArtistTopTracksApi(String token, String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' + id + ArtistEndPoints.topTracks;
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        ArtistEndPoints.topTracks;
 
     try {
       final response = await http.get(
@@ -236,9 +236,12 @@ class PlaylistAPI {
     }
   }
 
-  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,
