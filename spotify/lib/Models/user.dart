@@ -1,7 +1,5 @@
 ///Importing models to use in factory methods.
 import '../Models/external_url.dart';
-import '../Models/image.dart';
-import '../Models/follower.dart';
 import '../Models/user_stats.dart';
 import '../Models/artistInfo.dart';
 
@@ -20,7 +18,6 @@ class User {
   final String uri;
   final String href;
   final ExternalUrl externalUrl;
-  //final String images;
   final List<String> images;
   //final List<Follower> followers;
   //final List<Follower> following;
@@ -60,6 +57,7 @@ class User {
       this.becomeArtistExpires});
 
   ///A factory method to decode the Json user into a user object.
+  ///Check if the object is received first in the request to avoid errors.
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],

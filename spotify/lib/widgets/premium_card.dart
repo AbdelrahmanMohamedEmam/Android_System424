@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gradient_widgets/gradient_widgets.dart';
 
+
+
+///It is a merged card widgets
+///Provide it by the premium text and the free user text to get a comparison widget.
 class PremiumCard extends StatelessWidget {
   final String premiumText;
   final String freeText;

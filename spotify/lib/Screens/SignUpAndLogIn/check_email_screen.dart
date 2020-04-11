@@ -1,7 +1,8 @@
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 
-
+///This screen appears after [GetEmailScreen] to ask the user to check his email.
+///It is a static screen.
 class CheckEmailScreen extends StatelessWidget {
   static const routeName = 'check_email_screen';
   @override

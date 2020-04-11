@@ -16,6 +16,8 @@ import 'package:email_validator/email_validator.dart';
 
 
 ///A screen to get the user email to send him a change password code.
+///[CheckEmailScreen] is called next if the process is completed successfully.
+///The screen checks that the email is in the email format before sending the request to the backend.
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
   @override

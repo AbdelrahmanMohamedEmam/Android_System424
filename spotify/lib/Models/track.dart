@@ -7,6 +7,8 @@ import '../Models/artist.dart';
 
 import '../utilities.dart';
 
+
+///A model for grouping the track data.
 class Track with ChangeNotifier {
   final String name;
   final String id;
@@ -20,6 +22,8 @@ class Track with ChangeNotifier {
   final String uri;
   final String href;
   final int popularity;
+
+  ///A constructor with named parameters.
   Track({
     this.name,
     this.id,
@@ -34,6 +38,10 @@ class Track with ChangeNotifier {
     this.href,
     this.popularity,
   });
+
+
+  ///A factory method to decode the Json user into a track object.
+  ///Check if the object is received first in the request to avoid errors.
   factory Track.fromJson(Map<String, dynamic> json) {
     return Track(
       name: json['name'],

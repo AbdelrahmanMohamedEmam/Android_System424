@@ -7,6 +7,11 @@ import 'create_password_screen.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
+
+
+///This is the first appearing screen when the user starts to sign up.
+///The email format is checked first before allowed to the next screen.
+///[CreatePasswordScreen] is called when the NEXT button is pressed and the email format is correct.
 class CreateEmailScreen extends StatefulWidget {
   static const routeName = '/create_email_screen';
   @override

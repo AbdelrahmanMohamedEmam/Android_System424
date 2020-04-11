@@ -6,12 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 import '../../Providers/user_provider.dart';
 
-///Importing the screens to navigate to it.
-import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
-
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
+
+
+///This screen appears to ask the user to enter his username when signing up.
+///The username filed can't be empty.
+///When the user press NEXT the signing up process is called and he logs into the app.
 class ChooseNameScreen extends StatefulWidget {
   static const routeName = '/choose_name_screen';
   @override

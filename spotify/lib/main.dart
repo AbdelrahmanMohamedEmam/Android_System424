@@ -7,7 +7,6 @@ import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
-import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
@@ -41,8 +40,14 @@ import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 import './Providers/track_provider.dart';
+
+
 ///A Function to read the configuration file before running the app.
+///Reading a character from the config file located in the assets folder.
+///If the character is 2 the mock server base url is added.
+///If the character is 1 the real server base url is added.
 Future<String> setUrl() async {
+
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
