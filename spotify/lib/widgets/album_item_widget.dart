@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Screens/Albums/albums_list_screen.dart';
 import '../Models/album.dart';
-import '../Screens/MainApp/tab_navigator.dart';
 
 class AlbumWidget extends StatelessWidget {
   final AlbumCategory albumCategory;
@@ -11,9 +10,6 @@ class AlbumWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final album = Provider.of<Album>(context);
-    print("enta d5lt album item");
-    print(album.id);
-    print(albumCategory);
     final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
@@ -35,8 +31,7 @@ class AlbumWidget extends StatelessWidget {
               height: deviceSize.height * 0.205,
               width: deviceSize.width * 0.341,
               child: FadeInImage(
-                image: NetworkImage(
-                    album.image),
+                image: NetworkImage(album.image),
                 placeholder: AssetImage('assets/images/album.png'),
                 fit: BoxFit.fill,
               ),

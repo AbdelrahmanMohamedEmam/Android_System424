@@ -14,8 +14,9 @@ import '../../Models/http_exception.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
-
 ///A screen to get the user email to send him a change password code.
+///[CheckEmailScreen] is called next if the process is completed successfully.
+///The screen checks that the email is in the email format before sending the request to the backend.
 class GetEmailScreen extends StatefulWidget {
   static const routeName = '/get_email_screen';
   @override
@@ -97,7 +98,8 @@ class _GetEmailScreenState extends State<GetEmailScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'Email',
-              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.07),
+              style: TextStyle(
+                  color: Colors.white, fontSize: deviceSize.width * 0.07),
             ),
           ),
 

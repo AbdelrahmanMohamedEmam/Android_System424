@@ -12,16 +12,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   ///Indicates if the password is visible or the user or not.
   bool _passwordVisible;
 
+  ///Indicates if the password confirmation visible or the user or not.
   bool _confirmPasswordVisible;
 
-  ///Indicates if the data is validated or not.
+  ///Indicates if the old data is validated or not.
   bool _validateOld;
-  bool _validateNew;
 
-  bool _matching;
+  ///Indicates if the new data is validated or not.
+  bool _validateNew;
 
   ///Text controller to keep track with the password field.
   final oldPasswordController = TextEditingController();
+
+  ///Text controller to keep track with the new password field.
   final newPasswordController = TextEditingController();
 
   ///Initialization.
@@ -31,7 +34,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     _confirmPasswordVisible = false;
     _validateOld = true;
     _validateNew = true;
-    _matching = true;
     super.initState();
   }
 
@@ -50,7 +52,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ///'Create a password' text.
             Container(
               margin: EdgeInsets.fromLTRB(
                   deviceSize.width * 0.06, 5, 0, deviceSize.width * 0.04),
@@ -60,8 +61,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     color: Colors.white, fontSize: deviceSize.width * 0.06),
               ),
             ),
-
-            ///Text Input Field for the password.
             Container(
               margin: EdgeInsets.only(left: deviceSize.width * 0.06),
               width: deviceSize.width * 0.9,
@@ -94,8 +93,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 controller: oldPasswordController,
               ),
             ),
-
-            ///'Create a password' text.
             Container(
               margin: EdgeInsets.fromLTRB(
                   deviceSize.width * 0.06, 5, 0, deviceSize.width * 0.04),
@@ -105,8 +102,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     color: Colors.white, fontSize: deviceSize.width * 0.06),
               ),
             ),
-
-            ///Text Input Field for the password.
             Container(
               margin: EdgeInsets.only(left: deviceSize.width * 0.06),
               width: deviceSize.width * 0.9,
@@ -140,8 +135,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 controller: newPasswordController,
               ),
             ),
-
-            ///Next button
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -163,7 +156,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       setState(() {
                         if (oldPasswordController.text.length > 7) {
                           if (newPasswordController.text.length > 7) {
-                            user.changePassword(user.token, newPasswordController.text,oldPasswordController.text);
+                            user.changePassword(
+                                user.token,
+                                newPasswordController.text,
+                                oldPasswordController.text);
                           } else {
                             _validateNew = false;
                           }
@@ -182,22 +178,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  void _showErrorDialog(String message, String title) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
+  // void _showErrorDialog(String message, String title) {
+  //   showDialog(
+  //     barrierDismissible: false,
+  //     context: context,
+  //     builder: (ctx) => AlertDialog(
+  //       title: Text(title),
+  //       content: Text(message),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           child: Text('Okay'),
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //           },
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 }

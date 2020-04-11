@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ///Seek Bar widget.
+///It is given the total duration of the track and the current position to show the song progress bar for the [Panel].
 class PanelSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;
@@ -21,33 +22,32 @@ class PanelSeekBar extends StatefulWidget {
 class _PanelSeekBarState extends State<PanelSeekBar> {
   double _dragValue;
 
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    Duration left=widget.duration-widget.position;
+    Duration left = widget.duration - widget.position;
     return Column(
       children: <Widget>[
         Slider(
-            activeColor: Colors.white,
-            min: 0,
-            max: widget.duration.inMilliseconds.toDouble(),
-            value: _dragValue ?? widget.position.inMilliseconds.toDouble(),
-            onChanged: (value) {
-              setState(() {
-                _dragValue = value;
-              });
-              if (widget.onChanged != null) {
-                widget.onChanged(Duration(milliseconds: value.round()));
-              }
-            },
-            onChangeEnd: (value) {
-              _dragValue = null;
-              if (widget.onChangeEnd != null) {
-                widget.onChangeEnd(Duration(milliseconds: value.round()));
-              }
-            },
-          ),
+          activeColor: Colors.white,
+          min: 0,
+          max: widget.duration.inMilliseconds.toDouble(),
+          value: _dragValue ?? widget.position.inMilliseconds.toDouble(),
+          onChanged: (value) {
+            setState(() {
+              _dragValue = value;
+            });
+            if (widget.onChanged != null) {
+              widget.onChanged(Duration(milliseconds: value.round()));
+            }
+          },
+          onChangeEnd: (value) {
+            _dragValue = null;
+            if (widget.onChangeEnd != null) {
+              widget.onChangeEnd(Duration(milliseconds: value.round()));
+            }
+          },
+        ),
         Row(
           children: <Widget>[
             SizedBox(
@@ -79,6 +79,8 @@ class _PanelSeekBarState extends State<PanelSeekBar> {
   }
 }
 
+///Seek Bar widget.
+///It is given the total duration of the track and the current position to show the song progress bar for the [Collapsed].
 class CollapsedSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;

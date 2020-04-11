@@ -1,55 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:path/path.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../Providers/album_provider.dart';
+//import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
-
 class AddSongScreen extends StatefulWidget {
-  @override
   final String id;
   AddSongScreen({this.id});
   String get getId {
     return id;
   }
-  static const  routeName='//add_song_screen';
-  @override
+
+  ///route name to get to the screen from navigator.
+  static const routeName = '//add_song_screen';
+
   _AddSongScreenState createState() => new _AddSongScreenState();
 }
 
 class _AddSongScreenState extends State<AddSongScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  ///getting the name of the uploaded file (song).
   String _fileName;
+
+  ///the path of the file in the device.
   String _path;
-  String _extension ;
+
+  ///extension of the file which is audio here.
+  String _extension;
+
+  ///variables for validations and temp variables
   bool _loadingPath = false;
   bool _hasValidMime = false;
   FileType _pickingType = FileType.audio;
+
+  ///controller for song name.
   TextEditingController _controller = new TextEditingController();
-  int _pathLen =1;
+  int _pathLen = 1;
   String id;
   Response response;
   final songNameController = TextEditingController();
 
   void initState() {
     super.initState();
-    _controller.addListener(() => _extension = _controller.text);
+    //_controller.addListener(() => _extension = _controller.text);
   }
 
-  void _showScaffold(String message) {
+  /*void _showScaffold(String message) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
     ));
-  }
-  void _openFileExplorer() async {
+  }*/
+  /*void _openFileExplorer() async {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
-          _path = await FilePicker.getFilePath(type: _pickingType, fileExtension: _extension);
+          _path = await FilePicker.getFilePath(type: _pickingType, /fileExtension: _extension/);
 
       } on PlatformException catch (e) {
         print("Unsupported operation" + e.toString());
@@ -60,8 +68,8 @@ class _AddSongScreenState extends State<AddSongScreen> {
         _fileName = _path != null ? _path.split('/').last  : '...';
       });
     }
-  }
-  void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
+  }*/
+  /*void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
@@ -72,20 +80,17 @@ class _AddSongScreenState extends State<AddSongScreen> {
         Navigator.of(context).pop();
       }
     });
-  }
-
+  }*/
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    String _user = Provider.of<UserProvider>(context , listen: false).token;
-    print(_user);
-    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
+    String _user = Provider.of<UserProvider>(context, listen: false).token;
+    final routeArgs =
+    ModalRoute.of(context).settings.arguments as Map<String, String>;
     //id = routeArgs["id"];
     //String albumId = 'hjdksksl';
-    print('indecator');
-    //print(widget.id);
-    return  Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
         backgroundColor: Colors.green[700],
@@ -93,10 +98,11 @@ class _AddSongScreenState extends State<AddSongScreen> {
       ),
       body: Container(
         color: Colors.black,
-        child:  Center(
-            child:  Padding(
-              padding:  EdgeInsets.only(left: deviceSize.width*0.01, right: deviceSize.width*0.01),
-              child:  SingleChildScrollView(
+        child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: deviceSize.width * 0.01, right: deviceSize.width * 0.01),
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -113,76 +119,77 @@ class _AddSongScreenState extends State<AddSongScreen> {
                           labelText: 'choose song name ',
                           filled: true,
                           fillColor: Colors.green[700],
-                          labelStyle: TextStyle(
-                              color: Colors.white),
+                          labelStyle: TextStyle(color: Colors.white),
                         ),
-                        style: TextStyle(
-                            color: Colors.black),
-                        cursorColor: Theme
-                            .of(
-                            context)
-                            .primaryColor,
+                        style: TextStyle(color: Colors.black),
+                        cursorColor: Theme.of(context).primaryColor,
                         keyboardType: TextInputType.text,
                       ),
                     ),
-
                     new Padding(
-                      padding: EdgeInsets.only(top: deviceSize.width*0.03, bottom: 0.05),
+                      padding: EdgeInsets.only(
+                          top: deviceSize.width * 0.03, bottom: 0.05),
                       child: new RaisedButton(
-                        onPressed: () => _openFileExplorer(),
-                        child: new Text("Open file picker" ,
-                        style: TextStyle(color: Colors.grey),
+                        //onPressed: () => _openFileExplorer(),
+                        child: new Text(
+                          "Open file picker",
+                          style: TextStyle(color: Colors.grey),
                         ),
                       ),
                     ),
                     new Builder(
                       builder: (BuildContext context) => _loadingPath
-                          ? Padding(padding:EdgeInsets.only(bottom: deviceSize.width*0.01), child: CircularProgressIndicator())
+                          ? Padding(
+                          padding:
+                          EdgeInsets.only(bottom: deviceSize.width * 0.01),
+                          child: CircularProgressIndicator())
                           : _path != null
                           ? new Container(
-                        padding:EdgeInsets.only(bottom: deviceSize.width*0.04),
+                        padding: EdgeInsets.only(
+                            bottom: deviceSize.width * 0.04),
                         height: deviceSize.height * 0.25,
                         child: new Scrollbar(
                             child: new ListView.separated(
-                              itemCount: _pathLen ,
+                              itemCount: _pathLen,
                               itemBuilder: (BuildContext context, int index) {
-                                final String name = 'File name : '  + _fileName;
+                                final String name =
+                                    'File name : ' + _fileName;
                                 final path = _path;
                                 return ListTile(
                                   title: new Text(
                                     name,
                                     style: TextStyle(color: Colors.green),
                                   ),
-                                  subtitle: new Text(path ,
-                                    style :TextStyle(color: Colors.white),
+                                  subtitle: new Text(
+                                    path,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 );
                               },
-                              separatorBuilder: (BuildContext context, int index) => Divider(),
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                  Divider(),
                             )),
                       )
-                          :Container(),
+                          : Container(),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top : deviceSize.height*0.03),
+                      margin: EdgeInsets.only(top: deviceSize.height * 0.03),
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
                         //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
-                        icon: Icon(Icons.add,
+                        icon: Icon(
+                          Icons.add,
                         ),
-                        iconSize: deviceSize.width*0.1,
-
+                        iconSize: deviceSize.width * 0.1,
                       ),
                     )
                   ],
                 ),
               ),
-            )
-        ),
+            )),
       ),
     );
   }
 }
-
-

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import '../widgets/seekBar.dart';
 
-
-
+///It is used to provide the [PanelSeekBar] with the needed data about the track.
 StreamBuilder panelBar(AudioPlayer _player) {
   return StreamBuilder<Duration>(
     stream: _player.durationStream,
@@ -29,8 +28,7 @@ StreamBuilder panelBar(AudioPlayer _player) {
   );
 }
 
-
-
+///It is used to provide the [CollapsedSeekBar] with the needed data about the track.
 StreamBuilder collapsedBar(AudioPlayer _player) {
   return StreamBuilder<Duration>(
     stream: _player.durationStream,

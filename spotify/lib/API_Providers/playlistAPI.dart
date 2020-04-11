@@ -1,7 +1,6 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:spotify/API_Providers/albumAPI.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../API_Providers/artistAPI.dart';
 
@@ -33,8 +32,6 @@ class PlaylistAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
-      print("hello");
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
@@ -59,8 +56,8 @@ class PlaylistAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
-        print(temp2);
         final extractedList = temp2['playlist'] as List;
+
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -170,25 +167,6 @@ class PlaylistAPI {
     }
   }
 
-  // Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-  //   final url = baseUrl + ArtistEndPoints.artists + '/' +
-  //       id + PlaylistEndPoints.artistCreated;
-  //   try {
-  //     final response = await http.get(
-  //       url,
-  //       headers: {'authorization': token},
-  //     );
-  //     if (response.statusCode == 200) {
-  //       final extractedList = json.decode(response.body) as List;
-  //       return extractedList;
-  //     } else {
-  //       throw HttpException(json.decode(response.body)['message'].toString());
-  //     }
-  //   } catch (error) {
-  //     throw HttpException(error.toString());
-  //   }
-  // }
-
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
     final url = baseUrl +
         PlaylistEndPoints.playlists +
@@ -201,7 +179,6 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        print(response.body);
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['tracksArray'] as List;
@@ -214,10 +191,14 @@ class PlaylistAPI {
     }
   }
 
-
-
+  ///A method that fetches top tracks for artist profile.
+  ///takes [token],[ArtistId] as input parameters.
   Future<List> fetchArtistTopTracksApi(String token, String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' + id + ArtistEndPoints.topTracks;
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        ArtistEndPoints.topTracks;
 
     try {
       final response = await http.get(
@@ -225,7 +206,6 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        print(response.body);
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
         return extractedList;
@@ -237,9 +217,14 @@ class PlaylistAPI {
     }
   }
 
-  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+  ///A method that fetches artist-created playlist(s).
+  ///takes [token],[ArtistId] as input parameters.
+  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,

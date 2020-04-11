@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import '../Models/track.dart';
 
- class SongItemAlbumList  extends StatelessWidget {
-   final String imgURL;
-   SongItemAlbumList(this.imgURL);
+///It is used to provide the [AlbumsListScreen] with the needed data about the track.
+
+class SongItemAlbumList extends StatelessWidget {
+  final String imgURL;
+  SongItemAlbumList(this.imgURL);
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
@@ -44,8 +46,6 @@ import '../Models/track.dart';
           ],
         ),
       ),
-
-
     );
   }
 }

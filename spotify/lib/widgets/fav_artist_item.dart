@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 
-
-
+///It is a badge widget.
+///Provide it by and id, artist name, his/her image and either it is selected or not to render an icon.
 class FavArtistItem extends StatelessWidget {
   final String id;
   final String artistName;
   final String imageUrl;
   final bool selected;
 
-  FavArtistItem({
-    this.id,
-    this.imageUrl,
-    this.artistName,
-    this.selected
-  });
-
+  FavArtistItem({this.id, this.imageUrl, this.artistName, this.selected});
 
   @override
   Widget build(BuildContext context) {

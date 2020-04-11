@@ -7,7 +7,7 @@ import '../Providers/album_provider.dart';
 import '../widgets/album_item_widget.dart';
 import '../Models/album.dart';
 
-class AlbumList extends StatelessWidget {//
+class AlbumList extends StatelessWidget {
   String categoryTitle;
   AlbumCategory albumCategory;
   AlbumList(this.albumCategory);
@@ -23,8 +23,6 @@ class AlbumList extends StatelessWidget {//
       categoryTitle = 'Popular Albums';
       albums = albumsProvider.getMostRecentAlbums;
     }
-    print("enta gebt el albums sa7");
-print(albums);
     return Container(
       height: (deviceSize.height) * 0.3880,
       width: double.infinity,
@@ -59,7 +57,6 @@ print(albums);
                   margin: EdgeInsets.symmetric(
                     horizontal: deviceSize.width * 0.0244,
                   ),
-                  
                   child: AlbumWidget(
                     albumCategory: albumCategory,
                   ),

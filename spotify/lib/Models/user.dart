@@ -1,7 +1,5 @@
 ///Importing models to use in factory methods.
 import '../Models/external_url.dart';
-import '../Models/image.dart';
-import '../Models/follower.dart';
 import '../Models/user_stats.dart';
 import '../Models/artistInfo.dart';
 
@@ -20,7 +18,6 @@ class User {
   final String uri;
   final String href;
   final ExternalUrl externalUrl;
-  //final String images;
   final List<String> images;
   //final List<Follower> followers;
   //final List<Follower> following;
@@ -60,14 +57,15 @@ class User {
       this.becomeArtistExpires});
 
   ///A factory method to decode the Json user into a user object.
+  ///Check if the object is received first in the request to avoid errors.
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
       email: json['email'],
       password: json['password'],
-      dateOfBirth: json['dateOfBirth']==null?null: json['dateOfBirth'],
-      gender: json['gender']==null?null:json['gender'],
-      uri: json['uri']==null?null:json['uri'],
+      dateOfBirth: json['dateOfBirth'] == null ? null : json['dateOfBirth'],
+      gender: json['gender'] == null ? null : json['gender'],
+      uri: json['uri'] == null ? null : json['uri'],
       //following: parceFollower(json['following']),
       //followers: parceFollower(json['followers']),
       userStats: json['userStats'] == null
@@ -77,8 +75,9 @@ class User {
       //product: json['product'],
       name: json['name'],
       //externalUrl: ExternalUrl.fromJson(json['externalUrls']),
-      href: json['href']==null?null:json['href'],
-      images: parseString(json['images']),//parceImage(json['images']),//json['images']==null?null:json['images'],
+      href: json['href'] == null ? null : json['href'],
+      images: parseString(json[
+          'images']), //parceImage(json['images']),//json['images']==null?null:json['images'],
       role: json['role'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );

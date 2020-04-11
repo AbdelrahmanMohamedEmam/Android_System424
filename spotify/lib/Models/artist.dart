@@ -1,46 +1,54 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/artistInfo.dart';
-import './external_url.dart';
-import './follower.dart';
-import '../Models/user_stats.dart';
-import '../Models/image.dart';
 import '../utilities.dart';
 
-class Artist with ChangeNotifier{
+///Album class.
+class Artist with ChangeNotifier {
+  ///An list of objects containing  the url and its type of the object.
   final List<String> externalUrls;
+
+  ///List of strings describing followers.
   final List<String> followers;
-  //final List<String> genres;
+
+  ///A link to the web api end point providing all details of this artist{required}.
   final String href;
+
+  ///Base 62-identifier of this object (artist){required}.
   final String id;
+
+  ///List of strings containing images of artist with different sizes.
   final List<String> images;
+
+  ///A string describing artist's name.
   final String name;
-  //final int  popularity;
+
+  ///A string describing the type of the artist.
   final String type;
+
+  ///A string describing the spotify uri for this artist{required}.
   final String uri;
+
+  ///A string describing [biography],[popularity],[genres] of the artist.
   final ArtistInfo artistInfo;
-  //final UserStats userStats;
 
-  //final String bio;
+  ///Constructor for class Artist with named arguments assignment.
+  ///Required parameters:{href,id,name,artistInfo,uri}.
+  Artist(
+      {
 
-  Artist({
-    this.externalUrls,
-    this.followers,
-    //this.genres,
-    this.href,
-    this.id,
-    this.images,
-    this.name ,
-    //this.popularity ,
-    this.type ,
-    this.uri ,
-    //this.bio
-    this.artistInfo,
-    //this.userStats,
-  });
+      ///Initializations.
+      this.externalUrls,
+      this.followers,
+      this.href,
+      this.id,
+      this.images,
+      this.name,
+      this.type,
+      this.uri,
+      this.artistInfo});
 
+  ///A method that parses a mapped object from a json file and returns an Artist object.
   factory Artist.fromJson(Map<String, dynamic> json) {
-    //print(json['artistInfo']);
     return Artist(
       externalUrls: parseString(json['externalUrls']),
       followers: parseString(json['followers']),
@@ -50,20 +58,17 @@ class Artist with ChangeNotifier{
       name: json['name'],
       type: json['role'],
       uri: json['uri'],
-      artistInfo: ArtistInfo.fromJson(json['artistInfo']),
-      //userStats: UserStats.fromjson(json['userStats']),
+      //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );
-
   }
+
+  ///A method that parses a mapped object from a json file and returns an Artist Simplified object.
   factory Artist.fromJsonSimplified(Map<String, dynamic> json) {
     return Artist(
-      //id: json['id'],
       name: json['name'],
       href: json['href'],
       type: json['type'],
-      //externalUrls: parceExternalUrl(json['externalUrls']),
       uri: json['uri'],
-      //popularity: json['popularity'],
     );
   }
 }

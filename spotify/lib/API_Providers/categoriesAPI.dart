@@ -26,7 +26,6 @@ class CategoriesAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['categories'] as List;
-        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
