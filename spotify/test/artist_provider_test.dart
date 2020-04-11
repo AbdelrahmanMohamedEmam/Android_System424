@@ -11,22 +11,14 @@ class MockClient extends Mock implements artist.ArtistAPI {
    // this.baseUrl
 //});
 }
-
+/*
 main() {
   ArtistAPI artist =  ArtistAPI(baseUrl : 'http://spotify.mocklab.io');
   group('ArtistInfo', () {
     test('returns a Post if the http call completes successfully', () async {
-      //final artist = MockClient(baseUrl : 'http://spotify.mocklab.io');
-
-      // Use Mockito to return a successful response when it calls the
-      // provided http.Client.
-      //when(client.fetchChosenApi('', ''))
-          //.thenReturn();
       final item = await artist.fetchChosenApi('_', '5abSRg0xN1NV3gLbuvX24M');
       print(item.name);
       expect(item.name, 'Amr Diab');
-      //verifyNever(artist.fetchChosenApi('_', '5abSRg0xN1NV3gLbuvX24M')).called(1);
-      //expect(await client.fetchChosenApi('' ,''), const TypeMatcher<Artist>());
     });
 
     //test('throws an exception if the http call completes with an error', () {
@@ -40,4 +32,4 @@ main() {
      // expect(fetchPost(client), throwsException);
     //});
   });
-}
+}*/

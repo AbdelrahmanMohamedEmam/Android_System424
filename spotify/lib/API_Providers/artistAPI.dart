@@ -31,7 +31,7 @@ class ArtistAPI {
 
   ///A method that fetches Artist information by ID.
   Future<Artist> fetchChosenApi(String token ,String id) async {
-    final url = 'http://spotify.mocklab.io' +
+    final url = baseUrl +
         ArtistEndPoints.artists +'/' + id;
     try {
       final response = await http.get(
@@ -62,9 +62,11 @@ class ArtistAPI {
         url,
         headers: {'authorization' : "Bearer " + token},
       );
+      print(response.body);
       if (response.statusCode == 200 ||response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
+        print(extractedList);
         return extractedList;
 
       } else {
