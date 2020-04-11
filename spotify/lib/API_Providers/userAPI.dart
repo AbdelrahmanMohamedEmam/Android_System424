@@ -49,10 +49,10 @@ class UserAPI {
         ),
       );
       //final responseData = jsonDecode(response.body);
-      if (jsonDecode(responseData.data)['message'] != null) {
+      if (responseData.data['message'] != null) {
         //throw HttpException(responseData.data['message']);
       } else {
-        return jsonDecode(responseData.data);
+        return responseData.data;
       }
     } catch (error) {
       throw HttpException(error.toString());
@@ -118,7 +118,7 @@ class UserAPI {
       if (responseData.statusCode!=200) {
         throw HttpException(json.decode(responseData.data)['message']);
       } else {
-        return json.decode(responseData.data);
+        return responseData.data;
       }
     }catch (error) {
       throw error;

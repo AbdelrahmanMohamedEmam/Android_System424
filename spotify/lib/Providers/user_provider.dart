@@ -261,6 +261,7 @@ class UserProvider with ChangeNotifier {
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       } else {
+        
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
