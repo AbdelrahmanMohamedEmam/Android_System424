@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 //import models
 import '../Models/playlist.dart';
 
+///It is used to provide the [PlaylistScreen] with the needed data about the track.
 class FavPlaylistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
