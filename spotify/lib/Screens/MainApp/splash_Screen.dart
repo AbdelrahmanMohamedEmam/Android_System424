@@ -11,9 +11,6 @@ import '../../Providers/user_provider.dart';
 import '../../Widgets/trackPlayer.dart';
 import '../SignUpAndLogIn/intro_screen.dart';
 
-
-
-
 ///A screen appearing when the user launches the app.
 ///It shows spotify logo for a while.
 ///It decides which screen will be pushed next.
@@ -23,43 +20,43 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin{
-
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   ///Animation attributes.
   AnimationController _animationController;
   Animation<double> animation;
 
-
   ///Indicates if the data is read from the memory yet.
-  bool dataUpdated=false;
+  bool dataUpdated = false;
 
   ///Indicates if the user is authorized.
-  bool isAuth=false;
+  bool isAuth = false;
 
   ///Indicates if the API url is read from the config file.
-  bool urlInitialized=false;
-
+  bool urlInitialized = false;
 
   ///Initializations.
   ///Reading the API url from config file in the assets.
   ///Starting the animation of the logo.
   ///Start the timer.
   void initState() {
-    urlInitialized=false;
+    urlInitialized = false;
     super.initState();
-    _animationController= AnimationController(duration: Duration(milliseconds:700), vsync: this);
-    animation=Tween<double>(begin: 150,end: 170).animate(CurvedAnimation(curve: Curves.easeInOut,parent: _animationController,));
-    _animationController.addStatusListener((status){
-      if(status==AnimationStatus.completed)
-        {
-          _animationController.repeat();
-        }
+    _animationController =
+        AnimationController(duration: Duration(milliseconds: 700), vsync: this);
+    animation = Tween<double>(begin: 150, end: 170).animate(CurvedAnimation(
+      curve: Curves.easeInOut,
+      parent: _animationController,
+    ));
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.repeat();
+      }
     });
     _animationController.forward();
-    dataUpdated=false;
+    dataUpdated = false;
     startTimer();
   }
-
 
   ///Starts a 6 seconds timer.
   ///After the time is up, either intro screen/home screen is loaded.
@@ -75,10 +72,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.dispose();
   }
 
-
   ///Choosing the appropriate screen to show based on cached data.
-  void navigateUser() async{
-    print(isAuth.toString());
+  void navigateUser() async {
     if (isAuth) {
       Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
     } else {
@@ -91,23 +86,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     final _user = Provider.of<UserProvider>(context, listen: false);
 
     ///Try to auto login the user if the url is initialized.
-    if(!dataUpdated) {
+    if (!dataUpdated) {
       _user.tryAutoLogin();
       isAuth = _user.isAuth;
-      dataUpdated=isAuth;
+      dataUpdated = isAuth;
     }
 
     ///Showing the animated logo at the center of the screen.
     return Scaffold(
       backgroundColor: Colors.black,
-      body:AnimatedBuilder(animation: _animationController,builder: (context, child) {
-        return Center(
-            child:Container(
-          height: animation.value,
-          child: Image.asset('assets/images/splash_spotify.jpg',),
-        ));
-      }
-      ),
+      body: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return Center(
+                child: Container(
+              height: animation.value,
+              child: Image.asset(
+                'assets/images/splash_spotify.jpg',
+              ),
+            ));
+          }),
     );
   }
 }

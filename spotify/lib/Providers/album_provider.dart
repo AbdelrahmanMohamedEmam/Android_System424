@@ -126,8 +126,6 @@ class AlbumProvider with ChangeNotifier {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
       _myAlbums = loadedAlbum;
-      print(loadedAlbum[0].name);
-      print(loadedAlbum[0].image);
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());

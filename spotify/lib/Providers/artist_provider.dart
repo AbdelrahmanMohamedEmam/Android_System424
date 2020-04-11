@@ -3,7 +3,6 @@ import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
 import '../API_Providers/artistAPI.dart';
 
-
 ///Class [ArtistProvider] which is used to provide artist info to all widgets.
 class ArtistProvider with ChangeNotifier {
   /// Indicator tom set the [baseUrl] to know which source will data be loaded from.
@@ -23,34 +22,36 @@ class ArtistProvider with ChangeNotifier {
   List<Artist> _returnAll = [];
 
   ///getter for [_chosenArtist] member of artist provider.
-  Artist get getChosenArtist  {
-     return  _chosenArtist;
+  Artist get getChosenArtist {
+    return _chosenArtist;
   }
+
   ///getter for [_returnMultiple] member of artist provider.
   List<Artist> get getMultipleArtists {
     return [..._returnMultiple];
   }
+
   ///getter for [_returnAll] member of artist provider.
   List<Artist> get getAllArtists {
     return [..._returnAll];
   }
 
   ///A method that fetches info of certain artist by id.
-  Future<void> fetchChoosedArtist(String token , String id) async {
+  Future<void> fetchChoosedArtist(String token, String id) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
       Artist extractedArtist = await artistsApi.fetchChosenApi(token, id);
       _chosenArtist = extractedArtist;
-    }catch (error)
-    {
+    } catch (error) {
       throw HttpException(error.toString());
     }
   }
+
   ///A method that fetches list of artists related to certain artist.
-  Future<void> fetchMultipleArtists(String token , String id) async {
+  Future<void> fetchMultipleArtists(String token, String id) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await artistsApi.fetchMultiApi(token , id);
+      final extractedList = await artistsApi.fetchMultiApi(token, id);
       final List<Artist> loadedArtist = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedArtist.add(Artist.fromJson(extractedList[i]));

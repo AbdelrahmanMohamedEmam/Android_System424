@@ -10,7 +10,13 @@ class FeaturedPlaylists extends StatelessWidget {
   Widget build(BuildContext context) {
     final playlist = Provider.of<Playlist>(context);
     return InkWell(
-      onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlaylistsListScreen(playlistId:  playlist.id,playlistType: PlaylistCategory.artist, )));},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => PlaylistsListScreen(
+                  playlistId: playlist.id,
+                  playlistType: PlaylistCategory.artist,
+                )));
+      },
       child: Card(
         elevation: 20,
         color: Colors.black,

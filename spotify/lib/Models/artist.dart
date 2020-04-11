@@ -3,8 +3,7 @@ import 'package:spotify/Models/artistInfo.dart';
 import '../utilities.dart';
 
 ///Album class.
-class Artist with ChangeNotifier{
-
+class Artist with ChangeNotifier {
   ///An list of objects containing  the url and its type of the object.
   final List<String> externalUrls;
 
@@ -32,22 +31,21 @@ class Artist with ChangeNotifier{
   ///A string describing [biography],[popularity],[genres] of the artist.
   final ArtistInfo artistInfo;
 
-
-
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
-  Artist({
-    ///Initializations.
-    this.externalUrls,
-    this.followers,
-    this.href,
-    this.id,
-    this.images,
-    this.name ,
-    this.type ,
-    this.uri ,
-    this.artistInfo
-  });
+  Artist(
+      {
+
+      ///Initializations.
+      this.externalUrls,
+      this.followers,
+      this.href,
+      this.id,
+      this.images,
+      this.name,
+      this.type,
+      this.uri,
+      this.artistInfo});
 
   ///A method that parses a mapped object from a json file and returns an Artist object.
   factory Artist.fromJson(Map<String, dynamic> json) {
@@ -60,7 +58,7 @@ class Artist with ChangeNotifier{
       name: json['name'],
       type: json['role'],
       uri: json['uri'],
-     //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
+      //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );
   }
 

@@ -6,7 +6,6 @@ class SearchScreen extends StatelessWidget {
   const SearchScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('The seaech screen is build');
     return Scaffold(
       backgroundColor: Colors.black,
       body: TextFormField(),

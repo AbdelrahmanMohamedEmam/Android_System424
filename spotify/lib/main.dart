@@ -41,13 +41,11 @@ import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 import './Providers/track_provider.dart';
 
-
 ///A Function to read the configuration file before running the app.
 ///Reading a character from the config file located in the assets folder.
 ///If the character is 2 the mock server base url is added.
 ///If the character is 1 the real server base url is added.
 Future<String> setUrl() async {
-
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {

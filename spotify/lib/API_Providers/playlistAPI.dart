@@ -167,25 +167,6 @@ class PlaylistAPI {
     }
   }
 
-  // Future<List> fetchPlaylistsTracksApi(String token, String id) async {
-  //   final url = baseUrl + ArtistEndPoints.artists + '/' +
-  //       id + PlaylistEndPoints.artistCreated;
-  //   try {
-  //     final response = await http.get(
-  //       url,
-  //       headers: {'authorization': token},
-  //     );
-  //     if (response.statusCode == 200) {
-  //       final extractedList = json.decode(response.body) as List;
-  //       return extractedList;
-  //     } else {
-  //       throw HttpException(json.decode(response.body)['message'].toString());
-  //     }
-  //   } catch (error) {
-  //     throw HttpException(error.toString());
-  //   }
-  // }
-
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
     final url = baseUrl +
         PlaylistEndPoints.playlists +
@@ -210,7 +191,6 @@ class PlaylistAPI {
     }
   }
 
-
   ///A method that fetches top tracks for artist profile.
   ///takes [token],[ArtistId] as input parameters.
   Future<List> fetchArtistTopTracksApi(String token, String id) async {
@@ -226,7 +206,6 @@ class PlaylistAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
-        print(response.body);
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
         return extractedList;
@@ -237,11 +216,15 @@ class PlaylistAPI {
       throw HttpException(error.toString());
     }
   }
+
   ///A method that fetches artist-created playlist(s).
   ///takes [token],[ArtistId] as input parameters.
-  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
-    final url = baseUrl + ArtistEndPoints.artists + '/' +
-        id + PlaylistEndPoints.artistCreated;
+  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
+    final url = baseUrl +
+        ArtistEndPoints.artists +
+        '/' +
+        id +
+        PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,

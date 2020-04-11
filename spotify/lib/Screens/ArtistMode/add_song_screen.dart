@@ -6,15 +6,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
-
 class AddSongScreen extends StatefulWidget {
   final String id;
   AddSongScreen({this.id});
   String get getId {
     return id;
   }
+
   ///route name to get to the screen from navigator.
-  static const  routeName='//add_song_screen';
+  static const routeName = '//add_song_screen';
 
   _AddSongScreenState createState() => new _AddSongScreenState();
 }
@@ -29,7 +29,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   String _path;
 
   ///extension of the file which is audio here.
-  String _extension ;
+  String _extension;
 
   ///variables for validations and temp variables
   bool _loadingPath = false;
@@ -38,7 +38,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
 
   ///controller for song name.
   TextEditingController _controller = new TextEditingController();
-  int _pathLen =1;
+  int _pathLen = 1;
   String id;
   Response response;
   final songNameController = TextEditingController();
@@ -82,17 +82,15 @@ class _AddSongScreenState extends State<AddSongScreen> {
     });
   }*/
 
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    String _user = Provider.of<UserProvider>(context , listen: false).token;
-    print(_user);
-    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String , String>;
+    String _user = Provider.of<UserProvider>(context, listen: false).token;
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
     //id = routeArgs["id"];
     //String albumId = 'hjdksksl';
-    print('indecator');
-    return  Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
         backgroundColor: Colors.green[700],
@@ -100,96 +98,98 @@ class _AddSongScreenState extends State<AddSongScreen> {
       ),
       body: Container(
         color: Colors.black,
-        child:  Center(
-            child:  Padding(
-              padding:  EdgeInsets.only(left: deviceSize.width*0.01, right: deviceSize.width*0.01),
-              child:  SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: deviceSize.width * 0.02,
-                          bottom: deviceSize.width * 0.02,
-                          left: deviceSize.width * 0.2,
-                          right: deviceSize.width * 0.2),
-                      width: deviceSize.width * 0.4,
-                      child: TextFormField(
-                        controller: songNameController,
-                        decoration: InputDecoration(
-                          labelText: 'choose song name ',
-                          filled: true,
-                          fillColor: Colors.green[700],
-                          labelStyle: TextStyle(
-                              color: Colors.white),
-                        ),
-                        style: TextStyle(
-                            color: Colors.black),
-                        cursorColor: Theme
-                            .of(
-                            context)
-                            .primaryColor,
-                        keyboardType: TextInputType.text,
-                      ),
+        child: Center(
+            child: Padding(
+          padding: EdgeInsets.only(
+              left: deviceSize.width * 0.01, right: deviceSize.width * 0.01),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(
+                      top: deviceSize.width * 0.02,
+                      bottom: deviceSize.width * 0.02,
+                      left: deviceSize.width * 0.2,
+                      right: deviceSize.width * 0.2),
+                  width: deviceSize.width * 0.4,
+                  child: TextFormField(
+                    controller: songNameController,
+                    decoration: InputDecoration(
+                      labelText: 'choose song name ',
+                      filled: true,
+                      fillColor: Colors.green[700],
+                      labelStyle: TextStyle(color: Colors.white),
                     ),
-
-                    new Padding(
-                      padding: EdgeInsets.only(top: deviceSize.width*0.03, bottom: 0.05),
-                      child: new RaisedButton(
-                        //onPressed: () => _openFileExplorer(),
-                        child: new Text("Open file picker" ,
-                        style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                    ),
-                    new Builder(
-                      builder: (BuildContext context) => _loadingPath
-                          ? Padding(padding:EdgeInsets.only(bottom: deviceSize.width*0.01), child: CircularProgressIndicator())
-                          : _path != null
-                          ? new Container(
-                        padding:EdgeInsets.only(bottom: deviceSize.width*0.04),
-                        height: deviceSize.height * 0.25,
-                        child: new Scrollbar(
-                            child: new ListView.separated(
-                              itemCount: _pathLen ,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String name = 'File name : '  + _fileName;
-                                final path = _path;
-                                return ListTile(
-                                  title: new Text(
-                                    name,
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                  subtitle: new Text(path ,
-                                    style :TextStyle(color: Colors.white),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) => Divider(),
-                            )),
-                      )
-                          :Container(),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top : deviceSize.height*0.03),
-                      color: Colors.green,
-                      child: IconButton(
-                        focusColor: Colors.white,
-                        //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
-                        icon: Icon(Icons.add,
-                        ),
-                        iconSize: deviceSize.width*0.1,
-
-                      ),
-                    )
-                  ],
+                    style: TextStyle(color: Colors.black),
+                    cursorColor: Theme.of(context).primaryColor,
+                    keyboardType: TextInputType.text,
+                  ),
                 ),
-              ),
-            )
-        ),
+                new Padding(
+                  padding: EdgeInsets.only(
+                      top: deviceSize.width * 0.03, bottom: 0.05),
+                  child: new RaisedButton(
+                    //onPressed: () => _openFileExplorer(),
+                    child: new Text(
+                      "Open file picker",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ),
+                new Builder(
+                  builder: (BuildContext context) => _loadingPath
+                      ? Padding(
+                          padding:
+                              EdgeInsets.only(bottom: deviceSize.width * 0.01),
+                          child: CircularProgressIndicator())
+                      : _path != null
+                          ? new Container(
+                              padding: EdgeInsets.only(
+                                  bottom: deviceSize.width * 0.04),
+                              height: deviceSize.height * 0.25,
+                              child: new Scrollbar(
+                                  child: new ListView.separated(
+                                itemCount: _pathLen,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final String name =
+                                      'File name : ' + _fileName;
+                                  final path = _path;
+                                  return ListTile(
+                                    title: new Text(
+                                      name,
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                    subtitle: new Text(
+                                      path,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        Divider(),
+                              )),
+                            )
+                          : Container(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: deviceSize.height * 0.03),
+                  color: Colors.green,
+                  child: IconButton(
+                    focusColor: Colors.white,
+                    //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
+                    icon: Icon(
+                      Icons.add,
+                    ),
+                    iconSize: deviceSize.width * 0.1,
+                  ),
+                )
+              ],
+            ),
+          ),
+        )),
       ),
     );
   }
 }
-
-

@@ -7,8 +7,6 @@ import 'create_password_screen.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
-
-
 ///This is the first appearing screen when the user starts to sign up.
 ///The email format is checked first before allowed to the next screen.
 ///[CreatePasswordScreen] is called when the NEXT button is pressed and the email format is correct.
@@ -50,7 +48,8 @@ class _CreateEmailScreenState extends State<CreateEmailScreen> {
             margin: EdgeInsets.fromLTRB(25, 5, 0, 10),
             child: Text(
               'What\'s your email?',
-              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
+              style: TextStyle(
+                  color: Colors.white, fontSize: deviceSize.width * 0.06),
             ),
           ),
 
@@ -90,7 +89,7 @@ class _CreateEmailScreenState extends State<CreateEmailScreen> {
                   color: Colors.grey,
                   child: Text(
                     'NEXT',
-                    style: TextStyle(fontSize: deviceSize.width*0.04),
+                    style: TextStyle(fontSize: deviceSize.width * 0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),

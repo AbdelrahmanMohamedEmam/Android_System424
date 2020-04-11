@@ -55,7 +55,6 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
         _isLoading = true;
       });
       final user = Provider.of<UserProvider>(context, listen: true).token;
-      print(user);
       await Provider.of<AlbumProvider>(context, listen: false)
           .fetchMyAlbums(user)
           .then((_) {
@@ -85,6 +84,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       TabNavigatorRoutes.artist,
     );
   }
+
   ///navigating to [stats] screen.
   void _goToStats(
     BuildContext ctx,
@@ -93,10 +93,10 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       '/stats_screen',
     );
   }
-/// a method used to reload albums list in case of adding new album.
-  void reloadAlbums()
-  {
-   // _isInit = false;
+
+  /// a method used to reload albums list in case of adding new album.
+  void reloadAlbums() {
+    // _isInit = false;
     setState(() {
       didChangeDependencies();
     });
@@ -115,7 +115,6 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('my music built');
     final deviceSize = MediaQuery.of(context).size;
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     albums = albumProvider.getMyAlbums;
@@ -189,8 +188,8 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
               child: ListView(
                 children: <Widget>[
                   Container(
-                    height: deviceSize.height*0.4,
-                    width: deviceSize.width*0.5,
+                    height: deviceSize.height * 0.4,
+                    width: deviceSize.width * 0.5,
                     child: ListView.builder(
                       itemCount: albums.length,
                       scrollDirection: Axis.vertical,
