@@ -1,9 +1,9 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-
-//Import model files.
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Models/track.dart';
+//Import model files.
+//import '../Models/artist.dart';
 
 //Import utilities file.
 import '../utilities.dart';
@@ -22,7 +22,7 @@ class Album with ChangeNotifier {
   ///An list of objects containing  the url and its type of the object.
   List<String> externalUrls;
 
-  ///A list of sring describing the genres of the album ex:"synthwave".
+  ///A list of string describing the genres of the album ex:"synthwave".
   List<String> genres;
 
   ///A link to the web api end point providing all details of this album{required}.
@@ -31,7 +31,7 @@ class Album with ChangeNotifier {
   ///Base 62-identifier of this object (album){required}.
   final String id;
 
-  ///A list of url strings containig the images of the album.
+  ///A list of url strings containing the images of the album.
   List<String> images;
 
   String image;

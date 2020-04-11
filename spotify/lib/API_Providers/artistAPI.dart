@@ -4,19 +4,34 @@ import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
 
+
+///Creates a [ArtistEndPoints] which is used as the.
+///end points used for artist profile http requests.
 class ArtistEndPoints {
+
+  ///Indicator to the albums endpoint.
   static const String albums = '/albums';
+  ///Indicator to the artists endpoint.
   static const String artists = '/artists';
+  ///Indicator to the related artists endpoint.
   static const String relatedArtists = '/related-artists';
+  ///Indicator to the top tracks endpoint.
   static const String topTracks = '/top-tracks';
 }
 
+
+///Creates a [ArtistAPI] which is used as the.
 class ArtistAPI {
+  /// Indicator tom set the [baseUrl] to know which source will data be loaded from.
+  /// mock source or the original database [required] parameter.
   final String baseUrl;
+  ///Constructor to set then baseUrl
   ArtistAPI({this.baseUrl});
 
+
+  ///A method that fetches Artist information by ID.
   Future<Artist> fetchChosenApi(String token ,String id) async {
-    final url = baseUrl +
+    final url = 'http://spotify.mocklab.io' +
         ArtistEndPoints.artists +'/' + id;
     try {
       final response = await http.get(
@@ -26,21 +41,20 @@ class ArtistAPI {
       if (response.statusCode == 200 ||response.statusCode == 211 ) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
-       // print(extractedList);
-        Artist choosedArtist = Artist.fromJson(
-            extractedList);
-        return choosedArtist;
+        //Map<String, dynamic> extractedList = json.decode(response.body);
+        Artist chosenArtist = Artist.fromJson(extractedList);
+        return chosenArtist;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
     } catch (error) {
       print('error artist single');
-      print(token);
       throw HttpException(error.toString());
     }
   }
 
-  Future<List> fetchMultiApi(String token , String id) async {
+  ///A method that fetches Multiple artists which are related to the chosen artist by its ID.
+  Future<List> fetchMultiApi(String token , String id , ) async {
     final url = baseUrl +
         ArtistEndPoints.artists + '/' + id + ArtistEndPoints.relatedArtists;
     try {
@@ -62,6 +76,7 @@ class ArtistAPI {
     }
   }
 
+  ///A method that fetches all artists in the database to choose 3 of them to follow while signing-up.
   Future<List> fetchAllApi(String token) async {
     final url = baseUrl +
         ArtistEndPoints.artists;

@@ -16,14 +16,10 @@ import '../../Widgets/fav_artist_item.dart';
 
 
 
-
-class Artist1 {
-  String name;
-  String id;
-  String imageUrl;
-  Artist1(this.name, this.id, this.imageUrl);
-}
-
+///This screen shows all the artist so the user can choose three favorite artists.
+///When done is pressed, requests are sent to follow those artists automatically.
+///It is called after the sign up is done.
+///It uses  [FavArtistItem] as the unit widget.
 class ChooseFavArtists extends StatefulWidget {
   static const routeName = '/choose_fav_artists_screen';
   @override

@@ -30,7 +30,6 @@ class AlbumAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
-        print("3aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         final extractedList = temp2['albums'] as List;
          print(extractedList[0]);
         return extractedList;
@@ -132,7 +131,8 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-
+  ///A method that uploads new album in artist mode.
+  ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[ReleaseDate],[AlbumType] as input parameters.
   Future<bool> uploadAlbumApi(File file, String token, String albumName,
       String albumType, String _currentTime , String genre) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
@@ -149,8 +149,6 @@ class AlbumAPI {
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
       Response response = await dio.post(url, data: formData , options: Options(validateStatus: (_) {return true;}),);
-      print(response.statusCode);
-      print(response.data);
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -160,8 +158,9 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-  //'http://www.mocky.io/v2/5e7e7536300000e0134afb12'
 
+  ///A method that uploads new song in artist mode.
+  ///takes [token] , [SongName] , [songPathInThePhone] , [albumID] as input parameters.
   Future<bool> uploadSongApi(
       String token, String songName, String path, String id) async {
     final url = baseUrl +
@@ -184,8 +183,6 @@ class AlbumAPI {
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
       Response response = await dio.post(url, data: formData ,  options: Options(validateStatus: (_) {return true;}),);
-      print(response.statusCode);
-      print(response.data);
       if (response.statusCode == 200) {
         return true;
       } else {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
+//import 'package:flutter_test/flutter_test.dart';
 import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+//import 'package:image_picker/image_picker.dart';
 import '../../Providers/user_provider.dart';
+
 
 class CreateAlbum extends StatefulWidget {
   @override
@@ -13,26 +14,41 @@ class CreateAlbum extends StatefulWidget {
 }
 
 class _CreateAlbumState extends State<CreateAlbum> {
+
+  ///route name to get to the screen from navigator.
   static const   routeName='//add_album_screen';
-  //bool success= false;
+
+  ///String to store today's date (required to add new album release date).
   String _currentTime = 'click on timer to get today date';
+
+  ///indicator to the file which the user pick image to.
   File imageURI;
 
+  ///controller for album name text field.
   final albumNameController = TextEditingController();
+
+  ///controller for album type text field.
   final albumTypeController =TextEditingController();
+
+  ///controller for current time text field.
   final currentTimeController =TextEditingController();
+
+  ///selected value of the album type drop down menu.
   String dropdownValue1 = 'Single';
+
+  ///selected value of the genres drop down menu.
   String dropdownValue2 = 'rock';
 
-
-  Future getImageFromGallery() async {
+///method to pick image from mobile gallery.
+  /*Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imageURI = image;
     });
-  }
+  }*/
 
-  void _createAlbum(BuildContext ctx , String _userToken ) async
+///method used to create new album by sending its data to the server.
+  /*void _createAlbum(BuildContext ctx , String _userToken ) async
   {
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
@@ -44,8 +60,9 @@ class _CreateAlbumState extends State<CreateAlbum> {
         Navigator.of(ctx).pop();
       }
     });
-  }
+  }*/
 
+///method that updates the date to the date of now.
   void _updateCurrentTime() {
     setState(
             () {
@@ -73,6 +90,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
 
   @override
   Widget build(BuildContext context) {
+    ///get device size for responsiveness issues.
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context , listen: false).token;
     print(_user);
@@ -242,9 +260,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                       width: deviceSize.width * 0.7,
                       height: deviceSize.width * 0.12,
                       child: RaisedButton(
-                        onPressed: () =>
-                            getImageFromGallery(
-                            ),
+                        //onPressed: () =>getImageFromGallery(),
                         child: Text(
                             'Open Gallery'),
                         textColor: Colors.white,
@@ -265,7 +281,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
           height: deviceSize.height * 0.07,
           width: deviceSize.width * 0.1,
           child: FloatingActionButton(
-            onPressed: () => _createAlbum(context, _user),
+           // onPressed: () => _createAlbum(context, _user),
             backgroundColor: Colors.blueGrey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),

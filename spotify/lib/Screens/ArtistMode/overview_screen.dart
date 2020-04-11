@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+//import 'package:charts_flutter/flutter.dart' as charts;
 
-class Task{
+/*class Task{
   String task;
   double taskVal;
   Color taskCol;
@@ -10,9 +10,10 @@ class Task{
 
   Task(this.task , this.taskVal , this.taskCol);
 
-}
+}*/
 
 class OverviewScreen extends StatefulWidget {
+  ///route name to get to the screen from navigator.
   static const   routeName='/overview_screen';
 
   @override
@@ -21,7 +22,7 @@ class OverviewScreen extends StatefulWidget {
 
 class _OverviewScreenState extends State<OverviewScreen> {
 
-  List <charts.Series<Task , String>> _dataSeries = [];
+  /*List <charts.Series<Task , String>> _dataSeries = [];
 
 
   void _generateData(){
@@ -51,10 +52,15 @@ class _OverviewScreenState extends State<OverviewScreen> {
     super.initState();
     _generateData();
     _dataSeries = List <charts.Series<Task , String>>();
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(
+      backgroundColor: Colors.black,
+      title: Text('overview screen'),
+    ),
+    );
+      /*(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('overview screen'),
@@ -111,8 +117,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
           ],
         ),
       ),
-
-    );
+*/
   }
 }
 

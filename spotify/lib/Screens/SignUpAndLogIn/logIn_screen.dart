@@ -16,6 +16,10 @@ import '../../Providers/user_provider.dart';
 import 'package:email_validator/email_validator.dart';
 
 
+
+///This screen appears when the user choose the login option from the [IntroScreen].
+///It checks that the email is in a valid format.
+///Sends a request to log him/her in.
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login_screen';
   @override

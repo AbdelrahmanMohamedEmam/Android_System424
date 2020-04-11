@@ -1,45 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'user_provider.dart';
-import '../Models/user_stats.dart';
-import '../Models/user.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../Models/artist.dart';
 import '../API_Providers/artistAPI.dart';
 
+
+///Class [ArtistProvider] which is used to provide artist info to all widgets.
 class ArtistProvider with ChangeNotifier {
+  /// Indicator tom set the [baseUrl] to know which source will data be loaded from.
+  /// mock source or the original database [required] parameter.
   final String baseUrl;
+
+  ///Constructor to set then baseUrl
   ArtistProvider({this.baseUrl});
-  Artist _choosedArtist;
+
+  ///returns Artist object with all artist info for a certain artist by ID.
+  Artist _chosenArtist;
+
+  ///List of artist objects which is related to certain artist.
   List<Artist> _returnMultiple = [];
+
+  ///List of artist objects which appear to the user to choose from at his first sign-up.
   List<Artist> _returnAll = [];
 
-  Artist get getChoosedArtist  {
-     return  _choosedArtist;
+  ///getter for [_chosenArtist] member of artist provider.
+  Artist get getChosenArtist  {
+     return  _chosenArtist;
   }
-
+  ///getter for [_returnMultiple] member of artist provider.
   List<Artist> get getMultipleArtists {
     return [..._returnMultiple];
   }
-///getter for all artists for sign up
+  ///getter for [_returnAll] member of artist provider.
   List<Artist> get getAllArtists {
     return [..._returnAll];
   }
 
+  ///A method that fetches info of certain artist by id.
   Future<void> fetchChoosedArtist(String token , String id) async {
-    //const url = 'http://www.mocky.io/v2/5e838e2b3000003a31cf3f05';
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
       Artist extractedArtist = await artistsApi.fetchChosenApi(token, id);
-      _choosedArtist = extractedArtist;
+      _chosenArtist = extractedArtist;
     }catch (error)
     {
       throw HttpException(error.toString());
     }
   }
-
+  ///A method that fetches list of artists related to certain artist.
   Future<void> fetchMultipleArtists(String token , String id) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
@@ -55,7 +62,7 @@ class ArtistProvider with ChangeNotifier {
     }
   }
 
-  ///function to get all artists for the 1st sign up
+  ///a method that get all artists for the 1st sign up
   Future<void> fetchAllArtists(String token) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {

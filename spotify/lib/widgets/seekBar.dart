@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ///Seek Bar widget.
+///It is given the total duration of the track and the current position to show the song progress bar for the [Panel].
 class PanelSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;
@@ -79,6 +80,10 @@ class _PanelSeekBarState extends State<PanelSeekBar> {
   }
 }
 
+
+
+///Seek Bar widget.
+///It is given the total duration of the track and the current position to show the song progress bar for the [Collapsed].
 class CollapsedSeekBar extends StatefulWidget {
   final Duration duration;
   final Duration position;

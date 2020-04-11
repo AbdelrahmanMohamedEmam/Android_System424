@@ -7,6 +7,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 ///Importing the screens to navigate to it.
 import 'choose_name_screen.dart';
 
+
+
+///This screen appears when signing up for the user to choose a gender.
+///Male is the default value when the screen appears.
+///[ChooseNameScreen] is called when the NEXT button is pressed.
 class ChooseGenderScreen extends StatelessWidget {
   static const routeName = '/choose_gender_screen';
   @override

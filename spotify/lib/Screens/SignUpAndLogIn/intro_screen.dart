@@ -22,6 +22,10 @@ class IntroScreen extends StatefulWidget {
   _IntroScreenState createState() => _IntroScreenState();
 }
 
+
+///This is the first screen that appears if the user is opening the app for the first time.
+///It shows him the sign up/login/login with facebook options.
+///Either [LogInScreen] or [CreateEmailScreen] is called next.
 class _IntroScreenState extends State<IntroScreen> {
   ///Showing an error dialog when needed.
   void _showErrorDialog(String message) {

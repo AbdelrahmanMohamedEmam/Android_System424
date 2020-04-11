@@ -211,6 +211,9 @@ class PlaylistAPI {
     }
   }
 
+
+  ///A method that fetches top tracks for artist profile.
+  ///takes [token],[ArtistId] as input parameters.
   Future<List> fetchArtistTopTracksApi(String token, String id) async {
     final url = baseUrl +
         ArtistEndPoints.artists +
@@ -235,13 +238,11 @@ class PlaylistAPI {
       throw HttpException(error.toString());
     }
   }
-
-  Future<List> fetchArtistPlaylistsApi(String token, String id) async {
-    final url = baseUrl +
-        ArtistEndPoints.artists +
-        '/' +
-        id +
-        PlaylistEndPoints.artistCreated;
+  ///A method that fetches artist-created playlist(s).
+  ///takes [token],[ArtistId] as input parameters.
+  Future<List> fetchArtistPlaylistsApi(String token , String id) async {
+    final url = baseUrl + ArtistEndPoints.artists + '/' +
+        id + PlaylistEndPoints.artistCreated;
     try {
       final response = await http.get(
         url,

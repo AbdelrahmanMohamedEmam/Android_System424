@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:path/path.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../Providers/album_provider.dart';
+//import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
 
 class AddSongScreen extends StatefulWidget {
-  @override
   final String id;
   AddSongScreen({this.id});
   String get getId {
     return id;
   }
+  ///route name to get to the screen from navigator.
   static const  routeName='//add_song_screen';
-  @override
+
   _AddSongScreenState createState() => new _AddSongScreenState();
 }
 
 class _AddSongScreenState extends State<AddSongScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  ///getting the name of the uploaded file (song).
   String _fileName;
+
+  ///the path of the file in the device.
   String _path;
+
+  ///extension of the file which is audio here.
   String _extension ;
+
+  ///variables for validations and temp variables
   bool _loadingPath = false;
   bool _hasValidMime = false;
   FileType _pickingType = FileType.audio;
+
+  ///controller for song name.
   TextEditingController _controller = new TextEditingController();
   int _pathLen =1;
   String id;
@@ -37,15 +45,15 @@ class _AddSongScreenState extends State<AddSongScreen> {
 
   void initState() {
     super.initState();
-    _controller.addListener(() => _extension = _controller.text);
+    //_controller.addListener(() => _extension = _controller.text);
   }
 
-  void _showScaffold(String message) {
+  /*void _showScaffold(String message) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
     ));
-  }
-  void _openFileExplorer() async {
+  }*/
+  /*void _openFileExplorer() async {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
@@ -60,8 +68,8 @@ class _AddSongScreenState extends State<AddSongScreen> {
         _fileName = _path != null ? _path.split('/').last  : '...';
       });
     }
-  }
-  void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
+  }*/
+  /*void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
@@ -72,7 +80,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
         Navigator.of(context).pop();
       }
     });
-  }
+  }*/
 
 
   @override
@@ -84,7 +92,6 @@ class _AddSongScreenState extends State<AddSongScreen> {
     //id = routeArgs["id"];
     //String albumId = 'hjdksksl';
     print('indecator');
-    //print(widget.id);
     return  Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
@@ -129,7 +136,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                     new Padding(
                       padding: EdgeInsets.only(top: deviceSize.width*0.03, bottom: 0.05),
                       child: new RaisedButton(
-                        onPressed: () => _openFileExplorer(),
+                        //onPressed: () => _openFileExplorer(),
                         child: new Text("Open file picker" ,
                         style: TextStyle(color: Colors.grey),
                         ),
@@ -168,7 +175,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                       color: Colors.green,
                       child: IconButton(
                         focusColor: Colors.white,
-                        onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
+                        //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
                         icon: Icon(Icons.add,
                         ),
                         iconSize: deviceSize.width*0.1,
