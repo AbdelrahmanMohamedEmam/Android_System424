@@ -19,7 +19,6 @@ class UserAPI {
   ///An object of facebook plugin.
   var facebookLogin = FacebookLogin();
 
-
   ///A request to signUp a new user.
   ///Email, password, gender, username and date of birth must be provided.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
@@ -28,16 +27,21 @@ class UserAPI {
   Future<Map<String, dynamic>> signUp(String email, String password,
       String gender, String username, String dateOfBirth) async {
     try {
-      print("email" +email+
-        "password"+ password+
-        "gender" +gender+
-        "dateOfBirth"+ dateOfBirth+
-        "name"+ username);
+      print("email" +
+          email +
+          "password" +
+          password +
+          "gender" +
+          gender +
+          "dateOfBirth" +
+          dateOfBirth +
+          "name" +
+          username);
       final responseData = await Dio().post(
-        baseUrl+'/signUp',
-        options: Options(
-            validateStatus:(_){return true;}
-            ),
+        baseUrl + '/signUp',
+        options: Options(validateStatus: (_) {
+          return true;
+        }),
         data: jsonEncode(
           {
             "email": email,
@@ -59,7 +63,6 @@ class UserAPI {
     }
   }
 
-
   ///Sends a request to send an email to create a new password.
   ///Email must be provided.
   ///In case of success it will return true.
@@ -70,9 +73,10 @@ class UserAPI {
 
     try {
       final response = await Dio().post(
-       url,
-        options: Options(validateStatus: (_){return true;}),
-
+        url,
+        options: Options(validateStatus: (_) {
+          return true;
+        }),
         data: jsonEncode(
           {
             "email": email,
@@ -80,12 +84,11 @@ class UserAPI {
         ),
       );
 
-      if(response.statusCode==204 || response.statusCode==200) {
-       return true;
-     }
-     else {
-         return false;
-     }
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       //print(error.toString());
       throw error;
@@ -104,35 +107,33 @@ class UserAPI {
       final responseData = await Dio().post(
         url,
         options: Options(
-          validateStatus:(_){return true;},
+          validateStatus: (_) {
+            return true;
+          },
           receiveDataWhenStatusError: true,
         ),
-        data:  json.encode(
-          {
-            "email": email,
-            "password": password
-          },
+        data: json.encode(
+          {"email": email, "password": password},
         ),
       );
 
-      if (responseData.statusCode!=200) {
+      if (responseData.statusCode != 200) {
         throw HttpException(json.decode(responseData.data)['message']);
       } else {
         return responseData.data;
       }
-    }catch (error) {
+    } catch (error) {
       throw error;
     }
   }
 
   ///Sends a request to get the data of the user.
   ///Token must be provided for authentication.
-  ///In case of the success an object from model [User] will be returned containing all the used info needed.
+  ///In case of inthe success an object from model [User] will be returned containing all the used info needed.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<User> setUser(String token) async {
     try {
-
       final response = await http.get(baseUrl + '/me', headers: {
         "authorization": "Bearer " + token,
       });
@@ -166,12 +167,11 @@ class UserAPI {
             'https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=' +
                 token);
 
-
         try {
-          final responseData = await Dio().post(
-              baseUrl+'/loginWithFacebook',
-              options: Options(validateStatus: (_){return true;}),
-              data: {
+          final responseData = await Dio().post(baseUrl + '/loginWithFacebook',
+              options: Options(validateStatus: (_) {
+            return true;
+          }), data: {
             "access_token": token,
           });
           if (responseData.data['message'] != null) {
@@ -200,17 +200,15 @@ class UserAPI {
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<bool> upgradePremium(String confirmationCode, String token) async {
-
     try {
-        final response = await http.post(baseUrl+'/me/upgrade/'+confirmationCode,
-        headers: {"authorization": "Bearer "+token},
-
+      final response = await http.post(
+        baseUrl + '/me/upgrade/' + confirmationCode,
+        headers: {"authorization": "Bearer " + token},
       );
 
-
-      if (response.statusCode != 204 && response.statusCode!=200) {
+      if (response.statusCode != 204 && response.statusCode != 200) {
         throw HttpException('Couldn\'t upgrade you, sorry for that.');
-      } else if (response.statusCode==204 || response.statusCode==200) {
+      } else if (response.statusCode == 204 || response.statusCode == 200) {
         return true;
       } else {
         throw HttpException('Request failed! Check again later.');
@@ -228,21 +226,20 @@ class UserAPI {
   Future<bool> askForPremium(String token) async {
     try {
       final response = await http.post(
-        baseUrl+'/me/premium',
+        baseUrl + '/me/premium',
         headers: {
-          "authorization": "Bearer "+token,
+          "authorization": "Bearer " + token,
         },
       );
 
       //final responseData = jsonDecode(response.body);
       //print(responseData);
 
-        if (response.statusCode!=204) {
+      if (response.statusCode != 204) {
         throw HttpException('Couldn\'t send an email');
-      } else if (response.statusCode==204 || response.statusCode==200) {
+      } else if (response.statusCode == 204 || response.statusCode == 200) {
         return true;
-      }
-      else{
+      } else {
         //print(responseData);
         throw HttpException('Couldn\'t send a request to send an email');
       }
@@ -267,9 +264,7 @@ class UserAPI {
             },
           ),
           headers: {"authorization": token});
-      if (
-          response.statusCode == 200 ||
-          response.statusCode == 204) {
+      if (response.statusCode == 200 || response.statusCode == 204) {
         return true;
       } else {
         return false;
@@ -278,8 +273,6 @@ class UserAPI {
       throw HttpException(error.toString());
     }
   }
-
-
 
   ///Sends a request to change the password.
   ///Old password and new password must be provided.
