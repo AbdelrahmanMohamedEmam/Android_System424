@@ -131,7 +131,7 @@ class AlbumAPI {
 
   ///A method that uploads new album in artist mode.
   ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[ReleaseDate],[AlbumType] as input parameters.
-  Future<bool> uploadAlbumApi(File file, String token, String albumName,
+  Future<bool> uploadAlbumApi(String filePath, String token, String albumName,
       String albumType, String _currentTime, String genre) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
@@ -140,9 +140,9 @@ class AlbumAPI {
         "name": albumName,
         "albumType": albumType,
         "genre": genre,
-        "image": MultipartFile.fromFile(
-          file.path,
-        ),
+        //"image": MultipartFile.fromFile(
+          //filePath,
+        //),
       });
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
@@ -173,16 +173,12 @@ class AlbumAPI {
         '/' +
         id +
         AlbumEndPoints.track;
-    print(songName);
-    print(path);
-    print(id);
-    print(MultipartFile.fromFile(path));
     try {
       FormData formData = new FormData.fromMap({
         "name": songName,
-        "trackAudio": MultipartFile.fromFile(
-          path,
-        ),
+        //"trackAudio": MultipartFile.fromFile(
+         // path,
+        //),
       });
       Dio dio = new Dio();
       dio.options.headers["authorization"] = "Bearer " + token;

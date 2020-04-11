@@ -58,7 +58,7 @@ class Artist with ChangeNotifier{
       id: json['_id'],
       images: parseString(json['images']),
       name: json['name'],
-      //type: json['role'],
+      type: json['role'],
       uri: json['uri'],
      //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );

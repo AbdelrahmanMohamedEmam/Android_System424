@@ -62,13 +62,10 @@ class ArtistAPI {
         url,
         headers: {'authorization' : "Bearer " + token},
       );
-      print(response.body);
       if (response.statusCode == 200 ||response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
-        print(extractedList);
         return extractedList;
-
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
