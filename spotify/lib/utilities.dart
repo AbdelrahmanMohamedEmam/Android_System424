@@ -1,7 +1,4 @@
-import 'dart:convert';
 
-import 'package:http/http.dart';
-import 'package:spotify/Models/artistInfo.dart';
 import 'package:spotify/Models/user_stats.dart';
 
 import './Models/tracks_ref.dart';
@@ -73,14 +70,14 @@ List<Artist> parceArtist(artistJson) {
 List<Track> parceTrackPlaylists(trackJson) {
   var list = trackJson as List;
   List<Track> trackList =
-      list.map((data) => Track.fromJsonPlaylist(data)).toList();
+      list.map((data) => Track.fromJson(data)).toList();
   return trackList;
 }
 
 List<Track> parceTrackAlbums(trackJson) {
   var list = trackJson as List;
   List<Track> trackList =
-      list.map((data) => Track.fromJsonAlbum(data)).toList();
+      list.map((data) => Track.fromJson(data)).toList();
   return trackList;
 }
 

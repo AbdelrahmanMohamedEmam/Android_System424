@@ -1,16 +1,15 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:spotify/API_Providers/playlistAPI.dart';
-import 'package:spotify/Models/http_exception.dart';
-import 'package:spotify/Models/track.dart';
 
-//Import core libraries.
-import 'dart:convert';
+//Import providers.
+import 'package:spotify/API_Providers/playlistAPI.dart';
 
 //Import Models.
 import '../Models/playlist.dart';
+import 'package:spotify/Models/http_exception.dart';
+import 'package:spotify/Models/track.dart';
 
+///Enum for Identification for the playistcategory.
 enum PlaylistCategory {
   popularPlaylists,
   mostRecentPlaylists,
@@ -26,7 +25,7 @@ class PlaylistProvider with ChangeNotifier {
   final String baseUrl;
   PlaylistProvider({this.baseUrl});
 
-  ///List of playlist objects categorized as made for you playlists.
+  ///List of playlist objects categorized as most recent playlists.
   List<Playlist> _mostRecentPlaylists = [];
 
   ///List of playlist objects categorized as popular playlists.
@@ -35,19 +34,19 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as artist profile playlists.
   List<Playlist> _artistProfilePlaylists = [];
 
-  ///List of playlist objects categorized as workout playlists.
+  ///List of playlist objects categorized as pop playlists.
   List<Playlist> _popPlaylists = [];
 
-  ///List of playlist objects categorized as workout playlists.
+  ///List of playlist objects categorized as jazz playlists.
   List<Playlist> _jazzPlaylists = [];
 
-  ///List of playlist objects categorized as workout playlists.
+  ///List of playlist objects categorized as arabic playlists.
   List<Playlist> _arabicPlaylists = [];
 
-  ///List of playlist objects categorized as workout playlists.
+  ///List of playlist objects categorized as happy playlists.
   List<Playlist> _happyPlaylists = [];
 
-  ///A method(getter) that returns a list of playlists (made for you playlists).
+  ///A method(getter) that returns a list of playlists (most Recent Playlists).
   List<Playlist> get getMostRecentPlaylists {
     return [..._mostRecentPlaylists];
   }
@@ -62,68 +61,83 @@ class PlaylistProvider with ChangeNotifier {
     return [..._artistProfilePlaylists];
   }
 
-  ///A method(getter) that returns a list of playlists (workout playlists).
+  ///A method(getter) that returns a list of playlists (pop playlists).
   List<Playlist> get getpopPlaylists {
     return [..._popPlaylists];
   }
 
-  ///A method(getter) that returns a list of playlists (workout playlists).
+  ///A method(getter) that returns a list of playlists (jazz playlists).
   List<Playlist> get getJazzPlaylists {
     return [..._jazzPlaylists];
   }
 
-  ///A method(getter) that returns a list of playlists (workout playlists).
+  ///A method(getter) that returns a list of playlists (arabic playlists).
   List<Playlist> get getArabicPlaylists {
     return [..._arabicPlaylists];
   }
 
-  ///A method(getter) that returns a list of playlists (workout playlists).
+  ///A method(getter) that returns a list of playlists (happy playlists).
   List<Playlist> get getHappyPlaylists {
     return [..._happyPlaylists];
   }
 
+  ///A method that returns a most recent playlist from mostRecentPlaylists list.
+  ///It takes a [String] id.
   Playlist getMostRecentPlaylistsId(String id) {
     final playlistIndex =
         _mostRecentPlaylists.indexWhere((playlist) => playlist.id == id);
     return _mostRecentPlaylists[playlistIndex];
   }
 
+  ///A method that returns a most popular playlist from popular Playlists list.
+  ///It takes a [String] id.
   Playlist getPopularPlaylistsId(String id) {
     final playlistIndex =
         _popularPlaylists.indexWhere((playlist) => playlist.id == id);
     return _popularPlaylists[playlistIndex];
   }
 
+  ///A method that returns a jazz playlist from jazz Playlists list.
+  ///It takes a [String] id.
   Playlist getJazzPlaylistsId(String id) {
     final playlistIndex =
         _jazzPlaylists.indexWhere((playlist) => playlist.id == id);
     return _jazzPlaylists[playlistIndex];
   }
 
+  ///A method that returns a happy playlist from happy Playlists list.
+  ///It takes a [String] id.
   Playlist getHappyPlaylistsId(String id) {
     final playlistIndex =
         _happyPlaylists.indexWhere((playlist) => playlist.id == id);
     return _happyPlaylists[playlistIndex];
   }
 
+  ///A method that returns a arabic playlist from arabic Playlists list.
+  ///It takes a [String] id.
   Playlist getArabicPlaylistsId(String id) {
     final playlistIndex =
         _arabicPlaylists.indexWhere((playlist) => playlist.id == id);
     return _arabicPlaylists[playlistIndex];
   }
 
+  ///A method that returns a arabic playlist from arabic Playlists list.
+  ///It takes a [String] id.
   Playlist getPopPlaylistsId(String id) {
     final playlistIndex =
         _popPlaylists.indexWhere((playlist) => playlist.id == id);
     return _popPlaylists[playlistIndex];
   }
 
+  ///A method that returns a arabic playlist from arabic Playlists list.
+  ///It takes a [String] id.
   Playlist getArtistPlaylistsbyId(String id) {
     final playlistIndex =
-    _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
+        _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
     return _artistProfilePlaylists[playlistIndex];
   }
 
+  ///A method that emty the lists.
   void emptyLists() {
     _popPlaylists = [];
     _popularPlaylists = [];
@@ -131,6 +145,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for made for you playlists and set them in the made for you list.
+  ///It takes a [String] token for verification.
   Future<void> fetchMostRecentPlaylists(String token) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -149,6 +164,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for popular playlists and set them in the popular playlist list.
+  ///It takes a [String] token for verification.
   Future<void> fetchPopularPlaylists(String token) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -167,6 +183,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
+  ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchPopPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -184,6 +201,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
+  ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchJazzPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -201,6 +219,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
+  ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchArabicPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -219,6 +238,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for workout playlists and set them in the workout list.
+  ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchHappyPlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -236,6 +256,7 @@ class PlaylistProvider with ChangeNotifier {
   }
 
   ///A method that fetches for artist profile playlists and set them in the artist profle list.
+  ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchArtistProfilePlaylists(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
@@ -253,133 +274,12 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchMostRecentPlaylistTracksById(
-      String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getMostRecentPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _mostRecentPlaylists.indexWhere((playlist) => playlist.id == id);
-      _mostRecentPlaylists.removeAt(playlistIndex);
-      _mostRecentPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchPopularPlaylistsTracksById(String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getPopularPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _popularPlaylists.indexWhere((playlist) => playlist.id == id);
-      _popularPlaylists.removeAt(playlistIndex);
-      _popularPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchJazzPlaylistTracksById(String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getJazzPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _jazzPlaylists.indexWhere((playlist) => playlist.id == id);
-      _jazzPlaylists.removeAt(playlistIndex);
-      _jazzPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchArabicPlaylistTracksById(String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getArabicPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _arabicPlaylists.indexWhere((playlist) => playlist.id == id);
-      _arabicPlaylists.removeAt(playlistIndex);
-      _arabicPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchPopPlaylistTracksById(String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getPopPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _popPlaylists.indexWhere((playlist) => playlist.id == id);
-      _popPlaylists.removeAt(playlistIndex);
-      _popPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
-  Future<void> fetchHappyPlaylistTracksById(String id, String token) async {
-    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      Playlist playlist = getHappyPlaylistsId(id);
-      final List<Track> loadedTracks = [];
-      final extractedList =
-          await playlistAPI.fetchPlaylistsTracksApi(token, id);
-      for (int i = 0; i < extractedList.length; i++) {
-        loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
-      }
-      playlist.tracks = loadedTracks;
-      final playlistIndex =
-          _happyPlaylists.indexWhere((playlist) => playlist.id == id);
-      _happyPlaylists.removeAt(playlistIndex);
-      _happyPlaylists.insert(playlistIndex, playlist);
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
+  ///A method that fetches tracks for a certain playlist in a certain playlist by id and [PlaylistCategory].
+  ///It takes [String] token for verification and id to identify the playlist to add tracks to and [PlaylistCategory] to know which playlist to select from.
   Future<void> fetchPlaylistsTracksById(
       String id, String token, PlaylistCategory playlistCategory) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
-      ////////////////////////////////////////////////////////////
       final List<Track> loadedTracks = [];
       if (playlistCategory == PlaylistCategory.mostRecentPlaylists) {
         Playlist playlist = getMostRecentPlaylistsId(id);
@@ -388,7 +288,7 @@ class PlaylistProvider with ChangeNotifier {
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           print(extractedList);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -400,15 +300,14 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////
-      ///    ////////////////////////////////////////////////////////////
+
       if (playlistCategory == PlaylistCategory.popularPlaylists) {
         Playlist playlist = getPopularPlaylistsId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -420,15 +319,14 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////
-      ///      ///    ////////////////////////////////////////////////////////////
+
       if (playlistCategory == PlaylistCategory.jazz) {
         Playlist playlist = getJazzPlaylistsId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -440,14 +338,14 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////
+
       if (playlistCategory == PlaylistCategory.happy) {
         Playlist playlist = getHappyPlaylistsId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -459,14 +357,14 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////////
+
       if (playlistCategory == PlaylistCategory.arabic) {
         Playlist playlist = getArabicPlaylistsId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -478,14 +376,14 @@ class PlaylistProvider with ChangeNotifier {
           return;
         }
       }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       if (playlistCategory == PlaylistCategory.pop) {
         Playlist playlist = getPopPlaylistsId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
           for (int i = 0; i < extractedList.length; i++) {
-            loadedTracks.add(Track.fromJsonPlaylist(extractedList[i]));
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
           final playlistIndex =
@@ -498,28 +396,26 @@ class PlaylistProvider with ChangeNotifier {
         }
       }
 
-      if(playlistCategory == PlaylistCategory.artist)
-        {
-          Playlist playlist = getPopPlaylistsId(id);
-          if (!playlist.isFetched) {
-            final extractedList =
-            await playlistApi.fetchPlaylistsTracksApi(token, id);
-            for (int i = 0; i < extractedList.length; i++) {
-              loadedTracks.add(Track.fromJson(extractedList[i]));
-            }
-            playlist.tracks = loadedTracks;
-            final playlistIndex =
-            _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
-            _artistProfilePlaylists.removeAt(playlistIndex);
-            playlist.isFetched = true;
-            _artistProfilePlaylists.insert(playlistIndex, playlist);
-          } else {
-            return;
+      if (playlistCategory == PlaylistCategory.artist) {
+        Playlist playlist = getPopPlaylistsId(id);
+        if (!playlist.isFetched) {
+          final extractedList =
+              await playlistApi.fetchPlaylistsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
           }
+          playlist.tracks = loadedTracks;
+          final playlistIndex = _artistProfilePlaylists
+              .indexWhere((playlist) => playlist.id == id);
+          _artistProfilePlaylists.removeAt(playlistIndex);
+          playlist.isFetched = true;
+          _artistProfilePlaylists.insert(playlistIndex, playlist);
+        } else {
+          return;
         }
+      }
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
-
 }

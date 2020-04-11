@@ -1,7 +1,6 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:spotify/API_Providers/albumAPI.dart';
 import 'package:spotify/Models/http_exception.dart';
 import '../API_Providers/artistAPI.dart';
 
