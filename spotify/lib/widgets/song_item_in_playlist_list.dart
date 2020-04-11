@@ -15,8 +15,7 @@ class SongItemPlaylistList extends StatelessWidget {
         track.setCurrentSong(song);
       },
       child: ListTile(
-        leading: Image.network(
-            song.album.image),
+        leading: Image.network(song.album.image),
         title: Text(
           song.name,
           style: TextStyle(color: Colors.white),

@@ -68,7 +68,6 @@ class UserEditProfileScreen extends StatelessWidget {
           Container(
             width: 350,
             child: TextFormField(
-
               enabled: false,
               style: TextStyle(
                 color: Colors.white,

@@ -19,7 +19,6 @@ class ReleasesScreen extends StatefulWidget {
 }
 
 class _ReleasesScreenState extends State<ReleasesScreen> {
-
   ///artist object to store the fetched data of the artist.
   Artist artistInfo;
 
@@ -94,7 +93,6 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                 ),
               ),
             ),
-
             Container(
               height: heightAlbums,
               width: double.infinity,

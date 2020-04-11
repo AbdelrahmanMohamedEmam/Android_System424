@@ -5,7 +5,6 @@ import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 import '../Models/playlist.dart';
 
-
 class PlaylistWidget extends StatelessWidget {
   final PlaylistCategory playlistType;
   PlaylistWidget({this.playlistType});

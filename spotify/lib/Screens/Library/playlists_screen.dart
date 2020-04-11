@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 import '../../Models/playlist.dart';
 
 class PlaylistsScreen extends StatelessWidget {
-  void createPlaylistButton() {
+  /*void createPlaylistButton() {
     print('button pressed');
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

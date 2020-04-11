@@ -31,7 +31,6 @@ class ArtistProfileScreen extends StatefulWidget {
 }
 
 class ArtistProfileScreenState extends State<ArtistProfileScreen> {
-
   ///loading indictor to indicate the data has been fetched.
   bool _isLoading = false;
 
@@ -74,7 +73,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     super.initState();
   }*/
 
-///a method indicates error dialog in case of error loading this page
+  ///a method indicates error dialog in case of error loading this page
   void _showErrorDialog(String message) {
     showDialog(
       barrierDismissible: false,
@@ -94,49 +93,38 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       ),
     );
   }
+
   ///a method to initializing fetching data from providers to this page.
   void didChangeDependencies() async {
-      if (!_isInit) {
-        setState(
-                () {
-              _isLoading = true;
-            });
-        final user = Provider
-            .of<UserProvider>(context, listen: false).token;
-        try {
-          await Provider.of<PlaylistProvider>(
-              context, listen: false)
-              .fetchArtistProfilePlaylists(
-              user, widget.id);
-        } catch(e)
-    {
+    if (!_isInit) {
       setState(() {
-        checkPlaylist = false;
+        _isLoading = true;
       });
-
-    }
-        try {
-          await Provider.of<ArtistProvider>(
-              context, listen: false)
-              .fetchMultipleArtists(
-              user , widget.id);
-        } catch (e)
-        {
-          setState(() {
-            relatedArtists = false;
-          });
-        }
-        try {
-          await Provider.of<AlbumProvider>(
-              context, listen: false)
-              .fetchArtistAlbums(
-              user, widget.id);
-        } catch(e) {
-          setState(
-                  () {
-                checkAlbums = false;
-              });
-        }
+      final user = Provider.of<UserProvider>(context, listen: false).token;
+      try {
+        await Provider.of<PlaylistProvider>(context, listen: false)
+            .fetchArtistProfilePlaylists(user, widget.id);
+      } catch (e) {
+        setState(() {
+          checkPlaylist = false;
+        });
+      }
+      try {
+        await Provider.of<ArtistProvider>(context, listen: false)
+            .fetchMultipleArtists(user, widget.id);
+      } catch (e) {
+        setState(() {
+          relatedArtists = false;
+        });
+      }
+      try {
+        await Provider.of<AlbumProvider>(context, listen: false)
+            .fetchArtistAlbums(user, widget.id);
+      } catch (e) {
+        setState(() {
+          checkAlbums = false;
+        });
+      }
 
       /*try {
        / await Provider.of<TrackProvider>(
@@ -155,39 +143,33 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
         });
 
     }*/
-    await Provider.of<ArtistProvider>(
-            context, listen: false)
-            .fetchChoosedArtist(
-            user, widget.id)
-            .then(
-                (_) {
-              setState(
-                      () {
-                    _isLoading = false;
-                  });
-            });
-        _isInit = true;
-      }
+      await Provider.of<ArtistProvider>(context, listen: false)
+          .fetchChoosedArtist(user, widget.id)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+      _isInit = true;
+    }
 
-      super.didChangeDependencies(
-      );
-
+    super.didChangeDependencies();
   }
-///a method to navigate to discography screen.
+
+  ///a method to navigate to discography screen.
   void _goToDiscography(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
       TabNavigatorRoutes.discographyScreen,
     );
   }
+
   ///a method to navigate to about screen.
   void _goToAbout(BuildContext ctx1) {
     Navigator.of(ctx1).pushNamed(TabNavigatorRoutes.aboutInfoScreen);
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     ///getting device size due to responsiveness issues.
     final deviceSize = MediaQuery.of(context).size;
 
@@ -200,7 +182,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     artistInfo = artistProvider.getChosenArtist;
 
     ///playlist provider object.
-    final playlistsProvider = Provider.of<PlaylistProvider>(context, listen: false);
+    final playlistsProvider =
+        Provider.of<PlaylistProvider>(context, listen: false);
 
     ///initializing list of playlists/
     List<Playlist> playlists;
@@ -363,55 +346,60 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             ),*/
 
                 Container(
-                  padding: EdgeInsets.only(
-                      top: deviceSize.height * 0.01,
-                      bottom: deviceSize.height * 0.01),
-                  child: relatedArtists ?Text(
-                    'Fans also like ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ) : null
-                ),
-
+                    padding: EdgeInsets.only(
+                        top: deviceSize.height * 0.01,
+                        bottom: deviceSize.height * 0.01),
+                    child: relatedArtists
+                        ? Text(
+                            'Fans also like ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          )
+                        : null),
                 Container(
-                  height: relatedArtists ?deviceSize.height * 0.35 : 0,
+                  height: relatedArtists ? deviceSize.height * 0.35 : 0,
                   width: double.infinity,
                   child: ListView.builder(
                     itemCount: artists.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                      value: relatedArtists ?artists[i] : null,
+                      value: relatedArtists ? artists[i] : null,
                       child: suggesttedArtists(),
                     ),
                   ),
                 ),
-                checkPlaylist ?Container(
-                  padding: EdgeInsets.only(
-                      top: deviceSize.height * 0.01,
-                      bottom: deviceSize.height * 0.01),
-                  child: Text(
-                    'Artist Playlists',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ): null,
-                checkPlaylist ? Container(
-                  height: deviceSize.height * 0.35,
-                  width: double.infinity,
-                  child: ListView.builder(
-                      itemCount: playlists.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                            value:  playlists[i]  ,
-                            child: FeaturedPlaylists(),
-                          )),
-                ): null,
+                checkPlaylist
+                    ? Container(
+                        padding: EdgeInsets.only(
+                            top: deviceSize.height * 0.01,
+                            bottom: deviceSize.height * 0.01),
+                        child: Text(
+                          'Artist Playlists',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                      )
+                    : null,
+                checkPlaylist
+                    ? Container(
+                        height: deviceSize.height * 0.35,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            itemCount: playlists.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, i) =>
+                                ChangeNotifierProvider.value(
+                                  value: playlists[i],
+                                  child: FeaturedPlaylists(),
+                                )),
+                      )
+                    : null,
                 Container(
                   padding: EdgeInsets.only(
                       top: deviceSize.height * 0.01,

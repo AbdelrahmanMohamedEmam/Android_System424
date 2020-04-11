@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 //import 'dart:io';
 //import 'package:image_picker/image_picker.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class StatsScreen extends StatefulWidget {
   ///route name to get to the screen from navigator.
-  static const   routeName='/stats_screen';
+  static const routeName = '/stats_screen';
 
   @override
   _StatsScreenState createState() => _StatsScreenState();
@@ -24,7 +23,7 @@ class _StatsScreenState extends State<StatsScreen> {
   }*/
 
   //String artistImage =
-    //  "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
+  //  "https://img.discogs.com/HSUEWRWhz_K3_6ycQh0p4LdH_D0=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-4105059-1573135200-3103.jpeg.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +47,6 @@ class _StatsScreenState extends State<StatsScreen> {
       ),
     ],
       )*/
-
     );
   }
 }
-

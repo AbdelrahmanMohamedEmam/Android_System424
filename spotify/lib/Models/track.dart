@@ -5,14 +5,11 @@ import '../Models/external_id.dart';
 import '../Models/artist.dart';
 import '../utilities.dart';
 
-
-
 ///A model for grouping the track data.
 ///Constructor for class Track with named arguments assignment.
 ///Required parameters:{href,id,name,uri}.
 
 class Track with ChangeNotifier {
-
   ///A string describing artist's name.
   final String name;
 
@@ -49,7 +46,6 @@ class Track with ChangeNotifier {
   ///Integer number indicates Track popularity.
   final int popularity;
 
-
   ///A constructor with named parameters.
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
@@ -69,7 +65,6 @@ class Track with ChangeNotifier {
     this.href,
     this.popularity,
   });
-
 
   ///A factory method to decode the Json user into a track object.
   ///Check if the object is received first in the request to avoid errors.

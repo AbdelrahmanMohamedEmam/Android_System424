@@ -76,8 +76,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('The list of songs in album screen is built');
-
     if (!colorGenerated) _generatePalette();
     return _isLoading
         ? Scaffold(

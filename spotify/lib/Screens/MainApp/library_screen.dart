@@ -13,7 +13,6 @@ class LibraryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int initialindex = 0;
-    print('The library screen is build');
     return DefaultTabController(
       length: 3,
       initialIndex: initialindex,

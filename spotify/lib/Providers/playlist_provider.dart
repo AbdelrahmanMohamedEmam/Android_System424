@@ -286,7 +286,6 @@ class PlaylistProvider with ChangeNotifier {
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
-          print(extractedList);
           for (int i = 0; i < extractedList.length; i++) {
             loadedTracks.add(Track.fromJson(extractedList[i]));
           }

@@ -14,16 +14,16 @@ class SongPromoCard extends StatefulWidget {
 
 class _SongPromoCardState extends State<SongPromoCard> {
   String image =
-     "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
+      "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c";
 
   //String name = 'Sahran';
 
   //String artist = 'AmrDiab123';
 
-
   @override
   Widget build(BuildContext context) {
-    final playabletrack = Provider.of<PlayableTrackProvider>(context , listen: false);
+    final playabletrack =
+        Provider.of<PlayableTrackProvider>(context, listen: false);
 
     final trackProvider = Provider.of<Track>(context);
     //List <Track> tracks = trackProvider.getTopTracks;

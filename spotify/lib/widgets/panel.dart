@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import '../Models/track.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-
-
-
 ///This class is the panel that appears when the [Collapsed] is tapped.
 ///It shows the track name, album name, track picture and other data.
 ///It receive the status of the bar and tool bar from the [MainWidget] to be synchronized with [Collapsed].

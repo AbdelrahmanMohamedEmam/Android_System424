@@ -11,7 +11,6 @@ import '../../Providers/user_provider.dart';
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-
 ///This screen is responsible to display the premium feature.
 ///If the user isn't premium he can subscribe at this screen.
 class PremiumScreen extends StatefulWidget {
@@ -22,7 +21,6 @@ class PremiumScreen extends StatefulWidget {
 }
 
 class _PremiumScreenState extends State<PremiumScreen> {
-
   ///Indicates the input field isn't empty.
   bool _validate;
 
@@ -39,12 +37,11 @@ class _PremiumScreenState extends State<PremiumScreen> {
   ///Initializations.
   @override
   void initState() {
-    _isEmailSent=false;
+    _isEmailSent = false;
     _validate = true;
     _isLoading = false;
     super.initState();
   }
-
 
   ///A function to show an error dialog when needed.
   void _showErrorDialog(String message) {
@@ -66,12 +63,13 @@ class _PremiumScreenState extends State<PremiumScreen> {
     );
   }
 
-
   ///A function called when the 'Subscribe' button is pressed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> _submit() async {
     try {
-      await upgradeToPremium().then((_) {return;});
+      await upgradeToPremium().then((_) {
+        return;
+      });
     } catch (error) {
       setState(() {
         _isLoading = false;
@@ -99,20 +97,16 @@ class _PremiumScreenState extends State<PremiumScreen> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final _user = Provider.of<UserProvider>(context, listen: false);
 
-    Future<void> requestPremium() async{
+    Future<void> requestPremium() async {
       try {
         await _user.askForPremium();
-      }catch(error){
+      } catch (error) {
         setState(() {
           _isLoading = false;
           _showErrorDialog(error.toString());
@@ -120,15 +114,10 @@ class _PremiumScreenState extends State<PremiumScreen> {
       }
     }
 
-
-
-    if(!_isEmailSent && !_user.isUserPremium()){
+    if (!_isEmailSent && !_user.isUserPremium()) {
       requestPremium();
-      print('ENTERED PREMIUM');
-      _isEmailSent=true;
+      _isEmailSent = true;
     }
-
-
 
     ///If the screen is loading show a circular progress.
     return _isLoading
