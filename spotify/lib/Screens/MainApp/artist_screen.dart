@@ -15,6 +15,7 @@ class ArtistScreen extends StatelessWidget {
     print('The artist screen is build');
     if (!user){
       return ArtistProfileScreen("5e8cd05712fb247de895f052");
+      //ArtistProfileScreen('5abSRg0xN1NV3gLbuvX24M'); //for mocking services
         //MyMusicScreen();
     }
     else

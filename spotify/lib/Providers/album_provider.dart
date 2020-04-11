@@ -153,18 +153,19 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> uploadImage(File file, String token, String albumName,
+  Future<bool> uploadImage(String filePath, String token, String albumName,
       String albumType, String _currentTime, String genre) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadAlbumApi(
-          file, token, albumName, albumType, _currentTime, genre);
+          filePath, token, albumName, albumType, _currentTime, genre);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
 
+  ///A method that uploads new song in artist mode.
   Future<bool> uploadSong(
       String token, String songName, String path, String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
