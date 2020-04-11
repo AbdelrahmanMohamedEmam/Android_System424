@@ -7,6 +7,11 @@ import 'package:intl/intl.dart';
 ///Importing the screens to navigate to it.
 import './choose_gender_screen.dart';
 
+
+
+///This screen appears to ask the user to enter his birth date when signing up.
+///The first appearing year is the current year.
+///When the user press NEXT the [ChooseNameScreen] is called.
 class AddBirthDateScreen extends StatefulWidget {
   static const routeName = '/add_birthdate_screen';
   @override

@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 ///Importing the screens to navigate to it.
 import 'add_birthdate_screen.dart';
 
+
+///This screen is called when signing up after the [CreateEmailScreen].
+///It checks that the entered password is more than 7 characters.
+///[AddBirthDateScreen] is called when the NEXT button is pressed if the password is valid.
 class CreatePasswordScreen extends StatefulWidget {
   static const routeName = '/create_password_screen';
 

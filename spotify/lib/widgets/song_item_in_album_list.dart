@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import '../Models/track.dart';
 
+///It is used to provide the [AlbumsListScreen] with the needed data about the track.
+
  class SongItemAlbumList  extends StatelessWidget {
    final String imgURL;
    SongItemAlbumList(this.imgURL);

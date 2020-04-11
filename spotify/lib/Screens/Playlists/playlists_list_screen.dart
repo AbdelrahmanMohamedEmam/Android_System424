@@ -53,16 +53,16 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         } else if (widget.playlistType == PlaylistCategory.popularPlaylists) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getPopularPlaylistsId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.artist) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getArtistPlaylistsbyId(widget.playlistId);
         }
-       else if (widget.playlistType == PlaylistCategory.artist) {
-        playlists = Provider.of<PlaylistProvider>(context, listen: false)
-            .getArtistPlaylistsbyId(widget.playlistId);
-      }
       });
     });
     super.didChangeDependencies();
   }
 
+  ///Initialization.
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -71,13 +71,14 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
     super.initState();
   }
 
+  ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
     if (playlists != null) {
-      PaletteGenerator _paletteGenerator = await PaletteGenerator.fromImageProvider(
-          NetworkImage(
-               playlists.images[0]),
-          size: Size(110, 150),
-          maximumColorCount: 20);
+      PaletteGenerator _paletteGenerator =
+          await PaletteGenerator.fromImageProvider(
+              NetworkImage(playlists.images[0]),
+              size: Size(110, 150),
+              maximumColorCount: 20);
       if (_paletteGenerator.darkMutedColor != null) {
         background = _paletteGenerator.darkMutedColor.color;
         colorGenerated = true;
@@ -94,6 +95,8 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   Widget build(BuildContext context) {
     print('The list of songs in playlist screen is built');
     if (!colorGenerated) _generatePalette();
+
+    ///The device size provided by the [MediaQuery].
     final deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? Scaffold(
@@ -242,6 +245,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
           );
   }
 
+  ///Functions to listen to the control of scrolling.
   void _listenToScrollChange() {
     if (_scrollController.offset >= 100.0) {
       setState(() {

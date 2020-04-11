@@ -1,3 +1,14 @@
+
+///  This widget is considered as the main widget in the app.
+///  It is where the track data is manipulated.
+///  It uses [SlidingUpPanel] to create the [Collapsed] song bar and [Panel].
+///  It is responsible to download the track and save it on a memory location.
+///  It is responsible to create a stream and pass it to both [Collapsed] and [Panel], so they are synchronized.
+///  It has the selected screen from the bottom nav bar as a body to show it in the background of the [Collapsed].
+
+
+
+
 ///Importing dart libraries to use it.
 import 'dart:ui';
 import 'dart:async';
@@ -58,9 +69,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Is the collapsed widget hidden or not.
   bool collapsedHide;
-
-  ///Is the panel opened or closed.
-  //var panelState;
 
 
   ///Song attributes.
@@ -202,9 +210,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
-    print('Track Name:' +song.name);
-    //print('Album Name:' +song.album.name);
-    print('Uri Name:' +song.uri);
     final user =Provider.of<UserProvider>(context,listen:false);
     Dio dio = new Dio();
       try{ 
@@ -212,7 +217,6 @@ class _MainWidgetState extends State<MainWidget> {
    
       setState(() {
         downloading = true;
-        print('Downloading...');
       });
 
 
@@ -220,6 +224,7 @@ class _MainWidgetState extends State<MainWidget> {
       await dio.download
       (
               song.href+'/audio',
+              //'http://138.91.114.14/api/tracks/5e8d0586d8b61811db3df2e1/audio',
               //'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
               '$dir/'+ song.id,
               options: Options(
@@ -229,7 +234,10 @@ class _MainWidgetState extends State<MainWidget> {
           onReceiveProgress: (receive,total)
           { setState(() {
               String progress = ((receive/total)*100).toStringAsFixed(0)+"%";
-              print(progress);}); }
+             // print(progress);
+          }
+          );
+          }
             ).then((_){
 
          setState(() {
@@ -242,14 +250,15 @@ class _MainWidgetState extends State<MainWidget> {
             toHide(true);
           });
         });
-    } catch (e) {print(e.toString());}
+    } catch (e) {
+        //print(e.toString());
+      }
   }
 
 
   ///Deleting the played mp3 file for its path and set flags.
   void deleteFile() async {
     final dir = Directory(songPath);
-      print('h' + songPath);
       await dir.delete(recursive: true);
       setState(() {
         deleted=true;
@@ -334,19 +343,15 @@ class _MainWidgetState extends State<MainWidget> {
       if (readyToPlay) {
 
         ///Check the player is not yet connecting and play it automatically.
-        print('About to play');
         if (_player.playbackState != AudioPlaybackState.connecting &&
             _player.playbackState != AudioPlaybackState.none) {
 
-          print('Ready');
           _player.play();
           readyToPlay = false;
         }
         else {
-          print('Not Ready');
           Timer(Duration(milliseconds: 500), () {
             setState(() {
-              print('Timer Done');
               currentTrackProvider.addToRecentlyPlayed(song.album.uri, song.uri, 'album', user.token);
               readyToPlay = false;
               _player.play();
@@ -462,7 +467,8 @@ class _MainWidgetState extends State<MainWidget> {
 
 
 
-    ///Creating the tool bar to pass it to the collapsed.
+    ///Creating the tool bar to pass it to the [Collapsed].
+    ///The play button.
     StreamBuilder collapsedToolBar = StreamBuilder<FullAudioPlaybackState>(
       ///Initializing the audio player attributes.
       stream: song==null?null:_player.fullPlaybackStateStream,

@@ -57,7 +57,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
-          _path = await FilePicker.getFilePath(type: _pickingType, fileExtension: _extension);
+          _path = await FilePicker.getFilePath(type: _pickingType, /*fileExtension: _extension*/);
 
       } on PlatformException catch (e) {
         print("Unsupported operation" + e.toString());

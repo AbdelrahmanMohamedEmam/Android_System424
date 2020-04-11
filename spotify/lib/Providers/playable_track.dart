@@ -1,12 +1,9 @@
-//Importing libraries from external packages.
+///Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:spotify/API_Providers/trackAPI.dart';
 
-//Import core libraries.
-import 'dart:convert';
 
-//Import Models.
+///Import Models.
 import '../Models/track.dart';
 
 ///Class PlayableTrackProvider
@@ -44,18 +41,19 @@ class PlayableTrackProvider with ChangeNotifier {
 
 
   ///Sends a http request to upgrade a user to premium.
-  ///An object from the API provider [UserAPI] to send requests is created.
+  ///Context Uri, Track Uri and Context type must be provided.
+  ///Token must be provided for authentication.
+  ///An object from the API provider [TrackAPI] to send requests is created.
   Future<void> addToRecentlyPlayed(String contextUri,String trackUri, String contextType, String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final responseData =
       await trackAPI.addToRecentlyPlayed(contextUri,trackUri,contextType,token);
       if (responseData == true) {
-        print('Added to recently played');
         return;
       }
     } catch (error) {
-      print(error.toString());
+      //print(error.toString());
       //throw error;
     }
   }

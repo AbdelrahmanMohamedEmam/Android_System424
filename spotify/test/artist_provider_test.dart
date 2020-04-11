@@ -1,17 +1,21 @@
 import 'package:spotify/API_Providers/artistAPI.dart' as artist;
 import 'package:spotify/Models/artist.dart';
 import '../lib/API_Providers/artistAPI.dart';
-import 'package:mockito/mockito.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import '../lib/Models/artist.dart';
-class MockClient extends Mock implements artist.ArtistAPI {
+
+//class MockClient extends Mock implements artist.ArtistAPI {
   //String baseUrl;
   //MockClient({
    // this.baseUrl
 //});
-}
+//}
 /*
+
+
+
 main() {
   ArtistAPI artist =  ArtistAPI(baseUrl : 'http://spotify.mocklab.io');
   group('ArtistInfo', () {
