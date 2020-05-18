@@ -15,8 +15,6 @@ import '../../Providers/user_provider.dart';
 ///Importing this package to validate the email format.
 import 'package:email_validator/email_validator.dart';
 
-
-
 ///This screen appears when the user choose the login option from the [IntroScreen].
 ///It checks that the email is in a valid format.
 ///Sends a request to log him/her in.
@@ -27,8 +25,6 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-
-
   ///Indicates if the password is visible to the user or not.
   bool _passwordVisible;
 
@@ -41,7 +37,6 @@ class _LogInScreenState extends State<LogInScreen> {
   ///Text controller fot the email.
   final emailController = TextEditingController();
 
-
   ///Initializations.
   @override
   void initState() {
@@ -49,8 +44,6 @@ class _LogInScreenState extends State<LogInScreen> {
     _validate = true;
     super.initState();
   }
-
-
 
   ///A function to show an error dialog when needed.
   void _showErrorDialog(String message) {
@@ -72,12 +65,11 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-
   ///A function called when 'Login' button is pressed.
   ///It uses the [UserProvider] to send the a request to log the use in.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<void> _submit(userData) async {
-    final _auth=Provider.of<UserProvider>(context, listen: false);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     try {
       await _auth.signIn(
         userData['email'],
@@ -93,178 +85,184 @@ class _LogInScreenState extends State<LogInScreen> {
       _showErrorDialog(errorMessage);
       return;
     }
-    if(_auth.isLoginSuccessfully)
-      {
-        try {
-          await _auth.setUser(_auth.token);
-        }on HttpException catch (error) {
-          var errorMessage = error.toString();
-          _showErrorDialog(errorMessage);
-          return;
-        } catch(error){
-          const errorMessage =
-              'Could not authenticate you. Please try again later.';
-          _showErrorDialog(errorMessage);
-          return;
-        }
-        Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
+    if (_auth.isLoginSuccessfully) {
+      try {
+        await _auth.setUser(_auth.token);
+      } on HttpException catch (error) {
+        var errorMessage = error.toString();
+        _showErrorDialog(errorMessage);
+        return;
+      } catch (error) {
+        const errorMessage =
+            'Could not authenticate you. Please try again later.';
+        _showErrorDialog(errorMessage);
+        return;
       }
-
+      Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
 
-
     //final _user = Provider.of<UserProvider>(context, listen: false);
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Log in'),
         backgroundColor: Colors.black,
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body: SingleChildScrollView(child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05, 5, 0, deviceSize.width*0.03),
-            child: Text(
-              'Email',
-              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.06),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: deviceSize.width*0.05),
-            width: deviceSize.width * 0.9,
-            child: TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                filled: true,
-                fillColor: Colors.grey,
-                labelStyle: TextStyle(color: Colors.white38),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                  deviceSize.width * 0.05, 5, 0, deviceSize.width * 0.03),
+              child: Text(
+                'Email',
+                style: TextStyle(
+                    color: Colors.white, fontSize: deviceSize.width * 0.06),
               ),
-              style: TextStyle(color: Colors.white),
-              cursorColor: Theme.of(context).primaryColor,
-              keyboardType: TextInputType.emailAddress,
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(deviceSize.width*0.05,deviceSize.width*0.04, 0, deviceSize.width*0.03),
-            child: Text(
-              'Password',
-              style: TextStyle(color: Colors.white, fontSize: deviceSize.width*0.05),
+            Container(
+              margin: EdgeInsets.only(left: deviceSize.width * 0.05),
+              width: deviceSize.width * 0.9,
+              child: TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  filled: true,
+                  fillColor: Colors.grey,
+                  labelStyle: TextStyle(color: Colors.white38),
+                ),
+                style: TextStyle(color: Colors.white),
+                cursorColor: Theme.of(context).primaryColor,
+                keyboardType: TextInputType.emailAddress,
+              ),
             ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: deviceSize.width*0.05, top: 5, bottom: deviceSize.width*0.04),
-                width: deviceSize.width * 0.9,
-                child: TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    filled: true,
-                    fillColor: Colors.grey,
-                    labelStyle: TextStyle(color: Colors.white38),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _passwordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: Colors.white38,
+            Container(
+              margin: EdgeInsets.fromLTRB(deviceSize.width * 0.05,
+                  deviceSize.width * 0.04, 0, deviceSize.width * 0.03),
+              child: Text(
+                'Password',
+                style: TextStyle(
+                    color: Colors.white, fontSize: deviceSize.width * 0.05),
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(
+                      left: deviceSize.width * 0.05,
+                      top: 5,
+                      bottom: deviceSize.width * 0.04),
+                  width: deviceSize.width * 0.9,
+                  child: TextFormField(
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      filled: true,
+                      fillColor: Colors.grey,
+                      labelStyle: TextStyle(color: Colors.white38),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.white38,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _passwordVisible = !_passwordVisible;
-                        });
-                      },
                     ),
+                    obscureText: !_passwordVisible,
+                    style: TextStyle(color: Colors.white),
+                    cursorColor: Theme.of(context).primaryColor,
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                  obscureText: !_passwordVisible,
-                  style: TextStyle(color: Colors.white),
-                  cursorColor: Theme.of(context).primaryColor,
-                  keyboardType: TextInputType.emailAddress,
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _validate
-                  ? SizedBox(height: deviceSize.height * 0.01)
-                  : Text('Invalid uername or password',
-                      style: TextStyle(color: Colors.red)),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top:deviceSize.width*0.05),
-                width: deviceSize.width * 0.4,
-                height: deviceSize.height * 0.065,
-                child: RaisedButton(
-                  textColor: Theme.of(context).accentColor,
-                  color: Colors.grey,
-                  child: Text(
-                    'LOGIN',
-                    style: TextStyle(fontSize: deviceSize.width*0.04),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _validate
+                    ? SizedBox(height: deviceSize.height * 0.01)
+                    : Text('Invalid uername or password',
+                        style: TextStyle(color: Colors.red)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: deviceSize.width * 0.05),
+                  width: deviceSize.width * 0.4,
+                  height: deviceSize.height * 0.065,
+                  child: RaisedButton(
+                    textColor: Theme.of(context).accentColor,
+                    color: Colors.grey,
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(fontSize: deviceSize.width * 0.04),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28.0),
+                    ),
+                    onPressed: () {
+                      bool isValid =
+                          EmailValidator.validate(emailController.text);
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty ||
+                          !isValid) {
+                        setState(() {
+                          _validate = false;
+                        });
+                      } else {
+                        var userData = {
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                        };
+                        _submit(userData);
+                      }
+                    },
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0),
-                  ),
-                  onPressed: () {
-                    bool isValid = EmailValidator.validate(emailController.text);
-                    if (emailController.text.isEmpty ||
-                        passwordController.text.isEmpty || !isValid) {
-                      setState(() {
-                        _validate = false;
-                      });
-                    } else {
-                      var userData={
-                        'email':emailController.text,
-                        'password':passwordController.text,
-                      };
-                      _submit(userData);
-                    }
-                  },
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: deviceSize.width*0.04),
-                width: deviceSize.width * 0.6,
-                height: deviceSize.height * 0.05,
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.transparent,
-                  child: Text(
-                    'Forgot Your Password?',
-                    style: TextStyle(fontSize: deviceSize.width*0.03),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: deviceSize.width * 0.04),
+                  width: deviceSize.width * 0.6,
+                  height: deviceSize.height * 0.05,
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.transparent,
+                    child: Text(
+                      'Forgot Your Password?',
+                      style: TextStyle(fontSize: deviceSize.width * 0.03),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28.0),
+                      side: BorderSide(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, GetEmailScreen.routeName);
+                    },
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0),
-                    side: BorderSide(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, GetEmailScreen.routeName);
-                  },
                 ),
-              ),
-            ],
-          )
-        ],
-      ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

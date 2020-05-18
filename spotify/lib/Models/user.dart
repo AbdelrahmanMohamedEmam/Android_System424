@@ -63,9 +63,9 @@ class User {
       id: json['id'],
       email: json['email'],
       password: json['password'],
-      dateOfBirth: json['dateOfBirth']==null?null: json['dateOfBirth'],
-      gender: json['gender']==null?null:json['gender'],
-      uri: json['uri']==null?null:json['uri'],
+      dateOfBirth: json['dateOfBirth'] == null ? null : json['dateOfBirth'],
+      gender: json['gender'] == null ? null : json['gender'],
+      uri: json['uri'] == null ? null : json['uri'],
       //following: parceFollower(json['following']),
       //followers: parceFollower(json['followers']),
       userStats: json['userStats'] == null
@@ -75,8 +75,9 @@ class User {
       //product: json['product'],
       name: json['name'],
       //externalUrl: ExternalUrl.fromJson(json['externalUrls']),
-      href: json['href']==null?null:json['href'],
-      images: parseString(json['images']),//parceImage(json['images']),//json['images']==null?null:json['images'],
+      href: json['href'] == null ? null : json['href'],
+      images: parseString(json[
+          'images']), //parceImage(json['images']),//json['images']==null?null:json['images'],
       role: json['role'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
     );

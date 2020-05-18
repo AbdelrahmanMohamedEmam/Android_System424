@@ -9,8 +9,6 @@ import '../../Providers/user_provider.dart';
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-
-
 ///This screen appears to ask the user to enter his username when signing up.
 ///The username filed can't be empty.
 ///When the user press NEXT the signing up process is called and he logs into the app.
@@ -50,7 +48,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
   }
 
   Future<void> _submit(userData) async {
-    final _auth=Provider.of<UserProvider>(context, listen: false);
+    final _auth = Provider.of<UserProvider>(context, listen: false);
     try {
       await _auth.signUp(
         userData['email'],
@@ -58,7 +56,6 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         userData['gender'],
         username.text,
         userData['dateOfBirth'],
-
       );
     } on HttpException catch (error) {
       var errorMessage = error.toString();
@@ -70,18 +67,17 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
       _showErrorDialog(errorMessage);
       return;
     }
-    if(_auth.isLoginSuccessfully)
-    {
+    if (_auth.isLoginSuccessfully) {
       try {
-        await _auth.setUser(_auth.token).then((_){
-         // Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
-         // Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
+        await _auth.setUser(_auth.token).then((_) {
+          // Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
+          // Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
           Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
         });
-      }on HttpException catch (error) {
+      } on HttpException catch (error) {
         var errorMessage = error.toString();
         _showErrorDialog(errorMessage);
-      }catch(error){
+      } catch (error) {
         const errorMessage =
             'Could not authenticate you. Please try again later.';
         _showErrorDialog(errorMessage);
@@ -105,14 +101,15 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(deviceSize.width*0.06, 5, 0, 10),
+            margin: EdgeInsets.fromLTRB(deviceSize.width * 0.06, 5, 0, 10),
             child: Text(
               'What\'s your name?',
-              style: TextStyle(color: Colors.white, fontSize:  deviceSize.width*0.06),
+              style: TextStyle(
+                  color: Colors.white, fontSize: deviceSize.width * 0.06),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: deviceSize.width*0.06),
+            margin: EdgeInsets.only(left: deviceSize.width * 0.06),
             width: deviceSize.width * 0.9,
             child: TextFormField(
               controller: username,
@@ -136,7 +133,7 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: deviceSize.width*0.06),
+                margin: EdgeInsets.only(top: deviceSize.width * 0.06),
                 width: deviceSize.width * 0.4,
                 height: deviceSize.height * 0.065,
                 child: RaisedButton(
@@ -144,13 +141,12 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
                   color: Colors.grey,
                   child: Text(
                     'CREATE',
-                    style: TextStyle(fontSize: deviceSize.width*0.04),
+                    style: TextStyle(fontSize: deviceSize.width * 0.04),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),
                   ),
                   onPressed: () {
-
                     if (username.text.isEmpty) {
                       setState(() {
                         _validate = false;

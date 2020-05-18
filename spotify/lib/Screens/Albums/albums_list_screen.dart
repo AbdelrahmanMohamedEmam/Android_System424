@@ -76,8 +76,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('The list of songs in album screen is built');
-
     if (!colorGenerated) _generatePalette();
     return _isLoading
         ? Scaffold(
@@ -152,7 +150,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           ),
                           Container(
                             height: 22,
-                            width: double.infinity,
+                            width: 160,
                             child: Container(
                               width: 100,
                               child: DecoratedBox(
@@ -181,7 +179,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             ),
                           ),
                           Container(
-                            width: 40,
+                            width: double.infinity,
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
                             child: Text(

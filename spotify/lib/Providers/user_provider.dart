@@ -92,7 +92,7 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Returns the users images.
-  List<String>get userImage {
+  List<String> get userImage {
     return _user.images;
   }
 
@@ -218,15 +218,12 @@ class UserProvider with ChangeNotifier {
         String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
 
-        if (expiryDuration.endsWith('d')){
-
-          int index=expiryDuration.indexOf('d');
-          expiryDuration=expiryDuration.substring(0,index);
-          expireAfter=Duration(days: int.parse(expiryDuration));
-
-        }else if(expiryDuration.endsWith('s')){
-          int index=expiryDuration.indexOf(' ');
-
+        if (expiryDuration.endsWith('d')) {
+          int index = expiryDuration.indexOf('d');
+          expiryDuration = expiryDuration.substring(0, index);
+          expireAfter = Duration(days: int.parse(expiryDuration));
+        } else if (expiryDuration.endsWith('s')) {
+          int index = expiryDuration.indexOf(' ');
 
           expiryDuration = expiryDuration.substring(0, index);
           expireAfter = Duration(minutes: int.parse(expiryDuration));
@@ -259,9 +256,10 @@ class UserProvider with ChangeNotifier {
     try {
       final responseData = await userAPI.signIn(email, password);
       if (responseData['message'] != null) {
+        print('errorrrr');
         throw HttpException(responseData['message']);
       } else {
-        
+        print('hereeee');
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
@@ -289,6 +287,7 @@ class UserProvider with ChangeNotifier {
         prefs.setString('userData', userData);
       }
     } catch (error) {
+      print('error last');
       throw error;
     }
   }
@@ -303,11 +302,9 @@ class UserProvider with ChangeNotifier {
       bool succeeded = await userAPI.forgetPassword(email);
 
       if (!succeeded) {
-
         throw HttpException(
             'Couldn\'t reset your password. Please try again later');
       } else {
-
         resetSuccessful = true;
       }
       notifyListeners();
@@ -392,9 +389,7 @@ class UserProvider with ChangeNotifier {
   Future<void> askForPremium() async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      await userAPI.askForPremium(
-          _token);
-
+      await userAPI.askForPremium(_token);
     } catch (error) {
       //print(error.toString());
       throw error;
@@ -410,10 +405,8 @@ class UserProvider with ChangeNotifier {
     try {
       bool succeeded = await userAPI.followArtist(token, id);
       if (!succeeded) {
-
         throw HttpException('Couldn\,t follow this user');
       } else {
-
         followSuccessful = true;
       }
       notifyListeners();
@@ -422,7 +415,6 @@ class UserProvider with ChangeNotifier {
       throw error;
     }
   }
-
 
   ///Token must be provided for authentication.
   ///New password and Old password must be provided.

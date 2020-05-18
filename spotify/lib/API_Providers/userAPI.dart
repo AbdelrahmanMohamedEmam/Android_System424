@@ -27,16 +27,6 @@ class UserAPI {
   Future<Map<String, dynamic>> signUp(String email, String password,
       String gender, String username, String dateOfBirth) async {
     try {
-      print("email" +
-          email +
-          "password" +
-          password +
-          "gender" +
-          gender +
-          "dateOfBirth" +
-          dateOfBirth +
-          "name" +
-          username);
       final responseData = await Dio().post(
         baseUrl + '/signUp',
         options: Options(validateStatus: (_) {
@@ -56,6 +46,7 @@ class UserAPI {
       if (responseData.data['message'] != null) {
         //throw HttpException(responseData.data['message']);
       } else {
+        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {
@@ -118,8 +109,10 @@ class UserAPI {
       );
 
       if (responseData.statusCode != 200) {
+        print('errorrrr');
         throw HttpException(json.decode(responseData.data)['message']);
       } else {
+        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {

@@ -93,7 +93,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('The list of songs in playlist screen is built');
     if (!colorGenerated) _generatePalette();
 
     ///The device size provided by the [MediaQuery].

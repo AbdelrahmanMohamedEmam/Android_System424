@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/track.dart';
 
-
 ///This class is the panel that appears when the [Panel] is hidden.
 ///It shows the track name, album name, track picture and other data.
 ///It receive the status of the bar and tool bar from the [MainWidget] to be synchronized with [Hidden].
@@ -46,17 +45,16 @@ class _CollapsedState extends State<Collapsed> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: deviceSize.width*0.3,
+                          width: deviceSize.width * 0.3,
                           child: Text(
-                          widget.song.name,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: deviceSize.width * 0.04,
-                            color: Colors.white,
+                            widget.song.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: deviceSize.width * 0.04,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        ),
-
                         Text(
                           widget.song.artists[0].name,
                           style: TextStyle(

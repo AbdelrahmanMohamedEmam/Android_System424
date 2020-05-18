@@ -7,7 +7,8 @@ class AlbumsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
-        width: double.infinity,padding: EdgeInsets.all(90),
+        width: double.infinity,
+        padding: EdgeInsets.all(90),
         child: Center(
           child: Text(
             'Albums you like will appear here',
