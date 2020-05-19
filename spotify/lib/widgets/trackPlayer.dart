@@ -22,6 +22,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:share/share.dart';
 
 ///Importing widgets to use it.
 import 'collapsed.dart';
@@ -223,9 +224,9 @@ class _MainWidgetState extends State<MainWidget> {
 
       await dio.download
       (
-              song.href+'/audio',
+              //song.href+'/audio',
               //'http://138.91.114.14/api/tracks/5e8d0586d8b61811db3df2e1/audio',
-              //'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+              'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
               '$dir/'+ song.id,
               options: Options(
               headers: {"authorization":"Bearer "+user.token,},
@@ -456,8 +457,11 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.share,
-                color: Colors.white24,
+                color: Colors.white,
               ),
+              onPressed: ()async{
+               await Share.share('Check Out This Album On Totally Not Spotify ' + song.album.href.replaceAll('/api', ''));
+              },
               iconSize: deviceSize.height * 0.03,
             ),
           ],
