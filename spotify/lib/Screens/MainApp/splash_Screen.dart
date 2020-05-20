@@ -87,9 +87,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     ///Try to auto login the user if the url is initialized.
     if (!dataUpdated) {
-      _user.tryAutoLogin();
-      isAuth = _user.isAuth;
-      dataUpdated = isAuth;
+      try {
+        _user.tryAutoLogin();
+        isAuth = _user.isAuth;
+        dataUpdated = isAuth;
+      }catch(error){
+        print(error.toString());
+      }
     }
 
     ///Showing the animated logo at the center of the screen.

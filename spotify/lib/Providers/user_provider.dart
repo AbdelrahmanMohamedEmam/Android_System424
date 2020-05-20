@@ -333,7 +333,12 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    await setUser(_token);
+    try {
+      await setUser(_token);
+    }catch(error)
+    {
+      print(error.toString());
+    }
     notifyListeners();
     _autoLogout();
     return true;

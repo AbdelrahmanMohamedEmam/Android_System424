@@ -43,6 +43,7 @@ class UserAPI {
         ),
       );
       //final responseData = jsonDecode(response.body);
+      print(responseData.data.toString());
       if (responseData.data['message'] != null) {
         //throw HttpException(responseData.data['message']);
       } else {
@@ -132,6 +133,7 @@ class UserAPI {
       });
 
       final responseData = jsonDecode(response.body);
+
 
       User _user;
       if (responseData['message'] != null) {

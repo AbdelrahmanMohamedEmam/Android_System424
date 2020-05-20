@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 ///  This widget is considered as the main widget in the app.
 ///  It is where the track data is manipulated.
 ///  It uses [SlidingUpPanel] to create the [Collapsed] song bar and [Panel].
@@ -22,6 +23,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:spotify/Providers/user_provider.dart';
+import '../Providers/playable_track.dart';
 import 'package:share/share.dart';
 
 ///Importing widgets to use it.
@@ -211,6 +213,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
+
     final user =Provider.of<UserProvider>(context,listen:false);
     Dio dio = new Dio();
       try{ 
@@ -390,10 +393,34 @@ class _MainWidgetState extends State<MainWidget> {
             Container(
               margin: EdgeInsets.only(left: deviceSize.width * 0.05),
               child: IconButton(
-                icon: Icon(
-                  Icons.favorite_border,
-                  color: Colors.white24,
+                icon:
+                  Icon(
+                    Provider.of<PlayableTrackProvider>(context, listen: false).isTrackLiked(song.id)?Icons.favorite:Icons.favorite_border,
+                    color: Colors.white,
+
                 ),
+                onPressed: ()async{
+                  if (Provider.of<PlayableTrackProvider>(context, listen: false).isTrackLiked(song.id))
+                    {
+
+                        await Provider.of<PlayableTrackProvider>(context, listen: false).unlikeTrack(user.token, song.id)
+                            .then((_){setState(() {
+
+                            });
+                            });
+
+                    }
+                  else
+                    {
+
+                        await Provider.of<PlayableTrackProvider>(context, listen: false).likeTrack(user.token, song).then((_){
+                          setState(() {
+                          });
+                        });
+
+
+                    }
+                },
                 iconSize: deviceSize.height * 0.04,
               ),
             ),
