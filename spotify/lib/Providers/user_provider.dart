@@ -1,6 +1,9 @@
+import 'dart:io';
+
 ///Importing flutter material to use it's libraries.
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 ///Importing an API from facebook to use facebook login.
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -33,6 +36,8 @@ class UserProvider with ChangeNotifier {
   ///
   ///An object of [User] that contains the current user details.
   User _user;
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   ///Contains the token of the user.
   String _token;
@@ -106,6 +111,25 @@ class UserProvider with ChangeNotifier {
     return _user.resetPasswordToken;
   }
 
+  ///Returns the users gender.
+  String get userGender {
+    return _user.gender;
+  }
+
+  ///Returns the users gender.
+  String get userDateOfBirth {
+    return _user.dateOfBirth;
+  }
+
+  ///Setter to the pickedImage File.
+  void setUserPickedImage(File pickedImage) {
+    _user.pickedImage = pickedImage;
+  }
+
+  File get getpickedImage {
+    return _user.pickedImage;
+  }
+
   ///Setting the user to a premium/free user.
   void setPremium(String premium) {
     _user.role = premium;
@@ -120,6 +144,9 @@ class UserProvider with ChangeNotifier {
 
     try {
       _user = await userAPI.setUser(_token);
+      await _firebaseMessaging.getToken().then((value) {
+        print(value);
+      });
     } catch (error) {
       //print(error.toString());
       throw HttpException(error.toString());
@@ -256,8 +283,10 @@ class UserProvider with ChangeNotifier {
     try {
       final responseData = await userAPI.signIn(email, password);
       if (responseData['message'] != null) {
+        print('errorrrr');
         throw HttpException(responseData['message']);
       } else {
+        print('hereeee');
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
@@ -285,6 +314,7 @@ class UserProvider with ChangeNotifier {
         prefs.setString('userData', userData);
       }
     } catch (error) {
+      print('error last');
       throw error;
     }
   }
@@ -330,7 +360,12 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    await setUser(_token);
+    try {
+      await setUser(_token);
+    }catch(error)
+    {
+      print(error.toString());
+    }
     notifyListeners();
     _autoLogout();
     return true;
@@ -425,6 +460,28 @@ class UserProvider with ChangeNotifier {
           await userApi.changePasswordApi(token, newpassword, oldPassword);
       if (success) {
         _user.password = newpassword;
+        throw HttpException('Your password is changed successfully!!');
+      } else {
+        throw HttpException('Something went wrong please try again later!!');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  ///Token must be provided for authentication.
+  ///New password and Old password must be provided.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<void> changeUserName(String token, String email, String userName,
+      String gender, String dateOfBirth) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      bool success = await userApi.changeUserNameApi(
+          token, email, userName, gender, dateOfBirth);
+      if (success) {
+        _user.name = userName;
+        throw HttpException('Your Name is changed successfully!!');
       } else {
         throw HttpException('Something went wrong please try again later!!');
       }

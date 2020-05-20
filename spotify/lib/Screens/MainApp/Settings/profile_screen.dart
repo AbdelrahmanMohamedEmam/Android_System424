@@ -63,17 +63,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       top: deviceSize.height * 0.0440,
                       bottom: deviceSize.height * 0.02929,
                     ),
-                    height: deviceSize.height * 0.264,
-                    width: deviceSize.width * 0.365,
+                    // height: deviceSize.height * 0.264,
+                    // width: deviceSize.width * 0.365,
+                    height: deviceSize.width * 0.219,
+                    width: deviceSize.width * 0.219,
                     child: CircleAvatar(
-                      maxRadius: deviceSize.width * 0.219,
+                      radius: deviceSize.width * 0.219,
                       child: Text(
-                        user.username[0],
+                        user.getpickedImage==null?user.username[0]:"",
                         style: TextStyle(
                           fontSize: deviceSize.height * 0.0367,
                         ),
                       ),
                       backgroundColor: Colors.purple,
+                      backgroundImage: user.getpickedImage != null
+                          ? FileImage(user.getpickedImage)
+                          : null,
                     ),
                   ),
                   Container(

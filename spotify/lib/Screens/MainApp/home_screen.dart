@@ -6,6 +6,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import '../../Providers/playable_track.dart';
 import './tab_navigator.dart';
 //Importing Screens.
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
@@ -52,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
           .fetchMostRecentAlbums(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchPopularAlbums(user.token);
+      Provider.of<PlayableTrackProvider>(context, listen: false)
+          .fetchUserLikedTracks(user.token, 50);
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchMostRecentPlaylists(user.token)
           .then((_) {

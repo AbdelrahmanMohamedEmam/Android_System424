@@ -14,7 +14,7 @@ class ArtistScreen extends StatelessWidget {
     bool user =
         Provider.of<UserProvider>(context, listen: false).isUserArtist();
     if (!user) {
-      return ArtistProfileScreen("5e8cd05712fb247de895f052");
+      return ArtistProfileScreen("5e923dd09df6d9ca9f10a473");
       //ArtistProfileScreen('5abSRg0xN1NV3gLbuvX24M'); //for mocking services
       //MyMusicScreen();
     } else {

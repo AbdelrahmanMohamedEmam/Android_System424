@@ -1,3 +1,5 @@
+import 'dart:io';
+
 ///Importing models to use in factory methods.
 import '../Models/external_url.dart';
 import '../Models/user_stats.dart';
@@ -8,7 +10,7 @@ import '../utilities.dart';
 
 ///A model for grouping the user data.
 class User {
-  final String name;
+   String name;
   final String email;
   String password;
   final String id;
@@ -30,6 +32,7 @@ class User {
   final String becomePremiumExpires;
   final String becomeArtistToken;
   final String becomeArtistExpires;
+  File pickedImage;
 
   ///A constructor with named parameters.
   User(

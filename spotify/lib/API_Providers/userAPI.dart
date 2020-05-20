@@ -43,9 +43,11 @@ class UserAPI {
         ),
       );
       //final responseData = jsonDecode(response.body);
+      print(responseData.data.toString());
       if (responseData.data['message'] != null) {
         //throw HttpException(responseData.data['message']);
       } else {
+        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {
@@ -108,8 +110,10 @@ class UserAPI {
       );
 
       if (responseData.statusCode != 200) {
+        print('errorrrr');
         throw HttpException(json.decode(responseData.data)['message']);
       } else {
+        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {
@@ -119,7 +123,7 @@ class UserAPI {
 
   ///Sends a request to get the data of the user.
   ///Token must be provided for authentication.
-  ///In case of the success an object from model [User] will be returned containing all the used info needed.
+  ///In case of inthe success an object from model [User] will be returned containing all the used info needed.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<User> setUser(String token) async {
@@ -129,6 +133,7 @@ class UserAPI {
       });
 
       final responseData = jsonDecode(response.body);
+
 
       User _user;
       if (responseData['message'] != null) {
@@ -275,6 +280,34 @@ class UserAPI {
     final response = await Dio().put(baseUrl + '/me' + '/changePassword',
         data: json.encode(
           {"newPassword": newPassword, "passwordConfirmation": oldPassword},
+        ),
+        options: Options(
+          validateStatus: (_) {
+            return true;
+          },
+          headers: {
+            "authorization": "Bearer " + token,
+          },
+        ));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  ///Sends a request to change the userName.
+  ///email and userName and gender and dateOfBirth must be provided.
+  ///Token must be provided for authentication.
+  ///In case of success true is returned.
+  ///In case of failure false is returned.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> changeUserNameApi(
+      String token, String email, String userName,String gender,String dateOfBirth) async {
+    final response = await Dio().put(baseUrl + '/me',
+        data: json.encode(
+          {"email": email, "name": userName,"gender": gender, "dateOfBirth":dateOfBirth},
         ),
         options: Options(
           validateStatus: (_) {

@@ -77,8 +77,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               leading: CircleAvatar(
                 backgroundColor: Color.fromRGBO(27, 255, 138, 1),
+                backgroundImage: _auth.getpickedImage != null
+                    ? FileImage(_auth.getpickedImage)
+                    : null,
                 child: Text(
-                  _auth.username[0],
+                  _auth.getpickedImage == null ? _auth.username[0] : "",
                   style: TextStyle(
                     color: Color.fromRGBO(20, 20, 20, 1),
                   ),

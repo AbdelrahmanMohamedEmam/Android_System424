@@ -9,7 +9,7 @@ main() {
   ArtistAPI artist = ArtistAPI(baseUrl: 'http://spotify.mocklab.io');
   group('ArtistInfo', () {
     test('artist info loaded successfully', () async {
-      final item = await artist.fetchChosenApi('_', '5abSRg0xN1NV3gLbuvX24M');
+      final item = await artist.fetchChosenApi('_', '5e923dd09df6d9ca9f10a473');
       expect(item.name, 'Amr Diab');
       expect(item.type, 'artist');
     });
