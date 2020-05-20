@@ -1,4 +1,5 @@
 //Importing libraries from external packages.
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 //Importing providers.
 import 'package:provider/provider.dart';
@@ -36,6 +37,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///A categoryprovider[PlaylistProvider] variable to get all the home screen categories.
   PlaylistProvider playlistProvider;
+  @override
+  void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.configure(
+      // onLaunch: (msg) async {
+      //   print(msg);
+      //   Navigator.of(context).pushNamed(TabNavigatorRoutes.premium2);
+      //   return;
+      // },
+      // onResume: (msg) async  {
+      //   print(msg);
+      //   Navigator.of(context).pushNamed(TabNavigatorRoutes.premium2);
+      //   return;
+      // },
+      onMessage: (msg) {
+        print(msg);
+        return;
+      },
+    );
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {

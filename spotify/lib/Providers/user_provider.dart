@@ -145,6 +145,7 @@ class UserProvider with ChangeNotifier {
     try {
       _user = await userAPI.setUser(_token);
       await _firebaseMessaging.getToken().then((value) {
+        print("FireBase Token");
         print(value);
       });
     } catch (error) {
@@ -362,8 +363,7 @@ class UserProvider with ChangeNotifier {
     _expiryDate = expiryDate;
     try {
       await setUser(_token);
-    }catch(error)
-    {
+    } catch (error) {
       print(error.toString());
     }
     notifyListeners();
