@@ -1,51 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Providers/user_provider.dart';
 import '../Models/track.dart';
 
 ///It is used to provide the [AlbumsListScreen] with the needed data about the track.
-
-class SongItemAlbumList extends StatelessWidget {
+class SongItemAlbumList extends StatefulWidget {
+  @override
   final String imgURL;
   SongItemAlbumList(this.imgURL);
+
+  _SongItemAlbumListState createState() => _SongItemAlbumListState();
+}
+
+class _SongItemAlbumListState extends State<SongItemAlbumList> {
+
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
-    return InkWell(
-      onTap: () {
-        track.setCurrentSong(song);
-      },
-      child: ListTile(
-        leading: Image.network(imgURL),
-        title: Text(
-          song.name,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(
-          song.artists[0].name,
-          style: TextStyle(color: Colors.grey),
-        ),
-        trailing: Wrap(
-          spacing: 3,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.favorite_border,
-                color: Colors.white54,
-              ),
-              onPressed: null,
+    final user = Provider.of<UserProvider>(context, listen:false);
+    final deviceSize = MediaQuery.of(context).size;
+    return Row(children: <Widget>[
+      Container(
+        width: deviceSize.width * 0.7,
+        height: deviceSize.height * 0.1,
+        child: InkWell(
+          onTap: () {
+            track.setCurrentSong(song, user.isUserPremium());
+          },
+          child: ListTile(
+            leading: Image.network(widget.imgURL),
+            title: Text(
+              song.name,
+              style: TextStyle(color: Colors.white),
             ),
-            IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white54,
-              ),
-              onPressed: null,
+            subtitle: Text(
+              song.artists[0].name,
+              style: TextStyle(color: Colors.grey),
             ),
-          ],
+          ),
         ),
       ),
-    );
+      IconButton(
+        icon: Icon(
+          track.isTrackLiked(song.id)?Icons.favorite:Icons.favorite_border,
+          color: Colors.white,
+        ),
+        onPressed: ()async{
+          if (track.isTrackLiked(song.id))
+          {
+
+            await track.unlikeTrack(user.token, song.id)
+                .then((_){setState(() {
+
+            });
+            });
+
+          }
+          else
+          {
+
+            await track.likeTrack(user.token, song).then((_){
+              setState(() {
+              });
+            });
+
+
+          }
+        },
+      ),
+      IconButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.white54,
+        ),
+        onPressed: null,
+      ),
+    ]);
   }
 }

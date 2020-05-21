@@ -73,6 +73,9 @@ class _MainWidgetState extends State<MainWidget> {
   ///Is the collapsed widget hidden or not.
   bool collapsedHide;
 
+  ///Is Track finished
+  bool trackFinished;
+
 
   ///Song attributes.
   ///
@@ -114,7 +117,7 @@ class _MainWidgetState extends State<MainWidget> {
     });
 
   }
-  
+
 
   ///A map of global keys, holding a key for each tab.
   static Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
@@ -172,6 +175,7 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState()  {
     collapsedHide=false;
+    trackFinished=true;
     super.initState();
     init();
   }
@@ -195,7 +199,7 @@ class _MainWidgetState extends State<MainWidget> {
   Future<void> _generatePalette() async {
     if(song!=null) {
       PaletteGenerator _paletteGenerator =
-      await PaletteGenerator.fromImageProvider(NetworkImage('https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default'/*song.album.images[0]*/),
+      await PaletteGenerator.fromImageProvider(NetworkImage(/*'https://dailymix-images.scdn.co/v1/img/ab67616d0000b273cfa4e906cda39d8f62fe81e3/1/en/default'*/song.album.image),
           size: Size(110, 150), maximumColorCount: 20);
       if(_paletteGenerator.darkMutedColor!=null) {
         background = _paletteGenerator.darkMutedColor.color;
@@ -210,35 +214,70 @@ class _MainWidgetState extends State<MainWidget> {
   }
 
 
+  void showMessage(context) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Row(
+        children: <Widget>[
+          Icon(Icons.warning,color:Colors.black),
+          SizedBox(width: 5,),
+          Text('You are out of skips',style: TextStyle(color:Colors.black)),
+        ],
+      ),
+      backgroundColor: Colors.white30,
+      duration: new Duration(seconds: 5),
+      action: SnackBarAction(
+        label: 'DISMISS',
+        textColor: Colors.red,
+        onPressed: (){
+          Scaffold.of(context).hideCurrentSnackBar();
+        },
+      ),
+    ));
+  }
+
+
 
   ///Downloading the mp3 file, save it and save its path and set flags.
   Future<void> downloadSong() async {
 
     final user =Provider.of<UserProvider>(context,listen:false);
+    trackFinished=false;
     Dio dio = new Dio();
-      try{ 
+      try{
     var dir = (await path.getExternalStorageDirectory()).path;
-   
+
       setState(() {
         downloading = true;
       });
 
 
-
-      await dio.download
-      (
-              //song.href+'/audio',
-              //'http://138.91.114.14/api/tracks/5e8d0586d8b61811db3df2e1/audio',
-              'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
+      print(song.href+'/audio');
+      final response=await dio.get(
+        song.href+'/audio', options: Options(
+        headers: {"authorization":"Bearer "+user.token,},
+        validateStatus: (_){return true;},
+        ),
+      );
+    print(response.statusCode);
+    if(response.statusCode==403){
+      print(response.data['reason']);
+    }
+    if(response.statusCode!=200 && response.data['reason']=='ad'){
+      Provider.of<PlayableTrackProvider>(context, listen: false).adTrack(user.token);
+    }
+      await dio.download(
+              song.href+'/audio',
+              //'https://nogomistars.com/Online_Foldern/Amr_Diab/Sahraan/Nogomi.com_Amr_Diab-01.Gamda_Bas.mp3',
               '$dir/'+ song.id,
               options: Options(
               headers: {"authorization":"Bearer "+user.token,},
-              validateStatus: (_){return true;}
+              validateStatus: (_){return true;},
+
       ),
           onReceiveProgress: (receive,total)
           { setState(() {
               String progress = ((receive/total)*100).toStringAsFixed(0)+"%";
-             // print(progress);
+              print(progress);
           }
           );
           }
@@ -254,8 +293,10 @@ class _MainWidgetState extends State<MainWidget> {
             toHide(true);
           });
         });
+
+    //print(response);
     } catch (e) {
-        //print(e.toString());
+        print(e.toString());
       }
   }
 
@@ -263,6 +304,7 @@ class _MainWidgetState extends State<MainWidget> {
   ///Deleting the played mp3 file for its path and set flags.
   void deleteFile() async {
     final dir = Directory(songPath);
+    //print(dir);
       await dir.delete(recursive: true);
       setState(() {
         deleted=true;
@@ -335,11 +377,13 @@ class _MainWidgetState extends State<MainWidget> {
     }
 
 
+
     ///Check if there is a playing/paused song
     if(song!=null) {
       ///Deleting the song if finished.
       if (_player.playbackState == AudioPlaybackState.completed &&
           !deleted) {
+        //currentTrackProvider.finishedTrack(user.token);
         deleteFile();
       }
 
@@ -402,17 +446,14 @@ class _MainWidgetState extends State<MainWidget> {
                 onPressed: ()async{
                   if (Provider.of<PlayableTrackProvider>(context, listen: false).isTrackLiked(song.id))
                     {
-
                         await Provider.of<PlayableTrackProvider>(context, listen: false).unlikeTrack(user.token, song.id)
                             .then((_){setState(() {
 
+                              });
                             });
-                            });
-
                     }
                   else
                     {
-
                         await Provider.of<PlayableTrackProvider>(context, listen: false).likeTrack(user.token, song).then((_){
                           setState(() {
                           });
@@ -431,9 +472,15 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.fast_rewind,
-                color: Colors.white24,
+                color: Colors.white,
               ),
               iconSize: deviceSize.height * 0.05,
+              onPressed: ()async{
+                bool state=await Provider.of<PlayableTrackProvider>(context, listen: false).playPreviousTrack(user.token);
+                if(!state){
+                  showMessage(context);
+                }
+              },
             ),
 
             ///Checks if the song is downloading or the player is connecting.
@@ -472,8 +519,14 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.fast_forward,
-                color: Colors.white24,
+                color: Colors.white,
               ),
+              onPressed: ()async{
+                bool state=await Provider.of<PlayableTrackProvider>(context, listen: false).playNextTrack(user.token);
+                if(!state){
+                  showMessage(context);
+                }
+              },
               iconSize: deviceSize.height * 0.05,
             ),
             SizedBox(

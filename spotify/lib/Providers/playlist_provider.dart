@@ -417,4 +417,36 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
+
+  List<Track> getPlayableTracks(String id, PlaylistCategory category){
+    print('playlist id:' + id);
+    if(category==PlaylistCategory.arabic){
+      final index=_arabicPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _arabicPlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.artist){
+      final index=_artistProfilePlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _artistProfilePlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.pop){
+      final index=_popPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _popPlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.happy){
+      final index=_happyPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _happyPlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.jazz){
+      final index=_jazzPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _jazzPlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.mostRecentPlaylists){
+      final index=_mostRecentPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _mostRecentPlaylists[index].tracks;
+    }
+    else if(category==PlaylistCategory.popularPlaylists){
+      final index=_popularPlaylists.indexWhere((playlist)=>playlist.id==id);
+      return _popularPlaylists[index].tracks;
+    }
+  }
 }

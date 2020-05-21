@@ -2,10 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/playlist.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
+import '../../Models/track.dart';
 
 class PlaylistsListScreen extends StatefulWidget {
   final PlaylistCategory playlistType;
@@ -35,6 +37,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         .then((_) {
       setState(() {
         _isLoading = false;
+        List<Track> toAdd=Provider.of<PlaylistProvider>(context, listen: false)
+            .getPlayableTracks(widget.playlistId, widget.playlistType);
+        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
         if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getMostRecentPlaylistsId(widget.playlistId);
@@ -68,6 +73,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
     colorGenerated = false;
+    String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    Provider.of<PlayableTrackProvider>(context, listen: false)
+        .shuffledTrackList(userToken, widget.playlistId, 'playlist');
+
     super.initState();
   }
 

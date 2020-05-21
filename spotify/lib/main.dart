@@ -7,6 +7,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
@@ -144,6 +145,7 @@ class MyApp extends StatelessWidget {
             StatsScreen.routeName: (ctx) => StatsScreen(),
             MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
             AddSongScreen.routeName: (ctx) => AddSongScreen(),
+            SongSettingsScreen.routeName: (ctx) => SongSettingsScreen(),
           },
         ),
       ),

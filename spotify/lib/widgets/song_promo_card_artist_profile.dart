@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Providers/user_provider.dart';
 import '../Models/track.dart';
 import '../Models/artist.dart';
 import '../Providers/playable_track.dart';
@@ -24,6 +25,8 @@ class _SongPromoCardState extends State<SongPromoCard> {
   Widget build(BuildContext context) {
     final playabletrack =
         Provider.of<PlayableTrackProvider>(context, listen: false);
+    final user =
+    Provider.of<UserProvider>(context, listen: false);
 
     final trackProvider = Provider.of<Track>(context);
     //List <Track> tracks = trackProvider.getTopTracks;
@@ -63,7 +66,7 @@ class _SongPromoCardState extends State<SongPromoCard> {
         ],
       ),
       onTap: () {
-        playabletrack.setCurrentSong(trackProvider);
+        playabletrack.setCurrentSong(trackProvider,user.isUserPremium());
         //Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
       },
     );

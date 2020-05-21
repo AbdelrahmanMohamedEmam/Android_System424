@@ -130,7 +130,7 @@ class TrackAPI {
 
   Future<bool> nextTrack(String token) async{
     try{
-      final responseData = await Dio().put(
+      final responseData = await Dio().post(
           baseUrl + '/me/player/next',
           options: Options(
               headers: {"authorization": "Bearer " + token},
@@ -139,6 +139,7 @@ class TrackAPI {
               }),
       );
       print('Next Track code:' + responseData.statusCode.toString());
+      print(responseData.data);
       if(responseData.statusCode==204)
       {
         return true;
@@ -154,7 +155,7 @@ class TrackAPI {
 
   Future<bool> previousTrack(String token) async{
     try{
-      final responseData = await Dio().put(
+      final responseData = await Dio().post(
         baseUrl + '/me/player/previous',
         options: Options(
             headers: {"authorization": "Bearer " + token},
@@ -178,7 +179,7 @@ class TrackAPI {
 
   Future<bool> finishedTrack(String token) async{
     try{
-      final responseData = await Dio().put(
+      final responseData = await Dio().post(
         baseUrl + '/me/player/finished',
         options: Options(
             headers: {"authorization": "Bearer " + token},
@@ -186,7 +187,8 @@ class TrackAPI {
               return true;
             }),
       );
-      print('Next Track code:' + responseData.statusCode.toString());
+      print('Finished Track code:' + responseData.statusCode.toString());
+      print(responseData.data);
       if(responseData.statusCode==204)
       {
         return true;
@@ -199,6 +201,60 @@ class TrackAPI {
       throw error;
     }
   }
+
+
+  Future<List<dynamic>> shuffledTrackList(String token, String id, String type) async {
+
+    print(id);
+    print(type);
+    try {
+      final responseData = await Dio().put(
+        baseUrl + '/me/player/play',
+        options: Options(
+            validateStatus: (_) {
+              return true;
+            },
+          headers: {"authorization": "Bearer " + token},
+        ),
+        data: {
+          'id': id,
+          'type': type
+        }
+      );
+      print(responseData.statusCode);
+      print(responseData.data['data']);
+      if (responseData.statusCode!= 200) {
+        throw HttpException(jsonDecode(responseData.data)['message']);
+      } else {
+        return responseData.data['data'];
+      }
+    } catch (error) {
+      print(error.toString());
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<Map<String,dynamic>> adTrack(String token) async {
+    try {
+      final responseData = await http.get(
+        baseUrl + '/me/player/ad',
+        headers: {"authorization": "Bearer " + token},
+      );
+      print('adTrack:'+ responseData.statusCode.toString());
+      print(responseData.body);
+      if (responseData.statusCode!= 200) {
+        throw HttpException(jsonDecode(responseData.body)['message']);
+      } else {
+        return jsonDecode(responseData.body);
+      }
+    } catch (error) {
+      print(error.toString());
+      throw HttpException(error.toString());
+    }
+  }
+
+
+
 
 
 }
