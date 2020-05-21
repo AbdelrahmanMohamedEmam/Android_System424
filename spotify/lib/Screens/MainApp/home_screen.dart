@@ -1,6 +1,7 @@
 //Importing libraries from external packages.
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
 //Importing providers.
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/categories_provider.dart';
@@ -37,21 +38,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///A categoryprovider[PlaylistProvider] variable to get all the home screen categories.
   PlaylistProvider playlistProvider;
+
+  /// Boolean to indicate whether there is a new notifications to show badge.
+  bool showBadge = false;
+
+  ///A number to count the number of new notifications.
+  int numberOfNewNotifications = 0;
   @override
   void initState() {
     final fbm = FirebaseMessaging();
     fbm.configure(
-      // onLaunch: (msg) async {
-      //   print(msg);
-      //   Navigator.of(context).pushNamed(TabNavigatorRoutes.premium2);
-      //   return;
-      // },
-      // onResume: (msg) async  {
-      //   print(msg);
-      //   Navigator.of(context).pushNamed(TabNavigatorRoutes.premium2);
-      //   return;
-      // },
+      onLaunch: (msg) async {
+        print(msg);
+        return;
+      },
+      onResume: (msg) async {
+        print(msg);
+        return;
+      },
       onMessage: (msg) {
+        setState(() {
+          showBadge = true;
+          numberOfNewNotifications++;
+        });
         print(msg);
         return;
       },
@@ -144,6 +153,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     expandedHeight: 0,
                     backgroundColor: Colors.transparent,
                     actions: <Widget>[
+                      Badge(
+                        showBadge: showBadge,
+                        animationType: BadgeAnimationType.scale,
+                        shape: BadgeShape.circle,
+                        position: BadgePosition(
+                          top: -0.5,
+                          right: -0.5,
+                        ),
+                        badgeColor: Colors.green,
+                        badgeContent: Text(
+                          numberOfNewNotifications.toString(),
+                          style: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showBadge = false;
+                              numberOfNewNotifications = 0;
+                            });
+                            Navigator.of(context).pushNamed(
+                                TabNavigatorRoutes.recentActivitiesScreen);
+                          },
+                          icon: Icon(
+                            Icons.flash_on,
+                          ),
+                        ),
+                      ),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context)
@@ -152,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icon(
                           Icons.settings,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   SliverList(
