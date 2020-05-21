@@ -14,7 +14,6 @@ class RecentlyPlayedList extends StatelessWidget {
     final playHistoryProvider = Provider.of<PlayHistoryProvider>(context);
     List<PlayHistory> playHistory;
     playHistory = playHistoryProvider.getRecentlyPlayed;
-
     return Container(
       height: (deviceSize.height) * 0.3880,
       width: double.infinity,

@@ -41,7 +41,7 @@ class ListTileArtist extends StatelessWidget {
         Provider.of<PlayHistory>(context, listen: false);
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(recentlyPlayedArtist.context.image),
+        backgroundImage: NetworkImage(recentlyPlayedArtist.context.image[0]),
       ),
       title: Text(
         recentlyPlayedArtist.context.name,

@@ -5,9 +5,11 @@ import 'package:badges/badges.dart';
 //Importing providers.
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/categories_provider.dart';
+import 'package:spotify/Providers/play_history_provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/widgets/play_history_list_widget.dart';
 import '../../Providers/playable_track.dart';
 import './tab_navigator.dart';
 //Importing Screens.
@@ -78,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<CategoriesProvider>(context, listen: false);
       user = Provider.of<UserProvider>(context, listen: false);
       playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
-      // Provider.of<PlayHistoryProvider>(context, listen: false)
-      //     .fetchRecentlyPlayed(user.token);
+      Provider.of<PlayHistoryProvider>(context, listen: false)
+          .fetchRecentlyPlayed(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchMostRecentAlbums(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
@@ -124,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    PlayHistoryProvider playHistoryProvider=Provider.of<PlayHistoryProvider>(context);
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -198,19 +201,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                            // RecentlyPlayedList(),
-                            PlaylistList(PlaylistCategory.mostRecentPlaylists),
-                            PlaylistList(PlaylistCategory.popularPlaylists),
-                            AlbumList(AlbumCategory.mostRecentAlbums),
-                            AlbumList(AlbumCategory.popularAlbums),
-                            if (categoriesProvider.isPop)
-                              PlaylistList(PlaylistCategory.pop),
-                            if (categoriesProvider.isJazz)
-                              PlaylistList(PlaylistCategory.jazz),
-                            if (categoriesProvider.isArabic)
-                              PlaylistList(PlaylistCategory.arabic),
-                            if (categoriesProvider.isHappy)
-                              PlaylistList(PlaylistCategory.happy),
+                            if(playHistoryProvider.getRecentlyPlayed!=[])RecentlyPlayedList(),
+                            // PlaylistList(PlaylistCategory.mostRecentPlaylists),
+                            // PlaylistList(PlaylistCategory.popularPlaylists),
+                            // AlbumList(AlbumCategory.mostRecentAlbums),
+                            // AlbumList(AlbumCategory.popularAlbums),
+                            // if (categoriesProvider.isPop)
+                            //   PlaylistList(PlaylistCategory.pop),
+                            // if (categoriesProvider.isJazz)
+                            //   PlaylistList(PlaylistCategory.jazz),
+                            // if (categoriesProvider.isArabic)
+                            //   PlaylistList(PlaylistCategory.arabic),
+                            // if (categoriesProvider.isHappy)
+                            //   PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )

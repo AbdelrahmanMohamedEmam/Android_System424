@@ -8,6 +8,7 @@ class PlayHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final playhistory = Provider.of<PlayHistory>(context);
     final deviceSize = MediaQuery.of(context).size;
+
     return InkWell(
       onTap: () {},
       child: Container(
@@ -23,13 +24,13 @@ class PlayHistoryWidget extends StatelessWidget {
                       borderRadius:
                           BorderRadius.circular((deviceSize.width * 0.341) / 2),
                       child: FadeInImage(
-                        image: NetworkImage(playhistory.context.image),
+                        image: NetworkImage(playhistory.context.image[0]),
                         placeholder: AssetImage('assets/images/temp.jpg'),
                         fit: BoxFit.fill,
                       ),
                     )
                   : FadeInImage(
-                      image: NetworkImage(playhistory.context.image),
+                      image: NetworkImage(playhistory.context.image[0]),
                       placeholder: AssetImage('assets/images/temp.jpg'),
                       fit: BoxFit.fill,
                     ),
