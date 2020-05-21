@@ -26,9 +26,9 @@ class PlayHistoryAPI {
         headers: {"authorization": "Bearer " + token},
       );
       if (response.statusCode == 200) {
+        print(response);
         Map<String, dynamic> temp = json.decode(response.body);
-        Map<String, dynamic> temp2 = temp['data'];
-        final extractedList = temp2['items'] as List;
+        final extractedList = temp['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

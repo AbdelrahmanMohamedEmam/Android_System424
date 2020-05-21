@@ -1,6 +1,8 @@
 //Import model files.
 import 'package:spotify/Models/external_url.dart';
 
+import '../utilities.dart';
+
 ///Context object to identify the [PlayHistory] object [Artist],[Album],[Playlist].
 class Context {
   ///Identifier to the type of the context sent, ex:"artist","album","playlist".
@@ -15,7 +17,7 @@ class Context {
   // final List<ExternalUrl> externalUrls;
 
   ///A String url to an image for this context object.
-  final String image;
+  final List<String> image;
 
   ///The name of the context sent according to its type.
   final String name;
@@ -37,7 +39,7 @@ class Context {
       href: json['href'],
       uri: json['uri'],
       //externalUrls: parceExternalUrl(json['externalUrls']),
-      image: json['image'],
+      image: parseString(json['images']),
       name: json['name'],
     );
   }
