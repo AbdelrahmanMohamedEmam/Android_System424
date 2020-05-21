@@ -33,6 +33,7 @@ class User {
   final String becomeArtistToken;
   final String becomeArtistExpires;
   File pickedImage;
+  String firebaseToken;
 
   ///A constructor with named parameters.
   User(

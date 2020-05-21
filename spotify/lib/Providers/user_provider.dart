@@ -42,6 +42,9 @@ class UserProvider with ChangeNotifier {
   ///Contains the token of the user.
   String _token;
 
+  ///Contains the token of the user.
+  String _firebaseToken;
+
   ///Contains the expiry date of the token.
   DateTime _expiryDate;
 
@@ -144,11 +147,8 @@ class UserProvider with ChangeNotifier {
 
     try {
       _user = await userAPI.setUser(_token);
-      await _firebaseMessaging.getToken().then((value) {
-        print(value);
-      });
+      _user.firebaseToken=_firebaseToken;
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -240,10 +240,15 @@ class UserProvider with ChangeNotifier {
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       } else {
+        final firebaseToken = await _firebaseMessaging.getToken();
+        _firebaseToken=firebaseToken;
+
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
+
+        await updateFirebaseToken(_token, firebaseToken);
 
         if (expiryDuration.endsWith('d')) {
           int index = expiryDuration.indexOf('d');
@@ -264,6 +269,7 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
+            'firebaseToken':firebaseToken
           },
         );
         prefs.setString('userData', userData);
@@ -283,14 +289,19 @@ class UserProvider with ChangeNotifier {
     try {
       final responseData = await userAPI.signIn(email, password);
       if (responseData['message'] != null) {
-        print('errorrrr');
         throw HttpException(responseData['message']);
       } else {
-        print('hereeee');
+
+        final firebaseToken = await _firebaseMessaging.getToken();
+
+        _firebaseToken=firebaseToken;
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
         Duration expireAfter;
+
+        await updateFirebaseToken(_token, firebaseToken);
+
         if (expiryDuration.endsWith('d')) {
           int index = expiryDuration.indexOf('d');
           expiryDuration = expiryDuration.substring(0, index);
@@ -309,12 +320,13 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
+            'firebaseToken':firebaseToken
           },
         );
         prefs.setString('userData', userData);
       }
     } catch (error) {
-      print('error last');
+      print(error.toString());
       throw error;
     }
   }
@@ -336,7 +348,7 @@ class UserProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      //print(error.toString());
+      print(error.toString());
       throw error;
     }
   }
@@ -360,10 +372,25 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
+    _firebaseToken=extractedUserData['firebaseToken'];
+
+    final newFirebaseToken = await _firebaseMessaging.getToken();
+    if(newFirebaseToken!=_firebaseToken){
+      _firebaseToken=newFirebaseToken;
+      await updateFirebaseToken(_token, newFirebaseToken);
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode(
+        {
+          'token': _token,
+          'expiryDate': _expiryDate.toIso8601String(),
+          'firebaseToken':newFirebaseToken
+        },
+      );
+      prefs.setString('userData', userData);
+    }
     try {
       await setUser(_token);
-    }catch(error)
-    {
+    } catch (error) {
       print(error.toString());
     }
     notifyListeners();
@@ -482,6 +509,24 @@ class UserProvider with ChangeNotifier {
       if (success) {
         _user.name = userName;
         throw HttpException('Your Name is changed successfully!!');
+      } else {
+        throw HttpException('Something went wrong please try again later!!');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  ///Token must be provided for authentication.
+  ///Firebase token must be provided for update.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> updateFirebaseToken(String userToken, String firebaseToken) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      bool success = await userApi.updateFirebaseToken(userToken, firebaseToken);
+      if (success) {
+        return true;
       } else {
         throw HttpException('Something went wrong please try again later!!');
       }

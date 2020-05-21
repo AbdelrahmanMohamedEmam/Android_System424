@@ -323,4 +323,45 @@ class UserAPI {
       return false;
     }
   }
+
+  ///Sends a request to update the firebase token in the database.
+  ///Email and password must be provided.
+  ///In case of success a status code of 204 is returned.
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> updateFirebaseToken(String userToken, String firebaseToken) async {
+    final url = baseUrl + '/me/notifications/token';
+
+    try {
+      final responseData = await Dio().put(
+        url,
+        options: Options(
+          headers: {
+            "authorization": "Bearer " + userToken,
+          },
+          validateStatus: (_) {
+            return true;
+          },
+          receiveDataWhenStatusError: true,
+        ),
+        data: json.encode(
+          {
+            "type": 'android',
+            "token": firebaseToken
+          },
+        ),
+      );
+
+      print('updateResponse: ' + responseData.statusCode.toString());
+      if (responseData.statusCode != 204) {
+        throw HttpException(json.decode(responseData.data)['message']);
+      } else {
+        print(responseData.data);
+        return true;
+      }
+    } catch (error) {
+      print(error.toString());
+      throw error;
+    }
+  }
 }

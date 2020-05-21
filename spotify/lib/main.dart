@@ -8,6 +8,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
+import 'Providers/notification_provider.dart';
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
@@ -104,6 +105,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: CategoriesProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
+          value: NotificationProvider(baseUrl: url),
         )
       ],
       child: Consumer<UserProvider>(

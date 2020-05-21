@@ -7,6 +7,7 @@ import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
 import 'package:spotify/Screens/MainApp/library_screen.dart';
 import 'package:spotify/Screens/MainApp/premium_screen.dart';
+import 'package:spotify/Screens/MainApp/recent_activities_screen.dart';
 import '../../Screens/ArtistMode/my_music_screen.dart';
 import '../../Screens/ArtistMode/add_album_screen.dart';
 import '../../Screens/ArtistMode/add_song_screen.dart';
@@ -53,6 +54,7 @@ class TabNavigatorRoutes {
   static const String changePasswordScreen = '//changePasswordScreen';
   static const String recentlyPlayedArtistsScreen =
       '//recentlyPlayedArtistsScreen';
+  static const String recentActivitiesScreen = '//recentActivitiesScreen';
   static const String myMusicScreen = '//my_music_screen';
   static const String addAlbumScreen = '//add_album_screen';
   static const String addSongScreen = '//add_song_screen';
@@ -93,6 +95,8 @@ class TabNavigator extends StatelessWidget {
             ChangePasswordScreen(),
         TabNavigatorRoutes.recentlyPlayedArtistsScreen: (context) =>
             RecentlyPlayedArtistsScreen(),
+        TabNavigatorRoutes.recentActivitiesScreen: (context) =>
+            RecentActivitiesScreen(),
       };
     } else if (tabItem == TabItem.search) {
       return {
