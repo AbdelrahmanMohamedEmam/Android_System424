@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import '../Models/track.dart';
 
@@ -24,7 +25,8 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
         height: deviceSize.height * 0.1,
         child: InkWell(
           onTap: () {
-            track.setCurrentSong(song,user.isUserPremium());
+            track.setCurrentSong(song,user.isUserPremium(),user.token);
+            Navigator.pop(context);
           },
           child: ListTile(
             leading: Image.network(song.album.image),

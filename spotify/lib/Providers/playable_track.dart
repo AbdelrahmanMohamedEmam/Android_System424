@@ -5,6 +5,8 @@ import 'dart:math';
 ///Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
 import 'package:spotify/API_Providers/trackAPI.dart';
+import 'package:spotify/Models/album.dart';
+import 'package:spotify/Models/artist.dart';
 import 'package:spotify/utilities.dart';
 
 ///Import Models.
@@ -33,6 +35,9 @@ class PlayableTrackProvider with ChangeNotifier {
   ///Index of track to be played
   int indexOfTrack;
 
+  ///Track containing the ad
+  Track advertisement;
+
 
   void setTracksToBePlayed (List<Track> tracksToAdd)
   {
@@ -41,28 +46,33 @@ class PlayableTrackProvider with ChangeNotifier {
   }
 
 
+  void playAd() {
+      currentSong = advertisement;
+      _waitingSong = true;
+      notifyListeners();
+  }
+
 
   ///Setting the song to requested to be played.
-  void setCurrentSong(Track song, bool isPremium) {
+  void setCurrentSong(Track song, bool isPremium, String token) {
     if(isPremium) {
-
       currentSong = song;
       _waitingSong = true;
       notifyListeners();
     }
     else {
-      final id=shuffledTracksIDs[indexOfTrack];
-      final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
-      print('INDEX'+index.toString());
-      print(tracksToBePlayed[index].name);
-      currentSong = tracksToBePlayed[index];
-      _waitingSong = true;
-      indexOfTrack++;
-      if(indexOfTrack>=tracksToBePlayed.length)
-        {
-          indexOfTrack=0;
+        final id = shuffledTracksIDs[indexOfTrack];
+        final index = tracksToBePlayed.indexWhere((track) => track.id == id);
+        print('INDEX' + index.toString());
+        print(tracksToBePlayed[index].name);
+        currentSong = tracksToBePlayed[index];
+        _waitingSong = true;
+        indexOfTrack++;
+        if (indexOfTrack >= tracksToBePlayed.length) {
+          indexOfTrack = 0;
         }
       notifyListeners();
+
     }
   }
 
@@ -134,6 +144,7 @@ class PlayableTrackProvider with ChangeNotifier {
     try {
       final response = await trackAPI.likeTrack(token, song.id);
       likedTracks.add(song);
+      notifyListeners();
       return response;
     }catch (error){
       throw error;
@@ -151,6 +162,7 @@ class PlayableTrackProvider with ChangeNotifier {
           {
             likedTracks.removeAt(index);
           }
+        notifyListeners();
         return response;
       }
     }catch (error){
@@ -172,18 +184,22 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.nextTrack(token);
-      //final response = await trackAPI.finishedTrack(token);
       if(response==true){
         final id=shuffledTracksIDs[indexOfTrack];
         final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
-        print('INDEX'+index.toString());
-        print(tracksToBePlayed[index].name);
-        currentSong = tracksToBePlayed[index];
-        _waitingSong = true;
-        indexOfTrack++;
-        if(indexOfTrack>=tracksToBePlayed.length)
-        {
-          indexOfTrack=0;
+        final checkAd = await checkIfAd(tracksToBePlayed[index], token);
+        if (!checkAd) {
+          print(tracksToBePlayed[index].id);
+          currentSong = tracksToBePlayed[index];
+          _waitingSong = true;
+          indexOfTrack++;
+          if (indexOfTrack >= tracksToBePlayed.length) {
+            indexOfTrack = 0;
+          }
+        }else{
+          await adTrack(token);
+          currentSong = advertisement;
+          _waitingSong = true;
         }
         notifyListeners();
         return true;
@@ -196,11 +212,13 @@ class PlayableTrackProvider with ChangeNotifier {
   }
 
 
+
+
+
   Future<bool> playPreviousTrack(String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.previousTrack(token);
-      //final response = await trackAPI.finishedTrack(token);
       if(response==true){
         indexOfTrack=indexOfTrack-2;
         print('indexx'+indexOfTrack.toString());
@@ -237,20 +255,28 @@ class PlayableTrackProvider with ChangeNotifier {
   Future<bool> finishedTrack(String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
-      final response = await trackAPI.finishedTrack(token);
+      if(!currentSong.isAd) {
+        final response = await trackAPI.finishedTrack(token);
+      }
       final id=shuffledTracksIDs[indexOfTrack];
       final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
       print('INDEX'+index.toString());
-      print(tracksToBePlayed[index].name);
-      currentSong = tracksToBePlayed[index];
-      _waitingSong = true;
-      indexOfTrack++;
-      if(indexOfTrack>=tracksToBePlayed.length)
-      {
-        indexOfTrack=0;
+      final checkAd = await checkIfAd(tracksToBePlayed[index], token);
+      if (!checkAd) {
+        print(tracksToBePlayed[index].id);
+        currentSong = tracksToBePlayed[index];
+        _waitingSong = true;
+        indexOfTrack++;
+        if (indexOfTrack >= tracksToBePlayed.length) {
+          indexOfTrack = 0;
+        }
+      }else{
+        await adTrack(token);
+        currentSong = advertisement;
+        _waitingSong = true;
       }
-      notifyListeners();
-      return response;
+        notifyListeners();
+        return true;
     }catch (error){
       throw error;
     }
@@ -260,10 +286,8 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final extractedList = await trackAPI.shuffledTrackList(token,id,type);
-      //print('passed');
       shuffledTracksIDs.clear();
       for(int i=0; i<extractedList.length; i++) {
-       // print(extractedList[i].toString());
         shuffledTracksIDs.add(extractedList[i].toString());
       }
     }catch(error){
@@ -271,15 +295,56 @@ class PlayableTrackProvider with ChangeNotifier {
     }
   }
 
-  Future<List<dynamic>> adTrack(String token) async {
+  Future<void> adTrack(String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.adTrack(token);
+      advertisement=new Track(
+        isAd: true,
+        id: '1',
+        href: response['href'],
+        artists:  [new Artist(
+          id: '5',
+        name: 'MOSTASHFA',
+        )],
+        name: '57375',
+        trackNumber: 0,
+        album: new Album(
+          name: 'RAMADAN ADS',
+          artists: [new Artist(
+            id: '5',
+            name: 'MOSTASHFA',
+          )],
+          id: '1',
+          href: 'https://totallynotspotify.codes/api/tracks/5ec459bbe84eaf30fccf46db',
+          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU',
+          images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU'],
+        )
+
+      );
     }catch(error){
       print(error.toString());
     }
 
   }
+
+
+  Future <bool> checkIfAd (Track song, String token)async {
+    TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
+    try {
+      final response = await trackAPI.checkIfAd(song, token);
+      if(response==true){
+        await trackAPI.adTrack(token);
+        return true;
+      }
+      return false;
+    }catch(error){
+      print(error.toString());
+      throw error;
+    }
+  }
+
+
 
 
 

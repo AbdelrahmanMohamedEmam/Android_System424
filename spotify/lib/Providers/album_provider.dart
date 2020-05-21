@@ -164,8 +164,8 @@ class AlbumProvider with ChangeNotifier {
   }
 
   ///A method that uploads new song in artist mode.
-  Future<bool> uploadSong(
-      String token, String songName, String path, String id) async {
+  Future<bool> uploadSong(String token, String songName, String path,
+      String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadSongApi(token, songName, path, id);
@@ -177,8 +177,8 @@ class AlbumProvider with ChangeNotifier {
 
   ///A method that fetches for a tracks for a certain album in the albums List according to the [AlbumCategory].
   ///It takes a [string] token for verification and id for identification,[AlbumCategory] to identify which list to add in.
-  Future<void> fetchAlbumsTracksById(
-      String id, String token, AlbumCategory albumCategory) async {
+  Future<void> fetchAlbumsTracksById(String id, String token,
+      AlbumCategory albumCategory) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       final List<Track> loadedTracks = [];
@@ -191,7 +191,7 @@ class AlbumProvider with ChangeNotifier {
           }
           album.tracks = loadedTracks;
           final albumIndex =
-              _mostrecentAlbums.indexWhere((album) => album.id == id);
+          _mostrecentAlbums.indexWhere((album) => album.id == id);
           _mostrecentAlbums.removeAt(albumIndex);
           album.isFetched = true;
           _mostrecentAlbums.insert(albumIndex, album);
@@ -208,7 +208,7 @@ class AlbumProvider with ChangeNotifier {
           }
           album.tracks = loadedTracks;
           final albumIndex =
-              _popularAlbums.indexWhere((album) => album.id == id);
+          _popularAlbums.indexWhere((album) => album.id == id);
           _popularAlbums.removeAt(albumIndex);
           album.isFetched = true;
           _popularAlbums.insert(albumIndex, album);
@@ -234,6 +234,28 @@ class AlbumProvider with ChangeNotifier {
       }
     } catch (error) {
       throw HttpException(error.toString());
+    }
+  }
+
+
+  List<Track> getPlayableTracks(String id, AlbumCategory category) {
+    print('playlist id:' + id);
+    if (category == AlbumCategory.artist) {
+      final index = artistAlbums.indexWhere((playlist) => playlist.id == id);
+      return artistAlbums[index].tracks;
+    }
+    else if (category == AlbumCategory.mostRecentAlbums) {
+      final index = _mostrecentAlbums.indexWhere((playlist) =>
+      playlist.id == id);
+      return _mostrecentAlbums[index].tracks;
+    }
+    else if (category == AlbumCategory.myAlbums) {
+      final index = _myAlbums.indexWhere((playlist) => playlist.id == id);
+      return _myAlbums[index].tracks;
+    }
+    else if (category == AlbumCategory.popularAlbums) {
+      final index = _popularAlbums.indexWhere((playlist) => playlist.id == id);
+      return _popularAlbums[index].tracks;
     }
   }
 }

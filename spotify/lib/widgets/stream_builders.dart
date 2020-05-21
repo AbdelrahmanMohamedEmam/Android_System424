@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import '../widgets/seekBar.dart';
 
 ///It is used to provide the [PanelSeekBar] with the needed data about the track.
-StreamBuilder panelBar(AudioPlayer _player) {
+StreamBuilder panelBar(AudioPlayer _player, Function() toRefresh) {
   return StreamBuilder<Duration>(
     stream: _player.durationStream,
     builder: (context, snapshot) {
@@ -14,6 +14,9 @@ StreamBuilder panelBar(AudioPlayer _player) {
           var position = snapshot.data ?? Duration.zero;
           if (position > duration) {
             position = duration;
+          }
+          if(position==duration && duration != Duration.zero){
+            toRefresh();
           }
           return PanelSeekBar(
             duration: duration,

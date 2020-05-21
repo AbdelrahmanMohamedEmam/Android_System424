@@ -58,7 +58,7 @@ class LoadingAlbumsWidget extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AlbumsListScreen(
                   albumType: AlbumCategory.artist,
-                  albumtId: album.id,
+                  albumId: album.id,
                 )));
       },
     );

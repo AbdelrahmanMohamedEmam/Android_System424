@@ -46,6 +46,14 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as happy playlists.
   List<Playlist> _happyPlaylists = [];
 
+  ///List of playlist objects categorized as happy playlists.
+  List<Track> _playableTracks = [];
+
+  ///A method(getter) that returns a list of tracks (playableTracks).
+  List<Track> get getToPlayTracks {
+    return [..._playableTracks];
+  }
+
   ///A method(getter) that returns a list of playlists (most Recent Playlists).
   List<Playlist> get getMostRecentPlaylists {
     return [..._mostRecentPlaylists];
@@ -422,30 +430,37 @@ class PlaylistProvider with ChangeNotifier {
     print('playlist id:' + id);
     if(category==PlaylistCategory.arabic){
       final index=_arabicPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_arabicPlaylists[index].tracks;
       return _arabicPlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.artist){
       final index=_artistProfilePlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_artistProfilePlaylists[index].tracks;
       return _artistProfilePlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.pop){
       final index=_popPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_popPlaylists[index].tracks;
       return _popPlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.happy){
       final index=_happyPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_happyPlaylists[index].tracks;
       return _happyPlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.jazz){
       final index=_jazzPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_jazzPlaylists[index].tracks;
       return _jazzPlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.mostRecentPlaylists){
       final index=_mostRecentPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_mostRecentPlaylists[index].tracks;
       return _mostRecentPlaylists[index].tracks;
     }
     else if(category==PlaylistCategory.popularPlaylists){
       final index=_popularPlaylists.indexWhere((playlist)=>playlist.id==id);
+      _playableTracks=_popularPlaylists[index].tracks;
       return _popularPlaylists[index].tracks;
     }
   }

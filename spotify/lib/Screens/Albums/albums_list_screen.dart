@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/album.dart';
+import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class AlbumsListScreen extends StatefulWidget {
   final AlbumCategory albumType;
-  final String albumtId;
-  AlbumsListScreen({this.albumType, this.albumtId});
+  final String albumId;
+  AlbumsListScreen({this.albumType, this.albumId});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
 }
@@ -28,19 +30,22 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   void didChangeDependencies() {
     user = Provider.of<UserProvider>(context);
     Provider.of<AlbumProvider>(context, listen: false)
-        .fetchAlbumsTracksById(widget.albumtId, user.token, widget.albumType)
+        .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
         .then((_) {
       setState(() {
         _isLoading = false;
+        List<Track> toAdd=Provider.of<AlbumProvider>(context, listen: false)
+            .getPlayableTracks(widget.albumId, widget.albumType);
+        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMostRecentAlbumsId(widget.albumtId);
+              .getMostRecentAlbumsId(widget.albumId);
         } else if (widget.albumType == AlbumCategory.popularAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getPopularAlbumsId(widget.albumtId);
+              .getPopularAlbumsId(widget.albumId);
         } else if (widget.albumType == AlbumCategory.artist) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMyAlbumId(widget.albumtId);
+              .getMyAlbumId(widget.albumId);
         }
       });
     });
