@@ -18,6 +18,7 @@ class AlbumWidget extends StatelessWidget {
             builder: (context) => AlbumsListScreen(
               albumType: albumCategory,
               albumId: album.id,
+              artistName: "",
             ),
           ),
         );

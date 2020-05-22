@@ -13,12 +13,14 @@ class TrackItemWidget extends StatelessWidget {
 
     return ListTile(
       onTap: () {
+        FocusScope.of(context).unfocus();
         albumProvider.setSearchAlbum(track.album);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AlbumsListScreen(
               albumType: AlbumCategory.search,
               albumId: track.album.id,
+              artistName: track.artists[0].name,
             ),
           ),
         );

@@ -11,7 +11,8 @@ import 'package:palette_generator/palette_generator.dart';
 class AlbumsListScreen extends StatefulWidget {
   final AlbumCategory albumType;
   final String albumId;
-  AlbumsListScreen({this.albumType, this.albumId});
+  String artistName;
+  AlbumsListScreen({this.albumType, this.albumId, this.artistName});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
 }
@@ -35,9 +36,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         .then((_) {
       setState(() {
         _isLoading = false;
-        List<Track> toAdd=Provider.of<AlbumProvider>(context, listen: false)
+        List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
             .getPlayableTracks(widget.albumId, widget.albumType);
-        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
+        Provider.of<PlayableTrackProvider>(context, listen: false)
+            .setTracksToBePlayed(toAdd);
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMostRecentAlbumsId(widget.albumId);
@@ -59,6 +61,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   ///Initialization.
   @override
   void initState() {
+    String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    Provider.of<PlayableTrackProvider>(context, listen: false)
+        .shuffledTrackList(userToken, widget.albumId, 'album');
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
     colorGenerated = false;
@@ -192,10 +197,13 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
                             child: Text(
-                              'Album by ' +
-                                  "amr diab"/*albums.artists[0].name*/ +
-                                  '.' +
-                                  albums.releaseDate.substring(0, 4),
+                              widget.artistName == ""
+                                  ? 'Album by ' +
+                                      albums.artists[0].name +
+                                      albums.releaseDate.substring(0, 4)
+                                  : 'Album by ' +
+                                      widget.artistName +
+                                      albums.releaseDate.substring(0, 4),
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,

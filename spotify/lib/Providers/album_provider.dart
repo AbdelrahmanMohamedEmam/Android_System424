@@ -296,5 +296,9 @@ class AlbumProvider with ChangeNotifier {
       final index = _popularAlbums.indexWhere((playlist) => playlist.id == id);
       return _popularAlbums[index].tracks;
     }
+        else if (category == AlbumCategory.search) {
+      final index = searchedAlbums.indexWhere((playlist) => playlist.id == id);
+      return searchedAlbums[index].tracks;
+    }
   }
 }
