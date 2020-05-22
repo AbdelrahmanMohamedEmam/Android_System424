@@ -30,7 +30,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   @override
   void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
-    await Provider.of<AlbumProvider>(context, listen: false)
+    Provider.of<AlbumProvider>(context, listen: false)
         .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
         .then((_) {
       setState(() {

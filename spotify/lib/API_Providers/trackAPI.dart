@@ -178,7 +178,6 @@ class TrackAPI {
             }),
       );
       print('Finished Track code:' + responseData.statusCode.toString());
-      print(responseData.data);
       if (responseData.statusCode == 204) {
         return true;
       } else {
@@ -222,8 +221,6 @@ class TrackAPI {
         baseUrl + '/me/player/ad',
         headers: {"authorization": "Bearer " + token},
       );
-      print('adTrack:' + responseData.statusCode.toString());
-      print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
@@ -257,7 +254,8 @@ class TrackAPI {
       print(error.toString());
       throw HttpException(error.toString());
     }
-      }
+  }
+
   Future<bool> checkIfAd(Track song, String token) async {
     try {
       final response = await Dio().get(
