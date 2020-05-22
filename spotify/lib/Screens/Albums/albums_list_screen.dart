@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/album.dart';
+import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class AlbumsListScreen extends StatefulWidget {
   final AlbumCategory albumType;
-  final String albumtId;
-  AlbumsListScreen({this.albumType, this.albumtId});
+  final String albumId;
+  AlbumsListScreen({this.albumType, this.albumId});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
 }
@@ -24,23 +26,30 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
+
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
-    Provider.of<AlbumProvider>(context, listen: false)
-        .fetchAlbumsTracksById(widget.albumtId, user.token, widget.albumType)
+    await Provider.of<AlbumProvider>(context, listen: false)
+        .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
         .then((_) {
       setState(() {
         _isLoading = false;
+        List<Track> toAdd=Provider.of<AlbumProvider>(context, listen: false)
+            .getPlayableTracks(widget.albumId, widget.albumType);
+        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMostRecentAlbumsId(widget.albumtId);
+              .getMostRecentAlbumsId(widget.albumId);
         } else if (widget.albumType == AlbumCategory.popularAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getPopularAlbumsId(widget.albumtId);
+              .getPopularAlbumsId(widget.albumId);
         } else if (widget.albumType == AlbumCategory.artist) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMyAlbumId(widget.albumtId);
+              .getMyAlbumId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.search) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getSearchedAlbumsId(widget.albumId);
         }
       });
     });
@@ -184,7 +193,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             padding: EdgeInsets.only(top: 7),
                             child: Text(
                               'Album by ' +
-                                  albums.artists[0].name +
+                                  "amr diab"/*albums.artists[0].name*/ +
                                   '.' +
                                   albums.releaseDate.substring(0, 4),
                               style:

@@ -10,6 +10,7 @@ class UserEditProfileScreen extends StatefulWidget {
 }
 
 class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
+  bool changed = false;
   final userNameEditingController = TextEditingController();
 
   @override
@@ -28,18 +29,26 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         ),
         actions: <Widget>[
           FlatButton(
-            onPressed: () async  {
-              try
-              {
-                await user.changeUserName(user.token, user.userEmail,userNameEditingController.text , user.userGender, user.userDateOfBirth);
-              } catch(error)
-              {
+            onPressed: () async {
+              try {
+                await user.changeUserName(
+                    user.token,
+                    user.userEmail,
+                    userNameEditingController.text,
+                    user.userGender,
+                    user.userDateOfBirth);
+              } catch (error) {
                 _showErrorDialog(error.toString());
               }
+              setState(() {
+                changed = false;
+              });
             },
             child: Text(
               'SAVE',
-              style: TextStyle(color: Colors.grey),
+              style: changed == true
+                  ? TextStyle(color: Colors.white)
+                  : TextStyle(color: Colors.grey),
             ),
           ),
         ],
@@ -56,6 +65,11 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
           Container(
             width: 350,
             child: TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  changed = true;
+                });
+              },
               enabled: true,
               style: TextStyle(
                 color: Colors.white,
@@ -116,7 +130,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     );
   }
 
-    void _showErrorDialog(String message) {
+  void _showErrorDialog(String message) {
     showDialog(
       barrierDismissible: false,
       context: context,

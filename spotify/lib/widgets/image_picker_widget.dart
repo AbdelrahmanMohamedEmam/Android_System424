@@ -63,7 +63,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             },
             child: Text(
               'CHANGE PHOTO',
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ),

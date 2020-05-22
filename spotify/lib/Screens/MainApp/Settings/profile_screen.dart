@@ -43,10 +43,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             centerTitle: true,
             actions: <Widget>[
-              Icon(
-                Icons.more_vert,
-                color: Colors.grey,
-              )
+              // Icon(
+              //   Icons.more_vert,
+              //   color: Colors.grey,
+              // )
             ],
             expandedHeight: deviceSize.height * 0.440,
             flexibleSpace: FlexibleSpaceBar(

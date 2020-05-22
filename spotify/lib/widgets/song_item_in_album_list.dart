@@ -27,7 +27,8 @@ class _SongItemAlbumListState extends State<SongItemAlbumList> {
         height: deviceSize.height * 0.1,
         child: InkWell(
           onTap: () {
-            track.setCurrentSong(song, user.isUserPremium());
+            track.setCurrentSong(song, user.isUserPremium(), user.token);
+            Navigator.pop(context);
           },
           child: ListTile(
             leading: Image.network(widget.imgURL),

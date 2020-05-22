@@ -100,27 +100,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.white,
               ),
             ),
-            ListTile(
-              // onTap: () {},
-              title: Text(
-                'Notifications',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              subtitle: Text(
-                'Choose which notifications to recieve.',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+            // ListTile(
+            //   // onTap: () {},
+            //   title: Text(
+            //     'Notifications',
+            //     style: TextStyle(
+            //       color: Colors.grey,
+            //     ),
+            //   ),
+            //   subtitle: Text(
+            //     'Choose which notifications to recieve.',
+            //     style: TextStyle(
+            //       color: Colors.grey,
+            //     ),
+            //   ),
+            // ),
             ListTile(
               onTap: () {
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();
-                //while (Navigator.of(context).canPop()) Navigator.pop(context);
                 Phoenix.rebirth(context);
               },
               title: Text(

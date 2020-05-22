@@ -46,6 +46,9 @@ class Track with ChangeNotifier {
   ///Integer number indicates Track popularity.
   final int popularity;
 
+  ///bool indicates is the Track an advertisement or a normal track.
+  final bool isAd;
+
   ///A constructor with named parameters.
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
@@ -64,6 +67,7 @@ class Track with ChangeNotifier {
     this.uri,
     this.href,
     this.popularity,
+    this.isAd,
   });
 
   ///A factory method to decode the Json user into a track object.
@@ -82,6 +86,7 @@ class Track with ChangeNotifier {
       uri: json['uri'],
       href: json['href'],
       popularity: json['popularity'],
+      isAd : json['isAd']
     );
   }
 }

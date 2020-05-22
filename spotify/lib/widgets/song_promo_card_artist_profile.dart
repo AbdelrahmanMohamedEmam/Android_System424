@@ -66,7 +66,7 @@ class _SongPromoCardState extends State<SongPromoCard> {
         ],
       ),
       onTap: () {
-        playabletrack.setCurrentSong(trackProvider,user.isUserPremium());
+        playabletrack.setCurrentSong(trackProvider,user.isUserPremium(),user.token);
         //Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
       },
     );

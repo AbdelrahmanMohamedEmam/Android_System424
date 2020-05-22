@@ -55,7 +55,7 @@ class Artist with ChangeNotifier {
       href: json['href'],
       id: json['_id'],
       images: parseString(json['images']),
-      name: json['name'],
+      name: json['name']==null?"": json['name'],
       type: json['role'],
       uri: json['uri'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),

@@ -126,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    PlayHistoryProvider playHistoryProvider=Provider.of<PlayHistoryProvider>(context);
+    PlayHistoryProvider playHistoryProvider =
+        Provider.of<PlayHistoryProvider>(context);
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 TabNavigatorRoutes.recentActivitiesScreen);
                           },
                           icon: Icon(
-                            Icons.flash_on,
+                            Icons.notifications,
                           ),
                         ),
                       ),
@@ -201,22 +202,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                            if(playHistoryProvider.getRecentlyPlayed!=[])RecentlyPlayedList(),
-                            // PlaylistList(PlaylistCategory.mostRecentPlaylists),
-                            // PlaylistList(PlaylistCategory.popularPlaylists),
-                            // AlbumList(AlbumCategory.mostRecentAlbums),
-                            // AlbumList(AlbumCategory.popularAlbums),
-                            // if (categoriesProvider.isPop)
-                            //   PlaylistList(PlaylistCategory.pop),
-                            // if (categoriesProvider.isJazz)
-                            //   PlaylistList(PlaylistCategory.jazz),
-                            // if (categoriesProvider.isArabic)
-                            //   PlaylistList(PlaylistCategory.arabic),
-                            // if (categoriesProvider.isHappy)
-                            //   PlaylistList(PlaylistCategory.happy),
+                            if (playHistoryProvider.getRecentlyPlayed != [])
+                              RecentlyPlayedList(),
+                            PlaylistList(PlaylistCategory.mostRecentPlaylists),
+                            PlaylistList(PlaylistCategory.popularPlaylists),
+                            AlbumList(AlbumCategory.mostRecentAlbums),
+                            AlbumList(AlbumCategory.popularAlbums),
+                            if (categoriesProvider.isPop)
+                              PlaylistList(PlaylistCategory.pop),
+                            if (categoriesProvider.isJazz)
+                              PlaylistList(PlaylistCategory.jazz),
+                            if (categoriesProvider.isArabic)
+                              PlaylistList(PlaylistCategory.arabic),
+                            if (categoriesProvider.isHappy)
+                              PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
-                            )
+                            ),
                           ],
                         );
                       },

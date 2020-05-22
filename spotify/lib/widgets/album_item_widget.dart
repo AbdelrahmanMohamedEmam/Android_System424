@@ -17,7 +17,7 @@ class AlbumWidget extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => AlbumsListScreen(
               albumType: albumCategory,
-              albumtId: album.id,
+              albumId: album.id,
             ),
           ),
         );
