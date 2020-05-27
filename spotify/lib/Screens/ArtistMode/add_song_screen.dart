@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 //import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import '../../Providers/user_provider.dart';
 
 class AddSongScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
       content: Text(message),
     ));
   }*/
-  /*void _openFileExplorer() async {
+  void _openFileExplorer() async {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
@@ -68,8 +69,8 @@ class _AddSongScreenState extends State<AddSongScreen> {
         _fileName = _path != null ? _path.split('/').last  : '...';
       });
     }
-  }*/
-  /*void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
+  }
+  void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
   {
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
@@ -80,16 +81,12 @@ class _AddSongScreenState extends State<AddSongScreen> {
         Navigator.of(context).pop();
       }
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context, listen: false).token;
-    final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    //id = routeArgs["id"];
-    //String albumId = 'hjdksksl';
     return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
@@ -130,7 +127,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                   padding: EdgeInsets.only(
                       top: deviceSize.width * 0.03, bottom: 0.05),
                   child: new RaisedButton(
-                    //onPressed: () => _openFileExplorer(),
+                    onPressed: () => _openFileExplorer(),
                     child: new Text(
                       "Open file picker",
                       style: TextStyle(color: Colors.grey),
@@ -178,7 +175,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                   color: Colors.green,
                   child: IconButton(
                     focusColor: Colors.white,
-                    //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
+                    onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,widget.id),
                     icon: Icon(
                       Icons.add,
                     ),

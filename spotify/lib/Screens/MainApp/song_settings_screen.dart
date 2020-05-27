@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
 import '../../Models/track.dart';
@@ -34,6 +37,13 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('nddjkd');
+    print(widget.song.artists[0].name);
+    print(widget.song.artists[0].type);
+    print(widget.song.artists[0].id);
+    //print(widget.song.artists[0].followers);
+    print(widget.song.artists[0].images[0]);
+    //print(json.decode(widget.song.artists));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
@@ -173,6 +183,14 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                                 ))
                           ],
                         ),
+                        onTap: () {
+                          print(widget.song.artists[0].id);
+                          Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ArtistProfileScreen(
+                              id: widget.song.artists[0].id,
+                            )));
+                        }
                       ),
                     ),
                     Container(

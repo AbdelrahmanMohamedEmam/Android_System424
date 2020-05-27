@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Screens/Albums/albums_list_screen.dart';
+import 'package:spotify/Screens/ArtistMode/edit_song.dart';
+import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
 import '../Screens/MainApp/tab_navigator.dart';
 //import '../Providers/album_provider.dart';
-import '../Screens/ArtistMode/add_song_screen.dart';
+//import '../Screens/ArtistMode/add_song_screen.dart';
 
-// This is the type used by the popup menu below.
-enum choosed { delete, add_song, edit }
 
 class ArtistModeAlbums extends StatefulWidget {
   @override
@@ -14,55 +16,57 @@ class ArtistModeAlbums extends StatefulWidget {
 }
 
 class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
+  /// variable to save the id of the album to edit or add song
   String id;
-  void _goToStats(
-    BuildContext ctx,
-  ) {
+
+  void _goToStats(BuildContext ctx,) {
     Navigator.of(ctx).pushNamed(
       '/stats_screen',
     );
   }
 
   void _goToAddSong(BuildContext ctx, String id) {
+    print(id);
     Navigator.of(ctx).pushNamed(TabNavigatorRoutes.addSongScreen, arguments: {
       "id": id,
     });
   }
 
-  /*void choosedAction(choosed result ,) //String id)
-  {
-    if (result == choosed.delete)
-      {
-        _goToStats(context);
-      }
-    else if(result == choosed.edit)
-      {
-        _goToStats(context);
-      }
-    else {
-       _goToAddSong(context, id);
-    }
-  }*/
+  void _goToEditAlbum(BuildContext ctx, String id) {
+    print(id);
+    Navigator.of(ctx).pushNamed(TabNavigatorRoutes.editAlbumScreen, arguments: {
+      "id": id,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final album = Provider.of<Album>(context);
     id = album.id;
+    var img = album.image;
     return Container(
-      width: deviceSize.width * 0.7,
-      margin: EdgeInsets.only(right: deviceSize.width * 0.1),
+      width: deviceSize.width,
+      //margin: EdgeInsets.only(right: deviceSize.width * 0.1),
       child: InkWell(
         child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(10),
-              child: Image.network(
+              child: FadeInImage(
+                height: deviceSize.height * 0.13,
+                width: deviceSize.width * 0.2,
+                fit: BoxFit.fill,
+                placeholder: AssetImage('assets/images/temp.jpg'),
+                image: NetworkImage(album.image ),
+              ),
+              /*Image.network(
                 album.image,
                 height: deviceSize.height * 0.13,
                 width: deviceSize.width * 0.2,
                 fit: BoxFit.fill,
-              ),
+              ),*/
+
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,11 +85,14 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       //Icon(Icons.shuffle , color: Colors.grey, ),
-                      Text(
-                        album.type,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
+                      Container(
+                        width: deviceSize.width*0.55,
+                        child: Text(
+                          album.type,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ],
@@ -93,9 +100,27 @@ class _ArtistModeAlbumsState extends State<ArtistModeAlbums> {
                 ),
               ],
             ),
+            //SizedBox(
+             // width: deviceSize.width*0.4,
+            //),
+            IconButton(
+              icon: Icon(Icons.edit),
+              color: Colors.grey,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditAlbum(id :id )));
+              }
+            ),
           ],
         ),
-        onTap: () => _goToAddSong(context, '5e8d0cc31e36896fbd0ad33b'),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AlbumsListScreen(
+                albumType: AlbumCategory.myAlbums,
+                albumId: "5e90e8fbe1451e424477b131",
+                artistName: "",
+              )));
+        },
       ),
     );
   }

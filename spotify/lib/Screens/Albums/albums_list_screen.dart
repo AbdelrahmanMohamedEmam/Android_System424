@@ -5,6 +5,8 @@ import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
+import 'package:spotify/widgets/song_card_artist_mode.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -27,6 +29,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
+  bool isArtist = false;
 
   @override
   void didChangeDependencies() async {
@@ -52,6 +55,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         } else if (widget.albumType == AlbumCategory.search) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getSearchedAlbumsId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.myAlbums) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMyAlbumId(widget.albumId);
         }
       });
     });
@@ -62,6 +68,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   @override
   void initState() {
     String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    if(widget.albumType == AlbumCategory.myAlbums)
+      {
+        isArtist = true;
+        //albums = Provider.of<AlbumProvider>(context, listen: false)
+          //  .getMyAlbumId(widget.albumId);
+      }
+    else
+      {
+        isArtist = false;
+      }
     Provider.of<PlayableTrackProvider>(context, listen: false)
         .shuffledTrackList(userToken, widget.albumId, 'album');
     _scrollController = ScrollController();
@@ -99,6 +115,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
               title: Text(
                 'Album',
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon:
+                  Icon(Icons.library_add, color: Colors.white54),
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddSongScreen(id: widget.albumId,
+                      ))),
+                  iconSize: 26,
+                )
+              ],
               centerTitle: true,
             ),
             body: Center(
@@ -123,13 +149,22 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     centerTitle: true,
                     backgroundColor: background,
                     actions: <Widget>[
-                      IconButton(
+                      isArtist?
+                        IconButton(
+                        icon:
+                            Icon(Icons.library_add, color: Colors.white54),
+                              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => AddSongScreen(id: widget.albumId,
+                                  ))),
+                              iconSize: 26,
+                        )
+                          : IconButton(
                         icon:
                             Icon(Icons.favorite_border, color: Colors.white54),
                         onPressed: null,
                         iconSize: 26,
                       ),
-                      PopupMenuButton(
+                      isArtist? Container() :PopupMenuButton(
                         enabled: false,
                         itemBuilder: (_) => [],
                         icon: Icon(Icons.more_vert, color: Colors.white54),
@@ -162,7 +197,8 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             ),
                             padding: EdgeInsets.only(bottom: 15),
                           ),
-                          Container(
+                          isArtist? Container()
+                              : Container(
                             height: 22,
                             width: 160,
                             child: Container(
@@ -217,7 +253,8 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                         offset: Offset(0, 0),
                         child: Container(
                           width: 190.0,
-                          child: FloatingActionButton(
+                          child: isArtist ? Container()
+                              :FloatingActionButton(
                             onPressed: null,
                             backgroundColor: Colors.green,
                             shape: RoundedRectangleBorder(
@@ -237,7 +274,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           children: <Widget>[
                             ChangeNotifierProvider.value(
                               value: albums.tracks[index],
-                              child: SongItemPlaylistList(),
+                              child: isArtist? SongItemArtistMode(albumId: widget.albumId) :SongItemPlaylistList(),
                             ),
                           ],
                         );

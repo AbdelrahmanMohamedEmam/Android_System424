@@ -7,6 +7,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
 import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import 'Providers/notification_provider.dart';
 import 'Providers/play_history_provider.dart';
@@ -14,7 +15,8 @@ import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 import 'Providers/album_provider.dart';
 import './Providers/artist_provider.dart';
-
+import './Providers/charts_provider.dart';
+import 'Screens/ArtistMode/edit_song.dart';
 ///Importing screens to add paths.
 import 'Screens/MainApp/artist_screen.dart';
 import 'Screens/MainApp/home_screen.dart';
@@ -42,6 +44,7 @@ import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 import './Providers/track_provider.dart';
+import './Screens/ArtistMode/edit_album_screen.dart';
 
 ///A Function to read the configuration file before running the app.
 ///Reading a character from the config file located in the assets folder.
@@ -108,6 +111,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: NotificationProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
+          value: ChartsProvider(),
         )
       ],
       child: Consumer<UserProvider>(
@@ -149,7 +155,11 @@ class MyApp extends StatelessWidget {
             StatsScreen.routeName: (ctx) => StatsScreen(),
             MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
             AddSongScreen.routeName: (ctx) => AddSongScreen(),
+            EditAlbum.routeName: (ctx) => EditAlbum(),
             SongSettingsScreen.routeName: (ctx) => SongSettingsScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            EditSongScreen.routeName: (ctx) => EditSongScreen(),
+            //StatsScreen.routeName: (ctx) =>ArtistAlbumSongsScreen(),
           },
         ),
       ),

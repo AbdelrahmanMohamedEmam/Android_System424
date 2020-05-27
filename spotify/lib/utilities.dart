@@ -1,3 +1,4 @@
+import 'package:spotify/Models/chart_data.dart';
 import 'package:spotify/Models/user_stats.dart';
 
 import './Models/tracks_ref.dart';
@@ -70,8 +71,16 @@ List<Copyright> parceCopyright(copyrightJson) {
 List<Artist> parceArtist(artistJson) {
   var list = artistJson as List;
   List<Artist> artistList =
-      list.map((data) => Artist.fromJsonSimplified(data)).toList();
+      list.map((data) => Artist.fromJson(data)).toList();
   return artistList;
+}
+
+///Convert list of jason objects into list of ChartData
+List<ChartData> parceChartData(ChartJson) {
+  var list = ChartJson as List;
+  List<ChartData> charttList =
+  list.map((data) => ChartData.fromJson(data)).toList();
+  return charttList;
 }
 
 ///Convert list of jason objects into list of tracks of playlist
@@ -123,3 +132,10 @@ List<dynamic> parseRequest(var json, String type) {
   list.map((data) => ArtistInfo.fromJson(data)).toList();
   return InfoList;
 }*/
+
+
+///Convert list of jason objects into list of strings
+List<int> parseInt(stringJson) {
+  List<int> imageList = new List<int>.from(stringJson);
+  return imageList;
+}

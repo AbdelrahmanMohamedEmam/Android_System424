@@ -16,6 +16,7 @@ enum AlbumCategory {
   myAlbums,
   artist,
   search,
+  artistMode,
 }
 
 ///Class AlbumProvider
@@ -38,6 +39,7 @@ class AlbumProvider with ChangeNotifier {
   ///List of album objects categorized as the artist albums.
   List<Album> artistAlbums = [];
 
+  //List<Album> artistModeAlbums = [];
   ///List of album objects categorized as the search albums.
   List<Album> searchedAlbums = [];
 
@@ -86,8 +88,8 @@ class AlbumProvider with ChangeNotifier {
 
   ///A method that takes an id for an album and returns the album object with this id located at the MyAlbums List
   Album getMyAlbumId(String id) {
-    final albumIndex = artistAlbums.indexWhere((album) => album.id == id);
-    return artistAlbums[albumIndex];
+    final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
+    return _myAlbums[albumIndex];
   }
 
   ///A method to empty the lists from album objects.
@@ -174,17 +176,65 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> uploadImage(String filePath, String token, String albumName,
+  Future<bool> uploadImage(File image, String token, String albumName,
       String albumType, String _currentTime, String genre) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadAlbumApi(
-          filePath, token, albumName, albumType, _currentTime, genre);
+          image, token, albumName, albumType, _currentTime, genre);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
+
+
+  Future<bool> editAlbum(File image, String token, String albumName,
+      String albumType, String genre) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      bool check = await albumApi.editAlbumApi(
+          image, token, albumName, albumType, genre);
+      return check;
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+
+
+  Future<bool> deleteAlbum(String token , String id) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      bool check = await albumApi.deleteAlbumApi(token , id);
+      return check;
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+
+  Future<bool> deleteSong(String token , String albumId , String trackId) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      bool check = await albumApi.deleteSongApi(token , albumId , trackId);
+      return check;
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+
+  Future<bool> editSong(String token ,String songName ,String albumId , String trackId) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      bool check = await albumApi.editSongApi(token ,songName ,albumId , trackId);
+      return check;
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
 
   ///A method that uploads new song in artist mode.
   Future<bool> uploadSong(String token, String songName, String path,
@@ -255,6 +305,29 @@ class AlbumProvider with ChangeNotifier {
           return;
         }
       }
+      if (albumCategory == AlbumCategory.myAlbums) {
+        Album album = getMyAlbumId(id);
+        if (!album.isFetched) {
+          final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          album.tracks = loadedTracks;
+          print('loadedTracks');
+          //print(loadedTracks[0].name);
+          final albumIndex = _myAlbums.indexWhere((album) => album.id == id);
+          _myAlbums.removeAt(albumIndex);
+          print(albumIndex);
+          album.isFetched = true;
+          _myAlbums.insert(albumIndex, album);
+          print('checkkk');
+          print(albumIndex);
+          print(_myAlbums[0].tracks[0].name);
+        } else {
+          return;
+        }
+      }
+
       if (albumCategory == AlbumCategory.search) {
         Album album = getSearchedAlbumsId(id);
         if (!album.isFetched) {
