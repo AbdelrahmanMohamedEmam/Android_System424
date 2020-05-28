@@ -55,6 +55,8 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         }
       });
     });
+    print("helooo");
+    print(albums.artists[0].id);
     super.didChangeDependencies();
   }
 

@@ -106,8 +106,8 @@ List<TracksRef> parceTrackRef(trackRefJson) {
 
 ///Convert list of jason objects into list of strings
 List<String> parseString(stringJson) {
-  List<String> imageList = new List<String>.from(stringJson);
-  return imageList;
+  List<String> stringList = new List<String>.from(stringJson);
+  return stringList;
 }
 
 ///Convert list of jason objects into list of requests

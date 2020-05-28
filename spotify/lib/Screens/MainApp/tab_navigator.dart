@@ -8,6 +8,7 @@ import 'package:spotify/Screens/MainApp/artist_screen.dart';
 import 'package:spotify/Screens/MainApp/library_screen.dart';
 import 'package:spotify/Screens/MainApp/premium_screen.dart';
 import 'package:spotify/Screens/MainApp/recent_activities_screen.dart';
+import 'package:spotify/Screens/MainApp/search_screen_see_all.dart';
 import '../../Screens/ArtistMode/my_music_screen.dart';
 import '../../Screens/ArtistMode/add_album_screen.dart';
 import '../../Screens/ArtistMode/add_song_screen.dart';
@@ -59,6 +60,7 @@ class TabNavigatorRoutes {
   static const String addAlbumScreen = '//add_album_screen';
   static const String addSongScreen = '//add_song_screen';
   static const String aboutInfoScreen = '//about_screen';
+  static const String searchAll = '//searchAll';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -85,8 +87,8 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.profileScreen: (context) => ProfileScreen(),
         TabNavigatorRoutes.userPlaylistsScreen: (context) =>
             UserPlaylistsScreen(),
-        TabNavigatorRoutes.userFollowersScreen: (context) =>
-            UserFollowersScreen(),
+        // TabNavigatorRoutes.userFollowersScreen: (context) =>
+        //     UserFollowersScreen(),
         TabNavigatorRoutes.userFollowingScreen: (context) =>
             UserFollowingScreen(),
         TabNavigatorRoutes.userEditProfileScreen: (context) =>
@@ -101,6 +103,7 @@ class TabNavigator extends StatelessWidget {
     } else if (tabItem == TabItem.search) {
       return {
         TabNavigatorRoutes.search: (context) => SearchScreen(),
+        TabNavigatorRoutes.searchAll: (context) => SearchScreenSeeAll(),
       };
     } else if (tabItem == TabItem.library) {
       return {

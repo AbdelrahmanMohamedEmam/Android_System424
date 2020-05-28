@@ -16,6 +16,7 @@ class PlaylistEndPoints {
   static const String artistCreated = '/created-playlists';
   static const browse = '/browse';
   static const categories = '/categories';
+  static const madeForYou = "/recommended";
 }
 
 class PlaylistAPI {
@@ -48,6 +49,27 @@ class PlaylistAPI {
   Future<List> fetchMostRecentPlaylistsApi(String token) async {
     final url =
         baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.mostRecent;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['playlist'] as List;
+
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<List> fetchMadeForYouPlaylistsApi(String token) async {
+    final url = baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.madeForYou;
     try {
       final response = await http.get(
         url,

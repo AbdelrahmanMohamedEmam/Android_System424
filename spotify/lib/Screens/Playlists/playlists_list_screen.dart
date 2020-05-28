@@ -29,9 +29,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   bool colorGenerated = false;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
-    Provider.of<PlaylistProvider>(context, listen: false)
+   await  Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPlaylistsTracksById(
             widget.playlistId, user.token, widget.playlistType)
         .then((_) {
@@ -61,6 +61,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         } else if (widget.playlistType == PlaylistCategory.artist) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getArtistPlaylistsbyId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.madeForYou) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getMadeForYoubyId(widget.playlistId);
         }
       });
     });

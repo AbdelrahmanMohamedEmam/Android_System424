@@ -28,7 +28,7 @@ class PlayHistoryAPI {
       if (response.statusCode == 200) {
         print(response);
         Map<String, dynamic> temp = json.decode(response.body);
-        final extractedList = temp['data'] as List;
+        final extractedList = temp['data']['results']['items'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

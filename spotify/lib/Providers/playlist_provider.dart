@@ -11,6 +11,7 @@ import 'package:spotify/Models/track.dart';
 
 ///Enum for Identification for the playistcategory.
 enum PlaylistCategory {
+  madeForYou,
   popularPlaylists,
   mostRecentPlaylists,
   jazz,
@@ -24,6 +25,9 @@ enum PlaylistCategory {
 class PlaylistProvider with ChangeNotifier {
   final String baseUrl;
   PlaylistProvider({this.baseUrl});
+
+  ///List of playlist objects categorized as recommended.
+  List<Playlist> _madeForYou = [];
 
   ///List of playlist objects categorized as most recent playlists.
   List<Playlist> _mostRecentPlaylists = [];
@@ -48,6 +52,11 @@ class PlaylistProvider with ChangeNotifier {
 
   ///List of playlist objects categorized as happy playlists.
   List<Track> _playableTracks = [];
+
+  ///A method(getter) that returns a list of playlists (madeForYou).
+  List<Playlist> get getMadeForYou {
+    return [..._madeForYou];
+  }
 
   ///A method(getter) that returns a list of tracks (playableTracks).
   List<Track> get getToPlayTracks {
@@ -145,6 +154,14 @@ class PlaylistProvider with ChangeNotifier {
     return _artistProfilePlaylists[playlistIndex];
   }
 
+  ///A method that returns a made for you  playlist from made for you Playlists list.
+  ///It takes a [String] id.
+  Playlist getMadeForYoubyId(String id) {
+    final playlistIndex =
+        _madeForYou.indexWhere((playlist) => playlist.id == id);
+    return _madeForYou[playlistIndex];
+  }
+
   ///A method that emty the lists.
   void emptyLists() {
     _popPlaylists = [];
@@ -152,7 +169,7 @@ class PlaylistProvider with ChangeNotifier {
     _mostRecentPlaylists = [];
   }
 
-  ///A method that fetches for made for you playlists and set them in the made for you list.
+  ///A method that fetches for most recent playlists and set them in the most recent.
   ///It takes a [String] token for verification.
   Future<void> fetchMostRecentPlaylists(String token) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
@@ -165,6 +182,25 @@ class PlaylistProvider with ChangeNotifier {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
       }
       _mostRecentPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for made for you playlists and set them in the made for you list.
+  ///It takes a [String] token for verification.
+  Future<void> fetchMadeForYou(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList =
+          await playlistApi.fetchMadeForYouPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _madeForYou = loadedPlaylists;
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
@@ -426,41 +462,39 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
-  List<Track> getPlayableTracks(String id, PlaylistCategory category){
+  List<Track> getPlayableTracks(String id, PlaylistCategory category) {
     print('playlist id:' + id);
-    if(category==PlaylistCategory.arabic){
-      final index=_arabicPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_arabicPlaylists[index].tracks;
+    if (category == PlaylistCategory.arabic) {
+      final index =
+          _arabicPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _arabicPlaylists[index].tracks;
       return _arabicPlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.artist){
-      final index=_artistProfilePlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_artistProfilePlaylists[index].tracks;
+    } else if (category == PlaylistCategory.artist) {
+      final index =
+          _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _artistProfilePlaylists[index].tracks;
       return _artistProfilePlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.pop){
-      final index=_popPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_popPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.pop) {
+      final index = _popPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _popPlaylists[index].tracks;
       return _popPlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.happy){
-      final index=_happyPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_happyPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.happy) {
+      final index = _happyPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _happyPlaylists[index].tracks;
       return _happyPlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.jazz){
-      final index=_jazzPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_jazzPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.jazz) {
+      final index = _jazzPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _jazzPlaylists[index].tracks;
       return _jazzPlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.mostRecentPlaylists){
-      final index=_mostRecentPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_mostRecentPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.mostRecentPlaylists) {
+      final index =
+          _mostRecentPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _mostRecentPlaylists[index].tracks;
       return _mostRecentPlaylists[index].tracks;
-    }
-    else if(category==PlaylistCategory.popularPlaylists){
-      final index=_popularPlaylists.indexWhere((playlist)=>playlist.id==id);
-      _playableTracks=_popularPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.popularPlaylists) {
+      final index =
+          _popularPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _popularPlaylists[index].tracks;
       return _popularPlaylists[index].tracks;
     }
   }

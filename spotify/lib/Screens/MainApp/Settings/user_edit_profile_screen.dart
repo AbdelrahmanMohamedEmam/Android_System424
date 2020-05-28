@@ -40,15 +40,10 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
               } catch (error) {
                 _showErrorDialog(error.toString());
               }
-              setState(() {
-                changed = false;
-              });
             },
             child: Text(
               'SAVE',
-              style: changed == true
-                  ? TextStyle(color: Colors.white)
-                  : TextStyle(color: Colors.grey),
+              style:TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -65,11 +60,6 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
           Container(
             width: 350,
             child: TextFormField(
-              onChanged: (value) {
-                setState(() {
-                  changed = true;
-                });
-              },
               enabled: true,
               style: TextStyle(
                 color: Colors.white,

@@ -15,6 +15,7 @@ import 'dart:async';
 
 ///Importing shared preference library to cache data.
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spotify/Models/playlist.dart';
 
 ///Importing models to create objects.
 import '../Models/user.dart';
@@ -66,6 +67,7 @@ class UserProvider with ChangeNotifier {
   bool resetSuccessful = false;
 
   bool followSuccessful = false;
+
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
@@ -132,11 +134,18 @@ class UserProvider with ChangeNotifier {
   File get getpickedImage {
     return _user.pickedImage;
   }
-
   ///Setting the user to a premium/free user.
   void setPremium(String premium) {
     _user.role = premium;
   }
+
+  List<String> get getfollowers{
+    return _user.followers;
+  } 
+
+    List<String> get getfollowing{
+    return _user.following;
+  } 
 
   ///Initializing the user data after signing up/ logging in.
   ///Token must be provided for authentication.
@@ -147,7 +156,7 @@ class UserProvider with ChangeNotifier {
 
     try {
       _user = await userAPI.setUser(_token);
-      _user.firebaseToken=_firebaseToken;
+      _user.firebaseToken = _firebaseToken;
     } catch (error) {
       throw HttpException(error.toString());
     }
@@ -241,7 +250,7 @@ class UserProvider with ChangeNotifier {
         throw HttpException(responseData['message']);
       } else {
         final firebaseToken = await _firebaseMessaging.getToken();
-        _firebaseToken=firebaseToken;
+        _firebaseToken = firebaseToken;
 
         _token = responseData['token'];
         _status = responseData['success'];
@@ -269,7 +278,7 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
-            'firebaseToken':firebaseToken
+            'firebaseToken': firebaseToken
           },
         );
         prefs.setString('userData', userData);
@@ -291,10 +300,9 @@ class UserProvider with ChangeNotifier {
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       } else {
-
         final firebaseToken = await _firebaseMessaging.getToken();
 
-        _firebaseToken=firebaseToken;
+        _firebaseToken = firebaseToken;
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
@@ -320,7 +328,7 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
-            'firebaseToken':firebaseToken
+            'firebaseToken': firebaseToken
           },
         );
         prefs.setString('userData', userData);
@@ -372,18 +380,18 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    _firebaseToken=extractedUserData['firebaseToken'];
+    _firebaseToken = extractedUserData['firebaseToken'];
 
     final newFirebaseToken = await _firebaseMessaging.getToken();
-    if(newFirebaseToken!=_firebaseToken){
-      _firebaseToken=newFirebaseToken;
+    if (newFirebaseToken != _firebaseToken) {
+      _firebaseToken = newFirebaseToken;
       await updateFirebaseToken(_token, newFirebaseToken);
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
           'token': _token,
           'expiryDate': _expiryDate.toIso8601String(),
-          'firebaseToken':newFirebaseToken
+          'firebaseToken': newFirebaseToken
         },
       );
       prefs.setString('userData', userData);
@@ -518,13 +526,33 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Token must be provided for authentication.
+  ///New password and Old password must be provided.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<void> changeUserImage(String token, File imagePath) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      bool success = await userApi.changeUserImageApi(token, imagePath);
+      if (success) {
+        throw HttpException('Your Image is changed successfully!!');
+      } else {
+        throw HttpException('Something went wrong please try again later!!');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  ///Token must be provided for authentication.
   ///Firebase token must be provided for update.
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<bool> updateFirebaseToken(String userToken, String firebaseToken) async {
+  Future<bool> updateFirebaseToken(
+      String userToken, String firebaseToken) async {
     UserAPI userApi = UserAPI(baseUrl: baseUrl);
     try {
-      bool success = await userApi.updateFirebaseToken(userToken, firebaseToken);
+      bool success =
+          await userApi.updateFirebaseToken(userToken, firebaseToken);
       if (success) {
         return true;
       } else {

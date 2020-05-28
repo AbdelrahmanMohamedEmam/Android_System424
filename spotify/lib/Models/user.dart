@@ -7,6 +7,7 @@ import '../Models/artistInfo.dart';
 
 ///Importing utilities file to parse objects.
 import '../utilities.dart';
+import 'follower.dart';
 
 ///A model for grouping the user data.
 class User {
@@ -21,8 +22,8 @@ class User {
   final String href;
   final ExternalUrl externalUrl;
   final List<String> images;
-  //final List<Follower> followers;
-  //final List<Follower> following;
+  final List<String> followers;
+  final List<String> following;
   String product;
   final List<UserStats> userStats;
   final String resetPasswordToken;
@@ -42,8 +43,8 @@ class User {
       this.externalUrl,
       this.dateOfBirth,
       this.email,
-      //this.followers,
-      //this.following,
+      this.followers,
+      this.following,
       this.gender,
       this.href,
       this.images,
@@ -70,8 +71,8 @@ class User {
       dateOfBirth: json['dateOfBirth'] == null ? null : json['dateOfBirth'],
       gender: json['gender'] == null ? null : json['gender'],
       uri: json['uri'] == null ? null : json['uri'],
-      //following: parceFollower(json['following']),
-      //followers: parceFollower(json['followers']),
+      following: parseString(json['following']),
+      followers: parseString(json['followers']),
       userStats: json['userStats'] == null
           ? []
           : parceUserStats(

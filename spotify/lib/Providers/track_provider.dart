@@ -21,6 +21,9 @@ class TrackProvider with ChangeNotifier {
   ///List of top tracks object which is related to certain artist.
   List<Track> searchedTracks;
 
+  ///String containing link to the next page of tracks.
+  String nextTracks;
+
   ///getter for [topTracks] member of track provider.
   List<Track> get getTopTracks {
     return [...topTracks];
@@ -58,11 +61,32 @@ class TrackProvider with ChangeNotifier {
     try {
       final extractedList =
           await trackAPI.fetchSearchedTracksAPI(token, searchedText);
+      nextTracks = trackAPI.getNextTracksUrl;
       final List<Track> loadedTracks = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedTracks.add(Track.fromJson(extractedList[i]));
       }
       searchedTracks = loadedTracks;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches list of searched tracks related to certain artist.
+  Future<void> fetchMoresearchedTracks(String token) async {
+    TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await trackAPI.fetchMoreSearchedTracksAPI(token,nextTracks);
+      nextTracks = trackAPI.getNextTracksUrl;
+      final List<Track> loadedTracks = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedTracks.add(Track.fromJson(extractedList[i]));
+      }
+      searchedTracks.addAll(loadedTracks);
+      if (loadedTracks.isEmpty) {
+        throw Exception("No more results");
+      }
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());

@@ -1,5 +1,7 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
@@ -133,7 +135,6 @@ class UserAPI {
       });
 
       final responseData = jsonDecode(response.body);
-
 
       User _user;
       if (responseData['message'] != null) {
@@ -296,18 +297,22 @@ class UserAPI {
     }
   }
 
-
   ///Sends a request to change the userName.
   ///email and userName and gender and dateOfBirth must be provided.
   ///Token must be provided for authentication.
   ///In case of success true is returned.
   ///In case of failure false is returned.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<bool> changeUserNameApi(
-      String token, String email, String userName,String gender,String dateOfBirth) async {
+  Future<bool> changeUserNameApi(String token, String email, String userName,
+      String gender, String dateOfBirth) async {
     final response = await Dio().put(baseUrl + '/me',
         data: json.encode(
-          {"email": email, "name": userName,"gender": gender, "dateOfBirth":dateOfBirth},
+          {
+            "email": email,
+            "name": userName,
+            "gender": gender,
+            "dateOfBirth": dateOfBirth
+          },
         ),
         options: Options(
           validateStatus: (_) {
@@ -329,7 +334,8 @@ class UserAPI {
   ///In case of success a status code of 204 is returned.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<bool> updateFirebaseToken(String userToken, String firebaseToken) async {
+  Future<bool> updateFirebaseToken(
+      String userToken, String firebaseToken) async {
     final url = baseUrl + '/me/notifications/token';
 
     try {
@@ -345,10 +351,7 @@ class UserAPI {
           receiveDataWhenStatusError: true,
         ),
         data: json.encode(
-          {
-            "type": 'android',
-            "token": firebaseToken
-          },
+          {"type": 'android', "token": firebaseToken},
         ),
       );
 
@@ -362,6 +365,33 @@ class UserAPI {
     } catch (error) {
       print(error.toString());
       throw error;
+    }
+  }
+
+  ///Sends a request to change the userImage.
+  ///formData containig the image must be provided.
+  ///Token must be provided for authentication.
+  ///In case of success true is returned.
+  ///In case of failure false is returned.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> changeUserImageApi(String token, File image) async {
+    FormData formData = new FormData.fromMap({
+      "image": image,
+    });
+    final response = await Dio().put(baseUrl + '/me' + '/image',
+        data: formData,
+        options: Options(
+          validateStatus: (_) {
+            return true;
+          },
+          headers: {
+            "authorization": "Bearer " + token,
+          },
+        ));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

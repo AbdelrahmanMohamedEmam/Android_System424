@@ -153,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // user.userStats[0].followersNumber != 0
+                              // user.getfollowers.length != 0
                               //     ? Navigator.of(context).pushNamed(
                               //         TabNavigatorRoutes.userFollowersScreen)
                               //     : null;
@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    '0',
+                                    user.getfollowers.length.toString(),
                                     /*user.userStats[0].followersNumber
                                         .toString(),*/
                                     style: TextStyle(color: Colors.white),
@@ -178,19 +178,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // user.userStats[0].followingNumber != 0
-                              //     ? Navigator.of(context).pushNamed(
-                              //         TabNavigatorRoutes.userFollowingScreen)
-                              //     : null;
+                              user.getfollowing.length != 0
+                                  ? Navigator.of(context).pushNamed(
+                                      TabNavigatorRoutes.userFollowingScreen)
+                                  : null;
                             },
                             child: Container(
                               height: deviceSize.height * 0.07327,
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    '0',
-                                    // user.userStats[0].followingNumber
-                                    //     .toString(),
+                                    user.getfollowing.length.toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
