@@ -19,6 +19,8 @@ enum PlaylistCategory {
   arabic,
   pop,
   artist,
+  liked,
+  created,
 }
 
 ///Class PlaylistProvider.
@@ -50,8 +52,22 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as happy playlists.
   List<Playlist> _happyPlaylists = [];
 
+  ///List of playlist objects categorized as liked playlists.
+  List<Playlist> _likedPlaylists = [];
+
+  ///List of playlist objects categorized as created playlists.
+  List<Playlist> _createdPlaylists = [];
+
   ///List of playlist objects categorized as happy playlists.
   List<Track> _playableTracks = [];
+
+  ///Indicates if creating playlist succeeded .
+  bool createdSuccessful = false;
+
+  ///Returns true if create playlist request is successful.
+  bool get isCreatePlaylistSuccessful {
+    return createdSuccessful;
+  }
 
   ///A method(getter) that returns a list of playlists (madeForYou).
   List<Playlist> get getMadeForYou {
@@ -71,6 +87,16 @@ class PlaylistProvider with ChangeNotifier {
   ///A method(getter) that returns a list of playlists (popular playlists).
   List<Playlist> get getPopularPlaylists {
     return [..._popularPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (liked playlists).
+  List<Playlist> get getlikedPlaylists {
+    return [..._likedPlaylists];
+  }
+
+  ///A method(getter) that returns a list of playlists (created playlists).
+  List<Playlist> get getCreatedPlaylists {
+    return [..._createdPlaylists];
   }
 
   ///A method(getter) that returns a list of playlists (artist profile playlists).
@@ -112,6 +138,14 @@ class PlaylistProvider with ChangeNotifier {
     final playlistIndex =
         _popularPlaylists.indexWhere((playlist) => playlist.id == id);
     return _popularPlaylists[playlistIndex];
+  }
+
+  ///A method that returns a liked playlist from liked Playlists list.
+  ///It takes a [String] id.
+  Playlist getLikedPlaylistsId(String id) {
+    final playlistIndex =
+        _likedPlaylists.indexWhere((playlist) => playlist.id == id);
+    return _likedPlaylists[playlistIndex];
   }
 
   ///A method that returns a jazz playlist from jazz Playlists list.
@@ -169,6 +203,67 @@ class PlaylistProvider with ChangeNotifier {
     _mostRecentPlaylists = [];
   }
 
+  ///Checks if track with a certain id is liked
+  bool isPlaylistLiked(String id) {
+    if (_likedPlaylists.isEmpty) {
+      return false;
+    }
+    if (_likedPlaylists.indexWhere((playlist) => playlist.id == id) != -1) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> likePlaylist(
+      String token, String playlistID, PlaylistCategory category) async {
+    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
+    Playlist playlist;
+    try {
+      final response = await playlistAPI.likePlaylist(token, playlistID);
+      if (category == PlaylistCategory.mostRecentPlaylists)
+        playlist = getMostRecentPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.popularPlaylists)
+        playlist = getPopularPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.liked)
+        playlist = getLikedPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.jazz)
+        playlist = getJazzPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.happy)
+        playlist = getHappyPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.arabic)
+        playlist = getArabicPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.pop)
+        playlist = getPopPlaylistsId(playlistID);
+      else if (category == PlaylistCategory.artist)
+        playlist = getArtistPlaylistsbyId(playlistID);
+      else if (category == PlaylistCategory.madeForYou)
+        playlist = getMadeForYoubyId(playlistID);
+      _likedPlaylists.add(playlist);
+      notifyListeners();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<bool> unlikePlaylist(String token, String playlistId) async {
+    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final response = await playlistAPI.unlikePlaylist(token, playlistId);
+      if (true) {
+        int index =
+            _likedPlaylists.indexWhere((playlist) => playlist.id == playlistId);
+        if (index != -1) {
+          _likedPlaylists.removeAt(index);
+        }
+        notifyListeners();
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   ///A method that fetches for most recent playlists and set them in the most recent.
   ///It takes a [String] token for verification.
   Future<void> fetchMostRecentPlaylists(String token) async {
@@ -185,6 +280,60 @@ class PlaylistProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for liked playlists and set them in the most recent.
+  ///It takes a [String] token for verification.
+  Future<void> fetchLikedPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchLikedPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _likedPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for created playlists and set them in the most recent.
+  ///It takes a [String] token for verification.
+  Future<void> fetchCreatedPlaylists(String token) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchCreatedPlaylistsApi(token);
+
+      final List<Playlist> loadedPlaylists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+      }
+      _createdPlaylists = loadedPlaylists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<void> createPlaylist(String name, String token) async {
+    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
+
+    try {
+      bool created = await playlistAPI.createPlaylistApi(name,token);
+
+      if (!created) {
+        throw HttpException('Name must be unique, Try another one');
+      } else {
+        createdSuccessful = true;
+      }
+      notifyListeners();
+    } catch (error) {
+      print(error.toString());
+      throw error;
     }
   }
 
@@ -358,6 +507,24 @@ class PlaylistProvider with ChangeNotifier {
           _popularPlaylists.removeAt(playlistIndex);
           playlist.isFetched = true;
           _popularPlaylists.insert(playlistIndex, playlist);
+        } else {
+          return;
+        }
+      }
+      if (playlistCategory == PlaylistCategory.liked) {
+        Playlist playlist = getLikedPlaylistsId(id);
+        if (!playlist.isFetched) {
+          final extractedList =
+              await playlistApi.fetchPlaylistsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          playlist.tracks = loadedTracks;
+          final playlistIndex =
+              _likedPlaylists.indexWhere((playlist) => playlist.id == id);
+          _likedPlaylists.removeAt(playlistIndex);
+          playlist.isFetched = true;
+          _likedPlaylists.insert(playlistIndex, playlist);
         } else {
           return;
         }

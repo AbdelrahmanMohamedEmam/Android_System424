@@ -16,6 +16,10 @@ class AlbumEndPoints {
   static const String track = '/tracks';
   static const String tracks = '/tracks';
   static const String meArtist = '/meArtist';
+  static const String likedAlbums = "/likedAlbums";
+  static const String me = "/me";
+  static const String likeAlbum = "/likeAlbum";
+  static const String unlikeAlbum = "/unlikeAlbum";
 }
 
 class AlbumAPI {
@@ -59,6 +63,74 @@ class AlbumAPI {
       }
     } catch (error) {
       throw HttpException(error.toString());
+    }
+  }
+
+  Future<List> fetchLikedAlbumsApi(String token) async {
+    final url = baseUrl + AlbumEndPoints.me + AlbumEndPoints.likedAlbums;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['albums'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<bool> likeAlbum(String token, String albumId) async {
+    try {
+      final responseData = await Dio()
+          .put(baseUrl + AlbumEndPoints.me + AlbumEndPoints.likeAlbum,
+              options: Options(
+                  headers: {"authorization": "Bearer " + token},
+                  validateStatus: (_) {
+                    return true;
+                  }),
+              data: json.encode({
+                "id": albumId,
+              }));
+      print(responseData.statusCode);
+      if (responseData.statusCode == 204) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      print(error.toString());
+      throw error;
+    }
+  }
+
+  Future<bool> unlikeAlbum(String token, String albumId) async {
+    try {
+      final responseData = await Dio()
+          .delete(baseUrl + AlbumEndPoints.me + AlbumEndPoints.unlikeAlbum,
+              options: Options(
+                  headers: {"authorization": "Bearer " + token},
+                  validateStatus: (_) {
+                    return true;
+                  }),
+              data: json.encode({
+                "id": albumId,
+              }));
+      print(responseData.statusCode);
+      if (responseData.statusCode == 204) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      print(error.toString());
+      throw error;
     }
   }
 
@@ -163,13 +235,15 @@ class AlbumAPI {
     }
   }
 
-
   ///A method that edits new album in artist mode.
   ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[AlbumType] as input parameters.
   Future<bool> editAlbumApi(File image, String token, String albumName,
       String albumType, String genre) async {
     ///must be modified//////////////////////////////////////////////////////
-    final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;  //this is the same url of add album needs to be modified
+    final url = baseUrl +
+        AlbumEndPoints.forArtist +
+        AlbumEndPoints
+            .albums; //this is the same url of add album needs to be modified
     /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     try {
       FormData formData = new FormData.fromMap({
@@ -200,9 +274,12 @@ class AlbumAPI {
 
   ///A method that deletes new album in artist mode.
   ///takes [token],[albumID]as input parameters.
-  Future<bool> deleteAlbumApi(String token , String albumID) async {
-    final url =
-        baseUrl + AlbumEndPoints.meArtist + AlbumEndPoints.albums + '/' + albumID;
+  Future<bool> deleteAlbumApi(String token, String albumID) async {
+    final url = baseUrl +
+        AlbumEndPoints.meArtist +
+        AlbumEndPoints.albums +
+        '/' +
+        albumID;
     try {
       final response = await http.delete(
         url,
@@ -217,13 +294,18 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-
 
   ///A method that deletes new album in artist mode.
   ///takes [token],[albumID] , [trackId]as input parameters.
-  Future<bool> deleteSongApi(String token , String albumID , trackId) async {
-    final url =
-        baseUrl + AlbumEndPoints.meArtist + AlbumEndPoints.albums + '/' + albumID + AlbumEndPoints.track+ '/'+trackId;
+  Future<bool> deleteSongApi(String token, String albumID, trackId) async {
+    final url = baseUrl +
+        AlbumEndPoints.meArtist +
+        AlbumEndPoints.albums +
+        '/' +
+        albumID +
+        AlbumEndPoints.track +
+        '/' +
+        trackId;
     try {
       final response = await http.delete(
         url,
@@ -238,8 +320,6 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-
-
 
   Future<bool> editSongApi(
       String token, String songName, String albumId, String songId) async {
@@ -273,7 +353,6 @@ class AlbumAPI {
       throw HttpException(error.toString());
     }
   }
-
 
   ///A method that uploads new song in artist mode.
   ///takes [token] , [SongName] , [songPathInThePhone] , [albumID] as input parameters.

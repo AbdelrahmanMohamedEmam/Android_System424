@@ -17,6 +17,7 @@ enum AlbumCategory {
   artist,
   search,
   artistMode,
+  liked,
 }
 
 ///Class AlbumProvider
@@ -43,6 +44,9 @@ class AlbumProvider with ChangeNotifier {
   ///List of album objects categorized as the search albums.
   List<Album> searchedAlbums = [];
 
+  ///List of album objects categorized as liked albums.
+  List<Album> _likedAlbums = [];
+
   ///A method(getter) that returns a list of albums (popular albums).
   List<Album> get getPopularAlbums {
     return [..._popularAlbums];
@@ -63,6 +67,11 @@ class AlbumProvider with ChangeNotifier {
     return [..._myAlbums];
   }
 
+  ///A method(getter) that returns a list of albums (liked albums).
+  List<Album> get getLikedAlbums {
+    return [..._likedAlbums];
+  }
+
   ///A method(getter) that returns a list of albums (mostrecentAlbums).
   List<Album> get getMostRecentAlbums {
     return [..._mostrecentAlbums];
@@ -72,6 +81,12 @@ class AlbumProvider with ChangeNotifier {
   Album getMostRecentAlbumsId(String id) {
     final albumIndex = _mostrecentAlbums.indexWhere((album) => album.id == id);
     return _mostrecentAlbums[albumIndex];
+  }
+
+  ///A method that takes an id for an album and returns the album object with this id located at the likedAlbums List
+  Album getLikedAlbumsId(String id) {
+    final albumIndex = _likedAlbums.indexWhere((album) => album.id == id);
+    return _likedAlbums[albumIndex];
   }
 
   ///A method that takes an id for an album and returns the album object with this id located at the PopularAlbums List
@@ -106,6 +121,58 @@ class AlbumProvider with ChangeNotifier {
     searchedAlbums.add(searchedAlbum);
   }
 
+  ///Checks if track with a certain id is liked
+  bool isAlbumLiked(String id) {
+    if (_likedAlbums.isEmpty) {
+      return false;
+    }
+    if (_likedAlbums.indexWhere((album) => album.id == id) != -1) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> likeAlbum(
+      String token, String albumID, AlbumCategory category) async {
+    AlbumAPI albumAPI = AlbumAPI(baseUrl: baseUrl);
+    Album album;
+    try {
+      final response = await albumAPI.likeAlbum(token, albumID);
+      if (category == AlbumCategory.popularAlbums)
+        album = getPopularAlbumsId(albumID);
+      else if (category == AlbumCategory.mostRecentAlbums)
+        album = getMostRecentAlbumsId(albumID);
+      else if (category == AlbumCategory.liked)
+        album = getLikedAlbumsId(albumID);
+      else if (category == AlbumCategory.search)
+        album = getSearchedAlbumsId(albumID);
+      else if (category == AlbumCategory.myAlbums)
+        album = getMyAlbumId(albumID);
+      _likedAlbums.add(album);
+      notifyListeners();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<bool> unlikeAlbum(String token, String albumId) async {
+    AlbumAPI albumAPI = AlbumAPI(baseUrl: baseUrl);
+    try {
+      final response = await albumAPI.unlikeAlbum(token, albumId);
+      if (true) {
+        int index = _likedAlbums.indexWhere((album) => album.id == albumId);
+        if (index != -1) {
+          _likedAlbums.removeAt(index);
+        }
+        notifyListeners();
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   ///A method that fetches for popular albums and set them in the popular albums list.
   ///It requires a parameter of type [String] token to verify the user.
   Future<void> fetchPopularAlbums(String token) async {
@@ -134,6 +201,23 @@ class AlbumProvider with ChangeNotifier {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
       _mostrecentAlbums = loadedAlbum;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for Most Recent albums and set them in the Most Recent albums list.
+  ///It requires a parameter of type [String] token to verify the user.
+  Future<void> fetchLikedAlbums(String token) async {
+    AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await albumApi.fetchLikedAlbumsApi(token);
+      final List<Album> loadedAlbum = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedAlbum.add(Album.fromJson(extractedList[i]));
+      }
+      _likedAlbums = loadedAlbum;
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
@@ -188,7 +272,6 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-
   Future<bool> editAlbum(File image, String token, String albumName,
       String albumType, String genre) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
@@ -201,44 +284,41 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-
-
-  Future<bool> deleteAlbum(String token , String id) async {
+  Future<bool> deleteAlbum(String token, String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
-      bool check = await albumApi.deleteAlbumApi(token , id);
+      bool check = await albumApi.deleteAlbumApi(token, id);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
 
-
-  Future<bool> deleteSong(String token , String albumId , String trackId) async {
+  Future<bool> deleteSong(String token, String albumId, String trackId) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
-      bool check = await albumApi.deleteSongApi(token , albumId , trackId);
+      bool check = await albumApi.deleteSongApi(token, albumId, trackId);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
 
-
-  Future<bool> editSong(String token ,String songName ,String albumId , String trackId) async {
+  Future<bool> editSong(
+      String token, String songName, String albumId, String trackId) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
-      bool check = await albumApi.editSongApi(token ,songName ,albumId , trackId);
+      bool check =
+          await albumApi.editSongApi(token, songName, albumId, trackId);
       return check;
     } catch (error) {
       throw HttpException(error.toString());
     }
   }
-
 
   ///A method that uploads new song in artist mode.
-  Future<bool> uploadSong(String token, String songName, String path,
-      String id) async {
+  Future<bool> uploadSong(
+      String token, String songName, String path, String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.uploadSongApi(token, songName, path, id);
@@ -250,8 +330,8 @@ class AlbumProvider with ChangeNotifier {
 
   ///A method that fetches for a tracks for a certain album in the albums List according to the [AlbumCategory].
   ///It takes a [string] token for verification and id for identification,[AlbumCategory] to identify which list to add in.
-  Future<void> fetchAlbumsTracksById(String id, String token,
-      AlbumCategory albumCategory) async {
+  Future<void> fetchAlbumsTracksById(
+      String id, String token, AlbumCategory albumCategory) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       final List<Track> loadedTracks = [];
@@ -264,7 +344,7 @@ class AlbumProvider with ChangeNotifier {
           }
           album.tracks = loadedTracks;
           final albumIndex =
-          _mostrecentAlbums.indexWhere((album) => album.id == id);
+              _mostrecentAlbums.indexWhere((album) => album.id == id);
           _mostrecentAlbums.removeAt(albumIndex);
           album.isFetched = true;
           _mostrecentAlbums.insert(albumIndex, album);
@@ -281,10 +361,26 @@ class AlbumProvider with ChangeNotifier {
           }
           album.tracks = loadedTracks;
           final albumIndex =
-          _popularAlbums.indexWhere((album) => album.id == id);
+              _popularAlbums.indexWhere((album) => album.id == id);
           _popularAlbums.removeAt(albumIndex);
           album.isFetched = true;
           _popularAlbums.insert(albumIndex, album);
+        } else {
+          return;
+        }
+      }
+      if (albumCategory == AlbumCategory.liked) {
+        Album album = getLikedAlbumsId(id);
+        if (!album.isFetched) {
+          final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          album.tracks = loadedTracks;
+          final albumIndex = _likedAlbums.indexWhere((album) => album.id == id);
+          _likedAlbums.removeAt(albumIndex);
+          album.isFetched = true;
+          _likedAlbums.insert(albumIndex, album);
         } else {
           return;
         }
@@ -336,7 +432,8 @@ class AlbumProvider with ChangeNotifier {
             loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           album.tracks = loadedTracks;
-          final albumIndex = searchedAlbums.indexWhere((album) => album.id == id);
+          final albumIndex =
+              searchedAlbums.indexWhere((album) => album.id == id);
           searchedAlbums.removeAt(albumIndex);
           album.isFetched = true;
           searchedAlbums.insert(albumIndex, album);
@@ -349,27 +446,22 @@ class AlbumProvider with ChangeNotifier {
     }
   }
 
-
   List<Track> getPlayableTracks(String id, AlbumCategory category) {
     print('playlist id:' + id);
     if (category == AlbumCategory.artist) {
       final index = artistAlbums.indexWhere((playlist) => playlist.id == id);
       return artistAlbums[index].tracks;
-    }
-    else if (category == AlbumCategory.mostRecentAlbums) {
-      final index = _mostrecentAlbums.indexWhere((playlist) =>
-      playlist.id == id);
+    } else if (category == AlbumCategory.mostRecentAlbums) {
+      final index =
+          _mostrecentAlbums.indexWhere((playlist) => playlist.id == id);
       return _mostrecentAlbums[index].tracks;
-    }
-    else if (category == AlbumCategory.myAlbums) {
+    } else if (category == AlbumCategory.myAlbums) {
       final index = _myAlbums.indexWhere((playlist) => playlist.id == id);
       return _myAlbums[index].tracks;
-    }
-    else if (category == AlbumCategory.popularAlbums) {
+    } else if (category == AlbumCategory.popularAlbums) {
       final index = _popularAlbums.indexWhere((playlist) => playlist.id == id);
       return _popularAlbums[index].tracks;
-    }
-        else if (category == AlbumCategory.search) {
+    } else if (category == AlbumCategory.search) {
       final index = searchedAlbums.indexWhere((playlist) => playlist.id == id);
       return searchedAlbums[index].tracks;
     }

@@ -88,6 +88,12 @@ class PlayableTrackProvider with ChangeNotifier {
     return _waitingSong;
   }
 
+  ///A method(getter) that returns a list of tracks (liked tracks).
+  List<Track> get getLikedTracks {
+    return likedTracks;
+  }
+
+
   ///Sends a http request to add a track to recently played.
   ///Context Uri, Track Uri and Context type must be provided.
   ///Token must be provided for authentication.

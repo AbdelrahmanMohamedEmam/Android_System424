@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/playlist.dart';
 import 'package:spotify/Providers/playable_track.dart';
@@ -31,15 +32,17 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   @override
   void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
-   await  Provider.of<PlaylistProvider>(context, listen: false)
+    await Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPlaylistsTracksById(
             widget.playlistId, user.token, widget.playlistType)
         .then((_) {
       setState(() {
         _isLoading = false;
-        List<Track> toAdd=Provider.of<PlaylistProvider>(context, listen: false)
-            .getPlayableTracks(widget.playlistId, widget.playlistType);
-        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
+        List<Track> toAdd =
+            Provider.of<PlaylistProvider>(context, listen: false)
+                .getPlayableTracks(widget.playlistId, widget.playlistType);
+        Provider.of<PlayableTrackProvider>(context, listen: false)
+            .setTracksToBePlayed(toAdd);
         if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getMostRecentPlaylistsId(widget.playlistId);
@@ -64,6 +67,9 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
         } else if (widget.playlistType == PlaylistCategory.madeForYou) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getMadeForYoubyId(widget.playlistId);
+        } else if (widget.playlistType == PlaylistCategory.liked) {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getLikedPlaylistsId(widget.playlistId);
         }
       });
     });
@@ -105,6 +111,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenScaler scaler = new ScreenScaler()..init(context);
     if (!colorGenerated) _generatePalette();
 
     ///The device size provided by the [MediaQuery].
@@ -143,10 +150,32 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                     actions: <Widget>[
                       IconButton(
                         icon: Icon(
-                          Icons.favorite_border,
-                          color: Colors.white54,
+                          Provider.of<PlaylistProvider>(context, listen: false)
+                                  .isPlaylistLiked(widget.playlistId)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.white,
                         ),
-                        onPressed: null,
+                        onPressed: () async {
+                          if (Provider.of<PlaylistProvider>(context,
+                                  listen: false)
+                              .isPlaylistLiked(widget.playlistId)) {
+                            await Provider.of<PlaylistProvider>(context,
+                                    listen: false)
+                                .unlikePlaylist(user.token, widget.playlistId)
+                                .then((_) {
+                              setState(() {});
+                            });
+                          } else {
+                            await Provider.of<PlaylistProvider>(context,
+                                    listen: false)
+                                .likePlaylist(user.token, widget.playlistId,
+                                    widget.playlistType)
+                                .then((_) {
+                              setState(() {});
+                            });
+                          }
+                        },
                         iconSize: deviceSize.width * 0.059, //26
                       ),
                       PopupMenuButton(
@@ -245,7 +274,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return SizedBox(height: deviceSize.height * 0.29282);
+                        return SizedBox(height: scaler.getHeight(60));
                       },
                       childCount: 1,
                     ),
