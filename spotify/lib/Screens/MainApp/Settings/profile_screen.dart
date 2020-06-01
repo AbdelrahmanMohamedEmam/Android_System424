@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: CircleAvatar(
                       radius: deviceSize.width * 0.219,
                       child: Text(
-                        user.getpickedImage==null?user.username[0]:"",
+                        user.getpickedImage == null ? user.username[0] : "",
                         style: TextStyle(
                           fontSize: deviceSize.height * 0.0367,
                         ),
@@ -139,8 +139,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: <Widget>[
                                   Text(
                                     '0',
-                                    // user.userStats[0].playlistsNumber
-                                    //     .toString(),
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
@@ -153,10 +151,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // user.getfollowers.length != 0
-                              //     ? Navigator.of(context).pushNamed(
-                              //         TabNavigatorRoutes.userFollowersScreen)
-                              //     : null;
+                              user.getfollowers.length != 0
+                                  ? Navigator.of(context).pushNamed(
+                                      TabNavigatorRoutes.userFollowersScreen)
+                                  : null;
                             },
                             child: Container(
                               height: deviceSize.height * 0.07327,
@@ -164,8 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: <Widget>[
                                   Text(
                                     user.getfollowers.length.toString(),
-                                    /*user.userStats[0].followersNumber
-                                        .toString(),*/
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/user.dart';
 
-class FollowersItemWidget extends StatelessWidget {
+class FollowingItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
@@ -17,7 +17,7 @@ class FollowersItemWidget extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        user.followers.length.toString() + " followers",
+        user.following.length.toString() + " following",
         style: TextStyle(color:Colors.white),
       ),
       trailing: Icon(
