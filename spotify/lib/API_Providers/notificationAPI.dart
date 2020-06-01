@@ -13,8 +13,12 @@ class NotificationsAPI {
   NotificationsAPI({
     this.baseUrl,
   });
+  String nextNotifications;
+  String get getNextNotificationUrl{
+    return nextNotifications;
+  }
 
-  Future<List> fetchCategories(String token) async {
+  Future<List> fetchNotificationsAPI(String token) async {
     final url = baseUrl +
         NotificationsEndPoints.me +
         NotificationsEndPoints.notifications;
@@ -25,7 +29,8 @@ class NotificationsAPI {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
-        final extractedList = temp['data'] as List;
+        nextNotifications = temp['data']['results']["next"];
+        final extractedList = temp['data']['results']['items'] as List;
         return extractedList;
       } else {
         print(response.statusCode);

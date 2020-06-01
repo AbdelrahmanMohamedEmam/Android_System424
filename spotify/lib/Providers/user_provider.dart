@@ -69,10 +69,10 @@ class UserProvider with ChangeNotifier {
   bool followSuccessful = false;
 
   ///List of the following users.
-  List<User> followingUsers;
+  List<User> followingUsers = [];
 
   ///List of the followers users.
-  List<User> followersUsers;
+  List<User> followersUsers = [];
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
@@ -485,7 +485,7 @@ class UserProvider with ChangeNotifier {
   Future<void> follow(String id) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      bool succeeded = await userAPI.followArtist(token, id);
+      bool succeeded = await userAPI.followAPI(token, id);
       if (!succeeded) {
         throw HttpException('Couldn\,t follow this user');
       } else {
@@ -493,7 +493,6 @@ class UserProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      //print(error.toString());
       throw error;
     }
   }

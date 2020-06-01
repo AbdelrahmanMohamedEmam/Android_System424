@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spotify/Models/playlist.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/widgets/created_playlist_widget.dart';
 
-class UserPlaylistsScreen extends StatelessWidget {
+class UserPlaylistsScreen extends StatefulWidget {
+  @override
+  _UserPlaylistsScreenState createState() => _UserPlaylistsScreenState();
+}
+
+class _UserPlaylistsScreenState extends State<UserPlaylistsScreen> {
+  List<Playlist> createdPlaylists;
+  @override
+  void didChangeDependencies() {
+    final playlists = Provider.of<PlaylistProvider>(context, listen: false);
+    createdPlaylists = playlists.getCreatedPlaylists;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +31,17 @@ class UserPlaylistsScreen extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontSize: 15,
+          ),
+        ),
+      ),
+      body: Container(
+        height: 550,
+        child: ListView.builder(
+          itemCount: createdPlaylists.length,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, i) => ChangeNotifierProvider.value(
+            value: createdPlaylists[i],
+            child: CreatedPlaylistWidget(),
           ),
         ),
       ),

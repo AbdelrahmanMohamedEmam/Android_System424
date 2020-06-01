@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/user.dart';
+import 'package:spotify/Providers/user_provider.dart';
 
-class FollowingItemWidget extends StatelessWidget {
+class FollowingItemWidget extends StatefulWidget {
+  @override
+  _FollowingItemWidgetState createState() => _FollowingItemWidgetState();
+}
+
+class _FollowingItemWidgetState extends State<FollowingItemWidget> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     return ListTile(
       title: Text(
         user.name,
-        style: TextStyle(color:Colors.white),
+        style: TextStyle(color: Colors.white),
       ),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(
@@ -18,11 +26,14 @@ class FollowingItemWidget extends StatelessWidget {
       ),
       subtitle: Text(
         user.following.length.toString() + " following",
-        style: TextStyle(color:Colors.white),
+        style: TextStyle(color: Colors.white),
       ),
-      trailing: Icon(
-        Icons.check,
-        color: Colors.green,
+      trailing: GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.check,
+          color: Colors.white,
+        ),
       ),
     );
   }
