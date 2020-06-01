@@ -485,7 +485,7 @@ class UserProvider with ChangeNotifier {
   Future<void> follow(String id) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      bool succeeded = await userAPI.followAPI(token, id);
+      bool succeeded = await userAPI.followArtist(token, id);
       if (!succeeded) {
         throw HttpException('Couldn\,t follow this user');
       } else {
