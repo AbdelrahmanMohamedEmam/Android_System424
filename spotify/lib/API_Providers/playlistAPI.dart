@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
+import 'package:spotify/Models/playlist.dart';
 import '../API_Providers/artistAPI.dart';
 
 class PlaylistEndPoints {
@@ -289,9 +290,10 @@ class PlaylistAPI {
     }
   }
 
-  Future<bool> createPlaylistApi(String token, String name) async {
-    final response = await Dio()
-        .post(baseUrl + PlaylistEndPoints.createPlaylist,
+  Future<Map<String, dynamic>> createPlaylistApi(
+      String token, String name) async {
+    final response =
+        await Dio().post(baseUrl + PlaylistEndPoints.createPlaylist,
             data: json.encode(
               {
                 "name": name,
@@ -306,9 +308,10 @@ class PlaylistAPI {
               },
             ));
     if (response.statusCode == 200) {
-      return true;
+      print(response.data);
+      return  response.data['playlist'];
     } else {
-      return false;
+      throw HttpException(json.decode(response.data)['message'].toString());
     }
   }
 

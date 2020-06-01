@@ -99,6 +99,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                   try {
                     await playlist.createPlaylist(
                         nameController.text, user.token);
+                        Navigator.of(context).pop();
                   } catch (error) {
                     _showErrorDialog(error.toString());
                   }

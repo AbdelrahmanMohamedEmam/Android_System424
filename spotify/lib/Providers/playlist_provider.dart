@@ -321,19 +321,15 @@ class PlaylistProvider with ChangeNotifier {
 
   Future<void> createPlaylist(String name, String token) async {
     PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
-
     try {
-      bool created = await playlistAPI.createPlaylistApi(name,token);
-
-      if (!created) {
-        throw HttpException('Name must be unique, Try another one');
-      } else {
+      Map<String, dynamic> playlist =
+          await playlistAPI.createPlaylistApi(token, name);
         createdSuccessful = true;
-      }
+        _createdPlaylists.add(Playlist.fromJson2(playlist));
       notifyListeners();
     } catch (error) {
       print(error.toString());
-      throw error;
+      throw HttpException('Name must be unique, Try another one');
     }
   }
 
