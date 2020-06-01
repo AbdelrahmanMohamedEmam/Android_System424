@@ -394,4 +394,42 @@ class UserAPI {
       return false;
     }
   }
+    Future<List> fetchFollowingApi(String token) async {
+    final url = baseUrl +'/me'+'/following';
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedList = temp['data']['users'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+
+      Future<List> fetchFollowersApi(String token) async {
+    final url = baseUrl +'/me'+'/followers';
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedList = temp['data']['users'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
 }

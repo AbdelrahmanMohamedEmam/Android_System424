@@ -68,6 +68,11 @@ class UserProvider with ChangeNotifier {
 
   bool followSuccessful = false;
 
+  ///List of the following users.
+  List<User> followingUsers;
+
+  ///List of the followers users.
+  List<User> followersUsers;
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
@@ -134,18 +139,27 @@ class UserProvider with ChangeNotifier {
   File get getpickedImage {
     return _user.pickedImage;
   }
+
   ///Setting the user to a premium/free user.
   void setPremium(String premium) {
     _user.role = premium;
   }
 
-  List<String> get getfollowers{
+  List<String> get getfollowers {
     return _user.followers;
-  } 
+  }
 
-    List<String> get getfollowing{
+  List<String> get getfollowing {
     return _user.following;
-  } 
+  }
+
+  List<User> get getfollowersUsers {
+    return followersUsers;
+  }
+
+  List<User> get getfollowingUsers {
+    return followingUsers;
+  }
 
   ///Initializing the user data after signing up/ logging in.
   ///Token must be provided for authentication.
@@ -383,6 +397,7 @@ class UserProvider with ChangeNotifier {
     _firebaseToken = extractedUserData['firebaseToken'];
 
     final newFirebaseToken = await _firebaseMessaging.getToken();
+    print("Fire base token" + _firebaseToken);
     if (newFirebaseToken != _firebaseToken) {
       _firebaseToken = newFirebaseToken;
       await updateFirebaseToken(_token, newFirebaseToken);
@@ -560,6 +575,42 @@ class UserProvider with ChangeNotifier {
       }
     } catch (error) {
       throw error;
+    }
+  }
+
+  ///A method that fetches for following users and set them in the following list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchFollowing(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await userApi.fetchFollowingApi(token);
+
+      final List<User> following = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        following.add(User.fromJson2(extractedList[i]));
+      }
+      followingUsers = following;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for following users and set them in the following list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchFollowers(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await userApi.fetchFollowersApi(token);
+
+      final List<User> following = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        following.add(User.fromJson2(extractedList[i]));
+      }
+      followersUsers = following;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
   }
 }
