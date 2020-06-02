@@ -44,7 +44,7 @@ class _UserFollowerScreenState extends State<UserFollowerScreen> {
         backgroundColor: Color.fromRGBO(48, 44, 44, 1),
         centerTitle: true,
         title: Text(
-          'Following',
+          'Followers',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,

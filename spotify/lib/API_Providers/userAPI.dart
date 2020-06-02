@@ -291,6 +291,68 @@ class UserAPI {
     }
   }
 
+  ///Sends a request to follow a user given the id.
+  ///Id must be provided.
+  ///Token must be provided for authentication.
+  ///In case of success true is returned.
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> follow(String token, String id) async {
+    try {
+      final response = await Dio().put(
+        baseUrl + '/me' + '/following',
+        options: Options(
+            headers: {"authorization": "Bearer " + token},
+            validateStatus: (_) {
+              return true;
+            }),
+        data: json.encode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///Sends a request to follow a user given the id.
+  ///Id must be provided.
+  ///Token must be provided for authentication.
+  ///In case of success true is returned.
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> unfollowFollowUser(String token, String id) async {
+    try {
+      final response = await Dio().delete(
+        baseUrl + '/me' + '/following',
+        options: Options(
+            headers: {"authorization": "Bearer " + token},
+            validateStatus: (_) {
+              return true;
+            }),
+        data: json.encode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
   ///Sends a request to change the password.
   ///Old password and new password must be provided.
   ///Token must be provided for authentication.

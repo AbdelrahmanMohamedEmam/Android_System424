@@ -315,7 +315,6 @@ class PlaylistProvider with ChangeNotifier {
       _createdPlaylists = loadedPlaylists;
       notifyListeners();
     } catch (error) {
-      throw HttpException(error.toString());
     }
   }
 

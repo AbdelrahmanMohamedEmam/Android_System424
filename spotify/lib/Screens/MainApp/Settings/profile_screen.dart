@@ -14,7 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isScrolled = false;
   UserProvider user;
   bool _isLoading = true;
-  bool isInit = false;
+  bool _isinit = false;
   PlaylistProvider playlists;
 
   @override
@@ -26,18 +26,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void didChangeDependencies() async {
-    if (!isInit) {
-      user = Provider.of<UserProvider>(context, listen: false);
-      playlists = Provider.of<PlaylistProvider>(context, listen: false);
-      await playlists.fetchCreatedPlaylists(user.token);
-      await user.fetchFollowers(user.token);
-      await user.fetchFollowing(user.token).then((_) {
+    // if(!_isinit)
+    // {
+    user = Provider.of<UserProvider>(context, listen: false);
+    playlists = Provider.of<PlaylistProvider>(context, listen: false);
+    await playlists.fetchCreatedPlaylists(user.token);
+    await user.fetchFollowers(user.token);
+    await user.fetchFollowing(user.token).then((_) {
+      if (!_isinit) {
         setState(() {
           _isLoading = false;
         });
-      });
-      isInit = true;
-    }
+      }
+    });
+    _isinit = true;
+    // }
     super.didChangeDependencies();
   }
 
@@ -183,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    user.getfollowers.length != 0
+                                    user.getfollowersUsers.length != 0
                                         ? Navigator.of(context).pushNamed(
                                             TabNavigatorRoutes
                                                 .userFollowersScreen)
@@ -208,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    user.getfollowing.length != 0
+                                    user.getfollowingUsers.length != 0
                                         ? Navigator.of(context).pushNamed(
                                             TabNavigatorRoutes
                                                 .userFollowingScreen)

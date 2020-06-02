@@ -169,6 +169,17 @@ class UserProvider with ChangeNotifier {
     return followingUsers;
   }
 
+  ///Checks if following user is followed by the current user or not.
+  bool isFollowed(String id) {
+    if (_user.following.isEmpty) {
+      return false;
+    }
+    if (_user.following.indexWhere((following) => following == id) != -1) {
+      return true;
+    }
+    return false;
+  }
+
   ///Initializing the user data after signing up/ logging in.
   ///Token must be provided for authentication.
   ///An object from the API provider [UserAPI] to send requests is created.
@@ -210,6 +221,18 @@ class UserProvider with ChangeNotifier {
       return _token;
     }
     return null;
+  }
+
+  ///A function that removes a following user from the list of id list.
+  void removeFollowing(String id) {
+    _user.following.removeAt(
+      _user.following.indexWhere((following) => following == id),
+    );
+  }
+
+  ///A function that add a following user from the list of id list.
+  void addFollowing(String id) {
+    _user.following.add(id);
   }
 
   ///Sends a http request to signIn/signUp with facebook account.
@@ -461,8 +484,7 @@ class UserProvider with ChangeNotifier {
   Future<void> fetchFollowedArtists(String token) async {
     UserAPI userApi = UserAPI(baseUrl: baseUrl);
     try {
-      final extractedList =
-          await userApi.fetchFollowedArtistsApi(token);
+      final extractedList = await userApi.fetchFollowedArtistsApi(token);
 
       final List<Artist> loadedArtists = [];
       for (int i = 0; i < extractedList.length; i++) {
@@ -509,16 +531,37 @@ class UserProvider with ChangeNotifier {
   ///Id must be provided.
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<void> follow(String id) async {
+  Future<bool> follow(String id) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      bool succeeded = await userAPI.followArtist(token, id);
+      bool succeeded = await userAPI.follow(token, id);
       if (!succeeded) {
-        throw HttpException('Couldn\,t follow this user');
+        return false;
       } else {
-        followSuccessful = true;
+        addFollowing(id);
+        notifyListeners();
+        return true;
       }
-      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  ///Sends a http request to unfollow a user given an id.
+  ///Id must be provided.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<void> unfollow(String id) async {
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    try {
+      bool succeeded = await userAPI.unfollowFollowUser(token, id);
+      if (!succeeded) {
+        return true;
+      } else {
+        removeFollowing(id);
+        notifyListeners();
+        return false;
+      }
     } catch (error) {
       throw error;
     }
@@ -618,7 +661,6 @@ class UserProvider with ChangeNotifier {
       followingUsers = following;
       notifyListeners();
     } catch (error) {
-      throw HttpException(error.toString());
     }
   }
 
@@ -636,7 +678,7 @@ class UserProvider with ChangeNotifier {
       followersUsers = following;
       notifyListeners();
     } catch (error) {
-      throw HttpException(error.toString());
+    
     }
   }
 }

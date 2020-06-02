@@ -9,6 +9,7 @@ class FollowingItemWidget extends StatefulWidget {
 }
 
 class _FollowingItemWidgetState extends State<FollowingItemWidget> {
+  Color color = Colors.green;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
@@ -29,10 +30,12 @@ class _FollowingItemWidgetState extends State<FollowingItemWidget> {
         style: TextStyle(color: Colors.white),
       ),
       trailing: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          //userProvider.unfollow(user.id);
+        },
         child: Icon(
           Icons.check,
-          color: Colors.white,
+          color: color,
         ),
       ),
     );
