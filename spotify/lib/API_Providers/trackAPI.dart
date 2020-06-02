@@ -46,13 +46,11 @@ class TrackAPI {
       if (response.statusCode != 204) {
         throw HttpException('Couldn\'t add song to recently played.');
       } else if (response.statusCode == 204 || response.statusCode == 200) {
-        //print('SONG ADDED SUCCESSFULLY');
         return true;
       } else {
         throw HttpException('Request failed! Check again later.');
       }
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -68,15 +66,12 @@ class TrackAPI {
         baseUrl + '/me/likedTracks?limit+' + limit.toString(),
         headers: {"authorization": "Bearer " + token},
       );
-      print(responseData.statusCode);
-      print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
         return jsonDecode(responseData.body)['data']['tracks'];
       }
     } catch (error) {
-      print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -93,14 +88,12 @@ class TrackAPI {
           data: json.encode({
             "id": trackId,
           }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      print(error.toString());
       throw error;
     }
   }
@@ -116,14 +109,12 @@ class TrackAPI {
           data: json.encode({
             "id": trackId,
           }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      print(error.toString());
       throw error;
     }
   }
@@ -208,8 +199,6 @@ class TrackAPI {
             headers: {"authorization": "Bearer " + token},
           ),
           data: {'id': id, 'type': type});
-      print(responseData.statusCode);
-      print(responseData.data['data']);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.data)['message']);
       } else {
@@ -227,10 +216,11 @@ class TrackAPI {
         baseUrl + '/me/player/ad',
         headers: {"authorization": "Bearer " + token},
       );
+      //print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
-        return jsonDecode(responseData.body)['data'];
+        return jsonDecode(responseData.body)['data']['track'];
       }
     } catch (error) {
       print(error.toString());
@@ -252,7 +242,6 @@ class TrackAPI {
             SearchEndPoints.limit,
         headers: {"authorization": "Bearer " + token},
       );
-      print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {

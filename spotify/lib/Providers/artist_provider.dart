@@ -69,6 +69,7 @@ class ArtistProvider with ChangeNotifier {
     try {
       final extractedList = await artistsApi.fetchAllApi(token);
       final List<Artist> loadedArtist = [];
+      print('HERE SUCCESSFULLYYYY');
       for (int i = 0; i < extractedList.length; i++) {
         loadedArtist.add(Artist.fromJson(extractedList[i]));
       }

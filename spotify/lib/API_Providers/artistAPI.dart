@@ -89,8 +89,9 @@ class ArtistAPI {
         url,
         headers: {'authorization': token},
       );
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 211) {
-        final extractedList = json.decode(response.body) as List;
+        final extractedList = json.decode(response.body)['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

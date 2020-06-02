@@ -62,20 +62,21 @@ class _PanelState extends State<Panel> {
                     margin: EdgeInsets.only(right: deviceSize.width * 0.03),
                     child: IconButton(
                       onPressed: () {
-
-                        Navigator.of(context).push(PageRouteBuilder(
-                            opaque: false,
-                            barrierColor: Colors.black87,
-                            pageBuilder: (BuildContext context, _, __) {
-                              return SongSettingsScreen(song: widget.song,);
-                            }
-                        ));
+                        if(!widget.song.isAd) {
+                          Navigator.of(context).push(PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.black87,
+                              pageBuilder: (BuildContext context, _, __) {
+                                return SongSettingsScreen(song: widget.song,);
+                              }
+                          ));
+                        }
 
                         //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
                       },
                       icon: Icon(
                         Icons.more_horiz,
-                        color: Colors.white,
+                        color: widget.song.isAd?Colors.grey:Colors.white,
                       ),
                       iconSize: deviceSize.height * 0.05,
                     ),
