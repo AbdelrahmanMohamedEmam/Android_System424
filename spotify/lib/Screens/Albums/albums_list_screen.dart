@@ -58,6 +58,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
     colorGenerated = false;
+    String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    Provider.of<PlayableTrackProvider>(context, listen: false)
+        .shuffledTrackList(userToken, widget.albumId, 'album');
     super.initState();
   }
 

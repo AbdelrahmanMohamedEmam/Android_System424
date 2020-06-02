@@ -202,18 +202,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Column(
                           children: <Widget>[
                             if(playHistoryProvider.getRecentlyPlayed!=[])RecentlyPlayedList(),
-                            // PlaylistList(PlaylistCategory.mostRecentPlaylists),
-                            // PlaylistList(PlaylistCategory.popularPlaylists),
-                            // AlbumList(AlbumCategory.mostRecentAlbums),
-                            // AlbumList(AlbumCategory.popularAlbums),
-                            // if (categoriesProvider.isPop)
-                            //   PlaylistList(PlaylistCategory.pop),
-                            // if (categoriesProvider.isJazz)
-                            //   PlaylistList(PlaylistCategory.jazz),
-                            // if (categoriesProvider.isArabic)
-                            //   PlaylistList(PlaylistCategory.arabic),
-                            // if (categoriesProvider.isHappy)
-                            //   PlaylistList(PlaylistCategory.happy),
+                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
+                             PlaylistList(PlaylistCategory.popularPlaylists),
+                             AlbumList(AlbumCategory.mostRecentAlbums),
+                             AlbumList(AlbumCategory.popularAlbums),
+                             if (categoriesProvider.isPop)
+                               PlaylistList(PlaylistCategory.pop),
+                             if (categoriesProvider.isJazz)
+                               PlaylistList(PlaylistCategory.jazz),
+                             if (categoriesProvider.isArabic)
+                               PlaylistList(PlaylistCategory.arabic),
+                             if (categoriesProvider.isHappy)
+                               PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
                             )
