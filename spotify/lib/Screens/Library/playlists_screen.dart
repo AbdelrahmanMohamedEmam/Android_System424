@@ -151,7 +151,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                               itemBuilder: (context, i) =>
                                   ChangeNotifierProvider.value(
                                 value: allList[i],
-                                child: (allList[i].category ==
+                                child: (allList[i].category2 ==
                                         PlaylistCategory.liked)
                                     ? FavPlaylistWidget(PlaylistCategory.liked,
                                         likedplaylists[i].id)

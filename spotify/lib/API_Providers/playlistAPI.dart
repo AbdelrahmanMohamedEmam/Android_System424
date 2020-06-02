@@ -120,6 +120,8 @@ class PlaylistAPI {
     }
   }
 
+
+
   Future<List> fetchMadeForYouPlaylistsApi(String token) async {
     final url =
         baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.madeForYou;
@@ -309,7 +311,7 @@ class PlaylistAPI {
             ));
     if (response.statusCode == 200) {
       print(response.data);
-      return  response.data['playlist'];
+      return response.data['playlist'];
     } else {
       throw HttpException(json.decode(response.data)['message'].toString());
     }

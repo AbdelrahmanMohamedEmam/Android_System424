@@ -61,6 +61,9 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as happy playlists.
   List<Track> _playableTracks = [];
 
+  ///List of playlist objects categorized as recently played playlists.
+  List<Playlist> _recentlyPlayed = [];
+
   ///Indicates if creating playlist succeeded .
   bool createdSuccessful = false;
 
@@ -72,6 +75,11 @@ class PlaylistProvider with ChangeNotifier {
   ///A method(getter) that returns a list of playlists (madeForYou).
   List<Playlist> get getMadeForYou {
     return [..._madeForYou];
+  }
+
+  ///A method(getter) that returns a list of playlists (recently played).
+  List<Playlist> get getRecentlyPlayed {
+    return [..._recentlyPlayed];
   }
 
   ///A method(getter) that returns a list of tracks (playableTracks).
@@ -293,6 +301,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.liked;
       }
       _likedPlaylists = loadedPlaylists;
       notifyListeners();
@@ -314,8 +323,7 @@ class PlaylistProvider with ChangeNotifier {
       }
       _createdPlaylists = loadedPlaylists;
       notifyListeners();
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   Future<void> createPlaylist(String name, String token) async {
