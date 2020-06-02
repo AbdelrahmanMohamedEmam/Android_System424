@@ -8,12 +8,14 @@ import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import '../Models/track.dart';
 
 ///It is used to provide the [PlaylistsListScreen] with the needed data about the track.
-class SongItemPlaylistList extends StatefulWidget {
+class AddSongToPlaylistItem extends StatefulWidget {
+  String id;
+  AddSongToPlaylistItem(this.id);
   @override
-  _SongItemPlaylistListState createState() => _SongItemPlaylistListState();
+  _AddSongToPlaylistItemState createState() => _AddSongToPlaylistItemState();
 }
 
-class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
+class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
@@ -25,10 +27,7 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
         width: deviceSize.width * 0.7,
         height: deviceSize.height * 0.1,
         child: InkWell(
-          onTap: () {
-            track.setCurrentSong(song, user.isUserPremium(), user.token);
-            Navigator.pop(context);
-          },
+          onTap: null,
           child: ListTile(
             leading: Image.network(song.album.image),
             title: Text(
@@ -44,35 +43,15 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
       ),
       IconButton(
         icon: Icon(
-          track.isTrackLiked(song.id) ? Icons.favorite : Icons.favorite_border,
+          Icons.add_circle,
           color: Colors.white,
+          size: 40,
         ),
-        onPressed: () async {
-          if (track.isTrackLiked(song.id)) {
-            await track.unlikeTrack(user.token, song.id).then((_) {
-              setState(() {});
-            });
-          } else {
-            await track.likeTrack(user.token, song).then((_) {
-              setState(() {});
-            });
-          }
-        },
-      ),
-      IconButton(
-        icon: Icon(
-          Icons.more_vert,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          Navigator.of(context).push(PageRouteBuilder(
-              opaque: false,
-              barrierColor: Colors.black87,
-              pageBuilder: (BuildContext context, _, __) {
-                return SongItemPopUpMenu(song);
-              }));
-
-          //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
+        onPressed: ()  {
+           Provider.of<PlaylistProvider>(context, listen: false)
+              .fetchMoreRandomTracksForPlaylist(user.token, widget.id).then((_){
+                print("lala");
+              });
         },
       ),
     ]);

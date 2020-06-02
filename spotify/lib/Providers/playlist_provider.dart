@@ -61,6 +61,9 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as happy playlists.
   List<Track> _playableTracks = [];
 
+  ///List of track objects categorized as random tracks.
+  List<Track> _randomTracks = [];
+
   ///Indicates if creating playlist succeeded .
   bool createdSuccessful = false;
 
@@ -77,6 +80,11 @@ class PlaylistProvider with ChangeNotifier {
   ///A method(getter) that returns a list of tracks (playableTracks).
   List<Track> get getToPlayTracks {
     return [..._playableTracks];
+  }
+
+  ///A method(getter) that returns a list of tracks (playableTracks).
+  List<Track> get getRandomTracks {
+    return [..._randomTracks];
   }
 
   ///A method(getter) that returns a list of playlists (most Recent Playlists).
@@ -186,6 +194,14 @@ class PlaylistProvider with ChangeNotifier {
     final playlistIndex =
         _artistProfilePlaylists.indexWhere((playlist) => playlist.id == id);
     return _artistProfilePlaylists[playlistIndex];
+  }
+
+  ///A method that returns a arabic playlist from arabic Playlists list.
+  ///It takes a [String] id.
+  Playlist getCreatedPlaylistsbyId(String id) {
+    final playlistIndex =
+        _createdPlaylists.indexWhere((playlist) => playlist.id == id);
+    return _createdPlaylists[playlistIndex];
   }
 
   ///A method that returns a made for you  playlist from made for you Playlists list.
@@ -389,6 +405,42 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
+  ///A method that fetches for Random Tracks and set them in the random tracks list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchRandomTracksForPlaylist(String token, String id) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList =
+          await playlistApi.fetchRandomTracksForPlaylistApi(token, id);
+
+      final List<Track> loadedTracks = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedTracks.add(Track.fromJson(extractedList[i]));
+      }
+      _randomTracks = loadedTracks;
+      notifyListeners();
+    } catch (error) {
+      //throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for Random Tracks and set them in the random tracks list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchMoreRandomTracksForPlaylist(String token, String id) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList =
+          await playlistApi.fetchRandomTracksForPlaylistApi(token, id);
+
+      for (int i = 0; i < extractedList.length; i++) {
+        _randomTracks.add(Track.fromJson(extractedList[i]));
+      }
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
   ///A method that fetches for workout playlists and set them in the workout list.
   ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchJazzPlaylists(String token, String id) async {
@@ -578,6 +630,25 @@ class PlaylistProvider with ChangeNotifier {
           _arabicPlaylists.removeAt(playlistIndex);
           playlist.isFetched = true;
           _arabicPlaylists.insert(playlistIndex, playlist);
+        } else {
+          return;
+        }
+      }
+
+      if (playlistCategory == PlaylistCategory.created) {
+        Playlist playlist = getCreatedPlaylistsbyId(id);
+        if (!playlist.isFetched) {
+          final extractedList =
+              await playlistApi.fetchPlaylistsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          playlist.tracks = loadedTracks;
+          final playlistIndex =
+              _createdPlaylists.indexWhere((playlist) => playlist.id == id);
+          _createdPlaylists.removeAt(playlistIndex);
+          playlist.isFetched = true;
+          _createdPlaylists.insert(playlistIndex, playlist);
         } else {
           return;
         }

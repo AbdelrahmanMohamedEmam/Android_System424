@@ -121,7 +121,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                     child: FlatButton.icon(
                       onPressed: () {
                         Navigator.of(context).push(PageRouteBuilder(
-                            opaque: true,
+                            opaque: false,
                             barrierColor: Colors.black87,
                             pageBuilder: (BuildContext context, _, __) {
                               return CreatePlaylistScreen();

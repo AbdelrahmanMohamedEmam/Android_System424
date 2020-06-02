@@ -167,6 +167,31 @@ class PlaylistAPI {
     }
   }
 
+  Future<List> fetchRandomTracksForPlaylistApi(String token, String id) async {
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/' +
+        id +
+        PlaylistEndPoints.tracks +
+        PlaylistEndPoints.madeForYou;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['tracks'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
   Future<List> fetchJazzPlaylistsApi(String token, String id) async {
     final url = baseUrl +
         PlaylistEndPoints.browse +
@@ -309,7 +334,7 @@ class PlaylistAPI {
             ));
     if (response.statusCode == 200) {
       print(response.data);
-      return  response.data['playlist'];
+      return response.data['playlist'];
     } else {
       throw HttpException(json.decode(response.data)['message'].toString());
     }

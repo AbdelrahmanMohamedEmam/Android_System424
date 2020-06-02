@@ -58,7 +58,13 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                 backgroundColor: Colors.black,
                 body: Container(
                   child: FlatButton.icon(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FollowArtistScreen(),
+                        ),
+                      );
+                    },
                     icon: Icon(
                       Icons.control_point,
                       color: Colors.grey,
