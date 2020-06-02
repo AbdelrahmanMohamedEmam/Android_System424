@@ -120,6 +120,8 @@ class PlaylistAPI {
     }
   }
 
+
+
   Future<List> fetchMadeForYouPlaylistsApi(String token) async {
     final url =
         baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.madeForYou;

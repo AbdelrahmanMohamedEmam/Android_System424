@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/owner.dart';
 import 'package:spotify/Models/track.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 
 //Import Models.
 import './external_url.dart';
@@ -59,6 +60,8 @@ class Playlist with ChangeNotifier {
 
   ///String indicating the category of the playlist.
   String category;
+
+  PlaylistCategory category2;
 
   ///String that describes the the time this playlist was created at.
   String createdAt;
