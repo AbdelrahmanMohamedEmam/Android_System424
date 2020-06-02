@@ -15,6 +15,7 @@ import 'dart:async';
 
 ///Importing shared preference library to cache data.
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Models/playlist.dart';
 
 ///Importing models to create objects.
@@ -73,6 +74,9 @@ class UserProvider with ChangeNotifier {
 
   ///List of the followers users.
   List<User> followersUsers;
+
+  ///List of the followeing artists.
+  List<Artist> followedArtists;
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
@@ -151,6 +155,10 @@ class UserProvider with ChangeNotifier {
 
   List<String> get getfollowing {
     return _user.following;
+  }
+
+  List<Artist> get getFollowedArtists {
+    return followedArtists;
   }
 
   List<User> get getfollowersUsers {
@@ -446,6 +454,25 @@ class UserProvider with ChangeNotifier {
     }
     final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
+  }
+
+  ///A method that fetches for most recent playlists and set them in the most recent.
+  ///It takes a [String] token for verification.
+  Future<void> fetchFollowedArtists(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList =
+          await userApi.fetchFollowedArtistsApi(token);
+
+      final List<Artist> loadedArtists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedArtists.add(Artist.fromJson(extractedList[i]));
+      }
+      followedArtists = loadedArtists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
   }
 
   ///Sends a http request to upgrade a user to premium.

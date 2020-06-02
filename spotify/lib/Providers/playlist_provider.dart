@@ -324,8 +324,8 @@ class PlaylistProvider with ChangeNotifier {
     try {
       Map<String, dynamic> playlist =
           await playlistAPI.createPlaylistApi(token, name);
-        createdSuccessful = true;
-        _createdPlaylists.add(Playlist.fromJson2(playlist));
+      createdSuccessful = true;
+      _createdPlaylists.add(Playlist.fromJson2(playlist));
       notifyListeners();
     } catch (error) {
       print(error.toString());
@@ -597,6 +597,24 @@ class PlaylistProvider with ChangeNotifier {
           _popPlaylists.removeAt(playlistIndex);
           playlist.isFetched = true;
           _popPlaylists.insert(playlistIndex, playlist);
+        } else {
+          return;
+        }
+      }
+      if (playlistCategory == PlaylistCategory.madeForYou) {
+        Playlist playlist = getMadeForYoubyId(id);
+        if (!playlist.isFetched) {
+          final extractedList =
+              await playlistApi.fetchPlaylistsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          playlist.tracks = loadedTracks;
+          final playlistIndex =
+              _madeForYou.indexWhere((playlist) => playlist.id == id);
+          _madeForYou.removeAt(playlistIndex);
+          playlist.isFetched = true;
+          _madeForYou.insert(playlistIndex, playlist);
         } else {
           return;
         }

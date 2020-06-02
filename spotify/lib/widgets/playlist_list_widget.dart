@@ -38,7 +38,7 @@ class PlaylistList extends StatelessWidget {
       categoryTitle = 'Happy';
       playlists = playlistsProvider.getHappyPlaylists;
     } else if (playlistType == PlaylistCategory.madeForYou) {
-      categoryTitle = 'Made for you';
+      categoryTitle = 'MadeForYou';
       playlists = playlistsProvider.getMadeForYou;
     }
 

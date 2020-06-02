@@ -5,6 +5,7 @@ import 'package:spotify/Screens/Library/create_playlist_screen.dart';
 import 'package:spotify/widgets/created_playlist_widget.dart';
 //import widgets
 import 'package:spotify/widgets/fav_playlist_widget.dart';
+import '../../widgets/liked_songs_widget.dart';
 //import providers
 import '../../Models/track.dart';
 import '../../Providers/playable_track.dart';
@@ -50,10 +51,15 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
   Widget build(BuildContext context) {
     ScreenScaler scaler = new ScreenScaler()..init(context);
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
+    final playableTrackProvider = Provider.of<PlayableTrackProvider>(context);
     List<Playlist> createdplaylists;
     List<Playlist> likedplaylists;
+    List<Track> likedTracks;
+    List<Playlist> allList;
     likedplaylists = playlistsProvider.getlikedPlaylists;
     createdplaylists = playlistsProvider.getCreatedPlaylists;
+    likedTracks = playableTrackProvider.getLikedTracks;
+    allList = likedplaylists + createdplaylists;
     var height = likedplaylists.length * 70;
     return (_isLoading)
         ? Scaffold(
@@ -107,84 +113,58 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                   ],
                 ),
               )
-            // : Scaffold(
-            //     backgroundColor: Colors.transparent,
-            //     body: CustomScrollView(
-            //       slivers: <Widget>[
-            //         SliverList(
-            //           delegate: SliverChildBuilderDelegate(
-            //             (context, index) {
-            //               return Column(
-            //                 children: <Widget>[
-            //                   if (likedplaylists.length != 0)
-            //                     FavPlaylistWidget(PlaylistCategory.liked,
-            //                         likedplaylists.id),
-            //                   if (createdplaylists.length != 0)
-            //                     CreatedPlaylistWidget(),
-            //                 ],
-            //               );
-            //             },
-            //             childCount: 1,
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //   );
-    : SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 70,
-              alignment: Alignment.centerLeft,
-              child: FlatButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(PageRouteBuilder(
-                      opaque: true,
-                      barrierColor: Colors.black87,
-                      pageBuilder: (BuildContext context, _, __) {
-                        return CreatePlaylistScreen();
-                      }));
-                },
-                icon: Icon(
-                  Icons.add_box,
-                  color: Colors.grey,
-                  size: 60,
-                ),
-                label: Text(
-                  'Create playlist',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
-                ),
-              ),
-            ),
-            if (likedplaylists.length != 0)
-              Container(
-                height: height.toDouble(),
-                //height: scaler.getHeight(40),
-                child: ListView.builder(
-                  itemCount: likedplaylists.length,
-                  itemBuilder: (context, i) =>
-                      ChangeNotifierProvider.value(
-                    value: likedplaylists[i],
-                    child: FavPlaylistWidget(
-                        PlaylistCategory.liked, likedplaylists[i].id),
+            : Column(
+                children: <Widget>[
+                  Container(
+                    height: 70,
+                    alignment: Alignment.centerLeft,
+                    child: FlatButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                            opaque: true,
+                            barrierColor: Colors.black87,
+                            pageBuilder: (BuildContext context, _, __) {
+                              return CreatePlaylistScreen();
+                            }));
+                      },
+                      icon: Icon(
+                        Icons.add_box,
+                        color: Colors.grey,
+                        size: 60,
+                      ),
+                      label: Text(
+                        'Create playlist',
+                        style: TextStyle(color: Colors.white, fontSize: 22),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            if (createdplaylists.length != 0)
-              Container(
-                // height: 350,
-                height: scaler.getHeight(20),
-                child: ListView.builder(
-                  itemCount: createdplaylists.length,
-                  itemBuilder: (context, i) =>
-                      ChangeNotifierProvider.value(
-                    value: createdplaylists[i],
-                    child: CreatedPlaylistWidget(),
+                  SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(),
+                      child: Column(
+                        children: <Widget>[
+                          (likedTracks.length != 0) ? LikedSongWidget() : null,
+                          Container(
+                            height: 400,
+                            child: ListView.builder(
+                              itemCount: allList.length,
+                              itemBuilder: (context, i) =>
+                                  ChangeNotifierProvider.value(
+                                value: allList[i],
+                                child: (allList[i].category ==
+                                        PlaylistCategory.liked)
+                                    ? FavPlaylistWidget(PlaylistCategory.liked,
+                                        likedplaylists[i].id)
+                                    : CreatedPlaylistWidget(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 80)
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-          ],
-        ),
-      );
+                ],
+              );
   }
 }

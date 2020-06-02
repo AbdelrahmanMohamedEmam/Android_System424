@@ -99,4 +99,6 @@ class ArtistAPI {
       throw HttpException(error.toString());
     }
   }
+  
 }
+

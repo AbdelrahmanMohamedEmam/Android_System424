@@ -60,8 +60,8 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 maxLength: null,
                 maxLines: null,
                 controller: nameController,
-                validator: (_) {
-                  if (nameController.text.length == 0) {
+                onChanged: (text) {
+                  if (nameController.text == "") {
                     setState(() {
                       _buttonEnabled = false;
                     });
@@ -81,7 +81,6 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
             ),
             padding: EdgeInsets.only(bottom: 50),
           ),
-          // Padding(padding: EdgeInsets.only(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -95,24 +94,17 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 ),
               ),
               FlatButton(
-                onPressed: () async {
-                  try {
-                    await playlist.createPlaylist(
-                        nameController.text, user.token);
-                        Navigator.of(context).pop();
-                  } catch (error) {
-                    _showErrorDialog(error.toString());
-                  }
-                },
-                // _buttonEnabled
-                //     ? () {
-                //         Navigator.of(context).push(
-                //           MaterialPageRoute(
-                //             builder: (context) => CreatedPlaylistScreen(),
-                //           ),
-                //         );
-                //       }
-                //     : null,
+                onPressed: _buttonEnabled
+                    ? () async {
+                        try {
+                          await playlist.createPlaylist(
+                              nameController.text, user.token);
+                          Navigator.of(context).pop();
+                        } catch (error) {
+                          _showErrorDialog(error.toString());
+                        }
+                      }
+                    : null,
                 child: Text(
                   'Create',
                   style: TextStyle(

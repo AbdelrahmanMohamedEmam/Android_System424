@@ -5,8 +5,10 @@ import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/Albums/pop_up_menu_album_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/widgets/song_card_artist_mode.dart';
+import 'package:spotify/widgets/song_item_in_album_list.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -195,12 +197,23 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             ),
                       isArtist
                           ? Container()
-                          : PopupMenuButton(
-                              enabled: false,
-                              itemBuilder: (_) => [],
-                              icon:
-                                  Icon(Icons.more_vert, color: Colors.white54),
-                            )
+                          : IconButton(
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    barrierColor: Colors.black87,
+                                    pageBuilder: (BuildContext context, _, __) {
+                                      return PopUpMenuAlbumScreen(
+                                          albums, widget.albumType);
+                                    }));
+
+                                //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
+                              },
+                            ),
                     ],
                     expandedHeight: 400,
                     pinned: true,
@@ -312,7 +325,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                               value: albums.tracks[index],
                               child: isArtist
                                   ? SongItemArtistMode(albumId: widget.albumId)
-                                  : SongItemPlaylistList(),
+                                  : SongItemAlbumList(albums.image),
                             ),
                           ],
                         );

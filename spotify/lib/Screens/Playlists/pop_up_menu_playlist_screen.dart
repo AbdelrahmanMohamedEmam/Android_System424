@@ -5,7 +5,11 @@ import 'package:flutter/cupertino.dart';
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:spotify/Models/album.dart';
+import 'package:spotify/Models/playlist.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
@@ -19,16 +23,17 @@ import '../../Providers/user_provider.dart';
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-class SongSettingsScreen extends StatefulWidget {
+class PopUpMenuPlaylistScreen extends StatefulWidget {
   static const routeName = '/song_settings_screen';
-  Track song;
-  SongSettingsScreen({this.song});
+  Playlist playlist;
+  PlaylistCategory category;
+  PopUpMenuPlaylistScreen(this.playlist, this.category);
 
   @override
-  _SongSettingsScreenState createState() => _SongSettingsScreenState();
+  _PopUpMenuPlaylistScreenState createState() => _PopUpMenuPlaylistScreenState();
 }
 
-class _SongSettingsScreenState extends State<SongSettingsScreen> {
+class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
   ///Initializations.
   @override
   void initState() {
@@ -37,18 +42,10 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('nddjkd');
-    print(widget.song.artists[0].name);
-    print(widget.song.artists[0].type);
-    print(widget.song.artists[0].id);
-    //print(widget.song.artists[0].followers);
-    print(widget.song.artists[0].images[0]);
-    //print(json.decode(widget.song.artists));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
-    final trackProvider =
-        Provider.of<PlayableTrackProvider>(context, listen: false);
+    final playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.
     return Scaffold(
@@ -64,7 +61,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                   children: <Widget>[
                     Container(
                       child: Image.network(
-                        widget.song.album.image,
+                        widget.playlist.images[0],
                         height: deviceSize.height * 0.3,
                       ),
                       margin: EdgeInsets.only(
@@ -73,7 +70,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     ),
                     Container(
                       child: Text(
-                        widget.song.name,
+                        widget.playlist.name,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: deviceSize.width * 0.04),
@@ -84,7 +81,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     ),
                     Container(
                       child: Text(
-                        widget.song.artists[0].name,
+                        widget.playlist.owner[0].name,
                         style: TextStyle(
                             color: Colors.white60,
                             fontSize: deviceSize.width * 0.035),
@@ -99,8 +96,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                           //print(widget.song.artists[0].artistInfo.biography);
                           await Share.share(
                               'Check Out This Album On Totally Not Spotify ' +
-                                  widget.song.album.href
-                                      .replaceAll('/api', ''));
+                                  widget.playlist.href.replaceAll('/api', ''));
                         },
                         child: Row(
                           children: <Widget>[
@@ -114,7 +110,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                             Container(
                                 margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
                                 child: Text(
-                                  'Share this album',
+                                  'Share this playlist',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: deviceSize.width * 0.05),
@@ -126,19 +122,19 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     Container(
                         child: InkWell(
                       onTap: () async {
-                        if (Provider.of<PlayableTrackProvider>(context,
-                                listen: false)
-                            .isTrackLiked(widget.song.id)) {
-                          await Provider.of<PlayableTrackProvider>(context,
+                        if (Provider.of<PlaylistProvider>(context, listen: false)
+                            .isPlaylistLiked(widget.playlist.id)) {
+                          await Provider.of<PlaylistProvider>(context,
                                   listen: false)
-                              .unlikeTrack(user.token, widget.song.id)
+                              .unlikePlaylist(user.token, widget.playlist.id)
                               .then((_) {
                             setState(() {});
                           });
                         } else {
-                          await Provider.of<PlayableTrackProvider>(context,
+                          await Provider.of<PlaylistProvider>(context,
                                   listen: false)
-                              .likeTrack(user.token, widget.song)
+                              .likePlaylist(
+                                  user.token, widget.playlist.id, widget.category)
                               .then((_) {
                             setState(() {});
                           });
@@ -148,7 +144,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                         children: <Widget>[
                           Container(
                             child: Icon(
-                              trackProvider.isTrackLiked(widget.song.id)
+                              playlistProvider.isPlaylistLiked(widget.playlist.id)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: Colors.white,
@@ -158,9 +154,9 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                           Container(
                               margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
                               child: Text(
-                                trackProvider.isTrackLiked(widget.song.id)
-                                    ? 'Unlike this song'
-                                    : 'Like this song',
+                                playlistProvider.isPlaylistLiked(widget.playlist.id)
+                                    ? 'Unlike this playlist'
+                                    : 'Like this playlist',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: deviceSize.width * 0.05),
@@ -168,63 +164,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                         ],
                       ),
                     )),
-                    Container(
-                      child: InkWell(
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
-                                margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                                  child: Text(
-                                    'View Artist',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: deviceSize.width * 0.05),
-                                  ))
-                            ],
-                          ),
-                          onTap: () {
-                            print(widget.song.artists[0].id);
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ArtistProfileScreen(
-                                      id: widget.song.artists[0].id,
-                                    )));
-                          }),
-                    ),
-                    Container(
-                      child: InkWell(
-                        onTap: () {
-                          print(widget.song.artists[0].artistInfo.biography);
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Icon(
-                                Icons.info,
-                                color: Colors.white,
-                              ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                              child: Text(
-                                'Show artist info',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviceSize.width * 0.05),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    
                   ],
                 ),
               ),

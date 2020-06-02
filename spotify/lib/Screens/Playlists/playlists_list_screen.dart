@@ -6,6 +6,8 @@ import 'package:spotify/Models/playlist.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/Playlists/pop_up_menu_playlist_screen.dart';
+import 'package:spotify/widgets/made_for_you_playlists_widget.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 import '../../Models/track.dart';
@@ -22,15 +24,19 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   var playlistsProvider;
   UserProvider user;
   Playlist playlists;
+
   ScrollController _scrollController;
   bool _isScrolled = false;
   bool _isLoading = true;
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
+  List<Playlist> madeForYou;
 
   @override
   void didChangeDependencies() async {
+    madeForYou =
+        Provider.of<PlaylistProvider>(context, listen: false).getMadeForYou;
     user = Provider.of<UserProvider>(context);
     await Provider.of<PlaylistProvider>(context, listen: false)
         .fetchPlaylistsTracksById(
@@ -43,6 +49,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                 .getPlayableTracks(widget.playlistId, widget.playlistType);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setTracksToBePlayed(toAdd);
+
         if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getMostRecentPlaylistsId(widget.playlistId);
@@ -178,14 +185,23 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         },
                         iconSize: deviceSize.width * 0.059, //26
                       ),
-                      PopupMenuButton(
-                        enabled: false,
-                        itemBuilder: (_) => [],
+                      IconButton(
                         icon: Icon(
                           Icons.more_vert,
-                          color: Colors.white54,
+                          color: Colors.white,
                         ),
-                      )
+                        onPressed: () {
+                          Navigator.of(context).push(PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.black87,
+                              pageBuilder: (BuildContext context, _, __) {
+                                return PopUpMenuPlaylistScreen(
+                                    playlists, widget.playlistType);
+                              }));
+
+                          //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
+                        },
+                      ),
                     ],
                     expandedHeight: deviceSize.height * 0.52, //340
                     pinned: true,
@@ -279,6 +295,11 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                       childCount: 1,
                     ),
                   ),
+                  // Expanded(
+                  //   child: Container(
+                  //     child: MadeForYouPlaylists(),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

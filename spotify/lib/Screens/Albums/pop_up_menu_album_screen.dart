@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:spotify/Models/album.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
@@ -19,16 +21,17 @@ import '../../Providers/user_provider.dart';
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-class SongSettingsScreen extends StatefulWidget {
+class PopUpMenuAlbumScreen extends StatefulWidget {
   static const routeName = '/song_settings_screen';
-  Track song;
-  SongSettingsScreen({this.song});
+  Album album;
+  AlbumCategory category;
+  PopUpMenuAlbumScreen(this.album, this.category);
 
   @override
-  _SongSettingsScreenState createState() => _SongSettingsScreenState();
+  _PopUpMenuAlbumScreenState createState() => _PopUpMenuAlbumScreenState();
 }
 
-class _SongSettingsScreenState extends State<SongSettingsScreen> {
+class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
   ///Initializations.
   @override
   void initState() {
@@ -37,18 +40,10 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('nddjkd');
-    print(widget.song.artists[0].name);
-    print(widget.song.artists[0].type);
-    print(widget.song.artists[0].id);
-    //print(widget.song.artists[0].followers);
-    print(widget.song.artists[0].images[0]);
-    //print(json.decode(widget.song.artists));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
-    final trackProvider =
-        Provider.of<PlayableTrackProvider>(context, listen: false);
+    final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.
     return Scaffold(
@@ -64,7 +59,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                   children: <Widget>[
                     Container(
                       child: Image.network(
-                        widget.song.album.image,
+                        widget.album.image,
                         height: deviceSize.height * 0.3,
                       ),
                       margin: EdgeInsets.only(
@@ -73,7 +68,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     ),
                     Container(
                       child: Text(
-                        widget.song.name,
+                        widget.album.name,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: deviceSize.width * 0.04),
@@ -84,7 +79,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     ),
                     Container(
                       child: Text(
-                        widget.song.artists[0].name,
+                        widget.album.artists[0].name,
                         style: TextStyle(
                             color: Colors.white60,
                             fontSize: deviceSize.width * 0.035),
@@ -99,8 +94,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                           //print(widget.song.artists[0].artistInfo.biography);
                           await Share.share(
                               'Check Out This Album On Totally Not Spotify ' +
-                                  widget.song.album.href
-                                      .replaceAll('/api', ''));
+                                  widget.album.href.replaceAll('/api', ''));
                         },
                         child: Row(
                           children: <Widget>[
@@ -126,19 +120,19 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     Container(
                         child: InkWell(
                       onTap: () async {
-                        if (Provider.of<PlayableTrackProvider>(context,
-                                listen: false)
-                            .isTrackLiked(widget.song.id)) {
-                          await Provider.of<PlayableTrackProvider>(context,
+                        if (Provider.of<AlbumProvider>(context, listen: false)
+                            .isAlbumLiked(widget.album.id)) {
+                          await Provider.of<AlbumProvider>(context,
                                   listen: false)
-                              .unlikeTrack(user.token, widget.song.id)
+                              .unlikeAlbum(user.token, widget.album.id)
                               .then((_) {
                             setState(() {});
                           });
                         } else {
-                          await Provider.of<PlayableTrackProvider>(context,
+                          await Provider.of<AlbumProvider>(context,
                                   listen: false)
-                              .likeTrack(user.token, widget.song)
+                              .likeAlbum(
+                                  user.token, widget.album.id, widget.category)
                               .then((_) {
                             setState(() {});
                           });
@@ -148,7 +142,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                         children: <Widget>[
                           Container(
                             child: Icon(
-                              trackProvider.isTrackLiked(widget.song.id)
+                              albumProvider.isAlbumLiked(widget.album.id)
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: Colors.white,
@@ -158,9 +152,9 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                           Container(
                               margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
                               child: Text(
-                                trackProvider.isTrackLiked(widget.song.id)
-                                    ? 'Unlike this song'
-                                    : 'Like this song',
+                                albumProvider.isAlbumLiked(widget.album.id)
+                                    ? 'Unlike this album'
+                                    : 'Like this album',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: deviceSize.width * 0.05),
@@ -190,40 +184,13 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                             ],
                           ),
                           onTap: () {
-                            print(widget.song.artists[0].id);
+                            //print(widget.song.artists[0].id);
                             Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ArtistProfileScreen(
-                                      id: widget.song.artists[0].id,
+                                      id: widget.album.artists[0].id,
                                     )));
                           }),
-                    ),
-                    Container(
-                      child: InkWell(
-                        onTap: () {
-                          print(widget.song.artists[0].artistInfo.biography);
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Icon(
-                                Icons.info,
-                                color: Colors.white,
-                              ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                              child: Text(
-                                'Show artist info',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviceSize.width * 0.05),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ],
                 ),

@@ -82,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
       playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
       Provider.of<PlayHistoryProvider>(context, listen: false)
           .fetchRecentlyPlayed(user.token);
-      playlistProvider.fetchMadeForYou(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYou(user.token);
+      //playlistProvider.fetchMadeForYou(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchMostRecentAlbums(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
@@ -116,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
             playlistProvider.fetchPopPlaylists(
                 user.token, categoriesProvider.getPopCategoryId);
           }
+
           _isLoading = false;
         });
       });
@@ -206,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: <Widget>[
                             if (!playHistoryProvider.getRecentlyPlayed.isEmpty)
                               RecentlyPlayedList(),
-                            // PlaylistList(PlaylistCategory.madeForYou),
+                            PlaylistList(PlaylistCategory.madeForYou),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
                             AlbumList(AlbumCategory.mostRecentAlbums),
