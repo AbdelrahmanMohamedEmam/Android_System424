@@ -70,10 +70,10 @@ class UserProvider with ChangeNotifier {
   bool followSuccessful = false;
 
   ///List of the following users.
-  List<User> followingUsers;
+  List<User> followingUsers = [];
 
   ///List of the followers users.
-  List<User> followersUsers;
+  List<User> followersUsers = [];
 
   ///List of the followeing artists.
   List<Artist> followedArtists;
@@ -520,7 +520,6 @@ class UserProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      //print(error.toString());
       throw error;
     }
   }
