@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
 import '../../Models/track.dart';
@@ -34,6 +37,13 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('nddjkd');
+    print(widget.song.artists[0].name);
+    print(widget.song.artists[0].type);
+    print(widget.song.artists[0].id);
+    //print(widget.song.artists[0].followers);
+    print(widget.song.artists[0].images[0]);
+    //print(json.decode(widget.song.artists));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
@@ -53,7 +63,10 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: Image.network(widget.song.album.image,height: deviceSize.height*0.3,),
+                      child: Image.network(
+                        widget.song.album.image,
+                        height: deviceSize.height * 0.3,
+                      ),
                       margin: EdgeInsets.only(
                         top: deviceSize.height * 0.1,
                       ),
@@ -81,53 +94,56 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                           bottom: deviceSize.height * 0.05),
                     ),
                     Container(
-                        child: InkWell(
-                          onTap: ()async{
-                            //print(widget.song.artists[0].artistInfo.biography);
-                            await Share.share('Check Out This Album On Totally Not Spotify ' + widget.song.album.href.replaceAll('/api', ''));
-                          },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: Icon(
-                              Icons.share,
-                              color: Colors.white,
+                      child: InkWell(
+                        onTap: () async {
+                          //print(widget.song.artists[0].artistInfo.biography);
+                          await Share.share(
+                              'Check Out This Album On Totally Not Spotify ' +
+                                  widget.song.album.href
+                                      .replaceAll('/api', ''));
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              child: Icon(
+                                Icons.share,
+                                color: Colors.white,
+                              ),
+                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
                             ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                          ),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                              child: Text(
-                                'Share this album',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviceSize.width * 0.05),
-                              ))
-                        ],
+                            Container(
+                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                child: Text(
+                                  'Share this album',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: deviceSize.width * 0.05),
+                                ))
+                          ],
+                        ),
                       ),
-                    ),
                     ),
                     Container(
                         child: InkWell(
-                          onTap: ()async{
-                            if (Provider.of<PlayableTrackProvider>(context, listen: false).isTrackLiked(widget.song.id))
-                            {
-                              await Provider.of<PlayableTrackProvider>(context, listen: false).unlikeTrack(user.token, widget.song.id)
-                                  .then((_){setState(() {
-
-                              });
-                              });
-                            }
-                            else
-                            {
-                              await Provider.of<PlayableTrackProvider>(context, listen: false).likeTrack(user.token, widget.song).then((_){
-                                setState(() {
-                                });
-                              });
-
-
-                            }
-                          },
+                      onTap: () async {
+                        if (Provider.of<PlayableTrackProvider>(context,
+                                listen: false)
+                            .isTrackLiked(widget.song.id)) {
+                          await Provider.of<PlayableTrackProvider>(context,
+                                  listen: false)
+                              .unlikeTrack(user.token, widget.song.id)
+                              .then((_) {
+                            setState(() {});
+                          });
+                        } else {
+                          await Provider.of<PlayableTrackProvider>(context,
+                                  listen: false)
+                              .likeTrack(user.token, widget.song)
+                              .then((_) {
+                            setState(() {});
+                          });
+                        }
+                      },
                       child: Row(
                         children: <Widget>[
                           Container(
@@ -154,30 +170,37 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     )),
                     Container(
                       child: InkWell(
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.white,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                            ),
-                            Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                                child: Text(
-                                  'View Artist',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: deviceSize.width * 0.05),
-                                ))
-                          ],
-                        ),
-                      ),
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                  child: Text(
+                                    'View Artist',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: deviceSize.width * 0.05),
+                                  ))
+                            ],
+                          ),
+                          onTap: () {
+                            print(widget.song.artists[0].id);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ArtistProfileScreen(
+                                      id: widget.song.artists[0].id,
+                                    )));
+                          }),
                     ),
                     Container(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           print(widget.song.artists[0].artistInfo.biography);
                         },
                         child: Row(
@@ -190,46 +213,46 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                               margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                                child: Text(
-                                  'Show artist info',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: deviceSize.width * 0.05),
-                                ))
+                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                              child: Text(
+                                'Show artist info',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: deviceSize.width * 0.05),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
             ),
             Container(
-
-                child: InkWell(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: FlatButton(
-                      child: Text(
-                        'CLOSE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: deviceSize.width * 0.035,
-                          decoration: TextDecoration.underline,
+              child: InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: FlatButton(
+                        child: Text(
+                          'CLOSE',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: deviceSize.width * 0.035,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ))
+            )
           ],
         ));
   }

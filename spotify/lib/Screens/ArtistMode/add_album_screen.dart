@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-//import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../Providers/user_provider.dart';
 
 class CreateAlbum extends StatefulWidget {
@@ -38,15 +38,15 @@ class _CreateAlbumState extends State<CreateAlbum> {
   String dropdownValue2 = 'rock';
 
   ///method to pick image from mobile gallery.
-  /*Future getImageFromGallery() async {
+  Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imageURI = image;
     });
-  }*/
+  }
 
   ///method used to create new album by sending its data to the server.
-  /*void _createAlbum(BuildContext ctx , String _userToken ) async
+  void _createAlbum(BuildContext ctx , String _userToken ) async
   {
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
@@ -56,9 +56,10 @@ class _CreateAlbumState extends State<CreateAlbum> {
       {
         _currentTime = '0';
         Navigator.of(ctx).pop();
+        print('popped');
       }
     });
-  }*/
+  }
 
   ///method that updates the date to the date of now.
   void _updateCurrentTime() {
@@ -251,7 +252,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                     width: deviceSize.width * 0.7,
                     height: deviceSize.width * 0.12,
                     child: RaisedButton(
-                      //onPressed: () =>getImageFromGallery(),
+                      onPressed: () =>getImageFromGallery(),
                       child: Text('Open Gallery'),
                       textColor: Colors.white,
                       color: Colors.green[700],
@@ -269,7 +270,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
               height: deviceSize.height * 0.07,
               width: deviceSize.width * 0.1,
               child: FloatingActionButton(
-                // onPressed: () => _createAlbum(context, _user),
+                onPressed: () => _createAlbum(context, _user),
                 backgroundColor: Colors.blueGrey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),

@@ -1,5 +1,3 @@
-
-
 import 'dart:math';
 
 ///Importing libraries from external packages.
@@ -24,13 +22,13 @@ class PlayableTrackProvider with ChangeNotifier {
   bool _waitingSong = false;
 
   ///Liked Tracks Array
-  List<Track> likedTracks=[];
+  List<Track> likedTracks = [];
 
   ///Shuffled Tracks Array
-  List<Track> tracksToBePlayed=[];
+  List<Track> tracksToBePlayed = [];
 
   ///Shuffled Tracks ids Array
-  List<String> shuffledTracksIDs=[];
+  List<String> shuffledTracksIDs = [];
 
   ///Index of track to be played
   int indexOfTrack;
@@ -38,41 +36,35 @@ class PlayableTrackProvider with ChangeNotifier {
   ///Track containing the ad
   Track advertisement;
 
-
-  void setTracksToBePlayed (List<Track> tracksToAdd)
-  {
-    tracksToBePlayed=tracksToAdd;
-    indexOfTrack=0;
+  void setTracksToBePlayed(List<Track> tracksToAdd) {
+    tracksToBePlayed = tracksToAdd;
+    indexOfTrack = 0;
   }
-
 
   void playAd() {
-      currentSong = advertisement;
-      _waitingSong = true;
-      notifyListeners();
+    currentSong = advertisement;
+    _waitingSong = true;
+    notifyListeners();
   }
-
 
   ///Setting the song to requested to be played.
   void setCurrentSong(Track song, bool isPremium, String token) {
-    if(isPremium) {
+    if (isPremium) {
       currentSong = song;
       _waitingSong = true;
       notifyListeners();
-    }
-    else {
-        final id = shuffledTracksIDs[indexOfTrack];
-        final index = tracksToBePlayed.indexWhere((track) => track.id == id);
-        print('INDEX' + index.toString());
-        print(tracksToBePlayed[index].name);
-        currentSong = tracksToBePlayed[index];
-        _waitingSong = true;
-        indexOfTrack++;
-        if (indexOfTrack >= tracksToBePlayed.length) {
-          indexOfTrack = 0;
-        }
+    } else {
+      final id = shuffledTracksIDs[indexOfTrack];
+      final index = tracksToBePlayed.indexWhere((track) => track.id == id);
+      print('INDEX' + index.toString());
+      print(tracksToBePlayed[index].name);
+      currentSong = tracksToBePlayed[index];
+      _waitingSong = true;
+      indexOfTrack++;
+      if (indexOfTrack >= tracksToBePlayed.length) {
+        indexOfTrack = 0;
+      }
       notifyListeners();
-
     }
   }
 
@@ -86,6 +78,11 @@ class PlayableTrackProvider with ChangeNotifier {
   ///True if there is a song requested to be played.
   bool getWaitingStatus() {
     return _waitingSong;
+  }
+
+  ///A method(getter) that returns a list of tracks (liked tracks).
+  List<Track> get getLikedTracks {
+    return likedTracks;
   }
 
   ///Sends a http request to add a track to recently played.
@@ -108,18 +105,15 @@ class PlayableTrackProvider with ChangeNotifier {
   }
 
   ///Checks if track with a certain id is liked
-  bool isTrackLiked(String id){
-    if (likedTracks.isEmpty)
-      {
-        return false;
-      }
-    if(likedTracks.indexWhere((track) => track.id == id)!=-1)
-      {
-        return true;
-      }
+  bool isTrackLiked(String id) {
+    if (likedTracks.isEmpty) {
+      return false;
+    }
+    if (likedTracks.indexWhere((track) => track.id == id) != -1) {
+      return true;
+    }
     return false;
   }
-
 
   ///Sends a http request to fetch liked tracks.
   ///Context Uri, Track Uri and Context type must be provided.
@@ -130,12 +124,9 @@ class PlayableTrackProvider with ChangeNotifier {
     try {
       final extractedList = await trackAPI.fetchUserLikedTracks(token, limit);
 
-        likedTracks=parceTrackPlaylists(extractedList);
-
-
-
-    }catch(error){
-        print(error.toString());
+      likedTracks = parceTrackPlaylists(extractedList);
+    } catch (error) {
+      print(error.toString());
     }
   }
 
@@ -146,7 +137,7 @@ class PlayableTrackProvider with ChangeNotifier {
       likedTracks.add(song);
       notifyListeners();
       return response;
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
@@ -155,17 +146,15 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.unlikeTrack(token, trackId);
-      if(true) {
-
-        int index=likedTracks.indexWhere((track) => track.id == trackId);
-        if(index!=-1)
-          {
-            likedTracks.removeAt(index);
-          }
+      if (true) {
+        int index = likedTracks.indexWhere((track) => track.id == trackId);
+        if (index != -1) {
+          likedTracks.removeAt(index);
+        }
         notifyListeners();
         return response;
       }
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
@@ -175,7 +164,7 @@ class PlayableTrackProvider with ChangeNotifier {
     try {
       final response = await trackAPI.nextTrack(token);
       return response;
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
@@ -184,9 +173,9 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.nextTrack(token);
-      if(response==true){
-        final id=shuffledTracksIDs[indexOfTrack];
-        final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
+      if (response == true) {
+        final id = shuffledTracksIDs[indexOfTrack];
+        final index = tracksToBePlayed.indexWhere((track) => track.id == id);
         final checkAd = await checkIfAd(tracksToBePlayed[index], token);
         if (!checkAd) {
           print(tracksToBePlayed[index].id);
@@ -196,8 +185,13 @@ class PlayableTrackProvider with ChangeNotifier {
           if (indexOfTrack >= tracksToBePlayed.length) {
             indexOfTrack = 0;
           }
-        }else{
+        } else {
           await adTrack(token);
+          print(advertisement.name);
+          print(advertisement.href);
+          print(advertisement.album);
+          print(advertisement.name);
+
           currentSong = advertisement;
           _waitingSong = true;
         }
@@ -206,28 +200,23 @@ class PlayableTrackProvider with ChangeNotifier {
       }
       return false;
       //return response;
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
-
-
-
-
 
   Future<bool> playPreviousTrack(String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.previousTrack(token);
-      if(response==true){
-        indexOfTrack=indexOfTrack-2;
-        print('indexx'+indexOfTrack.toString());
-        if(indexOfTrack<0)
-        {
-          indexOfTrack=tracksToBePlayed.length-1;
+      if (response == true) {
+        indexOfTrack = indexOfTrack - 2;
+        print('indexx' + indexOfTrack.toString());
+        if (indexOfTrack < 0) {
+          indexOfTrack = tracksToBePlayed.length - 1;
         }
-        final id=shuffledTracksIDs[indexOfTrack];
-        final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
+        final id = shuffledTracksIDs[indexOfTrack];
+        final index = tracksToBePlayed.indexWhere((track) => track.id == id);
         print(tracksToBePlayed[index].id);
         currentSong = tracksToBePlayed[index];
         _waitingSong = true;
@@ -237,7 +226,7 @@ class PlayableTrackProvider with ChangeNotifier {
       }
       return false;
       //return response;
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
@@ -247,7 +236,7 @@ class PlayableTrackProvider with ChangeNotifier {
     try {
       final response = await trackAPI.previousTrack(token);
       return response;
-    }catch (error){
+    } catch (error) {
       throw error;
     }
   }
@@ -255,12 +244,12 @@ class PlayableTrackProvider with ChangeNotifier {
   Future<bool> finishedTrack(String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
-      if(!currentSong.isAd) {
+      if (!currentSong.isAd) {
         final response = await trackAPI.finishedTrack(token);
       }
-      final id=shuffledTracksIDs[indexOfTrack];
-      final index=tracksToBePlayed.indexWhere((track)=>track.id==id);
-      print('INDEX'+index.toString());
+      final id = shuffledTracksIDs[indexOfTrack];
+      final index = tracksToBePlayed.indexWhere((track) => track.id == id);
+      print('INDEX' + index.toString());
       final checkAd = await checkIfAd(tracksToBePlayed[index], token);
       if (!checkAd) {
         print(tracksToBePlayed[index].id);
@@ -270,27 +259,27 @@ class PlayableTrackProvider with ChangeNotifier {
         if (indexOfTrack >= tracksToBePlayed.length) {
           indexOfTrack = 0;
         }
-      }else{
+      } else {
         await adTrack(token);
         currentSong = advertisement;
         _waitingSong = true;
       }
-        notifyListeners();
-        return true;
-    }catch (error){
+      notifyListeners();
+      return true;
+    } catch (error) {
       throw error;
     }
   }
 
-  Future<void> shuffledTrackList(String token, String id, String type) async{
+  Future<void> shuffledTrackList(String token, String id, String type) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
-      final extractedList = await trackAPI.shuffledTrackList(token,id,type);
+      final extractedList = await trackAPI.shuffledTrackList(token, id, type);
       shuffledTracksIDs.clear();
-      for(int i=0; i<extractedList.length; i++) {
+      for (int i = 0; i < extractedList.length; i++) {
         shuffledTracksIDs.add(extractedList[i].toString());
       }
-    }catch(error){
+    } catch (error) {
       print(error.toString());
     }
   }
@@ -299,55 +288,55 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.adTrack(token);
-      advertisement=new Track(
-        isAd: true,
-        id: '1',
-        href: response['href'],
-        artists:  [new Artist(
-          id: '5',
-        name: 'MOSTASHFA',
-        )],
-        name: '57375',
-        trackNumber: 0,
-        album: new Album(
-          name: 'RAMADAN ADS',
-          artists: [new Artist(
-            id: '5',
-            name: 'MOSTASHFA',
-          )],
-          id: '1',
-          href: 'https://totallynotspotify.codes/api/tracks/5ec459bbe84eaf30fccf46db',
-          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU',
-          images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU'],
-        )
-
+      print(response['_id']);
+      print(response['href']);
+      advertisement = new Track(
+          isAd: true,
+          id: response['_id'],
+          href: response['href'],
+          artists: [
+            new Artist(
+              id: '1',
+              name: 'MOSTASHFA',
+            )
+          ],
+          name: '57375',
+          trackNumber: 0,
+          album: new Album(
+            name: 'RAMADAN ADS',
+            artists: [
+              new Artist(
+                id: '5',
+                name: 'MOSTASHFA',
+              )
+            ],
+            id: '1',
+            href:
+                'https://totallynotspotify.codes/api/tracks/5ec459bbe84eaf30fccf46db',
+            image:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU',
+            images: [
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU'
+            ],
+          )
       );
-    }catch(error){
+    } catch (error) {
       print(error.toString());
     }
-
   }
 
-
-  Future <bool> checkIfAd (Track song, String token)async {
+  Future<bool> checkIfAd(Track song, String token) async {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.checkIfAd(song, token);
-      if(response==true){
+      if (response == true) {
         await trackAPI.adTrack(token);
         return true;
       }
       return false;
-    }catch(error){
+    } catch (error) {
       print(error.toString());
       throw error;
     }
   }
-
-
-
-
-
-
-
 }

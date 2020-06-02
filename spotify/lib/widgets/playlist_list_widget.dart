@@ -1,6 +1,7 @@
 //import packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/user_provider.dart';
 //import providers
 import '../Providers/playlist_provider.dart';
 //import widgets
@@ -15,6 +16,7 @@ class PlaylistList extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     final playlistsProvider = Provider.of<PlaylistProvider>(context);
+    final user = Provider.of<UserProvider>(context, listen: false);
     List<Playlist> playlists;
 
     if (playlistType == PlaylistCategory.popularPlaylists) {
@@ -35,6 +37,9 @@ class PlaylistList extends StatelessWidget {
     } else if (playlistType == PlaylistCategory.happy) {
       categoryTitle = 'Happy';
       playlists = playlistsProvider.getHappyPlaylists;
+    } else if (playlistType == PlaylistCategory.madeForYou) {
+      categoryTitle = 'MadeForYou';
+      playlists = playlistsProvider.getMadeForYou;
     }
 
     return Container(

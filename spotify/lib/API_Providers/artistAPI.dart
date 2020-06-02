@@ -31,15 +31,18 @@ class ArtistAPI {
 
   ///A method that fetches Artist information by ID.
   Future<Artist> fetchChosenApi(String token, String id) async {
+    print('mahmoud');
     final url = baseUrl + ArtistEndPoints.artists + '/' + id;
     try {
       final response = await http.get(
         url,
         headers: {"authorization": "Bearer " + token},
       );
+      print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
+        print(response.body);
         //Map<String, dynamic> extractedList = json.decode(response.body);
         Artist chosenArtist = Artist.fromJson(extractedList);
         return chosenArtist;
@@ -86,8 +89,9 @@ class ArtistAPI {
         url,
         headers: {'authorization': token},
       );
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 211) {
-        final extractedList = json.decode(response.body) as List;
+        final extractedList = json.decode(response.body)['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -96,4 +100,6 @@ class ArtistAPI {
       throw HttpException(error.toString());
     }
   }
+  
 }
+

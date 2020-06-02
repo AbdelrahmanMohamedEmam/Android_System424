@@ -25,7 +25,7 @@ import 'dart:async';
 class ArtistProfileScreen extends StatefulWidget {
   ///artist id passed to this screen to get certain artist.
   final String id;
-  ArtistProfileScreen(this.id);
+  ArtistProfileScreen({this.id});
   @override
   ArtistProfileScreenState createState() => ArtistProfileScreenState();
 }

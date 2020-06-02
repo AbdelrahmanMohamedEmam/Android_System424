@@ -10,6 +10,7 @@ class UserEditProfileScreen extends StatefulWidget {
 }
 
 class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
+  bool changed = false;
   final userNameEditingController = TextEditingController();
 
   @override
@@ -28,18 +29,21 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         ),
         actions: <Widget>[
           FlatButton(
-            onPressed: () async  {
-              try
-              {
-                await user.changeUserName(user.token, user.userEmail,userNameEditingController.text , user.userGender, user.userDateOfBirth);
-              } catch(error)
-              {
+            onPressed: () async {
+              try {
+                await user.changeUserName(
+                    user.token,
+                    user.userEmail,
+                    userNameEditingController.text,
+                    user.userGender,
+                    user.userDateOfBirth);
+              } catch (error) {
                 _showErrorDialog(error.toString());
               }
             },
             child: Text(
               'SAVE',
-              style: TextStyle(color: Colors.grey),
+              style:TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -116,7 +120,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     );
   }
 
-    void _showErrorDialog(String message) {
+  void _showErrorDialog(String message) {
     showDialog(
       barrierDismissible: false,
       context: context,

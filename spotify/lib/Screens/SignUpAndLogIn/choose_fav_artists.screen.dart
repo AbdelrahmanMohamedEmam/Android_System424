@@ -32,7 +32,8 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
   Future<void> _initializeList() async {
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-    await artistProvider.fetchAllArtists('').then((_) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await artistProvider.fetchAllArtists(userProvider.token).then((_) {
       setState(() {
         artistsLoaded = true;
       });
@@ -175,7 +176,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                                         id: artists[index].id,
                                         artistName: artists[index].name,
                                         imageUrl:
-                                            "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
+                                            artists[index].images[0],
                                         // artists[index].images[0],
                                       ));
                                 }))

@@ -19,7 +19,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     super.didChangeDependencies();
   }
 
-  void _pickImage() async {}
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -59,11 +58,12 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   await ImagePicker.pickImage(source: ImageSource.camera);
               setState(() {
                 user.setUserPickedImage(pickedImageFile);
+                user.changeUserImage(user.token, pickedImageFile);
               });
             },
             child: Text(
               'CHANGE PHOTO',
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ),

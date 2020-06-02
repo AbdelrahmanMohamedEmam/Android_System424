@@ -5,13 +5,18 @@ import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/Albums/pop_up_menu_album_screen.dart';
+import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
+import 'package:spotify/widgets/song_card_artist_mode.dart';
+import 'package:spotify/widgets/song_item_in_album_list.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class AlbumsListScreen extends StatefulWidget {
   final AlbumCategory albumType;
   final String albumId;
-  AlbumsListScreen({this.albumType, this.albumId});
+  String artistName;
+  AlbumsListScreen({this.albumType, this.albumId, this.artistName});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
 }
@@ -26,17 +31,20 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
   bool colorGenerated = false;
+  bool isArtist = false;
+
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
     Provider.of<AlbumProvider>(context, listen: false)
         .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
         .then((_) {
       setState(() {
         _isLoading = false;
-        List<Track> toAdd=Provider.of<AlbumProvider>(context, listen: false)
+        List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
             .getPlayableTracks(widget.albumId, widget.albumType);
-        Provider.of<PlayableTrackProvider>(context, listen: false).setTracksToBePlayed(toAdd);
+        Provider.of<PlayableTrackProvider>(context, listen: false)
+            .setTracksToBePlayed(toAdd);
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMostRecentAlbumsId(widget.albumId);
@@ -46,19 +54,40 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         } else if (widget.albumType == AlbumCategory.artist) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMyAlbumId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.search) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getSearchedAlbumsId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.myAlbums) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMyAlbumId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.liked) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getLikedAlbumsId(widget.albumId);
         }
       });
     });
+    print("helooo");
+    print(albums.artists[0].id);
     super.didChangeDependencies();
   }
 
   ///Initialization.
   @override
   void initState() {
+    String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    if (widget.albumType == AlbumCategory.myAlbums) {
+      isArtist = true;
+      //albums = Provider.of<AlbumProvider>(context, listen: false)
+      //  .getMyAlbumId(widget.albumId);
+    } else {
+      isArtist = false;
+    }
+    Provider.of<PlayableTrackProvider>(context, listen: false)
+        .shuffledTrackList(userToken, widget.albumId, 'album');
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
     colorGenerated = false;
-    String userToken = Provider.of<UserProvider>(context, listen: false).token;
+    //String userToken = Provider.of<UserProvider>(context, listen: false).token;
     Provider.of<PlayableTrackProvider>(context, listen: false)
         .shuffledTrackList(userToken, widget.albumId, 'album');
     super.initState();
@@ -93,6 +122,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
               title: Text(
                 'Album',
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.library_add, color: Colors.white54),
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddSongScreen(
+                            id: widget.albumId,
+                          ))),
+                  iconSize: 26,
+                )
+              ],
               centerTitle: true,
             ),
             body: Center(
@@ -117,17 +156,67 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     centerTitle: true,
                     backgroundColor: background,
                     actions: <Widget>[
-                      IconButton(
-                        icon:
-                            Icon(Icons.favorite_border, color: Colors.white54),
-                        onPressed: null,
-                        iconSize: 26,
-                      ),
-                      PopupMenuButton(
-                        enabled: false,
-                        itemBuilder: (_) => [],
-                        icon: Icon(Icons.more_vert, color: Colors.white54),
-                      )
+                      isArtist
+                          ? IconButton(
+                              icon: Icon(Icons.library_add,
+                                  color: Colors.white54),
+                              onPressed: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddSongScreen(
+                                            id: widget.albumId,
+                                          ))),
+                              iconSize: 26,
+                            )
+                          : IconButton(
+                              icon: Icon(
+                                Provider.of<AlbumProvider>(context,
+                                            listen: false)
+                                        .isAlbumLiked(widget.albumId)
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.white,
+                              ),
+                              onPressed: () async {
+                                if (Provider.of<AlbumProvider>(context,
+                                        listen: false)
+                                    .isAlbumLiked(widget.albumId)) {
+                                  await Provider.of<AlbumProvider>(context,
+                                          listen: false)
+                                      .unlikeAlbum(user.token, widget.albumId)
+                                      .then((_) {
+                                    setState(() {});
+                                  });
+                                } else {
+                                  await Provider.of<AlbumProvider>(context,
+                                          listen: false)
+                                      .likeAlbum(user.token, widget.albumId,
+                                          widget.albumType)
+                                      .then((_) {
+                                    setState(() {});
+                                  });
+                                }
+                              },
+                              iconSize: 26,
+                            ),
+                      isArtist
+                          ? Container()
+                          : IconButton(
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    opaque: false,
+                                    barrierColor: Colors.black87,
+                                    pageBuilder: (BuildContext context, _, __) {
+                                      return PopUpMenuAlbumScreen(
+                                          albums, widget.albumType);
+                                    }));
+
+                                //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
+                              },
+                            ),
                     ],
                     expandedHeight: 400,
                     pinned: true,
@@ -156,45 +245,52 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             ),
                             padding: EdgeInsets.only(bottom: 15),
                           ),
-                          Container(
-                            height: 22,
-                            width: 160,
-                            child: Container(
-                              width: 100,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    color: Colors.grey[400]),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.shuffle,
-                                      size: 14,
+                          isArtist
+                              ? Container()
+                              : Container(
+                                  height: 22,
+                                  width: 160,
+                                  child: Container(
+                                    width: 100,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          color: Colors.grey[400]),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.shuffle,
+                                            size: 14,
+                                          ),
+                                          SizedBox(
+                                            width: 7,
+                                          ),
+                                          Text(
+                                            'LISTEN IN SHUFFLE',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Text(
-                                      'LISTEN IN SHUFFLE',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
                           Container(
                             width: double.infinity,
                             height: 50,
                             padding: EdgeInsets.only(top: 7),
                             child: Text(
-                              'Album by ' +
-                                  albums.artists[0].name +
-                                  '.' +
-                                  albums.releaseDate.substring(0, 4),
+                              widget.artistName == ""
+                                  ? 'Album by ' +
+                                      albums.artists[0].name +
+                                      albums.releaseDate.substring(0, 4)
+                                  : 'Album by ' +
+                                      widget.artistName +
+                                      albums.releaseDate.substring(0, 4),
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),
                               textAlign: TextAlign.center,
@@ -208,14 +304,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                         offset: Offset(0, 0),
                         child: Container(
                           width: 190.0,
-                          child: FloatingActionButton(
-                            onPressed: null,
-                            backgroundColor: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22),
-                            ),
-                            child: Text(' SHUFFLE PLAY'),
-                          ),
+                          child: isArtist
+                              ? Container()
+                              : FloatingActionButton(
+                                  onPressed: null,
+                                  backgroundColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                  child: Text(' SHUFFLE PLAY'),
+                                ),
                         ),
                       ),
                       preferredSize: Size.fromHeight(60),
@@ -228,7 +326,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           children: <Widget>[
                             ChangeNotifierProvider.value(
                               value: albums.tracks[index],
-                              child: SongItemPlaylistList(),
+                              child: isArtist
+                                  ? SongItemArtistMode(albumId: widget.albumId)
+                                  : SongItemAlbumList(albums.image),
                             ),
                           ],
                         );

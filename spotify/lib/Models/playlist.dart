@@ -2,6 +2,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:spotify/Models/owner.dart';
 import 'package:spotify/Models/track.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 
 //Import Models.
 import './external_url.dart';
@@ -60,6 +61,8 @@ class Playlist with ChangeNotifier {
   ///String indicating the category of the playlist.
   String category;
 
+  PlaylistCategory category2;
+
   ///String that describes the the time this playlist was created at.
   String createdAt;
 
@@ -103,7 +106,7 @@ class Playlist with ChangeNotifier {
       id: json['_id'],
       images: json['images'] == null ? null : parseString(json['images']),
       name: json['name'] == null ? null : json['name'],
-      //owner: json['owner'] == null ? null : parceOwner(json['owner']),
+      owner: json['owner'] == null ? null : parceOwner(json['owner']),
       public: json['public'] == null ? true : json['public'],
       snapShotId: json['snapshot_id'] == null ? null : json['snapshot_id'],
       tracksRef:
@@ -111,6 +114,27 @@ class Playlist with ChangeNotifier {
       type: json['type'] == null ? null : json['type'],
       uri: json['uri'] == null ? null : json['uri'],
       category: json['category'] == null ? null : json['category'],
+      noOfFollowers:
+          json['noOfFollowers'] == null ? null : json['noOfFollowers'],
+      popularity: json['popularity'] == null ? null : json['popularity'],
+      createdAt: json['createdAt'] == null ? null : json['createdAt'],
+    );
+  }
+
+  ///A method that parses a mapped object from a json file and returns an Playlist object.
+  factory Playlist.fromJson2(Map<String, dynamic> json) {
+    return Playlist(
+      collaborative:
+          json['collaborative'] == null ? true : json['collaborative'],
+      description: json['description'] == null ? null : json['description'],
+      externalUrls: json['externalUrls'] == null
+          ? null
+          : parceExternalUrl(json['externalUrls']),
+      href: json['href'] == null ? null : json['href'],
+      id: json['_id'],
+      images: json['images'] == null ? null : parseString(json['images']),
+      name: json['name'] == null ? null : json['name'],
+      uri: json['uri'] == null ? null : json['uri'],
       noOfFollowers:
           json['noOfFollowers'] == null ? null : json['noOfFollowers'],
       popularity: json['popularity'] == null ? null : json['popularity'],
