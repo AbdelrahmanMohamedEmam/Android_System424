@@ -225,9 +225,10 @@ class UserProvider with ChangeNotifier {
 
   ///A function that removes a following user from the list of id list.
   void removeFollowing(String id) {
-    _user.following.removeAt(
-      _user.following.indexWhere((following) => following == id),
-    );
+    int index=_user.following.indexWhere((following) => following == id);
+    followingUsers.removeAt(index);
+    _user.following.removeAt(index);
+    
   }
 
   ///A function that add a following user from the list of id list.
@@ -535,7 +536,7 @@ class UserProvider with ChangeNotifier {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
       bool succeeded = await userAPI.follow(token, id);
-      if (!succeeded) {
+      if (succeeded) {
         return false;
       } else {
         addFollowing(id);
@@ -551,7 +552,7 @@ class UserProvider with ChangeNotifier {
   ///Id must be provided.
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<void> unfollow(String id) async {
+  Future<bool> unfollow(String id) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
       bool succeeded = await userAPI.unfollowFollowUser(token, id);

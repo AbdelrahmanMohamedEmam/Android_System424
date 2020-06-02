@@ -318,7 +318,7 @@ class UserAPI {
         return false;
       }
     } catch (error) {
-      throw HttpException(error.toString());
+      //throw HttpException(error.toString());
     }
   }
 

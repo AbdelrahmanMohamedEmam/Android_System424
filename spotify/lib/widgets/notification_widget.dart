@@ -10,6 +10,7 @@ class NotificationWidget extends StatelessWidget {
       onTap: () {},
       leading: CircleAvatar(
         backgroundColor: Color.fromRGBO(27, 255, 138, 1),
+        backgroundImage: NetworkImage(notification.images),
       ),
       title: Text(
         notification.title,

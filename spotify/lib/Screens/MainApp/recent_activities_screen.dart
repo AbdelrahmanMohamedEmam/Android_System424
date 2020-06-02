@@ -61,6 +61,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen> {
                     ),
                   )
                 : Container(
+                    height: 550,
                     child: ListView.builder(
                       itemCount: notifications.length,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(

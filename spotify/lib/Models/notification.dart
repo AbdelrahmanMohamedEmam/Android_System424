@@ -17,14 +17,12 @@ class Notifications with ChangeNotifier {
   ///String to save the href of the notifiation
   final String href;
 
+  ///String to save the image of the notification.
+  final String images;
+
   ///Constructor for class album with named arguments assignment.
-  Notifications({
-    this.title,
-    this.body,
-    this.uri,
-    this.id,
-    this.href,
-  });
+  Notifications(
+      {this.title, this.body, this.uri, this.id, this.href, this.images});
 
   ///A method that parses a mapped object from a json file and returns an notification object.
   factory Notifications.fromJson(Map<String, dynamic> json) {
@@ -38,6 +36,7 @@ class Notifications with ChangeNotifier {
       uri: json['data']['uri'] == null ? "" : json['data']['uri'],
       href: json['data']['href'] == null ? "" : json['data']['href'],
       id: json['data']['id'] == null ? "" : json['data']['id'],
+      images: json['data']['images'],
     );
   }
 }
