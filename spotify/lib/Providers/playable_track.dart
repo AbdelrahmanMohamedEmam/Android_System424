@@ -187,6 +187,11 @@ class PlayableTrackProvider with ChangeNotifier {
           }
         } else {
           await adTrack(token);
+          print(advertisement.name);
+          print(advertisement.href);
+          print(advertisement.album);
+          print(advertisement.name);
+
           currentSong = advertisement;
           _waitingSong = true;
         }
@@ -283,13 +288,15 @@ class PlayableTrackProvider with ChangeNotifier {
     TrackAPI trackAPI = TrackAPI(baseUrl: baseUrl);
     try {
       final response = await trackAPI.adTrack(token);
+      print(response['_id']);
+      print(response['href']);
       advertisement = new Track(
           isAd: true,
-          id: '1',
+          id: response['_id'],
           href: response['href'],
           artists: [
             new Artist(
-              id: '5',
+              id: '1',
               name: 'MOSTASHFA',
             )
           ],
@@ -311,7 +318,8 @@ class PlayableTrackProvider with ChangeNotifier {
             images: [
               'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrnc7bofPWABq1j-PjN3XUPMc2_n9cFD6ntfKwnNAPLQ3gAOK3&usqp=CAU'
             ],
-          ));
+          )
+      );
     } catch (error) {
       print(error.toString());
     }

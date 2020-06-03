@@ -111,9 +111,10 @@ class UserAPI {
         ),
       );
 
+      print(responseData.data);
       if (responseData.statusCode != 200) {
         print('errorrrr');
-        throw HttpException(json.decode(responseData.data)['message']);
+        throw HttpException(json.decode(responseData.data)['message'].toString());
       } else {
         print(responseData.data);
         return responseData.data;
@@ -135,6 +136,7 @@ class UserAPI {
       });
 
       final responseData = jsonDecode(response.body);
+      print(responseData);
 
       User _user;
       if (responseData['message'] != null) {
