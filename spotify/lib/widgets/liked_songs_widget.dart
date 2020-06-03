@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../Screens/Library/liked_songs_screen.dart';
 
 class LikedSongWidget extends StatefulWidget {
+  final int length;
+  LikedSongWidget(this.length);
   @override
   _LikedSongWidgetState createState() => _LikedSongWidgetState();
 }
@@ -18,23 +20,29 @@ class _LikedSongWidgetState extends State<LikedSongWidget> {
         );
       },
       child: ListTile(
-        leading: SizedBox(
-          child: Image.asset(
-            'assets/images/likedSong.png',
+        leading: Container(
+          height: 65,
+          width: 56,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/likedSong.png'),
+                fit: BoxFit.fill),
           ),
         ),
-        /* FadeInImage(
-          //Image.asset('assets/images/likedSong.png'),
-          placeholder: AssetImage('assets/images/temp.jpg'),
-          image: NetworkImage('assets/images/likedSong.png'),
-          fit: BoxFit.fill,
-        ),*/
+        //  SizedBox(
+
+        //   child: Image.asset(
+        //     'assets/images/likedSong.png',
+        //   ),
+        // ),
         title: Text(
           "Liked Songs",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         subtitle: Text(
-          "song",
+          (widget.length == 1)
+              ? widget.length.toString() + " song"
+              : widget.length.toString() + " songs",
           style: TextStyle(color: Colors.grey),
         ),
       ),

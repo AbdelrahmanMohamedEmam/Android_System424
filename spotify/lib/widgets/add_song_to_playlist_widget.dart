@@ -24,35 +24,40 @@ class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
     final deviceSize = MediaQuery.of(context).size;
     return Row(children: <Widget>[
       Container(
-        width: deviceSize.width * 0.7,
+        width: deviceSize.width * 0.8,
         height: deviceSize.height * 0.1,
-        child: InkWell(
-          onTap: null,
-          child: ListTile(
-            leading: Image.network(song.album.image),
-            title: Text(
-              song.name,
-              style: TextStyle(color: Colors.white),
+        child: ListTile(
+          leading: Image.network(song.album.image),
+          title: Text(
+            song.name,
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            song.artists[0].name,
+            style: TextStyle(color: Colors.grey),
+          ),
+          trailing: IconButton(
+            padding: EdgeInsets.only(left: 6.0),
+            icon: Icon(
+              Icons.add_circle,
+              color: Colors.white,
+              size: 40,
             ),
-            subtitle: Text(
-              song.artists[0].name,
-              style: TextStyle(color: Colors.grey),
-            ),
+            onPressed: () {
+              Provider.of<PlaylistProvider>(context, listen: false)
+                  .addSongToPlaylist(user.token, widget.id, song.id);
+            },
+            // {
+            //   Provider.of<PlaylistProvider>(context, listen: false)
+            //       .fetchMoreRandomTracksForPlaylist(user.token, widget.id)
+            //       .then(
+            //     (_) {
+            //       print("lala");
+            //     },
+            //   );
+            // },
           ),
         ),
-      ),
-      IconButton(
-        icon: Icon(
-          Icons.add_circle,
-          color: Colors.white,
-          size: 40,
-        ),
-        onPressed: ()  {
-           Provider.of<PlaylistProvider>(context, listen: false)
-              .fetchMoreRandomTracksForPlaylist(user.token, widget.id).then((_){
-                print("lala");
-              });
-        },
       ),
     ]);
   }

@@ -65,11 +65,14 @@ class _AddSongToPlaylistScreenState extends State<AddSongToPlaylistScreen> {
               centerTitle: true,
               backgroundColor: Colors.black,
             ),
-            body: ListView.builder(
-              itemCount: randomTracks.length,
-              itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                value: randomTracks[i],
-                child: AddSongToPlaylistItem(widget.playlistId),
+            body: Container(
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: randomTracks.length,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: randomTracks[i],
+                  child: AddSongToPlaylistItem(widget.playlistId),
+                ),
               ),
             ));
   }

@@ -41,7 +41,7 @@ class _UserPlaylistsScreenState extends State<UserPlaylistsScreen> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, i) => ChangeNotifierProvider.value(
             value: createdPlaylists[i],
-            child: CreatedPlaylistWidget(),
+            child: CreatedPlaylistWidget(createdPlaylists[i].id),
           ),
         ),
       ),

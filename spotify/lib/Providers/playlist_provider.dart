@@ -63,6 +63,7 @@ class PlaylistProvider with ChangeNotifier {
 
   ///List of track objects categorized as random tracks.
   List<Track> _randomTracks = [];
+
   ///List of playlist objects categorized as recently played playlists.
   List<Playlist> _recentlyPlayed = [];
 
@@ -347,6 +348,23 @@ class PlaylistProvider with ChangeNotifier {
       Map<String, dynamic> playlist =
           await playlistAPI.createPlaylistApi(token, name);
       createdSuccessful = true;
+      _createdPlaylists.add(Playlist.fromJson2(playlist));
+      notifyListeners();
+    } catch (error) {
+      print(error.toString());
+      throw HttpException('Name must be unique, Try another one');
+    }
+  }
+
+  Future<void> addSongToPlaylist(
+      String token, String playlistId, String songId) async {
+    PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      Map<String, dynamic> playlist =
+          await playlistAPI.addSongToPlaylistApi(token, playlistId, songId);
+      final playlistIndex =
+          _createdPlaylists.indexWhere((playlist) => playlist.id == playlistId);
+      _createdPlaylists.removeAt(playlistIndex);
       _createdPlaylists.add(Playlist.fromJson2(playlist));
       notifyListeners();
     } catch (error) {
@@ -754,6 +772,11 @@ class PlaylistProvider with ChangeNotifier {
           _popularPlaylists.indexWhere((playlist) => playlist.id == id);
       _playableTracks = _popularPlaylists[index].tracks;
       return _popularPlaylists[index].tracks;
+    } else if (category == PlaylistCategory.created) {
+      final index =
+          _createdPlaylists.indexWhere((playlist) => playlist.id == id);
+      _playableTracks = _createdPlaylists[index].tracks;
+      return _createdPlaylists[index].tracks;
     }
   }
 }

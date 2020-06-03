@@ -60,7 +60,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
     createdplaylists = playlistsProvider.getCreatedPlaylists;
     likedTracks = playableTrackProvider.getLikedTracks;
     allList = likedplaylists + createdplaylists;
-    var height = likedplaylists.length * 70;
+    var height = ((allList.length + 1) * 10).toDouble();
     return (_isLoading)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -143,9 +143,11 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                       constraints: BoxConstraints(),
                       child: Column(
                         children: <Widget>[
-                          (likedTracks.length != 0) ? LikedSongWidget() : null,
+                          (likedTracks.length != 0)
+                              ? LikedSongWidget(likedTracks.length)
+                              : null,
                           Container(
-                            height: 400,
+                            height: 350,
                             child: ListView.builder(
                               itemCount: allList.length,
                               itemBuilder: (context, i) =>
@@ -155,11 +157,10 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                                         PlaylistCategory.liked)
                                     ? FavPlaylistWidget(PlaylistCategory.liked,
                                         likedplaylists[i].id)
-                                    : CreatedPlaylistWidget(),
+                                    : CreatedPlaylistWidget(createdplaylists[i].id),
                               ),
                             ),
                           ),
-                          SizedBox(height: 80)
                         ],
                       ),
                     ),

@@ -30,25 +30,25 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
   List<Artist> artists = [];
   List<int> selectedIndices = [];
 
-  // Future<void> _initializeList() async {
-  //   final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-  //   await artistProvider.fetchAllArtists('').then((_) {
-  //     setState(() {
-  //       artistsLoaded = true;
-  //     });
-  //   });
-  //   artists = artistProvider.getAllArtists;
-  //   artists.forEach((_) {
-  //     selected.add(false);
-  //   });
-  // }
+  Future<void> _initializeList() async {
+    final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
+    await artistProvider.fetchAllArtists('').then((_) {
+      setState(() {
+        artistsLoaded = true;
+      });
+    });
+    artists = artistProvider.getAllArtists;
+    artists.forEach((_) {
+      selected.add(false);
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   artistsLoaded = false;
-  //   _initializeList();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    artistsLoaded = false;
+    _initializeList();
+    super.initState();
+  }
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -109,9 +109,9 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
       ),
       backgroundColor: Theme.of(context).accentColor,
       body:
-          /*!artistsLoaded
+          !artistsLoaded
           ? CircularProgressIndicator()
-          : */
+          : 
 
           Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -166,7 +166,7 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
                   child: GridView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
-                    itemCount: 20 /*artists.length*/,
+                    itemCount:  artists.length,
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 160,
                       childAspectRatio: 1,
@@ -175,23 +175,23 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
-                        // onTap: () {
-                        //   setState(() {
-                        //     if (selectedIndices.contains(index)) {
-                        //       selectedIndices.remove(index);
-                        //     } else {
-                        //       selectedIndices.add(index);
-                        //     }
-                        //     selected[index] = !selected[index];
-                        //   });
-                        // },
+                        onTap: () {
+                          setState(() {
+                            if (selectedIndices.contains(index)) {
+                              selectedIndices.remove(index);
+                            } else {
+                              selectedIndices.add(index);
+                            }
+                            selected[index] = !selected[index];
+                          });
+                        },
                         child: FavArtistItem(
-                          selected: /*selected[index]*/ false,
-                          id: /*artists[index].id*/ "id",
-                          artistName: /*artists[index].name*/ "Amr Diab",
+                          selected: selected[index] ,
+                          id: artists[index].id ,
+                          artistName: artists[index].name ,
                           imageUrl:
-                              "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
-                          // artists[index].images[0],
+                              //"https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
+                          artists[index].images[0],
                         ),
                       );
                     },

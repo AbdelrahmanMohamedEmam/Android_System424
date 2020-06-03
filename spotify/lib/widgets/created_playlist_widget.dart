@@ -9,6 +9,8 @@ import '../Models/playlist.dart';
 
 ///It is used to provide the [PlaylistScreen] with the needed data about the track.
 class CreatedPlaylistWidget extends StatefulWidget {
+ final  String id;
+  CreatedPlaylistWidget(this.id);
   @override
   _CreatedPlaylistWidgetState createState() => _CreatedPlaylistWidgetState();
 }
@@ -22,7 +24,7 @@ class _CreatedPlaylistWidgetState extends State<CreatedPlaylistWidget> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => CreatedPlaylistScreen(),
+            builder: (context) => CreatedPlaylistScreen(widget.id),
           ),
         );
       },
