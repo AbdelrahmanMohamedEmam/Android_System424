@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import '../API_Providers/artistAPI.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -166,6 +167,28 @@ class AlbumAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
         return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches an- album..
+  ///takes [token],[AlbumId] as input parameters.
+  Future<Map<String, dynamic>> fetchAlbumByIdApi(
+      String token, String id) async {
+    final url = baseUrl + AlbumEndPoints.albums + '/' + id;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedObject = temp['data']['album'];
+        return extractedObject;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }

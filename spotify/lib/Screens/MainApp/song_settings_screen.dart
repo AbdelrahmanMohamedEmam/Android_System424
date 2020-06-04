@@ -252,7 +252,7 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ));
   }

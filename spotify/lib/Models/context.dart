@@ -22,6 +22,9 @@ class Context {
   ///The name of the context sent according to its type.
   final String name;
 
+  ///The id of the playhistory object
+  final String id;
+
   ///Constructor for class album with named arguments assignment.
   Context({
     this.type,
@@ -30,6 +33,7 @@ class Context {
     //this.externalUrls,
     this.image,
     this.name,
+    this.id,
   });
 
   ///A method that parses a mapped object from a json file and returns an context object.
@@ -41,6 +45,7 @@ class Context {
       //externalUrls: parceExternalUrl(json['externalUrls']),
       image: parseString(json['images']),
       name: json['name'],
+      id: json['id'],
     );
   }
 }

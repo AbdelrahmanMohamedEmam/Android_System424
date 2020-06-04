@@ -36,15 +36,17 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   @override
   void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
+    await Provider.of<AlbumProvider>(context, listen: false)
+        .fetchRecentlyPlayedAlbum(user.token, widget.albumId);
     Provider.of<AlbumProvider>(context, listen: false)
         .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
         .then((_) {
       setState(() {
-        _isLoading = false;
         List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
             .getPlayableTracks(widget.albumId, widget.albumType);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setTracksToBePlayed(toAdd);
+        _isLoading = false;
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMostRecentAlbumsId(widget.albumId);
@@ -63,6 +65,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         } else if (widget.albumType == AlbumCategory.liked) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getLikedAlbumsId(widget.albumId);
+        } else if (widget.albumType == AlbumCategory.recentlyPlayed) {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getRecentlyPlayedAlbumsById(widget.albumId);
         }
       });
     });
@@ -113,6 +118,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     if (!colorGenerated) _generatePalette();
     return _isLoading
         ? Scaffold(
@@ -307,7 +313,11 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           child: isArtist
                               ? Container()
                               : FloatingActionButton(
-                                  onPressed: null,
+                                  onPressed: () {
+                                    track.setCurrentSong(albums.tracks[0],
+                                        user.isUserPremium(), user.token);
+                                    Navigator.pop(context);
+                                  },
                                   backgroundColor: Colors.green,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(22),
@@ -339,7 +349,15 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return SizedBox(height: 300);
+                        return (albums.tracks.length == 1)
+                            ? SizedBox(height: 480)
+                            : (albums.tracks.length == 2)
+                                ? SizedBox(height: 420)
+                                : (albums.tracks.length == 3)
+                                    ? SizedBox(height: 350)
+                                    : (albums.tracks.length == 14)
+                                        ? SizedBox(height: 80)
+                                        : SizedBox(height: 480);
                       },
                       childCount: 1,
                     ),
@@ -352,7 +370,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   ///Functions to listen to the control of scrolling.
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 140.0) {
+    if (_scrollController.offset >= 100.0) {
       setState(() {
         _isScrolled = true;
       });

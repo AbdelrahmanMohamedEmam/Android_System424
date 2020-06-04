@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Models/artist.dart';
 
 class FollowedArtistWidget extends StatefulWidget {
+  Artist followedArtist;
+  FollowedArtistWidget(this.followedArtist);
   @override
   _FollowedArtistWidgetState createState() => _FollowedArtistWidgetState();
 }
@@ -11,13 +14,12 @@ class _FollowedArtistWidgetState extends State<FollowedArtistWidget> {
     return InkWell(
       onTap: () {},
       child: ListTile(
-        leading: 
-        CircleAvatar(
-          backgroundImage: NetworkImage('https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c'),
-          radius: 40,
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(widget.followedArtist.images[0]),
+          radius: 25,
         ),
         title: Text(
-          "Amr Diab",
+          widget.followedArtist.name,
           style: TextStyle(color: Colors.white),
         ),
       ),

@@ -22,7 +22,7 @@ import '../../Providers/user_provider.dart';
 import '../../Models/http_exception.dart';
 
 class PopUpMenuAlbumScreen extends StatefulWidget {
-  static const routeName = '/song_settings_screen';
+  static const routeName = '/pop_up_menu_album_screen';
   Album album;
   AlbumCategory category;
   PopUpMenuAlbumScreen(this.album, this.category);
@@ -219,7 +219,8 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 50),
           ],
         ));
   }

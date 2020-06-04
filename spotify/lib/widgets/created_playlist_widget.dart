@@ -9,6 +9,8 @@ import '../Models/playlist.dart';
 
 ///It is used to provide the [PlaylistScreen] with the needed data about the track.
 class CreatedPlaylistWidget extends StatefulWidget {
+  final String id;
+  CreatedPlaylistWidget(this.id);
   @override
   _CreatedPlaylistWidgetState createState() => _CreatedPlaylistWidgetState();
 }
@@ -22,17 +24,21 @@ class _CreatedPlaylistWidgetState extends State<CreatedPlaylistWidget> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => CreatedPlaylistScreen(),
+            builder: (context) => CreatedPlaylistScreen(widget.id),
           ),
         );
       },
       child: ListTile(
         //leading: Image.network(playlist.images[0]),
-        leading: FadeInImage(
-          placeholder: AssetImage('assets/images/temp.jpg'),
-          image: NetworkImage(playlist.images[0]),
-          fit: BoxFit.fill,
-        ),
+        leading: (playlist.tracks != null && playlist.tracks.length != 0)
+            ? FadeInImage(
+                placeholder: AssetImage('assets/images/temp.jpg'),
+                image: NetworkImage(playlist.tracks[0].album.image),
+                fit: BoxFit.fill,
+              )
+            : FadeInImage(
+                placeholder: AssetImage('assets/images/temp.jpg'),
+                image: NetworkImage('assets/images/temp.jpg')),
         title: Text(
           playlist.name,
           style: TextStyle(color: Colors.white),

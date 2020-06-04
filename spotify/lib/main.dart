@@ -7,6 +7,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/Albums/pop_up_menu_album_screen.dart';
 import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
 import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import 'Providers/notification_provider.dart';
@@ -23,6 +24,7 @@ import 'Screens/MainApp/home_screen.dart';
 import 'Screens/MainApp/library_screen.dart';
 import 'Screens/MainApp/premium_screen.dart';
 import 'Screens/MainApp/search_screen.dart';
+import 'Screens/Playlists/pop_up_menu_playlist_screen.dart';
 import 'Screens/SignUpAndLogIn/add_birthdate_screen.dart';
 import 'Screens/SignUpAndLogIn/check_email_screen.dart';
 import 'Screens/SignUpAndLogIn/choose_gender_screen.dart';
@@ -127,6 +129,9 @@ class MyApp extends StatelessWidget {
           ),
           home: SplashScreen(),
           routes: {
+            // PopUpMenuPlaylistScreen.routeName:(ctx)=>PopUpMenuPlaylistScreen(playlist, category),
+            // PopUpMenuAlbumScreen.routeName:(ctx)=>PopUpMenuAlbumScreen(album, category),
+            SongSettingsScreen.routeName:(ctx)=>SongSettingsScreen(),
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
             AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),

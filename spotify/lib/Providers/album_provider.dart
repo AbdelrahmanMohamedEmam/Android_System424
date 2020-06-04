@@ -11,6 +11,7 @@ import 'package:spotify/Models/track.dart';
 
 ///Enum To describe Category of the album ex:(Popular,Most Recent,...).
 enum AlbumCategory {
+  recentlyPlayed,
   popularAlbums,
   mostRecentAlbums,
   myAlbums,
@@ -46,6 +47,9 @@ class AlbumProvider with ChangeNotifier {
 
   ///List of album objects categorized as liked albums.
   List<Album> _likedAlbums = [];
+
+  ///List of album objects categorized as recently played albums.
+  List<Album> _recentlyPlayed = [];
 
   ///A method(getter) that returns a list of albums (popular albums).
   List<Album> get getPopularAlbums {
@@ -99,6 +103,12 @@ class AlbumProvider with ChangeNotifier {
   Album getSearchedAlbumsId(String id) {
     final albumIndex = searchedAlbums.indexWhere((album) => album.id == id);
     return searchedAlbums[albumIndex];
+  }
+
+  ///A method that takes an id for an album and returns the album object with this id located at the searchalbums List
+  Album getRecentlyPlayedAlbumsById(String id) {
+    final albumIndex = _recentlyPlayed.indexWhere((album) => album.id == id);
+    return _recentlyPlayed[albumIndex];
   }
 
   ///A method that takes an id for an album and returns the album object with this id located at the MyAlbums List
@@ -235,6 +245,20 @@ class AlbumProvider with ChangeNotifier {
         loadedAlbum.add(Album.fromJson(extractedList[i]));
       }
       _myAlbums = loadedAlbum;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches for recentlyplayed Album and set it in the recently Album list.
+  ///It takes a [String] ,[PlaylistId]token for verification.
+  Future<void> fetchRecentlyPlayedAlbum(String token, String id) async {
+    AlbumAPI albumsApi = AlbumAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await albumsApi.fetchAlbumByIdApi(token, id);
+      Album temp = Album.fromJson(extractedList);
+      _recentlyPlayed.add(temp);
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
@@ -437,6 +461,23 @@ class AlbumProvider with ChangeNotifier {
           searchedAlbums.removeAt(albumIndex);
           album.isFetched = true;
           searchedAlbums.insert(albumIndex, album);
+        } else {
+          return;
+        }
+      }
+      if (albumCategory == AlbumCategory.recentlyPlayed) {
+        Album album = getRecentlyPlayedAlbumsById(id);
+        if (!album.isFetched) {
+          final extractedList = await albumApi.fetchAlbumsTracksApi(token, id);
+          for (int i = 0; i < extractedList.length; i++) {
+            loadedTracks.add(Track.fromJson(extractedList[i]));
+          }
+          album.tracks = loadedTracks;
+          final albumIndex =
+              _recentlyPlayed.indexWhere((album) => album.id == id);
+          _recentlyPlayed.removeAt(albumIndex);
+          album.isFetched = true;
+          _recentlyPlayed.insert(albumIndex, album);
         } else {
           return;
         }

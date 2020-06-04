@@ -58,7 +58,13 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                 backgroundColor: Colors.black,
                 body: Container(
                   child: FlatButton.icon(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FollowArtistScreen(),
+                        ),
+                      );
+                    },
                     icon: Icon(
                       Icons.control_point,
                       color: Colors.grey,
@@ -98,12 +104,12 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    height: 500,
+                    height: 350,
                     child: ListView.builder(
                       itemCount: followedArtists.length,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(
                         value: followedArtists[i],
-                        child: FollowedArtistWidget(),
+                        child: FollowedArtistWidget(followedArtists[i]),
                       ),
                     ),
                   ),

@@ -225,10 +225,9 @@ class UserProvider with ChangeNotifier {
 
   ///A function that removes a following user from the list of id list.
   void removeFollowing(String id) {
-    int index=_user.following.indexWhere((following) => following == id);
+    int index = _user.following.indexWhere((following) => following == id);
     followingUsers.removeAt(index);
     _user.following.removeAt(index);
-    
   }
 
   ///A function that add a following user from the list of id list.
@@ -536,11 +535,11 @@ class UserProvider with ChangeNotifier {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
       bool succeeded = await userAPI.follow(token, id);
-      if (succeeded) {
-        return false;
-      } else {
+      if (!succeeded) {
         addFollowing(id);
         notifyListeners();
+        return false;
+      } else {
         return true;
       }
     } catch (error) {
@@ -557,10 +556,10 @@ class UserProvider with ChangeNotifier {
     try {
       bool succeeded = await userAPI.unfollowFollowUser(token, id);
       if (!succeeded) {
-        return true;
-      } else {
         removeFollowing(id);
         notifyListeners();
+        return true;
+      } else {
         return false;
       }
     } catch (error) {
@@ -661,8 +660,7 @@ class UserProvider with ChangeNotifier {
       }
       followingUsers = following;
       notifyListeners();
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   ///A method that fetches for following users and set them in the following list.
@@ -678,8 +676,6 @@ class UserProvider with ChangeNotifier {
       }
       followersUsers = following;
       notifyListeners();
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   }
 }

@@ -118,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
             playlistProvider.fetchPopPlaylists(
                 user.token, categoriesProvider.getPopCategoryId);
           }
-
           _isLoading = false;
         });
       });

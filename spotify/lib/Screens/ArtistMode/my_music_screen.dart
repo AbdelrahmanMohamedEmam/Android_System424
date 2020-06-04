@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/Models/chart_data.dart';
-import 'package:spotify/Models/charts.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import '../../Models/album.dart';
 import '../../Providers/album_provider.dart';

@@ -95,7 +95,7 @@ class Playlist with ChangeNotifier {
 
   ///A method that parses a mapped object from a json file and returns an Playlist object.
   factory Playlist.fromJson(Map<String, dynamic> json) {
-    return Playlist(
+   return Playlist(
       collaborative:
           json['collaborative'] == null ? true : json['collaborative'],
       description: json['description'] == null ? null : json['description'],
@@ -119,6 +119,7 @@ class Playlist with ChangeNotifier {
       popularity: json['popularity'] == null ? null : json['popularity'],
       createdAt: json['createdAt'] == null ? null : json['createdAt'],
     );
+
   }
 
   ///A method that parses a mapped object from a json file and returns an Playlist object.

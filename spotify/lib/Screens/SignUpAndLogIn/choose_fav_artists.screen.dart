@@ -145,9 +145,9 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                            height: selectedIndices.length < 3
-                                ? deviceSize.height * 0.8
-                                : deviceSize.height * 0.7,
+                            height: selectedIndices.length < 1
+                                ? deviceSize.height * 1.0
+                                : deviceSize.height * 0.9,
                             child: GridView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,

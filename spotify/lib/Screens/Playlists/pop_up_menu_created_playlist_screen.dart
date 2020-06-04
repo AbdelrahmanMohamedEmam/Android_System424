@@ -11,6 +11,7 @@ import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
+import 'package:spotify/Screens/Library/add_song_to_playlist_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
 import '../../Models/track.dart';
@@ -23,18 +24,18 @@ import '../../Providers/user_provider.dart';
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
 
-class PopUpMenuPlaylistScreen extends StatefulWidget {
+class PopUpMenuCreatedPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';
   Playlist playlist;
-  PlaylistCategory category;
-  PopUpMenuPlaylistScreen(this.playlist, this.category);
+  PopUpMenuCreatedPlaylistScreen(this.playlist);
 
   @override
-  _PopUpMenuPlaylistScreenState createState() =>
-      _PopUpMenuPlaylistScreenState();
+  _PopUpMenuCreatedPlaylistScreenState createState() =>
+      _PopUpMenuCreatedPlaylistScreenState();
 }
 
-class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
+class _PopUpMenuCreatedPlaylistScreenState
+    extends State<PopUpMenuCreatedPlaylistScreen> {
   ///Initializations.
   @override
   void initState() {
@@ -62,8 +63,9 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: Image.network(
-                        widget.playlist.images[0],
+                      child: FadeInImage(
+                        image: NetworkImage(widget.playlist.images[0]),
+                        placeholder: AssetImage('assets/images/temp.jpg'),
                         height: deviceSize.height * 0.3,
                       ),
                       margin: EdgeInsets.only(
@@ -94,6 +96,38 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                     ),
                     Container(
                       child: InkWell(
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              child: Icon(
+                                Icons.add_circle,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                            ),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                child: Text(
+                                  'Add songs',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: deviceSize.width * 0.05),
+                                ))
+                          ],
+                        ),
+                        onTap: () {
+                          // Navigator.of(context).pop();
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => AddSongToPlaylistScreen(id),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    ),
+                    Container(
+                      child: InkWell(
                         onTap: () async {
                           //print(widget.song.artists[0].artistInfo.biography);
                           await Share.share(
@@ -121,54 +155,6 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                        child: InkWell(
-                      onTap: () async {
-                        if (Provider.of<PlaylistProvider>(context,
-                                listen: false)
-                            .isPlaylistLiked(widget.playlist.id)) {
-                          await Provider.of<PlaylistProvider>(context,
-                                  listen: false)
-                              .unlikePlaylist(user.token, widget.playlist.id)
-                              .then((_) {
-                            setState(() {});
-                          });
-                        } else {
-                          await Provider.of<PlaylistProvider>(context,
-                                  listen: false)
-                              .likePlaylist(user.token, widget.playlist.id,
-                                  widget.category)
-                              .then((_) {
-                            setState(() {});
-                          });
-                        }
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: Icon(
-                              playlistProvider
-                                      .isPlaylistLiked(widget.playlist.id)
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: Colors.white,
-                            ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                          ),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                              child: Text(
-                                playlistProvider
-                                        .isPlaylistLiked(widget.playlist.id)
-                                    ? 'Unlike this playlist'
-                                    : 'Like this playlist',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviceSize.width * 0.05),
-                              ))
-                        ],
-                      ),
-                    )),
                   ],
                 ),
               ),

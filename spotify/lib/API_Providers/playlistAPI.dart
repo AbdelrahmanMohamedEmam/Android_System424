@@ -120,8 +120,6 @@ class PlaylistAPI {
     }
   }
 
-
-
   Future<List> fetchMadeForYouPlaylistsApi(String token) async {
     final url =
         baseUrl + PlaylistEndPoints.playlists + PlaylistEndPoints.madeForYou;
@@ -160,6 +158,31 @@ class PlaylistAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> temp2 = temp['data'];
         final extractedList = temp2['playlists'] as List;
+        return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  Future<List> fetchRandomTracksForPlaylistApi(String token, String id) async {
+    final url = baseUrl +
+        PlaylistEndPoints.playlists +
+        '/' +
+        id +
+        PlaylistEndPoints.tracks +
+        PlaylistEndPoints.madeForYou;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        Map<String, dynamic> temp2 = temp['data'];
+        final extractedList = temp2['tracks'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -317,6 +340,40 @@ class PlaylistAPI {
     }
   }
 
+  Future<Map<String, dynamic>> addSongToPlaylistApi(
+      String token, String playlistID, String songID) async {
+    try {
+      final response = await Dio().post(
+          baseUrl +
+              PlaylistEndPoints.playlists +
+              '/' +
+              playlistID +
+              PlaylistEndPoints.tracks,
+          data: json.encode(
+            {
+              "id": songID,
+            },
+          ),
+          options: Options(
+            validateStatus: (_) {
+              return true;
+            },
+            headers: {
+              "authorization": "Bearer " + token,
+            },
+          ));
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data['playlist'];
+      } else {
+        throw HttpException(json.decode(response.data)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error).toString();
+    }
+  }
+
   Future<List> fetchPlaylistsTracksApi(String token, String id) async {
     final url = baseUrl +
         PlaylistEndPoints.playlists +
@@ -384,6 +441,28 @@ class PlaylistAPI {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
         return extractedList;
+      } else {
+        throw HttpException(json.decode(response.body)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A method that fetches a- playlist(s).
+  ///takes [token],[PlaylistId] as input parameters.
+  Future<Map<String, dynamic>> fetchPlaylistByIdApi(
+      String token, String id) async {
+    final url = baseUrl + PlaylistEndPoints.playlists + '/' + id;
+    try {
+      final response = await http.get(
+        url,
+        headers: {"authorization": "Bearer " + token},
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> temp = json.decode(response.body);
+        final extractedObject = temp['data']['playlist'];
+        return extractedObject;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
