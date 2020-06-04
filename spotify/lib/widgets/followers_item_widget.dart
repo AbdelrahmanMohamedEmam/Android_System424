@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/user.dart';
+
 import 'package:spotify/Providers/user_provider.dart';
 
 class FollowersItemWidget extends StatefulWidget {
@@ -9,10 +10,20 @@ class FollowersItemWidget extends StatefulWidget {
 }
 
 class _FollowersItemWidgetState extends State<FollowersItemWidget> {
+  bool following;
+  UserProvider userProvider;
+  User user;
+  @override
+  void didChangeDependencies() {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    User user = Provider.of<User>(context, listen: false);
+    //following = userProvider.isFollowed(user.id);
     return ListTile(
       title: Text(
         user.name,
@@ -29,15 +40,43 @@ class _FollowersItemWidgetState extends State<FollowersItemWidget> {
       ),
       trailing: GestureDetector(
         onTap: () {
-          // userProvider.isFollowed(user.id)
-          //     ? userProvider.unfollow(user.id)
-          //     : userProvider.follow(user.id);
+          try {
+            setState(() async {
+              userProvider.isFollowed(user.id)
+                  ? await userProvider.unfollow(user.id)
+                  : await userProvider.follow(user.id);
+              userProvider.isFollowed(user.id)
+                  ? _showErrorDialog("Followed successfully")
+                  : _showErrorDialog("unfollowed successfully");
+            });
+          } catch (error) {
+            //_showErrorDialog("Something went wrong!!");
+          }
         },
         child: Icon(
           Icons.check,
-          color: Colors
-              .green, //userProvider.isFollowed(user.id) ? Colors.green : Colors.white,
+          color: userProvider.isFollowed(user.id) ? Colors.green : Colors.white,
         ),
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("Message"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop();
+            },
+          )
+        ],
       ),
     );
   }

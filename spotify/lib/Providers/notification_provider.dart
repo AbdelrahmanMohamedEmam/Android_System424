@@ -30,4 +30,24 @@ class NotificationProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {}
   }
+
+  ///A method that fetches the more recent notifications and set them in the Notifications  List.
+  ///It takes a [String] token for verification.
+  Future<void> fetchMoreRecentActivities(String token) async {
+    NotificationsAPI notificationsAPI = NotificationsAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await notificationsAPI.fetchMoreNotificationsAPI(
+          token, nextTotifications);
+      nextTotifications = notificationsAPI.getNextNotificationUrl;
+      final List<Notifications> loadedNotifications = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedNotifications.add(Notifications.fromJson(extractedList[i]));
+      }
+      _notifications.addAll(loadedNotifications);
+      if (loadedNotifications.isEmpty) {
+        throw Exception("No more results");
+      }
+      notifyListeners();
+    } catch (error) {}
+  }
 }
