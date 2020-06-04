@@ -13,6 +13,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
   ///Text controller to keep track with the name field.
   final nameController = TextEditingController();
   bool _buttonEnabled;
+  String id;
   @override
   void initState() {
     _buttonEnabled = false;
@@ -97,15 +98,14 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 onPressed: _buttonEnabled
                     ? () async {
                         try {
-                          await playlist.createPlaylist(
+                          id = await playlist.createPlaylist(
                               nameController.text, user.token);
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         CreatedPlaylistScreen(widget.id),
-                          //   ),
-                          // );
-                          Navigator.of(context).pop();
+
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => CreatedPlaylistScreen(id),
+                            ),
+                          );
                         } catch (error) {
                           _showErrorDialog(error.toString());
                         }

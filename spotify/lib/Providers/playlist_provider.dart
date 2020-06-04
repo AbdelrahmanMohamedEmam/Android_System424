@@ -353,7 +353,7 @@ class PlaylistProvider with ChangeNotifier {
     } catch (error) {}
   }
 
-  Future<void> createPlaylist(String name, String token) async {
+  Future<String> createPlaylist(String name, String token) async {
     PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
     try {
       Map<String, dynamic> playlist =
@@ -361,6 +361,7 @@ class PlaylistProvider with ChangeNotifier {
       createdSuccessful = true;
       _createdPlaylists.add(Playlist.fromJson2(playlist));
       notifyListeners();
+      return _createdPlaylists[_createdPlaylists.length-1].id;
     } catch (error) {
       print(error.toString());
       throw HttpException('Name must be unique, Try another one');

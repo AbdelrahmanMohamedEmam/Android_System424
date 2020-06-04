@@ -38,7 +38,8 @@ class _CreatedPlaylistWidgetState extends State<CreatedPlaylistWidget> {
               )
             : FadeInImage(
                 placeholder: AssetImage('assets/images/temp.jpg'),
-                image: NetworkImage('assets/images/temp.jpg')),
+                image: AssetImage('assets/images/temp.jpg'),
+              ),
         title: Text(
           playlist.name,
           style: TextStyle(color: Colors.white),

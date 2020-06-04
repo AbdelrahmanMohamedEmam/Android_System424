@@ -22,57 +22,52 @@ class PlaylistsScreen extends StatefulWidget {
 
 class _PlaylistsScreenState extends State<PlaylistsScreen> {
   UserProvider user;
+  PlaylistProvider playlistProvider;
+  PlayableTrackProvider playableTrackProvider;
   bool _isLoading = true;
   bool _isNotfound = false;
+  List<Playlist> allList;
   List<Playlist> playlists_tracks;
+  List<Track> likedTracks;
 
   @override
   void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context, listen: false);
+    playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
+    playableTrackProvider = Provider.of<PlayableTrackProvider>(context);
     try {
+      await playlistProvider.fetchLikedPlaylists(user.token);
+      await playableTrackProvider.fetchUserLikedTracks(user.token, 50);
+
+      // if (_isLoading != false) {
       await Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchLikedPlaylists(user.token);
-      await Provider.of<PlayableTrackProvider>(context, listen: false)
-          .fetchUserLikedTracks(user.token, 50);
-      playlists_tracks = Provider.of<PlaylistProvider>(context, listen: false)
-          .getCreatedPlaylists;
-      for (int i = 0; i < playlists_tracks.length - 1; i++) {
-        await Provider.of<PlaylistProvider>(context, listen: false)
-            .fetchPlaylistsTracksById(
-                playlists_tracks[i].id, user.token, PlaylistCategory.created);
-      }
-      if (_isLoading != false) {
-        await Provider.of<PlaylistProvider>(context, listen: false)
-            .fetchCreatedPlaylists(user.token)
-            .then((_) {
+          .fetchCreatedPlaylists(user.token)
+          .then((_) {
+        playlists_tracks = playlistProvider.getCreatedPlaylists;
+        allList = playlistProvider.getlikedPlaylists +
+            playlistProvider.getCreatedPlaylists;
+        likedTracks = playableTrackProvider.getLikedTracks;
+        if (mounted) {
           setState(() {
             _isLoading = false;
           });
+        }
+      });
+
+      // }
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _isNotfound = true;
+          _isLoading = false;
         });
       }
-    } catch (error) {
-      setState(() {
-        _isNotfound = true;
-        _isLoading = false;
-      });
     }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenScaler scaler = new ScreenScaler()..init(context);
-    final playlistsProvider = Provider.of<PlaylistProvider>(context);
-    final playableTrackProvider = Provider.of<PlayableTrackProvider>(context);
-    List<Playlist> createdplaylists;
-    List<Playlist> likedplaylists;
-    List<Track> likedTracks;
-    List<Playlist> allList;
-    likedplaylists = playlistsProvider.getlikedPlaylists;
-    createdplaylists = playlistsProvider.getCreatedPlaylists;
-    likedTracks = playableTrackProvider.getLikedTracks;
-    allList = likedplaylists + createdplaylists;
-    //var height = ((allList.length + 1) * 10).toDouble();
     return (_isLoading)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -167,10 +162,14 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                                 value: allList[i],
                                 child: (allList[i].category2 ==
                                         PlaylistCategory.liked)
-                                    ? FavPlaylistWidget(PlaylistCategory.liked,
-                                        likedplaylists[i].id)
-                                    : CreatedPlaylistWidget(createdplaylists[
-                                            i - likedplaylists.length]
+                                    ? FavPlaylistWidget(
+                                        PlaylistCategory.liked,
+                                        playlistProvider
+                                            .getlikedPlaylists[i].id)
+                                    : CreatedPlaylistWidget(playlistProvider
+                                        .getCreatedPlaylists[i -
+                                            playlistProvider
+                                                .getlikedPlaylists.length]
                                         .id),
                               ),
                             ),

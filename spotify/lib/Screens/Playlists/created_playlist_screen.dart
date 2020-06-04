@@ -38,23 +38,25 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
     playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
     user = Provider.of<UserProvider>(context, listen: false);
     try {
-      //if (!firstTime) {
-        await Provider.of<PlaylistProvider>(context, listen: false)
-            .fetchPlaylistsTracksById(
-                widget.id, user.token, PlaylistCategory.created);
-     // }
-      playlists = Provider.of<PlaylistProvider>(context, listen: false)
-          .getCreatedPlaylistsbyId(widget.id);
-      if (playlists.tracks != null && playlists.tracks.length != 0) {
-        List<Track> toAdd =
-            Provider.of<PlaylistProvider>(context, listen: false)
-                .getPlayableTracks(widget.id, PlaylistCategory.created);
-        Provider.of<PlayableTrackProvider>(context, listen: false)
-            .setTracksToBePlayed(toAdd);
-        Provider.of<PlayableTrackProvider>(context, listen: false)
-            .shuffledTrackList(user.token, widget.id, 'playlist');
-      }
-      _isLoading = false;
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchPlaylistsTracksById(
+              widget.id, user.token, PlaylistCategory.created)
+          .then((_) {
+        setState(() {
+          playlists = Provider.of<PlaylistProvider>(context, listen: false)
+              .getCreatedPlaylistsbyId(widget.id);
+          if (playlists.tracks != null && playlists.tracks.length != 0) {
+            List<Track> toAdd =
+                Provider.of<PlaylistProvider>(context, listen: false)
+                    .getPlayableTracks(widget.id, PlaylistCategory.created);
+            Provider.of<PlayableTrackProvider>(context, listen: false)
+                .setTracksToBePlayed(toAdd);
+            Provider.of<PlayableTrackProvider>(context, listen: false)
+                .shuffledTrackList(user.token, widget.id, 'playlist');
+          }
+          _isLoading = false;
+        });
+      });
     } catch (error) {
       setState(() {
         _isLoading = false;
@@ -75,7 +77,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
 
   ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
-    if (playlists.tracks != null && playlists.tracks.length != 0) {
+    if (!playlists.tracks.isEmpty) {
       PaletteGenerator _paletteGenerator =
           await PaletteGenerator.fromImageProvider(
               NetworkImage(playlists.tracks[0].album.image),
@@ -319,27 +321,39 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                                 Size.fromHeight(deviceSize.height * 0.0878),
                           ),
                   ),
-                  (playlists.tracks != null && playlists.tracks.length != 0)
-                      ? SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            ((context, index) {
-                              return Column(
-                                children: <Widget>[
-                                  ChangeNotifierProvider.value(
-                                    value: playlists.tracks[index],
-                                    child: SongItemPlaylistList(),
-                                  ),
-                                  SizedBox(height:700),
-                                ],
-                              );
-                            }),
-                            childCount: playlists.tracks.length,
-                          ),
-                        )
-                      : SliverList(delegate:
-                          SliverChildBuilderDelegate((context, index) {
-                          return SizedBox(height: scaler.getHeight(60));
-                        })),
+                  if (playlists.tracks != null && playlists.tracks.length != 0)
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        ((context, index) {
+                          return Column(
+                            children: <Widget>[
+                              ChangeNotifierProvider.value(
+                                value: playlists.tracks[index],
+                                child: SongItemPlaylistList(),
+                              ),
+                            ],
+                          );
+                        }),
+                        childCount: playlists.tracks.length,
+                      ),
+                    ),
+                  //if (playlists.tracks != null && playlists.tracks.length != 0)
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return (playlists.tracks.length == 1)
+                            ? SizedBox(height: 480)
+                            : (playlists.tracks.length == 2)
+                                ? SizedBox(height: 420)
+                                : (playlists.tracks.length == 3)
+                                    ? SizedBox(height: 350)
+                                    : (playlists.tracks.length == 14)
+                                        ? SizedBox(height: 80)
+                                        : SizedBox(height: 480);
+                      },
+                      childCount: 1,
+                    ),
+                  ),
                 ],
               ),
             ),

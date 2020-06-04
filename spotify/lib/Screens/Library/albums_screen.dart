@@ -23,15 +23,19 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
       await Provider.of<AlbumProvider>(context, listen: false)
           .fetchLikedAlbums(user.token)
           .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       });
     } catch (error) {
-      setState(() {
-        _isNotfound = true;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isNotfound = true;
+          _isLoading = false;
+        });
+      }
     }
 
     super.didChangeDependencies();

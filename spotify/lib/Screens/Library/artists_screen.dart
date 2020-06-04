@@ -24,15 +24,19 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
       await Provider.of<UserProvider>(context, listen: false)
           .fetchFollowedArtists(user.token)
           .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       });
     } catch (error) {
-      setState(() {
-        _isNotfound = true;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isNotfound = true;
+          _isLoading = false;
+        });
+      }
     }
 
     super.didChangeDependencies();
