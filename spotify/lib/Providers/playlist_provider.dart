@@ -59,8 +59,6 @@ class PlaylistProvider with ChangeNotifier {
   ///List of playlist objects categorized as created playlists.
   List<Playlist> _createdPlaylists = [];
 
-
-
   ///List of track objects categorized as random tracks.
   List<Track> _randomTracks = [];
 
@@ -375,11 +373,14 @@ class PlaylistProvider with ChangeNotifier {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
     try {
       final extractedList = await playlistApi.fetchPlaylistByIdApi(token, id);
-      Playlist temp=Playlist.fromJson(extractedList);
+      Playlist temp = Playlist.fromJson(extractedList);
       _recentlyPlayed.add(temp);
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
+    }
+  }
+
   Future<void> addSongToPlaylist(
       String token, String playlistId, String songId) async {
     PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
@@ -779,6 +780,7 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException(error.toString());
     }
   }
+
   List<Track> getPlayableTracks(String id, PlaylistCategory category) {
     print('playlist id:' + id);
     if (category == PlaylistCategory.arabic) {
@@ -824,4 +826,4 @@ class PlaylistProvider with ChangeNotifier {
       return _createdPlaylists[index].tracks;
     }
   }
-    }
+}
