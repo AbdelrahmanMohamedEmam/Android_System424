@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/Albums/song_item_pop_up_menu.dart';
 import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import '../Models/track.dart';
 
@@ -68,9 +69,7 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
               opaque: false,
               barrierColor: Colors.black87,
               pageBuilder: (BuildContext context, _, __) {
-                return SongSettingsScreen(
-                  song: song,
-                );
+                return SongItemPopUpMenu(song);
               }));
 
           //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);

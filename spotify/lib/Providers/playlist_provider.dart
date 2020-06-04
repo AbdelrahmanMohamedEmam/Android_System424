@@ -366,21 +366,6 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException('Name must be unique, Try another one');
     }
   }
-
-  ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
-  ///It takes a [String] ,[PlaylistId]token for verification.
-  Future<void> fetchRecentlyPlayedPlaylist(String token, String id) async {
-    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      final extractedList = await playlistApi.fetchPlaylistByIdApi(token, id);
-      Playlist temp = Playlist.fromJson(extractedList);
-      _recentlyPlayed.add(temp);
-      notifyListeners();
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
   Future<void> addSongToPlaylist(
       String token, String playlistId, String songId) async {
     PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
@@ -395,6 +380,21 @@ class PlaylistProvider with ChangeNotifier {
     } catch (error) {
       print(error.toString());
       throw HttpException('Name must be unique, Try another one');
+    }
+  }
+
+
+    ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
+  ///It takes a [String] ,[PlaylistId]token for verification.
+  Future<void> fetchRecentlyPlayedPlaylist(String token, String id) async {
+    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await playlistApi.fetchPlaylistByIdApi(token, id);
+      Playlist temp = Playlist.fromJson(extractedList);
+      _recentlyPlayed.add(temp);
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
     }
   }
 
