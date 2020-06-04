@@ -16,6 +16,7 @@ class AddSongToPlaylistItem extends StatefulWidget {
 }
 
 class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
+  bool isPressed = false;
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
@@ -38,24 +39,24 @@ class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
           ),
           trailing: IconButton(
             padding: EdgeInsets.only(left: 6.0),
-            icon: Icon(
-              Icons.add_circle,
-              color: Colors.white,
-              size: 40,
-            ),
+            icon: (!isPressed)
+                ? Icon(
+                    Icons.add_circle,
+                    color: Colors.white,
+                    size: 40,
+                  )
+                : Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 40,
+                  ),
             onPressed: () {
               Provider.of<PlaylistProvider>(context, listen: false)
                   .addSongToPlaylist(user.token, widget.id, song.id);
+              setState(() {
+                isPressed = true;
+              });
             },
-            // {
-            //   Provider.of<PlaylistProvider>(context, listen: false)
-            //       .fetchMoreRandomTracksForPlaylist(user.token, widget.id)
-            //       .then(
-            //     (_) {
-            //       print("lala");
-            //     },
-            //   );
-            // },
           ),
         ),
       ),

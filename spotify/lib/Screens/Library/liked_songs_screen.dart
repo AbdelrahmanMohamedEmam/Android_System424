@@ -42,25 +42,26 @@ class _LikedSongsScreenState extends State<LikedSongsScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 )
-              : Container(
-                  child: PreferredSize(
-                    child: Transform.translate(
-                      offset: Offset(0, 0),
-                      child: Container(
-                        width: 190.0,
-                        child: FloatingActionButton(
-                          onPressed: null,
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                          child: Text(' SHUFFLE PLAY'),
-                        ),
-                      ),
-                    ),
-                    preferredSize: Size.fromHeight(60),
-                  ),
-                ),
+              : 
+              // Container(
+              //     child: PreferredSize(
+              //       child: Transform.translate(
+              //         offset: Offset(0, 0),
+              //         child: Container(
+              //           width: 190.0,
+              //           child: FloatingActionButton(
+              //             onPressed: null,
+              //             backgroundColor: Colors.green,
+              //             shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(22),
+              //             ),
+              //             child: Text(' SHUFFLE PLAY'),
+              //           ),
+              //         ),
+              //       ),
+              //       preferredSize: Size.fromHeight(60),
+              //     ),
+              //   ),
           Container(
             height: 350,
             child: ListView.builder(

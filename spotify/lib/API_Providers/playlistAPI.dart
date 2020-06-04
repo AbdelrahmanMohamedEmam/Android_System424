@@ -342,32 +342,35 @@ class PlaylistAPI {
 
   Future<Map<String, dynamic>> addSongToPlaylistApi(
       String token, String playlistID, String songID) async {
-    final response = await Dio().post(
-        baseUrl +
-            PlaylistEndPoints.playlists +
-            '/' +
-            playlistID +
-            PlaylistEndPoints.tracks,
-        data: json.encode(
-          {
-            "id": songID,
-          },
-        ),
-        options: Options(
-          validateStatus: (_) {
-            return true;
-          },
-          headers: {
-            "authorization": "Bearer " + token,
-          },
-        ));
-    if (response.statusCode == 200) {
-      print(response.data);
-      return response.data['playlist'];
-    } else {
-      throw HttpException(json
-          .decode(response.data)['this track already exists in this playlist']
-          .toString());
+    try {
+      final response = await Dio().post(
+          baseUrl +
+              PlaylistEndPoints.playlists +
+              '/' +
+              playlistID +
+              PlaylistEndPoints.tracks,
+          data: json.encode(
+            {
+              "id": songID,
+            },
+          ),
+          options: Options(
+            validateStatus: (_) {
+              return true;
+            },
+            headers: {
+              "authorization": "Bearer " + token,
+            },
+          ));
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        return response.data['playlist'];
+      } else {
+        throw HttpException(json.decode(response.data)['message'].toString());
+      }
+    } catch (error) {
+      throw HttpException(error).toString();
     }
   }
 

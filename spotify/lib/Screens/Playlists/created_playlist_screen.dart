@@ -27,6 +27,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
   Playlist playlists;
   PlaylistProvider playlistProvider;
   //String id;
+  bool firstTime = true;
 
   PaletteGenerator paletteGenerator;
   Color background = Colors.black87;
@@ -35,17 +36,16 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
   @override
   Future<void> didChangeDependencies() async {
     playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
-    user = Provider.of<UserProvider>(context);
-    // id = playlistProvider
-    //     .getCreatedPlaylists[playlistProvider.getCreatedPlaylists.length - 1]
-    //     .id;
-    await Provider.of<PlaylistProvider>(context, listen: false)
-        .fetchPlaylistsTracksById(widget.id, user.token, PlaylistCategory.created)
-        .then((_) {
-      setState(() {
-        _isLoading = false;
-        playlists = Provider.of<PlaylistProvider>(context, listen: false)
-            .getCreatedPlaylistsbyId(widget.id);
+    user = Provider.of<UserProvider>(context, listen: false);
+    try {
+      //if (!firstTime) {
+        await Provider.of<PlaylistProvider>(context, listen: false)
+            .fetchPlaylistsTracksById(
+                widget.id, user.token, PlaylistCategory.created);
+     // }
+      playlists = Provider.of<PlaylistProvider>(context, listen: false)
+          .getCreatedPlaylistsbyId(widget.id);
+      if (playlists.tracks != null && playlists.tracks.length != 0) {
         List<Track> toAdd =
             Provider.of<PlaylistProvider>(context, listen: false)
                 .getPlayableTracks(widget.id, PlaylistCategory.created);
@@ -53,8 +53,13 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
             .setTracksToBePlayed(toAdd);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .shuffledTrackList(user.token, widget.id, 'playlist');
+      }
+      _isLoading = false;
+    } catch (error) {
+      setState(() {
+        _isLoading = false;
       });
-    });
+    }
 
     super.didChangeDependencies();
   }
@@ -70,7 +75,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
 
   ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
-    if (playlists.tracks != null) {
+    if (playlists.tracks != null && playlists.tracks.length != 0) {
       PaletteGenerator _paletteGenerator =
           await PaletteGenerator.fromImageProvider(
               NetworkImage(playlists.tracks[0].album.image),
@@ -85,11 +90,14 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
           paletteGenerator = _paletteGenerator;
         },
       );
+    } else {
+      background = Colors.black;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    firstTime = false;
     //final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     ScreenScaler scaler = new ScreenScaler()..init(context);
@@ -114,159 +122,204 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                 controller: _scrollController,
                 slivers: <Widget>[
                   SliverAppBar(
-                      title: AnimatedOpacity(
-                        duration: Duration(milliseconds: 300),
-                        opacity: _isScrolled ? 1.0 : 0.0,
-                        curve: Curves.ease,
-                        child: Text(
-                          playlists.name,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: deviceSize.height * 0.0292), //20
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      centerTitle: true,
-                      backgroundColor: background,
-                      actions: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.more_vert,
+                    title: AnimatedOpacity(
+                      duration: Duration(milliseconds: 300),
+                      opacity: _isScrolled ? 1.0 : 0.0,
+                      curve: Curves.ease,
+                      child: Text(
+                        playlists.name,
+                        style: TextStyle(
                             color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(PageRouteBuilder(
-                                opaque: false,
-                                barrierColor: Colors.black87,
-                                pageBuilder: (BuildContext context, _, __) {
-                                  return PopUpMenuCreatedPlaylistScreen(
-                                      playlists);
-                                }));
-                          },
+                            fontSize: deviceSize.height * 0.0292), //20
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    centerTitle: true,
+                    backgroundColor: background,
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.white,
                         ),
-                      ],
-                      expandedHeight: deviceSize.height * 0.65, //340
-                      pinned: true,
-                      floating: false,
-                      elevation: 0,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: deviceSize.height * 0.07,
-                                  bottom: deviceSize.height *
-                                      0.02), //top:50, bottom:15
-                              height: deviceSize.height * 0.33,
-                              width: double.infinity,
-                              child: FadeInImage(
-                                image: NetworkImage(
-                                    playlists.tracks[0].album.image),
-                                placeholder:
-                                    AssetImage('assets/images/temp.jpg'),
-                              ),
-                            ),
-                            Container(
-                              height: deviceSize.height * 0.035, //27
-                              width: double.infinity,
-                              child: Text(
-                                playlists.name,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviceSize.height * 0.029), //20
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.only(
-                                  top: deviceSize.height * 0.0146),
-                              height: deviceSize.height * 0.073,
-                              child: Text(
-                                'By ' + user.username,
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: deviceSize.height * 0.02),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            (playlists.tracks.length == 0)
-                                ? Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(
-                                        top: deviceSize.height * 0.0146),
-                                    height: deviceSize.height * 0.073,
-                                    child: Text(
-                                      'Let\'s find some songs for your playlist',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: deviceSize.height * 0.02),
-                                      textAlign: TextAlign.center,
-                                    ),
+                        onPressed: () {
+                          Navigator.of(context).push(PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.black87,
+                              pageBuilder: (BuildContext context, _, __) {
+                                return PopUpMenuCreatedPlaylistScreen(
+                                    playlists);
+                              }));
+                        },
+                      ),
+                    ],
+                    expandedHeight: deviceSize.height * 0.65, //340
+                    pinned: true,
+                    floating: false,
+                    elevation: 0,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.07,
+                                bottom: deviceSize.height *
+                                    0.02), //top:50, bottom:15
+                            height: deviceSize.height * 0.33,
+                            width: double.infinity,
+                            child: (playlists.tracks != null &&
+                                    playlists.tracks.length != 0)
+                                ? FadeInImage(
+                                    placeholder:
+                                        AssetImage('assets/images/temp.jpg'),
+                                    image: NetworkImage(
+                                        playlists.tracks[0].album.image),
+                                    fit: BoxFit.fitHeight,
                                   )
-                                : Container(),
-                            (playlists.tracks.length != 0)
-                                ? Container(
-                                    child: PreferredSize(
-                                      child: Transform.translate(
-                                        offset: Offset(0, 0),
-                                        child: Container(
-                                          width: deviceSize.width * 0.4,
-                                          child: FloatingActionButton(
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AddSongToPlaylistScreen(
-                                                          widget.id),
-                                                ),
-                                              );
-                                            },
-                                            backgroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Text(
-                                              'ADD SONGS',
-                                              style: TextStyle(
-                                                color: Colors.black,
+                                : FadeInImage(
+                                    placeholder:
+                                        AssetImage('assets/images/temp.jpg'),
+                                    image: AssetImage('assets/images/temp.jpg'),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                          ),
+                          Container(
+                            height: deviceSize.height * 0.035, //27
+                            width: double.infinity,
+                            child: Text(
+                              playlists.name,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: deviceSize.height * 0.029), //20
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.0146),
+                            height: deviceSize.height * 0.073,
+                            child: Text(
+                              'By ' + user.username,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: deviceSize.height * 0.02),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          (playlists.tracks == null ||
+                                  playlists.tracks.length == 0)
+                              ? Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(
+                                      top: deviceSize.height * 0.0146),
+                                  height: deviceSize.height * 0.073,
+                                  child: Text(
+                                    'Let\'s find some songs for your playlist',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: deviceSize.height * 0.02),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : SizedBox(height: 2),
+                          (playlists.tracks != null &&
+                                  playlists.tracks.length != 0)
+                              ? Container(
+                                  child: PreferredSize(
+                                    child: Transform.translate(
+                                      offset: Offset(0, 0),
+                                      child: Container(
+                                        width: deviceSize.width * 0.4,
+                                        child: FloatingActionButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddSongToPlaylistScreen(
+                                                        widget.id),
                                               ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                          ),
+                                          child: Text(
+                                            'ADD SONGS',
+                                            style: TextStyle(
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      preferredSize: Size.fromHeight(
-                                          deviceSize.height * 0.0878),
                                     ),
-                                  )
-                                : null,
-                          ],
-                        ),
+                                    preferredSize: Size.fromHeight(
+                                        deviceSize.height * 0.0878),
+                                  ),
+                                )
+                              : SizedBox(height: 2),
+                        ],
                       ),
-                      bottom: PreferredSize(
-                        child: Transform.translate(
-                          offset: Offset(0, 0),
-                          child: Container(
-                            width: 190.0,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                track.setCurrentSong(playlists.tracks[0],
-                                    user.isUserPremium(), user.token);
-                                Navigator.pop(context);
-                              },
-                              backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(22),
+                    ),
+
+                    bottom: (playlists.tracks != null &&
+                            playlists.tracks.length != 0)
+                        ? PreferredSize(
+                            child: Transform.translate(
+                              offset: Offset(0, 0),
+                              child: Container(
+                                width: 190.0,
+                                child: FloatingActionButton(
+                                  onPressed: () {
+                                    track.setCurrentSong(playlists.tracks[0],
+                                        user.isUserPremium(), user.token);
+                                    Navigator.pop(context);
+                                  },
+                                  backgroundColor: Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                  child: Text(' SHUFFLE PLAY'),
+                                ),
                               ),
-                              child: Text(' SHUFFLE PLAY'),
                             ),
+                            preferredSize: Size.fromHeight(70),
+                          )
+                        : PreferredSize(
+                            child: Transform.translate(
+                              offset: Offset(0, 0),
+                              child: Container(
+                                width: deviceSize.width * 0.4,
+                                child: FloatingActionButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddSongToPlaylistScreen(widget.id),
+                                      ),
+                                    );
+                                  },
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: Text(
+                                    'ADD SONGS',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            preferredSize:
+                                Size.fromHeight(deviceSize.height * 0.0878),
                           ),
-                        ),
-                        preferredSize: Size.fromHeight(70),
-                      )),
-                  (playlists.tracks.length != 0)
+                  ),
+                  (playlists.tracks != null && playlists.tracks.length != 0)
                       ? SliverList(
                           delegate: SliverChildBuilderDelegate(
                             ((context, index) {
@@ -275,13 +328,18 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                                   ChangeNotifierProvider.value(
                                     value: playlists.tracks[index],
                                     child: SongItemPlaylistList(),
-                                  )
+                                  ),
+                                  SizedBox(height:700),
                                 ],
                               );
                             }),
+                            childCount: playlists.tracks.length,
                           ),
                         )
-                      : null
+                      : SliverList(delegate:
+                          SliverChildBuilderDelegate((context, index) {
+                          return SizedBox(height: scaler.getHeight(60));
+                        })),
                 ],
               ),
             ),
@@ -289,7 +347,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
   }
 
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 100.0) {
+    if (_scrollController.offset >= 200.0) {
       setState(() {
         _isScrolled = true;
       });

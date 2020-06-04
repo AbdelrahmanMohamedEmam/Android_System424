@@ -32,7 +32,8 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
 
   Future<void> _initializeList() async {
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-    await artistProvider.fetchAllArtists('').then((_) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await artistProvider.fetchAllArtists(userProvider.token).then((_) {
       setState(() {
         artistsLoaded = true;
       });
@@ -86,7 +87,7 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
       return;
     }
     //Navigator.of(context).popUntil(ModalRoute.withName('/'));
-    Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -96,112 +97,99 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        /* title: Text(
-          'Choose more artists you like.',
-          maxLines: 2,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-          ),
-        ),*/
-        //centerTitle: true,
         backgroundColor: Colors.black,
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body:
-          !artistsLoaded
+      body: !artistsLoaded
           ? CircularProgressIndicator()
-          : 
-
-          Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Choose more artists\n you like.',
-              maxLines: 2,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28,
-              ),
-            ),
-          ),
-          selectedIndices.length < 1
-              ? SizedBox(
-                  height: 0.001,
-                )
-              : Container(
-                  padding: EdgeInsets.fromLTRB(
-                      deviceSize.width * 0.4,
-                      deviceSize.height * 0.02,
-                      deviceSize.width * 0.4,
-                      deviceSize.height * 0.02),
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.transparent,
-                    child: Text(
-                      'Done',
-                      style: TextStyle(fontSize: deviceSize.width * 0.04),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(deviceSize.width * 0.05),
-                      side: BorderSide(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      _submit();
-                    },
-                  ),
-                ),
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  height: selectedIndices.length < 3
-                      ? deviceSize.height * 0.8
-                      : deviceSize.height * 0.7,
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount:  artists.length,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 160,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Choose more artists\n you like.',
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
                     ),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            if (selectedIndices.contains(index)) {
-                              selectedIndices.remove(index);
-                            } else {
-                              selectedIndices.add(index);
-                            }
-                            selected[index] = !selected[index];
-                          });
-                        },
-                        child: FavArtistItem(
-                          selected: selected[index] ,
-                          id: artists[index].id ,
-                          artistName: artists[index].name ,
-                          imageUrl:
-                              //"https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
-                          artists[index].images[0],
-                        ),
-                      );
-                    },
                   ),
-                )
+                ),
+                selectedIndices.length < 1
+                    ? SizedBox(
+                        height: 0.001,
+                      )
+                    : Container(
+                        padding: EdgeInsets.fromLTRB(
+                            deviceSize.width * 0.4,
+                            deviceSize.height * 0.02,
+                            deviceSize.width * 0.4,
+                            deviceSize.height * 0.02),
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          color: Colors.transparent,
+                          child: Text(
+                            'Done',
+                            style: TextStyle(fontSize: deviceSize.width * 0.04),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(deviceSize.width * 0.05),
+                            side: BorderSide(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            _submit();
+                          },
+                        ),
+                      ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: selectedIndices.length < 3
+                            ? deviceSize.height * 0.8
+                            : deviceSize.height * 0.7,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: artists.length,
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 160,
+                            childAspectRatio: 1,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (selectedIndices.contains(index)) {
+                                    selectedIndices.remove(index);
+                                  } else {
+                                    selectedIndices.add(index);
+                                  }
+                                  selected[index] = !selected[index];
+                                });
+                              },
+                              child: FavArtistItem(
+                                selected: selected[index],
+                                id: artists[index].id,
+                                artistName: artists[index].name,
+                                imageUrl: artists[index].images[0],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

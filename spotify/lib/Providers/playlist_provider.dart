@@ -334,6 +334,8 @@ class PlaylistProvider with ChangeNotifier {
       final extractedList = await playlistApi.fetchCreatedPlaylistsApi(token);
 
       final List<Playlist> loadedPlaylists = [];
+      print("wasal wasal");
+      print(extractedList);
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
       }

@@ -43,13 +43,13 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
             widget.playlistId, user.token, widget.playlistType)
         .then((_) {
       setState(() {
-        _isLoading = false;
         List<Track> toAdd =
             Provider.of<PlaylistProvider>(context, listen: false)
                 .getPlayableTracks(widget.playlistId, widget.playlistType);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setTracksToBePlayed(toAdd);
 
+        _isLoading = false;
         if (widget.playlistType == PlaylistCategory.mostRecentPlaylists) {
           playlists = Provider.of<PlaylistProvider>(context, listen: false)
               .getMostRecentPlaylistsId(widget.playlistId);
@@ -119,6 +119,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
   @override
   Widget build(BuildContext context) {
     ScreenScaler scaler = new ScreenScaler()..init(context);
+    final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     if (!colorGenerated) _generatePalette();
 
     ///The device size provided by the [MediaQuery].
@@ -259,7 +260,11 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         child: Container(
                           width: deviceSize.width * 0.3406,
                           child: FloatingActionButton(
-                            onPressed: null,
+                            onPressed: () {
+                              track.setCurrentSong(playlists.tracks[0],
+                                  user.isUserPremium(), user.token);
+                              Navigator.pop(context);
+                            },
                             backgroundColor: Colors.green[700],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(22),
@@ -290,7 +295,15 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        return SizedBox(height: scaler.getHeight(60));
+                        return (playlists.tracks.length == 1)
+                            ? SizedBox(height: 480)
+                            : (playlists.tracks.length == 2)
+                                ? SizedBox(height: 420)
+                                : (playlists.tracks.length == 3)
+                                    ? SizedBox(height: 350)
+                                    : (playlists.tracks.length == 14)
+                                        ? SizedBox(height: 80)
+                                        : SizedBox(height: 480);
                       },
                       childCount: 1,
                     ),

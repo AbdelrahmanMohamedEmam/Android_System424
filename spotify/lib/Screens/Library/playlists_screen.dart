@@ -24,6 +24,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
   UserProvider user;
   bool _isLoading = true;
   bool _isNotfound = false;
+  List<Playlist> playlists_tracks;
 
   @override
   void didChangeDependencies() async {
@@ -31,13 +32,24 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
     try {
       await Provider.of<PlaylistProvider>(context, listen: false)
           .fetchLikedPlaylists(user.token);
-      await Provider.of<PlaylistProvider>(context, listen: false)
-          .fetchCreatedPlaylists(user.token)
-          .then((_) {
-        setState(() {
-          _isLoading = false;
+      await Provider.of<PlayableTrackProvider>(context, listen: false)
+          .fetchUserLikedTracks(user.token, 50);
+      playlists_tracks = Provider.of<PlaylistProvider>(context, listen: false)
+          .getCreatedPlaylists;
+      for (int i = 0; i < playlists_tracks.length - 1; i++) {
+        await Provider.of<PlaylistProvider>(context, listen: false)
+            .fetchPlaylistsTracksById(
+                playlists_tracks[i].id, user.token, PlaylistCategory.created);
+      }
+      if (_isLoading != false) {
+        await Provider.of<PlaylistProvider>(context, listen: false)
+            .fetchCreatedPlaylists(user.token)
+            .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
         });
-      });
+      }
     } catch (error) {
       setState(() {
         _isNotfound = true;
@@ -60,7 +72,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
     createdplaylists = playlistsProvider.getCreatedPlaylists;
     likedTracks = playableTrackProvider.getLikedTracks;
     allList = likedplaylists + createdplaylists;
-    var height = ((allList.length + 1) * 10).toDouble();
+    //var height = ((allList.length + 1) * 10).toDouble();
     return (_isLoading)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -145,9 +157,9 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                         children: <Widget>[
                           (likedTracks.length != 0)
                               ? LikedSongWidget(likedTracks.length)
-                              : null,
+                              : SizedBox(height: 1),
                           Container(
-                            height: 350,
+                            height: (likedTracks.length != 0) ? 350 : 450,
                             child: ListView.builder(
                               itemCount: allList.length,
                               itemBuilder: (context, i) =>
@@ -157,7 +169,9 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                                         PlaylistCategory.liked)
                                     ? FavPlaylistWidget(PlaylistCategory.liked,
                                         likedplaylists[i].id)
-                                    : CreatedPlaylistWidget(createdplaylists[i].id),
+                                    : CreatedPlaylistWidget(createdplaylists[
+                                            i - likedplaylists.length]
+                                        .id),
                               ),
                             ),
                           ),
