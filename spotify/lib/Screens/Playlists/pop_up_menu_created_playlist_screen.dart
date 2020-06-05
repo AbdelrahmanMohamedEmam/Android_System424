@@ -1,28 +1,18 @@
-import 'dart:convert';
+
 
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:spotify/Models/album.dart';
 import 'package:spotify/Models/playlist.dart';
-import 'package:spotify/Providers/album_provider.dart';
-import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
-import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Screens/Library/add_song_to_playlist_screen.dart';
-import 'package:spotify/Widgets/album_widget_artist_mode.dart';
-
-import '../../Models/track.dart';
-import '../../Providers/track_provider.dart';
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
-///Importing the http exception model to throw an http exception.
-import '../../Models/http_exception.dart';
 
 class PopUpMenuCreatedPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';

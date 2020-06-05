@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
-import 'package:spotify/Screens/Playlists/created_playlist_screen.dart';
 import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 import '../Models/playlist.dart';

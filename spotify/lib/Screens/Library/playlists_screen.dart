@@ -1,6 +1,5 @@
 //import packages
 import 'package:flutter/material.dart';
-import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
 import 'package:spotify/Screens/Library/create_playlist_screen.dart';
 import 'package:spotify/widgets/created_playlist_widget.dart';
 //import widgets
@@ -74,7 +73,9 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
               ),
             ),
           )
-        : (_isNotfound)
+        : (playlistProvider.getCreatedPlaylists.isEmpty &&
+                playlistProvider.getlikedPlaylists.isEmpty &&
+                playableTrackProvider.getLikedTracks.isEmpty)
             ? Container(
                 height: 400,
                 width: double.infinity,
@@ -150,7 +151,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                               ? LikedSongWidget(likedTracks.length)
                               : SizedBox(height: 1),
                           Container(
-                            height: (likedTracks.length != 0) ? 350 : 450,
+                            height: (likedTracks.length != 0) ? 350 : 400,
                             child: ListView.builder(
                               itemCount: allList.length,
                               itemBuilder: (context, i) =>
@@ -162,8 +163,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                                         PlaylistCategory.liked,
                                         playlistProvider
                                             .getlikedPlaylists[i].id)
-                                    : CreatedPlaylistWidget(
-                                      playlistProvider
+                                    : CreatedPlaylistWidget(playlistProvider
                                         .getCreatedPlaylists[i -
                                             playlistProvider
                                                 .getlikedPlaylists.length]

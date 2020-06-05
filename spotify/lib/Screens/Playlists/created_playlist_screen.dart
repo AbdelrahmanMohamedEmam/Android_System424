@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/playlist.dart';
@@ -9,7 +8,6 @@ import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/Library/add_song_to_playlist_screen.dart';
 import 'package:spotify/Screens/Playlists/pop_up_menu_created_playlist_screen.dart';
-import 'package:spotify/Screens/Playlists/pop_up_menu_playlist_screen.dart';
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 
 class CreatedPlaylistScreen extends StatefulWidget {
@@ -102,7 +100,6 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
     firstTime = false;
     //final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
-    ScreenScaler scaler = new ScreenScaler()..init(context);
     if (!colorGenerated) _generatePalette();
 
     ///The device size provided by the [MediaQuery].

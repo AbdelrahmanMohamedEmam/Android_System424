@@ -9,7 +9,6 @@ import 'package:spotify/Screens/Albums/pop_up_menu_album_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/widgets/song_card_artist_mode.dart';
 import 'package:spotify/widgets/song_item_in_album_list.dart';
-import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class AlbumsListScreen extends StatefulWidget {

@@ -1,13 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screen_scaler/flutter_screen_scaler.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/playlist.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/Playlists/pop_up_menu_playlist_screen.dart';
-import 'package:spotify/widgets/made_for_you_playlists_widget.dart';
 import '../../widgets/song_item_in_playlist_list.dart';
 import 'package:palette_generator/palette_generator.dart';
 import '../../Models/track.dart';
@@ -124,7 +122,6 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenScaler scaler = new ScreenScaler()..init(context);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     if (!colorGenerated) _generatePalette();
 

@@ -332,7 +332,8 @@ class PlaylistProvider with ChangeNotifier {
       _likedPlaylists = loadedPlaylists;
       notifyListeners();
     } catch (error) {
-      throw HttpException(error.toString());
+     // throw HttpException(error.toString());
+      print(error.toString());
     }
   }
 
@@ -352,7 +353,9 @@ class PlaylistProvider with ChangeNotifier {
       }
       _createdPlaylists = loadedPlaylists;
       notifyListeners();
-    } catch (error) {}
+    } catch (error) {
+       print(error.toString());
+    }
   }
 
   Future<String> createPlaylist(String name, String token) async {
