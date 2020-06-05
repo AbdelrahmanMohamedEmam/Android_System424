@@ -29,9 +29,8 @@ class _FavAlbumWidgetState extends State<FavAlbumWidget> {
         );
       },
       child: ListTile(
-        //leading: Image.network(playlist.images[0]),
         leading: FadeInImage(
-          placeholder: AssetImage('assets/images/temp.jpg'),
+          placeholder: AssetImage('assets/images/album.png'),
           image: NetworkImage(album.image),
           fit: BoxFit.fill,
         ),

@@ -117,12 +117,14 @@ class _PopUpMenuCreatedPlaylistScreenState
                           ],
                         ),
                         onTap: () {
-                          // Navigator.of(context).pop();
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => AddSongToPlaylistScreen(id),
-                          //   ),
-                          // );
+                           Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AddSongToPlaylistScreen(widget.playlist.id),
+                            ),
+                          );
+                         
                         },
                       ),
                     ),

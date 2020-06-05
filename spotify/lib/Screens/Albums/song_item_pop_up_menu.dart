@@ -7,17 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
-import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
 import '../../Models/track.dart';
-import '../../Providers/track_provider.dart';
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.
-import '../../Models/http_exception.dart';
 
 class SongItemPopUpMenu extends StatefulWidget {
   static const routeName = '/song_settings_screen';
@@ -37,13 +34,6 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print('nddjkd');
-    print(widget.song.artists[0].name);
-    print(widget.song.artists[0].type);
-    print(widget.song.artists[0].id);
-    //print(widget.song.artists[0].followers);
-    print(widget.song.artists[0].images[0]);
-    //print(json.decode(widget.song.artists));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
@@ -95,7 +85,6 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                   Container(
                     child: InkWell(
                       onTap: () async {
-                        //print(widget.song.artists[0].artistInfo.biography);
                         await Share.share(
                             'Check Out This Album On Totally Not Spotify ' +
                                 widget.song.album.href.replaceAll('/api', ''));

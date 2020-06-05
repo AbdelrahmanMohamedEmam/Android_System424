@@ -38,8 +38,6 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
     try {
       await playlistProvider.fetchLikedPlaylists(user.token);
       await playableTrackProvider.fetchUserLikedTracks(user.token, 50);
-
-      // if (_isLoading != false) {
       await Provider.of<PlaylistProvider>(context, listen: false)
           .fetchCreatedPlaylists(user.token)
           .then((_) {
@@ -53,8 +51,6 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
           });
         }
       });
-
-      // }
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -166,7 +162,8 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                                         PlaylistCategory.liked,
                                         playlistProvider
                                             .getlikedPlaylists[i].id)
-                                    : CreatedPlaylistWidget(playlistProvider
+                                    : CreatedPlaylistWidget(
+                                      playlistProvider
                                         .getCreatedPlaylists[i -
                                             playlistProvider
                                                 .getlikedPlaylists.length]

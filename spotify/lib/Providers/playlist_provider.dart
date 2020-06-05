@@ -308,6 +308,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.mostRecentPlaylists;
       }
       _mostRecentPlaylists = loadedPlaylists;
       notifyListeners();
@@ -347,6 +348,7 @@ class PlaylistProvider with ChangeNotifier {
       print(extractedList);
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.created;
       }
       _createdPlaylists = loadedPlaylists;
       notifyListeners();
@@ -361,12 +363,13 @@ class PlaylistProvider with ChangeNotifier {
       createdSuccessful = true;
       _createdPlaylists.add(Playlist.fromJson2(playlist));
       notifyListeners();
-      return _createdPlaylists[_createdPlaylists.length-1].id;
+      return _createdPlaylists[_createdPlaylists.length - 1].id;
     } catch (error) {
       print(error.toString());
       throw HttpException('Name must be unique, Try another one');
     }
   }
+
   Future<void> addSongToPlaylist(
       String token, String playlistId, String songId) async {
     PlaylistAPI playlistAPI = PlaylistAPI(baseUrl: baseUrl);
@@ -384,8 +387,7 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
-
-    ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
+  ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
   ///It takes a [String] ,[PlaylistId]token for verification.
   Future<void> fetchRecentlyPlayedPlaylist(String token, String id) async {
     PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
@@ -410,6 +412,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.madeForYou;
       }
       _madeForYou = loadedPlaylists;
       notifyListeners();
@@ -428,6 +431,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.popularPlaylists;
       }
       _popularPlaylists = loadedPlaylists;
 
@@ -447,6 +451,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.pop;
       }
       _popPlaylists = loadedPlaylists;
       notifyListeners();
@@ -474,23 +479,6 @@ class PlaylistProvider with ChangeNotifier {
     }
   }
 
-  ///A method that fetches for Random Tracks and set them in the random tracks list.
-  ///It takes a [String] token for verificationand id for this category.
-  Future<void> fetchMoreRandomTracksForPlaylist(String token, String id) async {
-    PlaylistAPI playlistApi = PlaylistAPI(baseUrl: baseUrl);
-    try {
-      final extractedList =
-          await playlistApi.fetchRandomTracksForPlaylistApi(token, id);
-
-      for (int i = 0; i < extractedList.length; i++) {
-        _randomTracks.add(Track.fromJson(extractedList[i]));
-      }
-      notifyListeners();
-    } catch (error) {
-      throw HttpException(error.toString());
-    }
-  }
-
   ///A method that fetches for workout playlists and set them in the workout list.
   ///It takes a [String] token for verificationand id for this category.
   Future<void> fetchJazzPlaylists(String token, String id) async {
@@ -501,6 +489,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.jazz;
       }
       _jazzPlaylists = loadedPlaylists;
       notifyListeners();
@@ -520,6 +509,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.arabic;
       }
       _arabicPlaylists = loadedPlaylists;
       notifyListeners();
@@ -538,6 +528,7 @@ class PlaylistProvider with ChangeNotifier {
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
         loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists[i].category2 = PlaylistCategory.happy;
       }
       _happyPlaylists = loadedPlaylists;
       notifyListeners();

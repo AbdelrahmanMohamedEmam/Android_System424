@@ -164,7 +164,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                     actions: <Widget>[
                       IconButton(
                         icon: Icon(
-                          Provider.of<PlaylistProvider>(context, listen: false)
+                          Provider.of<PlaylistProvider>(context, listen: true)
                                   .isPlaylistLiked(widget.playlistId)
                               ? Icons.favorite
                               : Icons.favorite_border,
@@ -304,7 +304,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         return (playlists.tracks.length == 1)
                             ? SizedBox(height: 480)
                             : (playlists.tracks.length == 2)
-                                ? SizedBox(height: 420)
+                                ? SizedBox(height: 410)
                                 : (playlists.tracks.length == 3)
                                     ? SizedBox(height: 350)
                                     : (playlists.tracks.length == 14)

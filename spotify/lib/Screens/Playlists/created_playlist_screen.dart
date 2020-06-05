@@ -337,19 +337,24 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                         childCount: playlists.tracks.length,
                       ),
                     ),
-                  //if (playlists.tracks != null && playlists.tracks.length != 0)
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return (playlists.tracks.length == 1)
-                            ? SizedBox(height: 480)
+                            ? SizedBox(height: 470)
                             : (playlists.tracks.length == 2)
-                                ? SizedBox(height: 420)
+                                ? SizedBox(height: 400)
                                 : (playlists.tracks.length == 3)
-                                    ? SizedBox(height: 350)
-                                    : (playlists.tracks.length == 14)
-                                        ? SizedBox(height: 80)
-                                        : SizedBox(height: 480);
+                                    ? SizedBox(height: 330)
+                                    : (playlists.tracks.length == 4)
+                                        ? SizedBox(height: 270)
+                                        : (playlists.tracks.length == 5)
+                                            ? SizedBox(height: 200)
+                                            : (playlists.tracks.length == 14)
+                                                ? SizedBox(height: 80)
+                                                : (playlists.tracks.length == 0)
+                                                    ? SizedBox(height: 0)
+                                                    : SizedBox(height: 480);
                       },
                       childCount: 1,
                     ),

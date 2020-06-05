@@ -33,7 +33,10 @@ class _SongItemAlbumListState extends State<SongItemAlbumList> {
               Navigator.pop(context);
             },
             child: ListTile(
-              leading: Image.network(widget.imgURL),
+              leading: FadeInImage(
+                placeholder: AssetImage('assets/images/album.png'),
+                image: NetworkImage(widget.imgURL),
+              ),
               title: Text(
                 song.name,
                 style: TextStyle(color: Colors.white),
@@ -47,7 +50,8 @@ class _SongItemAlbumListState extends State<SongItemAlbumList> {
         ),
         IconButton(
           icon: Icon(
-            track.isTrackLiked(song.id)
+            Provider.of<PlayableTrackProvider>(context, listen: true)
+                    .isTrackLiked(song.id)
                 ? Icons.favorite
                 : Icons.favorite_border,
             color: Colors.white,

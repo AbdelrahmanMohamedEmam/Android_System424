@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/Models/artist.dart';
+import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 
 class FollowedArtistWidget extends StatefulWidget {
   Artist followedArtist;
@@ -12,11 +13,23 @@ class _FollowedArtistWidgetState extends State<FollowedArtistWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ArtistProfileScreen(
+              id: widget.followedArtist.id,
+            ),
+          ),
+        );
+      },
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(widget.followedArtist.images[0]),
-          radius: 25,
+        leading: ClipRRect(
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/artist.jpg'),
+            image: NetworkImage(widget.followedArtist.images[0]),
+            fit: BoxFit.fill,
+          ),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         title: Text(
           widget.followedArtist.name,

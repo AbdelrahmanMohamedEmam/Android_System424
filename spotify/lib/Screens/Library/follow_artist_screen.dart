@@ -1,6 +1,5 @@
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
-import 'package:spotify/Widgets/trackPlayer.dart';
 
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
@@ -86,7 +85,6 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
       _showErrorDialog(errorMessage);
       return;
     }
-    //Navigator.of(context).popUntil(ModalRoute.withName('/'));
     Navigator.of(context).pop();
   }
 
@@ -123,10 +121,10 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
                       )
                     : Container(
                         padding: EdgeInsets.fromLTRB(
-                            deviceSize.width * 0.4,
-                            deviceSize.height * 0.02,
-                            deviceSize.width * 0.4,
-                            deviceSize.height * 0.02),
+                            deviceSize.width * 0.3,
+                            deviceSize.height * 0.01,
+                            deviceSize.width * 0.3,
+                            deviceSize.height * 0.01),
                         child: RaisedButton(
                           textColor: Colors.white,
                           color: Colors.transparent,
@@ -150,18 +148,18 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
                     children: <Widget>[
                       Container(
                         height: selectedIndices.length < 3
-                            ? deviceSize.height * 0.8
-                            : deviceSize.height * 0.7,
+                            ? deviceSize.height * 0.6
+                            : deviceSize.height * 0.5,
                         child: GridView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: artists.length,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 160,
+                            maxCrossAxisExtent: 140,
                             childAspectRatio: 1,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                           ),
                           itemBuilder: (context, index) {
                             return InkWell(

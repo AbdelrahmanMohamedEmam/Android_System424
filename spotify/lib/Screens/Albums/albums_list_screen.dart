@@ -100,7 +100,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   ///Generating a dark muted background color for the panel from the image of the song.
   Future<void> _generatePalette() async {
-    if (albums != null) {
+    if (albums != null && albums.image != null) {
       PaletteGenerator _paletteGenerator =
           await PaletteGenerator.fromImageProvider(NetworkImage(albums.image),
               size: Size(110, 150), maximumColorCount: 20);
@@ -113,6 +113,8 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           paletteGenerator = _paletteGenerator;
         },
       );
+    } else {
+      background = Colors.black;
     }
   }
 
@@ -176,7 +178,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                           : IconButton(
                               icon: Icon(
                                 Provider.of<AlbumProvider>(context,
-                                            listen: false)
+                                            listen: true)
                                         .isAlbumLiked(widget.albumId)
                                     ? Icons.favorite
                                     : Icons.favorite_border,
@@ -236,8 +238,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             padding: EdgeInsets.only(top: 50, bottom: 15),
                             height: 210,
                             width: double.infinity,
-                            child: Image.network(
-                              albums.image,
+                            child: FadeInImage(
+                              placeholder:
+                                  AssetImage('assets/images/album.png'),
+                              image: NetworkImage(albums.image),
                             ),
                           ),
                           Container(
@@ -293,6 +297,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                               widget.artistName == ""
                                   ? 'Album by ' +
                                       albums.artists[0].name +
+                                      '. ' +
                                       albums.releaseDate.substring(0, 4)
                                   : 'Album by ' +
                                       widget.artistName +
@@ -352,7 +357,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                         return (albums.tracks.length == 1)
                             ? SizedBox(height: 480)
                             : (albums.tracks.length == 2)
-                                ? SizedBox(height: 420)
+                                ? SizedBox(height: 410)
                                 : (albums.tracks.length == 3)
                                     ? SizedBox(height: 350)
                                     : (albums.tracks.length == 14)

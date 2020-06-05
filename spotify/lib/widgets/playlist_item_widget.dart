@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Screens/Playlists/created_playlist_screen.dart';
 import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 import '../Models/playlist.dart';
@@ -15,6 +16,14 @@ class PlaylistWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        // (playlist.category2 == PlaylistCategory.arabic ||
+        //         playlist.category2 == PlaylistCategory.happy ||
+        //         playlist.category2 == PlaylistCategory.jazz ||
+        //         playlist.category2 == PlaylistCategory.madeForYou ||
+        //         playlist.category2 == PlaylistCategory.mostRecentPlaylists ||
+        //         playlist.category2 == PlaylistCategory.pop ||
+        //         playlist.category2 == PlaylistCategory.popularPlaylists)
+        //     ?
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PlaylistsListScreen(
@@ -23,6 +32,11 @@ class PlaylistWidget extends StatelessWidget {
             ),
           ),
         );
+        // : Navigator.of(context).push(
+        //     MaterialPageRoute(
+        //       builder: (context) => CreatedPlaylistScreen(playlist.id),
+        //     ),
+        //   );
       },
       child: Container(
         height: deviceSize.height * 0.317,
