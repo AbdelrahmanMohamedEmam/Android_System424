@@ -73,12 +73,15 @@ class _SongItemAlbumListState extends State<SongItemAlbumList> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).push(PageRouteBuilder(
+            Navigator.of(context).push(
+              PageRouteBuilder(
                 opaque: false,
                 barrierColor: Colors.black87,
                 pageBuilder: (BuildContext context, _, __) {
                   return SongItemPopUpMenu(song);
-                }));
+                },
+              ),
+            );
 
             //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
           },

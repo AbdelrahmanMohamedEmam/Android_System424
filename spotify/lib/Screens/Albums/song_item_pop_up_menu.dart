@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 
 import '../../Models/track.dart';
@@ -39,6 +38,8 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
     final user = Provider.of<UserProvider>(context, listen: false);
     final trackProvider =
         Provider.of<PlayableTrackProvider>(context, listen: false);
+    final playlistProvider =
+        Provider.of<PlaylistProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.
     return Scaffold(

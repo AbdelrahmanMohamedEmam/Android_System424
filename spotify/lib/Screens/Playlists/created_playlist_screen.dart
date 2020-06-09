@@ -326,7 +326,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                             children: <Widget>[
                               ChangeNotifierProvider.value(
                                 value: playlists.tracks[index],
-                                child: SongItemPlaylistList(),
+                                child: SongItemPlaylistList(playlists.id),
                               ),
                             ],
                           );
