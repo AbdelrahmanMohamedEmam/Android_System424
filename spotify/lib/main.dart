@@ -33,7 +33,6 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
 import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
 import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
 import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
@@ -54,7 +53,7 @@ Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
-    return 'http://spotify.mocklab.io';
+    return 'http://spotifybad.mocklab.io';
   } else if (option == '1') {
     return 'https://totallynotspotify.codes/api';
   }
