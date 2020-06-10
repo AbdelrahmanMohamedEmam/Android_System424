@@ -34,7 +34,6 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
 import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';

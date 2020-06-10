@@ -44,13 +44,13 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 //    print(widget.song.artists[0].id);
 //    //print(widget.song.artists[0].followers);
 //    print(widget.song.artists[0].images[0]);
-      //print(json.decode(widget.song.artists[0]));
+    //print(json.decode(widget.song.artists[0]));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
     final trackProvider =
         Provider.of<PlayableTrackProvider>(context, listen: false);
-      //print(widget.song.artists[0].name);
+    //print(widget.song.artists[0].name);
     ///If the screen is loading show a circular progress.
     return Scaffold(
         backgroundColor: Colors.black12,
@@ -201,14 +201,15 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     ),
                     Container(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context).pop();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => InfoScreen(
-                                bio: widget.song.artists[0].artistInfo.biography,
-                                imageUrl: widget.song.artists[0].images[0],
-                                name: widget.song.artists[0].name,
-                              )));
+                                    bio: widget
+                                        .song.artists[0].artistInfo.biography,
+                                    imageUrl: widget.song.artists[0].images[0],
+                                    name: widget.song.artists[0].name,
+                                  )));
 
                           //print(widget.song.artists[0].artistInfo.biography);
                         },

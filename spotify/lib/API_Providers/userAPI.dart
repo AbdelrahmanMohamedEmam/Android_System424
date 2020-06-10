@@ -22,9 +22,9 @@ class UserAPI {
   var facebookLogin = FacebookLogin();
 
   ///A request to signUp a new user.
-  ///Email, password, gender, username and date of birth must be provided.
+  ///[email], [password], [gender],[username] and [dateOfBirth]of type [String] must be provided.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  ///In case of success the data is returned as a map of keys and dynamic objects.
+  ///In case of success the data is returned as a [Map<String,dynamic>] objects.
   ///In case of failure an exception is thrown.
   Future<Map<String, dynamic>> signUp(String email, String password,
       String gender, String username, String dateOfBirth) async {
@@ -49,7 +49,6 @@ class UserAPI {
       if (responseData.data['message'] != null) {
         //throw HttpException(responseData.data['message']);
       } else {
-        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {
@@ -91,7 +90,7 @@ class UserAPI {
 
   ///Sends a request to get the authentication token of the user to sign him in.
   ///Email and password must be provided.
-  ///In case of success a map of keys and dynamic values will be returned.
+  ///In case of success the data is returned as a [Map<String,dynamic>] objects.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<Map<String, dynamic>> signIn(String email, String password) async {
@@ -110,13 +109,10 @@ class UserAPI {
           {"email": email, "password": password},
         ),
       );
-
-      print(responseData.data);
       if (responseData.statusCode != 200) {
-        print('errorrrr');
-        throw HttpException(json.decode(responseData.data)['message'].toString());
+        throw HttpException(
+            json.decode(responseData.data)['message'].toString());
       } else {
-        print(responseData.data);
         return responseData.data;
       }
     } catch (error) {
@@ -152,7 +148,7 @@ class UserAPI {
   }
 
   ///Sends a http request to signIn/signUp with facebook account.
-  ///In case of success a map of keys and dynamics is returned.
+  ///In case of success the data is returned as a [Map<String,dynamic>] objects.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<Map<String, dynamic>> signInWithFB() async {
@@ -212,11 +208,16 @@ class UserAPI {
         throw HttpException('Request failed! Check again later.');
       }
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
 
+  ///Sends a request to fetch followed artists.
+  ///Token must be provided for authentication.
+  ///Confirmation code must be provided.
+  ///It returns [List]  of [Map<String,dynamic>].
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<List> fetchFollowedArtistsApi(String token) async {
     final url = baseUrl + '/me/likedArtists';
     try {
@@ -250,20 +251,14 @@ class UserAPI {
           "authorization": "Bearer " + token,
         },
       );
-
-      //final responseData = jsonDecode(response.body);
-      //print(responseData);
-
       if (response.statusCode != 204) {
         throw HttpException('Couldn\'t send an email');
       } else if (response.statusCode == 204 || response.statusCode == 200) {
         return true;
       } else {
-        //print(responseData);
         throw HttpException('Couldn\'t send a request to send an email');
       }
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -324,7 +319,7 @@ class UserAPI {
     }
   }
 
-  ///Sends a request to follow a user given the id.
+  ///Sends a request to unfollow a user given the id.
   ///Id must be provided.
   ///Token must be provided for authentication.
   ///In case of success true is returned.
@@ -416,7 +411,7 @@ class UserAPI {
 
   ///Sends a request to update the firebase token in the database.
   ///Email and password must be provided.
-  ///In case of success a status code of 204 is returned.
+  ///In case of success true is returned.
   ///Throws an error if request failed.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<bool> updateFirebaseToken(
@@ -439,8 +434,6 @@ class UserAPI {
           {"type": "android", "token": firebaseToken},
         ),
       );
-
-      print('updateResponse: ' + responseData.statusCode.toString());
       if (responseData.statusCode != 204) {
         throw HttpException(json.decode(responseData.data)['message']);
       } else {
@@ -480,6 +473,12 @@ class UserAPI {
     }
   }
 
+  ///Sends a request to fetch following users.
+  ///Token must be provided for authentication.
+  ///Confirmation code must be provided.
+  ///It returns [List]  of [Map<String,dynamic>].
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<List> fetchFollowingApi(String token) async {
     final url = baseUrl + '/me' + '/following';
     try {
@@ -499,6 +498,12 @@ class UserAPI {
     }
   }
 
+  ///Sends a request to fetch followersusers.
+  ///Token must be provided for authentication.
+  ///Confirmation code must be provided.
+  ///It returns [List]  of [Map<String,dynamic>].
+  ///Throws an error if request failed.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
   Future<List> fetchFollowersApi(String token) async {
     final url = baseUrl + '/me' + '/followers';
     try {

@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:image/image.dart' as img;
 
 
-class AlbumEndPoints {
+class AlbumEndPoints {  
   static const String albums = '/albums';
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';
