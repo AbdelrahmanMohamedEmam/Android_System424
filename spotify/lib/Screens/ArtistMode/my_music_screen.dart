@@ -61,8 +61,6 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
   List<ChartData> line;
   List<ChartData> line2;
   void initState() {
-    //_scrollController = ScrollController();
-    //_scrollController.addListener(_listenToScrollChange);
     super.initState();
   }
 
@@ -111,52 +109,16 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     );
   }
 
-  ///navigating to [overview] screen.
-  void _goToOverview(
-    BuildContext ctx,
-  ) {
-    Navigator.of(ctx).pushNamed(
-      TabNavigatorRoutes.artist,
-    );
-  }
-
-  ///navigating to [stats] screen.
-  void _goToStats(BuildContext ctx)
-  {
-    Navigator.of(ctx).pushNamed(
-  TabNavigatorRoutes.statsScreen);
-  }
-
   /// a method used to reload albums list in case of adding new album.
   void reloadAlbums() {
-    // _isInit = false;
     setState(() {
       didChangeDependencies();
     });
   }
-  void _deleteAlbum(BuildContext ctx , String _userToken , String id ) async
-  {
-    deleted =
-    await Provider.of<AlbumProvider>(context , listen: false)
-        .deleteAlbum(_userToken , id);
-
-  }
-
-  /*void _listenToScrollChange() {
-    if (_scrollController.offset >= 140.0) {
-      setState(() {
-        _isScrolled = true;
-      });
-    } else {
-      setState(() {
-        _isScrolled = false;
-      });
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
-    reloadAlbums();
+    //reloadAlbums();
     final deviceSize = MediaQuery.of(context).size;
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
     albums = albumProvider.getMyAlbums;
@@ -166,11 +128,25 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
     bar2 =chartProvider.fetchedBarData2;
     line =chartProvider.fetchedLineData;
     line2 =chartProvider.fetchedLineData2;
-    //print(line[0].value);
-    //print(albums[0].id);
-    //setUserInfo();
     return (_isLoading)
         ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              title: Text('My Music'),
+              actions: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(deviceSize.width * 0.03),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.library_add,
+                      color: Colors.white,
+                      size: deviceSize.width * 0.08,
+                    ),
+                    onPressed: () => _goToCreateAlbum(context),
+                  ),
+                ),
+              ],
+            ),
             backgroundColor: Colors.black,
             body: Center(
               child: CircularProgressIndicator(
@@ -197,47 +173,6 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
                 ),
               ],
             ),
-            drawer: Drawer(
-              child: Container(
-                color: Colors.black,
-                child: ListView(
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      accountName: Text(username),
-                      currentAccountPicture: CircleAvatar(
-                        child: Container(
-                          child: FadeInImage(
-                            placeholder: AssetImage('assets/images/spotify_logo.jpg'),
-                            image: NetworkImage(userImage[0]),
-                          ),
-                          ),
-                          ),
-                    ),
-
-                    ListTile(
-                      title: Text(
-                        'Overview',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      onTap: () => _goToOverview(context),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Stats',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => StatsScreen(chart: fetched,bar: bar, bar2: bar2 , line: line , line2: line2
-                          ))),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             body: Container(
               color: Colors.black,
               height: double.infinity,
@@ -252,23 +187,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(
                         value: albums[i],
-                        child: Dismissible(
-                            child: ArtistModeAlbums(),
-                            key: UniqueKey(),
-                            background: Container(color: Colors.red),
-                            onDismissed: (DismissDirection direction) {
-                              _deleteAlbum(context, user, albums[i].id);
-                                setState(() {
-                                  albums.removeAt(i);
-                                      Scaffold.of(context).showSnackBar(
-                                          SnackBar(
-                                              content: Container(
-                                                  height: deviceSize.height*0.1,
-                                                  child: Text("album deleted successfuly!"))));
-                                    });
-                              //}
-                            },
-                        ),
+                        child: ArtistModeAlbums(),
                       ),
                     ),
                   ),

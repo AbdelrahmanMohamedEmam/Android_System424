@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +29,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   String _fileName;
 
   ///the path of the file in the device.
-  String _path;
+  File _path;
 
   ///extension of the file which is audio here.
   String _extension;
@@ -58,7 +60,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
-          _path = await FilePicker.getFilePath(type: _pickingType, /*fileExtension: _extension*/);
+          _path = await FilePicker.getFile(type: _pickingType,);// allowedExtensions: ['mp3' , 'mp4']);
 
       } on PlatformException catch (e) {
         print("Unsupported operation" + e.toString());
@@ -66,19 +68,34 @@ class _AddSongScreenState extends State<AddSongScreen> {
       if (!mounted) return;
       setState(() {
         _loadingPath = false;
-        _fileName = _path != null ? _path.split('/').last  : '...';
+        _fileName = _path != null ? _path.path.split('/').last  : '...';
       });
     }
   }
-  void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
+  void uploadF(BuildContext context , File path , String userToken , String songName, String id) async
   {
+    final deviceSize = MediaQuery.of(context).size;
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
         .uploadSong(userToken ,songName ,path , id);
     setState(() {
       if(check)
       {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("song added successfuly!"))));
         Navigator.of(context).pop();
+
+      }
+      else
+      {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("something went wrong ,please try again!"))));
       }
     });
   }
@@ -158,7 +175,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
                                       style: TextStyle(color: Colors.green),
                                     ),
                                     subtitle: new Text(
-                                      path,
+                                      path.path,
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   );

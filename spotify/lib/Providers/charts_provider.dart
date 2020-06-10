@@ -1,15 +1,9 @@
 //Importing libraries from external packages.
 import 'package:flutter/foundation.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-//Importing API provider.
-import 'package:spotify/API_Providers/albumAPI.dart';
 import 'package:spotify/Models/chart_data.dart';
 
-//Import Models.
-import '../Models/charts.dart';
 
 
 ///Class AlbumProvider
@@ -44,36 +38,28 @@ class ChartsProvider with ChangeNotifier {
     final url = 'http://www.mocky.io/v2/5ecece023200002500e3cdaa';
     final response = await http.get(url);
     Map<String, dynamic> temp = json.decode(response.body);
-  //  print(temp);
 
     final extractedList = temp['chartData'] as List;
-//print(extractedList);
     final List<ChartData> loadedCharts = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedCharts.add(ChartData.fromJson(extractedList[i]));
     }
     _fetchedData = loadedCharts;
     notifyListeners();
-    //print(extractedList);
-    //return _fetchedData;
   }
 
   Future<void> fetchBarChartData() async {
     final url = 'http://www.mocky.io/v2/5ecece923200005700e3cdb1';
     final response = await http.get(url);
     Map<String, dynamic> temp = json.decode(response.body);
-    //  print(temp);
 
     final extractedList = temp['chartData'] as List;
-//print(extractedList);
     final List<ChartData> loadedCharts = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedCharts.add(ChartData.fromJson(extractedList[i]));
     }
     _fetchedBarData = loadedCharts;
     notifyListeners();
-    print(extractedList);
-    //return _fetchedData;
   }
 
 
@@ -81,56 +67,43 @@ class ChartsProvider with ChangeNotifier {
     final url = 'http://www.mocky.io/v2/5ececd833200000e00e3cd8e';
     final response = await http.get(url);
     Map<String, dynamic> temp = json.decode(response.body);
-    //  print(temp);
 
     final extractedList = temp['chartData'] as List;
-//print(extractedList);
     final List<ChartData> loadedCharts = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedCharts.add(ChartData.fromJson(extractedList[i]));
     }
     _fetchedBarData2 = loadedCharts;
     notifyListeners();
-    //print(extractedList);
-    //return _fetchedData;
   }
 
   Future<void> fetchLineChartData() async {
-    final url = 'http://www.mocky.io/v2/5ecede873200004f00e3ce10';
+    final url = 'https://run.mocky.io/v3/0a6a2782-3bf5-47ab-ae79-48ac75c67695';
     final response = await http.get(url);
     Map<String, dynamic> temp = json.decode(response.body);
-    //  print(temp);
 
     final extractedList = temp['chartData'] as List;
-//print(extractedList);
     final List<ChartData> loadedCharts = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedCharts.add(ChartData.fromJson(extractedList[i]));
     }
     _fetchedLineData = loadedCharts;
     notifyListeners();
-    //print(extractedList);
-    //return _fetchedData;
   }
 
 
   Future<void> fetchLineChartData2() async {
-    final url = 'http://www.mocky.io/v2/5ecede5a3200005800e3ce0e';
+    final url = 'https://run.mocky.io/v3/ca220283-75da-4c57-9bcf-c69abd489b38';
     final response = await http.get(url);
     Map<String, dynamic> temp = json.decode(response.body);
-     print(temp);
 
     final extractedList = temp['chartData'] as List;
-print(extractedList);
     final List<ChartData> loadedCharts = [];
     for (int i = 0; i < extractedList.length; i++) {
       loadedCharts.add(ChartData.fromJson(extractedList[i]));
     }
     _fetchedLineData2 = loadedCharts;
-    //print(_fetchedLineData2[0].value);
     notifyListeners();
-    //print(extractedList);
-    //return _fetchedData;
   }
 
 }

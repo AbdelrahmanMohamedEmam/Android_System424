@@ -31,7 +31,6 @@ class ArtistAPI {
 
   ///A method that fetches Artist information by ID.
   Future<Artist> fetchChosenApi(String token, String id) async {
-    print('mahmoud');
     final url = baseUrl + ArtistEndPoints.artists + '/' + id;
     try {
       final response = await http.get(

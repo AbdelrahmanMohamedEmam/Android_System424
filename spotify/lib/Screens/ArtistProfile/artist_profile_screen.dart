@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/track_provider.dart';
+import 'package:spotify/Screens/ArtistProfile/see_discography_screen.dart';
+import 'package:spotify/widgets/album_widget_artist_profile.dart';
 //import 'package:spotify/Widgets/album_widget_artist_profile.dart';
 //import 'package:spotify/widgets/song_promo_card_artist_profile.dart';
 import '../../Models/playlist.dart';
@@ -126,23 +129,19 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
         });
       }
 
-      /*try {
-       / await Provider.of<TrackProvider>(
+      try {
+        await Provider.of<TrackProvider>(
             context, listen: false)
             .fetchArtistTopTracks(
-            user, widget.id).then ((_) {
-          setState(
-                  () {
-                _isLoading = false;
-              });
-        });
-      } catch(e)
+            user, widget.id);
+      }
+      catch(e)
       {
         setState(() {
           checkTracks = false;
         });
 
-    }*/
+    }
       await Provider.of<ArtistProvider>(context, listen: false)
           .fetchChoosedArtist(user, widget.id)
           .then((_) {
@@ -188,22 +187,28 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     ///initializing list of playlists/
     List<Playlist> playlists;
 
+
+
+//    print('testtttttt');
+//    print(artistInfo.images[0]);
+
     ///calling getter function.
     playlists = playlistsProvider.getArtistProfilePlaylists;
     //print(playlists[0].name);
 
     ///artist provider object.
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
-    //List<Album> albums;
+    List<Album> albums;
 
     ///calling getter function.
     albums = albumProvider.getArtistAlbums;
+    //int isFollwed =artistInfo.following;
 
     //final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
     //List<Track> tracks;
     //tracks = tracksProvider.getTopTracks;
 
-    return _isLoading
+    return (_isLoading) //|| isFollwed== null)
         ? Scaffold(
             backgroundColor: Colors.black,
             body: Center(
@@ -217,18 +222,32 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             appBar: AppBar(
               backgroundColor: Colors.black,
               actions: <Widget>[
-                FlatButton(
-                  child: Text('FOLLOW'),
-                  textColor: Colors.grey,
-                  //onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.grey,
-                  ),
-                  //onPressed: () {},
-                ),
+//                FlatButton(
+//                  child: Text('FOLLOW'),
+//                  textColor: Colors.grey,
+//                  //onPressed: () {},
+//                ),
+//                    :
+//            FlatButton(
+//              child: Text('UNFOLLOW'),
+//              textColor: Colors.grey,
+//              //onPressed: () {},
+//            ),
+//              (isFollwed ==0)?
+//              IconButton(
+//                  icon: Icon(
+//                    Icons.more_vert,
+//                    color: Colors.grey,
+//                  ),
+//                  //onPressed: () {},
+//                )
+//                : IconButton(
+//                  icon: Icon(
+//                  Icons.more_vert,
+//                  color: Colors.grey,
+//                  ),
+//                  //onPressed: () {},
+//                  ),
               ],
             ),
             backgroundColor: Colors.black,
@@ -273,7 +292,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                       top: deviceSize.height * 0.04,
                       bottom: deviceSize.height * 0.02),
                 ),
-                /*checkAlbums ?*/ /*Text(
+                checkAlbums ?Text(
                   'Popular releases',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -295,7 +314,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                       child: LoadingAlbumsWidget(),
                     ),
                   ),
-                ): null,*/
+                ): null,
                 Container(
                   margin: EdgeInsets.only(
                       right: deviceSize.width * 0.18,
@@ -315,7 +334,11 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onPressed: () => _goToDiscography(context),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ReleasesScreen()));
+                    },
+                    //=> _goToDiscography(context),
                   ),
                 ),
 

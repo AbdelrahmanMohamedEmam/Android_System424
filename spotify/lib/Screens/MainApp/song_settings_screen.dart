@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 import 'package:spotify/Widgets/album_widget_artist_mode.dart';
 
@@ -37,19 +38,19 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('nddjkd');
-    print(widget.song.artists[0].name);
-    print(widget.song.artists[0].type);
-    print(widget.song.artists[0].id);
-    //print(widget.song.artists[0].followers);
-    print(widget.song.artists[0].images[0]);
-    //print(json.decode(widget.song.artists));
+//    print('nddjkd');
+    print(widget.song.artists[0]);
+//    print(widget.song.artists[0].type);
+//    print(widget.song.artists[0].id);
+//    //print(widget.song.artists[0].followers);
+//    print(widget.song.artists[0].images[0]);
+    //print(json.decode(widget.song.artists[0]));
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
     final trackProvider =
         Provider.of<PlayableTrackProvider>(context, listen: false);
-
+    //print(widget.song.artists[0].name);
     ///If the screen is loading show a circular progress.
     return Scaffold(
         backgroundColor: Colors.black12,
@@ -190,7 +191,6 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                             ],
                           ),
                           onTap: () {
-                            print(widget.song.artists[0].id);
                             Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ArtistProfileScreen(
@@ -201,7 +201,16 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                     Container(
                       child: InkWell(
                         onTap: () {
-                          print(widget.song.artists[0].artistInfo.biography);
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => InfoScreen(
+                                    bio: widget
+                                        .song.artists[0].artistInfo.biography,
+                                    imageUrl: widget.song.artists[0].images[0],
+                                    name: widget.song.artists[0].name,
+                                  )));
+
+                          //print(widget.song.artists[0].artistInfo.biography);
                         },
                         child: Row(
                           children: <Widget>[
