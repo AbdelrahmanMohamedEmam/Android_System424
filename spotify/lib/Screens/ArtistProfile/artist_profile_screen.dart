@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spotify/Models/track.dart';
+import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/track_provider.dart';
@@ -77,6 +78,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     super.initState();
   }*/
 
+
+
   ///a method indicates error dialog in case of error loading this page
   void _showErrorDialog(String message) {
     showDialog(
@@ -123,7 +126,23 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       }
       try {
         await Provider.of<AlbumProvider>(context, listen: false)
-            .fetchArtistAlbums(user, widget.id);
+            .fetchArtistAlbums(user, widget.id).then((_) {
+
+          final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
+          albums = albumProvider.getArtistAlbums;
+        } );
+
+        await Provider.of<AlbumProvider>(context, listen: false)
+            .fetchAlbumsTracksById(albums[0].id, user, AlbumCategory.artist)
+            .then((_) {
+              setState(() {
+                List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
+                    .getPlayableTracks(albums[0].id,AlbumCategory.artist );
+                Provider.of<PlayableTrackProvider>(context, listen: false)
+                    .setTracksToBePlayed(toAdd);
+
+              });
+        });
       } catch (e) {
         setState(() {
           checkAlbums = false;
@@ -156,6 +175,16 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     super.didChangeDependencies();
   }
 
+  ///Initialization.
+  @override
+  void initState() {
+    final user = Provider.of<UserProvider>(context, listen: false).token;
+    Provider.of<PlayableTrackProvider>(context, listen: false)
+        .shuffledTrackList(user,albums[0].id , 'album');
+
+    super.initState();
+  }
+
   ///a method to navigate to discography screen.
   void _goToDiscography(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
@@ -174,12 +203,17 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     final deviceSize = MediaQuery.of(context).size;
 
     ///artist provider object.
+
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
     List<Artist> artists;
-
     ///calling getter function.
     artists = artistProvider.getMultipleArtists;
+
+//    final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
+//    List<Album> albums;
+//    albums = albumProvider.getArtistAlbums;
     artistInfo = artistProvider.getChosenArtist;
+
     ///playlist provider object.
     final playlistsProvider =
         Provider.of<PlaylistProvider>(context, listen: false);
@@ -193,17 +227,18 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     playlists = playlistsProvider.getArtistProfilePlaylists;
 
     ///artist provider object.
-    final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
-    List<Album> albums;
+
 
     ///calling getter function.
-    albums = albumProvider.getArtistAlbums;
+
     //int isFollwed =artistInfo.following;
 
 //    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
 //    List<Track> tracks;
 //    tracks = tracksProvider.getTopTracks;
 
+    var track = Provider.of<PlayableTrackProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return (_isLoading) //|| isFollwed== null)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -280,7 +315,11 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    //onPressed: () {},
+                    onPressed: () {
+                      track.setCurrentSong(albums[0].tracks[0],
+                          userProvider.isUserPremium(), userProvider.token);
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
                 Padding(
