@@ -158,6 +158,8 @@ class AlbumProvider with ChangeNotifier {
         album = getSearchedAlbumsId(albumID);
       else if (category == AlbumCategory.myAlbums)
         album = getMyAlbumId(albumID);
+      else if (category == AlbumCategory.recentlyPlayed)
+        album = getRecentlyPlayedAlbumsById(albumID);
       _likedAlbums.add(album);
       notifyListeners();
       return response;

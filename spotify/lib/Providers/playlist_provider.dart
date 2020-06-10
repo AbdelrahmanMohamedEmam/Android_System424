@@ -271,6 +271,8 @@ class PlaylistProvider with ChangeNotifier {
         playlist = getArtistPlaylistsbyId(playlistID);
       else if (category == PlaylistCategory.madeForYou)
         playlist = getMadeForYoubyId(playlistID);
+      else if (category == PlaylistCategory.recentlyPlayed)
+        playlist = getRecentlyPlayedPlaylistById(playlistID);
       _likedPlaylists.add(playlist);
       notifyListeners();
       return response;
@@ -389,7 +391,6 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException('Name must be unique, Try another one');
     }
   }
-
 
   ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
   ///It takes a [String] ,[PlaylistId]token for verification.
