@@ -74,4 +74,5 @@ class Artist with ChangeNotifier {
       uri: json['uri'],
     );
   }
+
 }

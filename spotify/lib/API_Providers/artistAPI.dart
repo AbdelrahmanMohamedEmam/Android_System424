@@ -30,21 +30,20 @@ class ArtistAPI {
   ArtistAPI({this.baseUrl});
 
   ///A method that fetches Artist information by ID.
-  Future<Artist> fetchChosenApi(String token, String id) async {
+  Future <Map<String, dynamic>> fetchChosenApi(String token, String id) async {
     final url = baseUrl + ArtistEndPoints.artists + '/' + id;
     try {
       final response = await http.get(
         url,
         headers: {"authorization": "Bearer " + token},
       );
-      print(response.statusCode);
+
       if (response.statusCode == 200 || response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
         print(jsonDecode(response.body));
         //Map<String, dynamic> extractedList = json.decode(response.body);
-        Artist chosenArtist = Artist.fromJson(extractedList);
-        return chosenArtist;
+        return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }

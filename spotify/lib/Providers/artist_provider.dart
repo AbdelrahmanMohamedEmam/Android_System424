@@ -40,8 +40,11 @@ class ArtistProvider with ChangeNotifier {
   Future<void> fetchChoosedArtist(String token, String id) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
-      Artist extractedArtist = await artistsApi.fetchChosenApi(token, id);
-      _chosenArtist = extractedArtist;
+      Map<String , dynamic> extractedArtist = await artistsApi.fetchChosenApi(token, id);
+      _chosenArtist = Artist.fromJson(extractedArtist);
+      print(_chosenArtist);
+      print('mahmoud');
+      //_chosenArtist.following = extractedArtist['following'];
     } catch (error) {
       throw HttpException(error.toString());
     }
