@@ -9,33 +9,79 @@ import '../Models/artistInfo.dart';
 
 ///Importing utilities file to parse objects.
 import '../utilities.dart';
-import 'follower.dart';
 
 ///A model for grouping the user data.
 class User with ChangeNotifier {
+  ///The name of the user.
   String name;
+
+  ///The email of the user.
   final String email;
+
+  ///The password of the user.
   String password;
+
+  ///The id of the user.
   final String id;
+
+  ///The role of the user.
   String role;
+
+  ///The gender of the user.
   final String gender;
+
+  ///The date of birth of the user.
   final String dateOfBirth;
+
+  ///The spotify uri for this user.
   final String uri;
+
+  ///A link to the web api end point providing all details of this user.
   final String href;
+
+  ///An objects containing  the url and its type of the object.
   final ExternalUrl externalUrl;
+
+  ///List of string urls for the images of the playlist.
   final List<String> images;
+
+  ///List of user followers.
   final List<String> followers;
+
+  ///List of user followings.
   final List<String> following;
+
+  ///Product of the .
   String product;
+
+  ///List of user stats.
   final List<UserStats> userStats;
+
+  ///String containing the token of reset password.
   final String resetPasswordToken;
+
+  ///String indicating the expiry date of resetting the password.
   final String resetPasswordExpires;
+
+  ///the artist info of the user.
   final ArtistInfo artistInfo;
+
+  ///String containing the token when user requests premium.
   final String becomePremiumToken;
+
+  ///String indicating the expiry date of becoming premium.
   final String becomePremiumExpires;
+
+  ///String containing the token of user artist.
   final String becomeArtistToken;
+
+  ///String indicating the expiry date of becoming artist.
   final String becomeArtistExpires;
+
+  ///Picked image of the user.
   File pickedImage;
+
+  ///String containing the firebase token of the user.
   String firebaseToken;
 
   ///A constructor with named parameters.

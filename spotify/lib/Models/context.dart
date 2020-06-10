@@ -1,6 +1,3 @@
-//Import model files.
-import 'package:spotify/Models/external_url.dart';
-
 import '../utilities.dart';
 
 ///Context object to identify the [PlayHistory] object [Artist],[Album],[Playlist].
@@ -13,8 +10,6 @@ class Context {
 
   ///The spotify uri for this context.
   final String uri;
-
-  // final List<ExternalUrl> externalUrls;
 
   ///A String url to an image for this context object.
   final List<String> image;

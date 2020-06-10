@@ -18,7 +18,6 @@ class Chart with ChangeNotifier {
   factory Chart.fromJson(Map<String, dynamic> json) {
     return Chart(
       chartArr: parceChartData(json['ChartData']),
-
     );
   }
 }

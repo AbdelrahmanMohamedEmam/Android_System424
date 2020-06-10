@@ -44,6 +44,7 @@ class Playlist with ChangeNotifier {
   ///Refrence object to the tracks in this playlist.
   TracksRef tracksRef;
 
+  ///List of Tracks of the playlist.
   List<Track> tracks;
 
   ///The type of this playlist.
@@ -61,6 +62,7 @@ class Playlist with ChangeNotifier {
   ///String indicating the category of the playlist.
   String category;
 
+  ///String indicating sub-category of the playlists
   PlaylistCategory category2;
 
   ///String that describes the the time this playlist was created at.
@@ -95,7 +97,7 @@ class Playlist with ChangeNotifier {
 
   ///A method that parses a mapped object from a json file and returns an Playlist object.
   factory Playlist.fromJson(Map<String, dynamic> json) {
-   return Playlist(
+    return Playlist(
       collaborative:
           json['collaborative'] == null ? true : json['collaborative'],
       description: json['description'] == null ? null : json['description'],
@@ -119,7 +121,6 @@ class Playlist with ChangeNotifier {
       popularity: json['popularity'] == null ? null : json['popularity'],
       createdAt: json['createdAt'] == null ? null : json['createdAt'],
     );
-
   }
 
   ///A method that parses a mapped object from a json file and returns an Playlist object.

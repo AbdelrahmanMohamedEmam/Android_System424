@@ -1,5 +1,4 @@
 import './user_stats.dart';
-import './external_url.dart';
 import '../utilities.dart';
 
 ///Class Owner that describes the owner object.
@@ -47,9 +46,8 @@ class Owner {
       name: json['name'] == null ? "" : json['name'],
       uri: json['uri'] == null ? "" : json['uri'],
       href: json['href'] == null ? "" : json['href'],
-      externalUrls: json['externalUrls'] == null
-          ? ""
-          : parseString(json['externalUrls']),
+      externalUrls:
+          json['externalUrls'] == null ? "" : parseString(json['externalUrls']),
       images: json['images'] == null ? "" : parseString(json['images']),
       // followers:
       //     json['followers'] == null ? [] : parseString(json['followers']),
