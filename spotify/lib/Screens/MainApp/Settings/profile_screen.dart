@@ -26,8 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void didChangeDependencies() async {
-    // if(!_isinit)
-    // {
     user = Provider.of<UserProvider>(context, listen: false);
     playlists = Provider.of<PlaylistProvider>(context, listen: false);
     await playlists.fetchCreatedPlaylists(user.token);
@@ -40,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
     _isinit = true;
-    // }
     super.didChangeDependencies();
   }
 

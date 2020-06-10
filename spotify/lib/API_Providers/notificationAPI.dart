@@ -6,7 +6,7 @@ import 'package:spotify/Models/http_exception.dart';
 class NotificationsEndPoints {
   static const me = '/me';
   static const notifications = '/notifications';
-  static const limit = '?limit=8';
+  static const limit = '?q=&limit=8';
 }
 
 class NotificationsAPI {
@@ -19,10 +19,13 @@ class NotificationsAPI {
     return nextNotifications;
   }
 
+  ///A method that fetches recent notifications.
+  ///It takes [token] of type [String].
+  ///It returns [List] of notifications of type [Map<String,dynamic>].
   Future<List> fetchNotificationsAPI(String token) async {
     final url = baseUrl +
         NotificationsEndPoints.me +
-        NotificationsEndPoints.notifications+
+        NotificationsEndPoints.notifications +
         NotificationsEndPoints.limit;
     try {
       final response = await http.get(
@@ -43,6 +46,9 @@ class NotificationsAPI {
     }
   }
 
+  ///A method that fetches more  recent notifications.
+  ///It takes [token] of type [String] and [nextUrl] of type [String].
+  ///It returns [List] of notifications of type [Map<String,dynamic>].
   Future<List> fetchMoreNotificationsAPI(String token, String nextUrl) async {
     final url = nextUrl;
     try {

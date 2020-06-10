@@ -23,6 +23,7 @@ class _SearchScreenSeeAllState extends State<SearchScreenSeeAll> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     FocusScope.of(context).unfocus();
     TrackProvider trackProvider =
         Provider.of<TrackProvider>(context, listen: false);

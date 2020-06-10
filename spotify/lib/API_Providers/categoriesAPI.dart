@@ -14,6 +14,9 @@ class CategoriesAPI {
     this.baseUrl,
   });
 
+  ///A method that fetches categories.
+  ///It takes a [token] of type [String].
+  ///It return [List] of [Map<String,dynamic>].
   Future<List> fetchCategories(String token) async {
     final url =
         baseUrl + CategoriesEndPoints.browse + CategoriesEndPoints.categories;

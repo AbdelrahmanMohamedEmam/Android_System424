@@ -28,6 +28,7 @@ class _UserFollowingScreenState extends State<UserFollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -52,12 +53,15 @@ class _UserFollowingScreenState extends State<UserFollowingScreen> {
                 ),
               ),
             ),
-            body: ListView.builder(
-              itemCount: followingList.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                value: followingList[i],
-                child: FollowingItemWidget(),
+            body: Container(
+              height: deviceSize.height*0.7614,
+              child: ListView.builder(
+                itemCount: followingList.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, i) => ChangeNotifierProvider.value(
+                  value: followingList[i],
+                  child: FollowingItemWidget(),
+                ),
               ),
             ),
           );

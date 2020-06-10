@@ -117,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ),
             ListTile(
               onTap: () {
+                _auth.updateFirebaseToken(_auth.token,"");
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();

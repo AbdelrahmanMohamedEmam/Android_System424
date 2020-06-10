@@ -1,10 +1,8 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
-import 'package:spotify/Providers/album_provider.dart';
 import '../API_Providers/artistAPI.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
@@ -27,6 +25,9 @@ class AlbumAPI {
   final String baseUrl;
   AlbumAPI({this.baseUrl});
 
+  ///A method that fetches popular albums.
+  ///Takes [token] of type [String] as input parameters.
+  ///It returns [List] of popular albums of type [Map<String,dynamic>].
   Future<List> fetchPopularAlbumsApi(String token) async {
     final url = baseUrl + AlbumEndPoints.albums + AlbumEndPoints.popular;
     try {
@@ -47,6 +48,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method that fetches most recent albums.
+  ///Takes [token] of type [String] as input parameters.
+  ///It returns [List] of most recent albums of type [Map<String,dynamic>].
   Future<List> fetchMostRecentAlbumsApi(String token) async {
     final url = baseUrl + AlbumEndPoints.albums + AlbumEndPoints.mostRecent;
     try {
@@ -67,6 +71,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method that fetches liked albums.
+  ///Takes [token] of type [String] as input parameters.
+  ///It returns [List] of liked albums of type [Map<String,dynamic>].
   Future<List> fetchLikedAlbumsApi(String token) async {
     final url = baseUrl + AlbumEndPoints.me + AlbumEndPoints.likedAlbums;
     try {
@@ -87,6 +94,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method that likes a certain album.
+  ///Takes [token] of type [String] and [albumId] of typr [String]as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> likeAlbum(String token, String albumId) async {
     try {
       final responseData = await Dio()
@@ -99,7 +109,6 @@ class AlbumAPI {
               data: json.encode({
                 "id": albumId,
               }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
@@ -111,6 +120,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method that unlikes a certain album.
+  ///Takes [token] of type [String] and [albumId] of typr [String]as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> unlikeAlbum(String token, String albumId) async {
     try {
       final responseData = await Dio()
@@ -123,7 +135,6 @@ class AlbumAPI {
               data: json.encode({
                 "id": albumId,
               }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
@@ -135,6 +146,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method to fetch a user artists albums.
+  ///Takes [token] of type [String] as input parameters.
+  ///It returns [List] of user artist's albums of type [Map<String,dynamic>].
   Future<List> fetchMyAlbumsApi(String token) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
     try {
@@ -154,6 +168,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method to fetch a artists albums.
+  ///Takes [token] of type [String] and [id] of type [String] as input parameters.
+  ///It returns [List] of  artist albums of type [Map<String,dynamic>].
   Future<List> fetchArtistAlbumsApi(String token, String id) async {
     final url =
         baseUrl + ArtistEndPoints.artists + '/' + id + AlbumEndPoints.albums;
@@ -175,8 +192,9 @@ class AlbumAPI {
     }
   }
 
-  ///A method that fetches an- album..
-  ///takes [token],[AlbumId] as input parameters.
+  ///A method that fetches an-album..
+  ///takes [token],[AlbumId] of type [String] as input parameters.
+  ///Returns an album object of type [Map<String,dynamic>].
   Future<Map<String, dynamic>> fetchAlbumByIdApi(
       String token, String id) async {
     final url = baseUrl + AlbumEndPoints.albums + '/' + id;
@@ -197,6 +215,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method to fetch album tracks.
+  ///Takes [token] of type [String] and [id] of type [String] as input parameters.
+  ///It returns [List] of  album tracks of type [Map<String,dynamic>].
   Future<List> fetchAlbumsTracksApi(String token, String id) async {
     final url =
         baseUrl + AlbumEndPoints.albums + '/' + id + AlbumEndPoints.tracks;
@@ -205,16 +226,9 @@ class AlbumAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
-      print('cccc');
-      print(response.statusCode);
-      print('xxxx');
-      print(response.body);
-      print('xxxx');
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
-        print(temp);
         Map<String, dynamic> temp2 = temp['data'];
-        print(temp2);
         final extractedList = temp2['tracksArray'] as List;
         return extractedList;
       } else {
@@ -227,6 +241,7 @@ class AlbumAPI {
 
   ///A method that uploads new album in artist mode.
   ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[ReleaseDate],[AlbumType] as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> uploadAlbumApi(File image, String token, String albumName,
       String albumType, String _currentTime, String genre) async {
     final url = baseUrl + AlbumEndPoints.forArtist + AlbumEndPoints.albums;
@@ -239,7 +254,6 @@ class AlbumAPI {
         "image": base64Encode(image.readAsBytesSync()),
       });
       Dio dio = new Dio();
-      print('ready');
       dio.options.headers["authorization"] = "Bearer " + token;
       Response response = await dio.post(
         url,
@@ -260,14 +274,15 @@ class AlbumAPI {
 
   ///A method that edits new album in artist mode.
   ///takes [token],[albumName],[AudioFilePathInThePhone],[albumName],[AlbumType] as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> editAlbumApi(File image, String token, String albumName,
       String albumType, String genre) async {
-    ///must be modified//////////////////////////////////////////////////////
+    //must be modified//////////////////////////////////////////////////////
     final url = baseUrl +
         AlbumEndPoints.forArtist +
         AlbumEndPoints
             .albums; //this is the same url of add album needs to be modified
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     try {
       FormData formData = new FormData.fromMap({
         "name": albumName,
@@ -276,7 +291,6 @@ class AlbumAPI {
         "image": FileImage(image),
       });
       Dio dio = new Dio();
-      print('ready');
       dio.options.headers["authorization"] = "Bearer " + token;
       Response response = await dio.post(
         url,
@@ -297,6 +311,7 @@ class AlbumAPI {
 
   ///A method that deletes new album in artist mode.
   ///takes [token],[albumID]as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> deleteAlbumApi(String token, String albumID) async {
     final url = baseUrl +
         AlbumEndPoints.meArtist +
@@ -320,6 +335,7 @@ class AlbumAPI {
 
   ///A method that deletes new album in artist mode.
   ///takes [token],[albumID] , [trackId]as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> deleteSongApi(String token, String albumID, trackId) async {
     final url = baseUrl +
         AlbumEndPoints.meArtist +
@@ -344,6 +360,9 @@ class AlbumAPI {
     }
   }
 
+  ///A method that edits a song in artist mode.
+  ///takes [token],[songName],[albumId],[songId] of type [String] as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> editSongApi(
       String token, String songName, String albumId, String songId) async {
     final url = baseUrl +
@@ -377,8 +396,10 @@ class AlbumAPI {
     }
   }
 
+
   ///A method that uploads new song in artist mode.
   ///takes [token] , [SongName] , [songPathInThePhone] , [albumID] as input parameters.
+  ///It returns [bool] true if success and false if fail.
   Future<bool> uploadSongApi(
       String token, String songName, String path, String id) async {
     final url = baseUrl +

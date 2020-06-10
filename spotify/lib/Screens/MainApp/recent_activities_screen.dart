@@ -33,6 +33,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final deviceSize = MediaQuery.of(context).size;
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -63,7 +64,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen> {
                     ),
                   )
                 : Container(
-                    height: 510,
+                    height: deviceSize.height*0.747,
                     child: Column(
                       children: <Widget>[
                         Expanded(
