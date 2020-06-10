@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///A number to count the number of new notifications.
   int numberOfNewNotifications = 0;
+  
   @override
   void initState() {
     final fbm = FirebaseMessaging();
@@ -82,6 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
       playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
       Provider.of<PlayHistoryProvider>(context, listen: false)
           .fetchRecentlyPlayed(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYou(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchMostRecentAlbums(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
@@ -91,34 +94,40 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchMostRecentPlaylists(user.token)
           .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       });
+
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopularPlaylists(user.token);
       categoriesProvider.fetchHomeScreenCategories(user.token).then((_) {
-        setState(() {
-          if (categoriesProvider.isArabic) {
-            playlistProvider.fetchArabicPlaylists(
-                user.token, categoriesProvider.getArabicCategoryId);
-          }
-          if (categoriesProvider.isHappy) {
-            playlistProvider.fetchHappyPlaylists(
-                user.token, categoriesProvider.getHappyCategoryId);
-          }
-          if (categoriesProvider.isJazz) {
-            playlistProvider.fetchJazzPlaylists(
-                user.token, categoriesProvider.getJazzCategoryId);
-          }
-          if (categoriesProvider.isPop) {
-            playlistProvider.fetchPopPlaylists(
-                user.token, categoriesProvider.getPopCategoryId);
-          }
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            if (categoriesProvider.isArabic) {
+              playlistProvider.fetchArabicPlaylists(
+                  user.token, categoriesProvider.getArabicCategoryId);
+            }
+            if (categoriesProvider.isHappy) {
+              playlistProvider.fetchHappyPlaylists(
+                  user.token, categoriesProvider.getHappyCategoryId);
+            }
+            if (categoriesProvider.isJazz) {
+              playlistProvider.fetchJazzPlaylists(
+                  user.token, categoriesProvider.getJazzCategoryId);
+            }
+            if (categoriesProvider.isPop) {
+              playlistProvider.fetchPopPlaylists(
+                  user.token, categoriesProvider.getPopCategoryId);
+            }
+            _isLoading = false;
+          });
+        }
       });
     }
+
     _isInit = true;
     super.didChangeDependencies();
   }
@@ -202,8 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                            if (playHistoryProvider.getRecentlyPlayed != [])
+                            if (!playHistoryProvider.getRecentlyPlayed.isEmpty)
                               RecentlyPlayedList(),
+                            PlaylistList(PlaylistCategory.madeForYou),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
                             AlbumList(AlbumCategory.mostRecentAlbums),

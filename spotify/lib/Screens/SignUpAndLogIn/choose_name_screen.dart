@@ -8,6 +8,7 @@ import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.
 import '../../Models/http_exception.dart';
+import 'choose_fav_artists.screen.dart';
 
 ///This screen appears to ask the user to enter his username when signing up.
 ///The username filed can't be empty.
@@ -70,9 +71,9 @@ class _ChooseNameScreenState extends State<ChooseNameScreen> {
     if (_auth.isLoginSuccessfully) {
       try {
         await _auth.setUser(_auth.token).then((_) {
-          // Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
-          // Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
-          Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
+           Navigator.of(context).popUntil(ModalRoute.withName('/intro_screen'));
+           Navigator.of(context).pushNamed(ChooseFavArtists.routeName);
+          //Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
         });
       } on HttpException catch (error) {
         var errorMessage = error.toString();

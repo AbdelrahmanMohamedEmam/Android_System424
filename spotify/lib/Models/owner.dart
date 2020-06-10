@@ -1,5 +1,4 @@
 import './user_stats.dart';
-import './external_url.dart';
 import '../utilities.dart';
 
 ///Class Owner that describes the owner object.
@@ -17,10 +16,10 @@ class Owner {
   final String href;
 
   ///List of external Urls for this owner object.
-  final List<ExternalUrl> externalUrls;
+  final List<String> externalUrls;
 
   ///A Link to the image of the owner.
-  final String images;
+  final List<String> images;
 
   ///A link to end point to get the followers of this owner.
   final List<String> followers;
@@ -47,10 +46,9 @@ class Owner {
       name: json['name'] == null ? "" : json['name'],
       uri: json['uri'] == null ? "" : json['uri'],
       href: json['href'] == null ? "" : json['href'],
-      externalUrls: json['externalUrls'] == null
-          ? ""
-          : parceExternalUrl(json['externalUrls']),
-      images: json['images'] == null ? "" : json['images'],
+      externalUrls:
+          json['externalUrls'] == null ? "" : parseString(json['externalUrls']),
+      images: json['images'] == null ? "" : parseString(json['images']),
       // followers:
       //     json['followers'] == null ? [] : parseString(json['followers']),
       // userstats:

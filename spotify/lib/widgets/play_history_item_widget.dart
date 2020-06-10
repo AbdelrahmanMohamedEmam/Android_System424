@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:spotify/Models/play_history.dart';
+import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Screens/Albums/albums_list_screen.dart';
+import 'package:spotify/Screens/Playlists/playlists_list_screen.dart';
 
 class PlayHistoryWidget extends StatelessWidget {
   @override
@@ -10,7 +14,29 @@ class PlayHistoryWidget extends StatelessWidget {
     final deviceSize = MediaQuery.of(context).size;
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        if (playhistory.context.type == "artist") {
+        } else if (playhistory.context.type == "playlist") {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PlaylistsListScreen(
+                playlistId: playhistory.context.id,
+                playlistType: PlaylistCategory.recentlyPlayed,
+              ),
+            ),
+          );
+        } else if (playhistory.context.type == "album") {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => AlbumsListScreen(
+                albumType: AlbumCategory.recentlyPlayed,
+                albumId: playhistory.context.id,
+                artistName: "",
+              ),
+            ),
+          );
+        }
+      },
       child: Container(
         height: deviceSize.height * 0.317,
         width: deviceSize.width * 0.341,

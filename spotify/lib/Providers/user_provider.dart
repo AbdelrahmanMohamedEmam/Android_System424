@@ -15,6 +15,8 @@ import 'dart:async';
 
 ///Importing shared preference library to cache data.
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spotify/Models/artist.dart';
+import 'package:spotify/Models/playlist.dart';
 
 ///Importing models to create objects.
 import '../Models/user.dart';
@@ -66,6 +68,15 @@ class UserProvider with ChangeNotifier {
   bool resetSuccessful = false;
 
   bool followSuccessful = false;
+
+  ///List of the following users.
+  List<User> followingUsers = [];
+
+  ///List of the followers users.
+  List<User> followersUsers = [];
+
+  ///List of the followeing artists.
+  List<Artist> followedArtists;
 
   ///Returns true if the user is a premium user.
   bool isUserPremium() {
@@ -138,6 +149,37 @@ class UserProvider with ChangeNotifier {
     _user.role = premium;
   }
 
+  List<String> get getfollowers {
+    return _user.followers;
+  }
+
+  List<String> get getfollowing {
+    return _user.following;
+  }
+
+  List<Artist> get getFollowedArtists {
+    return followedArtists;
+  }
+
+  List<User> get getfollowersUsers {
+    return followersUsers;
+  }
+
+  List<User> get getfollowingUsers {
+    return followingUsers;
+  }
+
+  ///Checks if following user is followed by the current user or not.
+  bool isFollowed(String id) {
+    if (_user.following.isEmpty) {
+      return false;
+    }
+    if (_user.following.indexWhere((following) => following == id) != -1) {
+      return true;
+    }
+    return false;
+  }
+
   ///Initializing the user data after signing up/ logging in.
   ///Token must be provided for authentication.
   ///An object from the API provider [UserAPI] to send requests is created.
@@ -147,7 +189,7 @@ class UserProvider with ChangeNotifier {
 
     try {
       _user = await userAPI.setUser(_token);
-      _user.firebaseToken=_firebaseToken;
+      _user.firebaseToken = _firebaseToken;
     } catch (error) {
       throw HttpException(error.toString());
     }
@@ -179,6 +221,18 @@ class UserProvider with ChangeNotifier {
       return _token;
     }
     return null;
+  }
+
+  ///A function that removes a following user from the list of id list.
+  void removeFollowing(String id) {
+    int index = _user.following.indexWhere((following) => following == id);
+    followingUsers.removeAt(index);
+    _user.following.removeAt(index);
+  }
+
+  ///A function that add a following user from the list of id list.
+  void addFollowing(String id) {
+    _user.following.add(id);
   }
 
   ///Sends a http request to signIn/signUp with facebook account.
@@ -241,7 +295,7 @@ class UserProvider with ChangeNotifier {
         throw HttpException(responseData['message']);
       } else {
         final firebaseToken = await _firebaseMessaging.getToken();
-        _firebaseToken=firebaseToken;
+        _firebaseToken = firebaseToken;
 
         _token = responseData['token'];
         _status = responseData['success'];
@@ -269,7 +323,7 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
-            'firebaseToken':firebaseToken
+            'firebaseToken': firebaseToken
           },
         );
         prefs.setString('userData', userData);
@@ -291,10 +345,9 @@ class UserProvider with ChangeNotifier {
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       } else {
-
         final firebaseToken = await _firebaseMessaging.getToken();
 
-        _firebaseToken=firebaseToken;
+        _firebaseToken = firebaseToken;
         _token = responseData['token'];
         _status = responseData['success'];
         String expiryDuration = responseData['expireDate'];
@@ -320,7 +373,7 @@ class UserProvider with ChangeNotifier {
           {
             'token': _token,
             'expiryDate': _expiryDate.toIso8601String(),
-            'firebaseToken':firebaseToken
+            'firebaseToken': firebaseToken
           },
         );
         prefs.setString('userData', userData);
@@ -372,18 +425,19 @@ class UserProvider with ChangeNotifier {
     }
     _token = extractedUserData['token'];
     _expiryDate = expiryDate;
-    _firebaseToken=extractedUserData['firebaseToken'];
+    _firebaseToken = extractedUserData['firebaseToken'];
 
     final newFirebaseToken = await _firebaseMessaging.getToken();
-    if(newFirebaseToken!=_firebaseToken){
-      _firebaseToken=newFirebaseToken;
+    print("Fire base token" + _firebaseToken);
+    if (newFirebaseToken != _firebaseToken) {
+      _firebaseToken = newFirebaseToken;
       await updateFirebaseToken(_token, newFirebaseToken);
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
           'token': _token,
           'expiryDate': _expiryDate.toIso8601String(),
-          'firebaseToken':newFirebaseToken
+          'firebaseToken': newFirebaseToken
         },
       );
       prefs.setString('userData', userData);
@@ -425,6 +479,24 @@ class UserProvider with ChangeNotifier {
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 
+  ///A method that fetches for most recent playlists and set them in the most recent.
+  ///It takes a [String] token for verification.
+  Future<void> fetchFollowedArtists(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await userApi.fetchFollowedArtistsApi(token);
+
+      final List<Artist> loadedArtists = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        loadedArtists.add(Artist.fromJson(extractedList[i]));
+      }
+      followedArtists = loadedArtists;
+      notifyListeners();
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
+
   ///Sends a http request to upgrade a user to premium.
   ///Confirmation code must be provided.
   ///An object from the API provider [UserAPI] to send requests is created.
@@ -459,18 +531,38 @@ class UserProvider with ChangeNotifier {
   ///Id must be provided.
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<void> follow(String id) async {
+  Future<bool> follow(String id) async {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
-      bool succeeded = await userAPI.followArtist(token, id);
+      bool succeeded = await userAPI.follow(token, id);
       if (!succeeded) {
-        throw HttpException('Couldn\,t follow this user');
+        addFollowing(id);
+        notifyListeners();
+        return false;
       } else {
-        followSuccessful = true;
+        return true;
       }
-      notifyListeners();
     } catch (error) {
-      //print(error.toString());
+      throw error;
+    }
+  }
+
+  ///Sends a http request to unfollow a user given an id.
+  ///Id must be provided.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<bool> unfollow(String id) async {
+    UserAPI userAPI = UserAPI(baseUrl: baseUrl);
+    try {
+      bool succeeded = await userAPI.unfollowFollowUser(token, id);
+      if (!succeeded) {
+        removeFollowing(id);
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
       throw error;
     }
   }
@@ -518,13 +610,33 @@ class UserProvider with ChangeNotifier {
   }
 
   ///Token must be provided for authentication.
+  ///New password and Old password must be provided.
+  ///An object from the API provider [UserAPI] to send requests is created.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  Future<void> changeUserImage(String token, File imagePath) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      bool success = await userApi.changeUserImageApi(token, imagePath);
+      if (success) {
+        throw HttpException('Your Image is changed successfully!!');
+      } else {
+        throw HttpException('Something went wrong please try again later!!');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  ///Token must be provided for authentication.
   ///Firebase token must be provided for update.
   ///An object from the API provider [UserAPI] to send requests is created.
   ///[HttpException] class is used to create an error object to throw it in case of failure.
-  Future<bool> updateFirebaseToken(String userToken, String firebaseToken) async {
+  Future<bool> updateFirebaseToken(
+      String userToken, String firebaseToken) async {
     UserAPI userApi = UserAPI(baseUrl: baseUrl);
     try {
-      bool success = await userApi.updateFirebaseToken(userToken, firebaseToken);
+      bool success =
+          await userApi.updateFirebaseToken(userToken, firebaseToken);
       if (success) {
         return true;
       } else {
@@ -533,5 +645,37 @@ class UserProvider with ChangeNotifier {
     } catch (error) {
       throw error;
     }
+  }
+
+  ///A method that fetches for following users and set them in the following list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchFollowing(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await userApi.fetchFollowingApi(token);
+
+      final List<User> following = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        following.add(User.fromJson2(extractedList[i]));
+      }
+      followingUsers = following;
+      notifyListeners();
+    } catch (error) {}
+  }
+
+  ///A method that fetches for following users and set them in the following list.
+  ///It takes a [String] token for verificationand id for this category.
+  Future<void> fetchFollowers(String token) async {
+    UserAPI userApi = UserAPI(baseUrl: baseUrl);
+    try {
+      final extractedList = await userApi.fetchFollowersApi(token);
+
+      final List<User> following = [];
+      for (int i = 0; i < extractedList.length; i++) {
+        following.add(User.fromJson2(extractedList[i]));
+      }
+      followersUsers = following;
+      notifyListeners();
+    } catch (error) {}
   }
 }

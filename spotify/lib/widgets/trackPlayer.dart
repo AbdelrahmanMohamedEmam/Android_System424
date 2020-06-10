@@ -445,29 +445,33 @@ class _MainWidgetState extends State<MainWidget> {
                   Provider.of<PlayableTrackProvider>(context, listen: false)
                       .isTrackLiked(song.id) ? Icons.favorite : Icons
                       .favorite_border,
-                  color: Colors.white,
+                  color: song.isAd?Colors.grey:Colors.white,
 
                 ),
                 onPressed: () async {
-                  if (Provider.of<PlayableTrackProvider>(context, listen: false)
-                      .isTrackLiked(song.id)) {
-                    await Provider.of<PlayableTrackProvider>(
-                        context, listen: false).unlikeTrack(user.token, song.id)
-                        .then((_) {
-                      setState(() {
-                        showMessage(context, 'Unliked successfully', false);
-                      });
-                    });
-                  }
-                  else {
-                    await Provider.of<PlayableTrackProvider>(
+                  if(!song.isAd) {
+                    if (Provider.of<PlayableTrackProvider>(
                         context, listen: false)
-                        .likeTrack(user.token, song)
-                        .then((_) {
-                      setState(() {
-                        showMessage(context, 'Liked successfully', false);
+                        .isTrackLiked(song.id)) {
+                      await Provider.of<PlayableTrackProvider>(
+                          context, listen: false).unlikeTrack(
+                          user.token, song.id)
+                          .then((_) {
+                        setState(() {
+                          showMessage(context, 'Unliked successfully', false);
+                        });
                       });
-                    });
+                    }
+                    else {
+                      await Provider.of<PlayableTrackProvider>(
+                          context, listen: false)
+                          .likeTrack(user.token, song)
+                          .then((_) {
+                        setState(() {
+                          showMessage(context, 'Liked successfully', false);
+                        });
+                      });
+                    }
                   }
                 },
                 iconSize: deviceSize.height * 0.04,
@@ -562,13 +566,14 @@ class _MainWidgetState extends State<MainWidget> {
             IconButton(
               icon: Icon(
                 Icons.share,
-                color: Colors.white,
+                color: song.isAd?Colors.grey:Colors.white,
               ),
               onPressed: () async {
-                await Share.share(
-                    'Check Out This Album On Totally Not Spotify ' +
-                        song.album.href.replaceAll('/api', ''));
-
+                if(!song.isAd) {
+                  await Share.share(
+                      'Check Out This Album On Totally Not Spotify ' +
+                          song.album.href.replaceAll('/api', ''));
+                }
               },
               iconSize: deviceSize.height * 0.03,
             ),

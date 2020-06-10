@@ -8,12 +8,18 @@ import 'package:http/http.dart' as http;
 
 class SearchEndPoints {
   static const String search = '/search?q=';
+  static const String limit = '&limit=8';
 }
 
 ///This class is used to make the requests using the REST APIs that are related to the track object providing [PlayableTrackProvider].
 class TrackAPI {
   final String baseUrl;
   TrackAPI({this.baseUrl});
+  String nextTracks;
+
+  String get getNextTracksUrl {
+    return nextTracks;
+  }
 
   ///A request to add a track to the recently played list.
   ///The track uri, its context uri and the context type(either album or artist) is provided to the function.
@@ -40,13 +46,11 @@ class TrackAPI {
       if (response.statusCode != 204) {
         throw HttpException('Couldn\'t add song to recently played.');
       } else if (response.statusCode == 204 || response.statusCode == 200) {
-        //print('SONG ADDED SUCCESSFULLY');
         return true;
       } else {
         throw HttpException('Request failed! Check again later.');
       }
     } catch (error) {
-      //print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -62,15 +66,12 @@ class TrackAPI {
         baseUrl + '/me/likedTracks?limit+' + limit.toString(),
         headers: {"authorization": "Bearer " + token},
       );
-      print(responseData.statusCode);
-      print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
         return jsonDecode(responseData.body)['data']['tracks'];
       }
     } catch (error) {
-      print(error.toString());
       throw HttpException(error.toString());
     }
   }
@@ -87,14 +88,12 @@ class TrackAPI {
           data: json.encode({
             "id": trackId,
           }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      print(error.toString());
       throw error;
     }
   }
@@ -110,14 +109,12 @@ class TrackAPI {
           data: json.encode({
             "id": trackId,
           }));
-      print(responseData.statusCode);
       if (responseData.statusCode == 204) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      print(error.toString());
       throw error;
     }
   }
@@ -202,8 +199,6 @@ class TrackAPI {
             headers: {"authorization": "Bearer " + token},
           ),
           data: {'id': id, 'type': type});
-      print(responseData.statusCode);
-      print(responseData.data['data']);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.data)['message']);
       } else {
@@ -221,10 +216,11 @@ class TrackAPI {
         baseUrl + '/me/player/ad',
         headers: {"authorization": "Bearer " + token},
       );
+      //print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
-        return jsonDecode(responseData.body)['data'];
+        return jsonDecode(responseData.body)['data']['track'];
       }
     } catch (error) {
       print(error.toString());
@@ -240,18 +236,44 @@ class TrackAPI {
       String token, String searchedTracks) async {
     try {
       final responseData = await http.get(
-        baseUrl + SearchEndPoints.search + searchedTracks,
+        baseUrl +
+            SearchEndPoints.search +
+            searchedTracks +
+            SearchEndPoints.limit,
         headers: {"authorization": "Bearer " + token},
       );
-      print(responseData.body);
       if (responseData.statusCode != 200) {
         throw HttpException(jsonDecode(responseData.body)['message']);
       } else {
+        nextTracks = jsonDecode(responseData.body)['data']['results']["next"];
         return jsonDecode(responseData.body)['data']['results']["items"]
             as List;
       }
     } catch (error) {
       print(error.toString());
+      throw HttpException(error.toString());
+    }
+  }
+
+  ///A request to get tracks searched by a new user.
+  ///[HttpException] class is used to create an error object to throw it in case of failure.
+  ///In case of success the data is returned as a map of keys and dynamic objects.
+  ///In case of failure an exception is thrown.
+  Future<List<dynamic>> fetchMoreSearchedTracksAPI(String token,String nextPageTracks) async {
+    try {
+      var responseData;
+        responseData = await http.get(
+          nextPageTracks,
+          headers: {"authorization": "Bearer " + token},
+        );
+      if (responseData.statusCode != 200) {
+        throw HttpException(jsonDecode(responseData.body)['message']);
+      } else {
+        nextTracks = jsonDecode(responseData.body)['data']['results']["next"];
+        return jsonDecode(responseData.body)['data']['results']["items"]
+            as List;
+      }
+    } catch (error) {
       throw HttpException(error.toString());
     }
   }

@@ -126,6 +126,9 @@ class MyApp extends StatelessWidget {
           ),
           home: SplashScreen(),
           routes: {
+            // PopUpMenuPlaylistScreen.routeName:(ctx)=>PopUpMenuPlaylistScreen(playlist, category),
+            // PopUpMenuAlbumScreen.routeName:(ctx)=>PopUpMenuAlbumScreen(album, category),
+            SongSettingsScreen.routeName:(ctx)=>SongSettingsScreen(),
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
             AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),

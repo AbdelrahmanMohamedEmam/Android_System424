@@ -22,7 +22,7 @@ class FavArtistItem extends StatelessWidget {
           shape: BadgeShape.circle,
           child: CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
-            radius: deviceSize.height * 0.07,
+            radius: deviceSize.height * 0.06,
           ),
           badgeContent: selected
               ? Icon(
@@ -33,13 +33,20 @@ class FavArtistItem extends StatelessWidget {
               : null,
         ),
         Container(
-            padding: EdgeInsets.all(deviceSize.height * 0.01.toDouble()),
+            height: deviceSize.height * 0.07613,
+            padding: EdgeInsets.only(
+                top: deviceSize.height * 0.008.toDouble(),
+                bottom: deviceSize.height * 0.008.toDouble(),
+                left: deviceSize.width * 0.03.toDouble(),
+                right: deviceSize.width * 0.012.toDouble()),
             child: Text(
               artistName,
               overflow: TextOverflow.ellipsis,
               softWrap: false,
               style: TextStyle(
                   color: Colors.white, fontSize: deviceSize.width * 0.04),
+              maxLines: 2,
+              textAlign: TextAlign.center,
             ))
       ],
     );

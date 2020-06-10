@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
-import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/Screens/Albums/song_item_pop_up_menu.dart';
 import '../Models/track.dart';
 
 ///It is used to provide the [PlaylistsListScreen] with the needed data about the track.
 class SongItemPlaylistList extends StatefulWidget {
+  String playlistId;
+  SongItemPlaylistList(this.playlistId);
   @override
   _SongItemPlaylistListState createState() => _SongItemPlaylistListState();
 }
 
 class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
-
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
@@ -25,11 +26,14 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
         height: deviceSize.height * 0.1,
         child: InkWell(
           onTap: () {
-            track.setCurrentSong(song,user.isUserPremium(),user.token);
+            track.setCurrentSong(song, user.isUserPremium(), user.token);
             Navigator.pop(context);
           },
           child: ListTile(
-            leading: Image.network(song.album.image),
+            leading: FadeInImage(
+              placeholder: AssetImage('assets/images/temp.jpg'),
+              image: NetworkImage(song.album.image),
+            ),
             title: Text(
               song.name,
               style: TextStyle(color: Colors.white),
@@ -43,38 +47,37 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
       ),
       IconButton(
         icon: Icon(
-          track.isTrackLiked(song.id)?Icons.favorite:Icons.favorite_border,
+          Provider.of<PlayableTrackProvider>(context, listen: true)
+                  .isTrackLiked(song.id)
+              ? Icons.favorite
+              : Icons.favorite_border,
           color: Colors.white,
         ),
-        onPressed: ()async{
-          if (track.isTrackLiked(song.id))
-          {
-
-            await track.unlikeTrack(user.token, song.id)
-                .then((_){setState(() {
-
+        onPressed: () async {
+          if (track.isTrackLiked(song.id)) {
+            await track.unlikeTrack(user.token, song.id).then((_) {
+              setState(() {});
             });
+          } else {
+            await track.likeTrack(user.token, song).then((_) {
+              setState(() {});
             });
-
-          }
-          else
-          {
-
-            await track.likeTrack(user.token, song).then((_){
-              setState(() {
-              });
-            });
-
-
           }
         },
       ),
       IconButton(
         icon: Icon(
           Icons.more_vert,
-          color: Colors.white54,
+          color: Colors.white,
         ),
-        onPressed: null,
+        onPressed: () {
+          Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              barrierColor: Colors.black87,
+              pageBuilder: (BuildContext context, _, __) {
+                return SongItemPopUpMenu(song);
+              }));
+        },
       ),
     ]);
   }

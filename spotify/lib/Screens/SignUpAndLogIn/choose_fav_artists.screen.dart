@@ -32,7 +32,8 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
 
   Future<void> _initializeList() async {
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
-    await artistProvider.fetchAllArtists('').then((_) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await artistProvider.fetchAllArtists(userProvider.token).then((_) {
       setState(() {
         artistsLoaded = true;
       });
@@ -85,7 +86,6 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
       _showErrorDialog(errorMessage);
       return;
     }
-    //Navigator.of(context).popUntil(ModalRoute.withName('/'));
     Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
   }
 
@@ -102,6 +102,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
             color: Colors.white,
             fontSize: deviceSize.width * 0.06,
           ),
+          maxLines: 2,
         ),
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -118,10 +119,10 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                       )
                     : Container(
                         padding: EdgeInsets.fromLTRB(
-                            deviceSize.width * 0.4,
-                            deviceSize.height * 0.02,
-                            deviceSize.width * 0.4,
-                            deviceSize.height * 0.02),
+                            deviceSize.width * 0.3,
+                            deviceSize.height * 0.006,
+                            deviceSize.width * 0.3,
+                            deviceSize.height * 0.006),
                         child: RaisedButton(
                           textColor: Colors.white,
                           color: Colors.transparent,
@@ -144,7 +145,9 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                            height: selectedIndices.length < 3
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.029282),
+                            height: selectedIndices.length < 1
                                 ? deviceSize.height * 0.8
                                 : deviceSize.height * 0.7,
                             child: GridView.builder(
@@ -153,10 +156,10 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                                 itemCount: artists.length,
                                 gridDelegate:
                                     SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 160,
-                                  childAspectRatio: 1,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
+                                  maxCrossAxisExtent: deviceSize.height * 0.25,
+                                  childAspectRatio: 0.95,
+                                  crossAxisSpacing: deviceSize.height * 0.007,
+                                  mainAxisSpacing: deviceSize.height * 0.005,
                                 ),
                                 itemBuilder: (context, index) {
                                   return InkWell(
@@ -174,9 +177,7 @@ class _ChooseFavArtistsState extends State<ChooseFavArtists> {
                                         selected: selected[index],
                                         id: artists[index].id,
                                         artistName: artists[index].name,
-                                        imageUrl:
-                                            "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
-                                        // artists[index].images[0],
+                                        imageUrl: artists[index].images[0],
                                       ));
                                 }))
                       ],

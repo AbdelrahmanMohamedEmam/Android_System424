@@ -45,6 +45,8 @@ class CategoriesProvider with ChangeNotifier {
     return _jazz;
   }
 
+  
+
   ///A method getter to get the jazz category's ID.
   String get getJazzCategoryId {
     final index =
@@ -56,6 +58,13 @@ class CategoriesProvider with ChangeNotifier {
   String get getHappyCategoryId {
     final index =
         _homeCategories.indexWhere((category) => category.name == 'Happy');
+    return _homeCategories[index].id;
+  }
+
+  ///A method getter to get the hapoy category's ID.
+  String get getMadeForYouCategoryId {
+    final index =
+        _homeCategories.indexWhere((category) => category.name == 'MadeForYou');
     return _homeCategories[index].id;
   }
 
@@ -100,7 +109,7 @@ class CategoriesProvider with ChangeNotifier {
         _arabic = true;
       } else if (_homeCategories[i].name == 'Happy') {
         _happy = true;
-      }
+      } 
     }
   }
 }
