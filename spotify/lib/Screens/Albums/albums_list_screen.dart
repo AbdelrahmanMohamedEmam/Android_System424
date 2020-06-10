@@ -34,66 +34,65 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   bool colorGenerated = false;
   bool isArtist = false;
 
-
   @override
   void didChangeDependencies() async {
     user = Provider.of<UserProvider>(context);
-    await Provider.of<AlbumProvider>(context, listen: false)
-        .fetchRecentlyPlayedAlbum(user.token, widget.albumId);
-    Provider.of<AlbumProvider>(context, listen: false)
-        .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
-        .then((_) {
-      setState(() {
-        List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
-            .getPlayableTracks(widget.albumId, widget.albumType);
-        Provider.of<PlayableTrackProvider>(context, listen: false)
-            .setTracksToBePlayed(toAdd);
-        if (widget.albumType == AlbumCategory.myAlbums)
-          {
-            _isLoading = true;
-          }
-        else {
-          _isLoading = false;
-        }
-        if (widget.albumType == AlbumCategory.mostRecentAlbums) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMostRecentAlbumsId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.popularAlbums) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getPopularAlbumsId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.artist) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMyAlbumId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.search) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getSearchedAlbumsId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.myAlbums) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getMyAlbumId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.liked) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getLikedAlbumsId(widget.albumId);
-        } else if (widget.albumType == AlbumCategory.recentlyPlayed) {
-          albums = Provider.of<AlbumProvider>(context, listen: false)
-              .getRecentlyPlayedAlbumsById(widget.albumId);
-        }
-      });
-    });
     if (widget.albumType == AlbumCategory.myAlbums) {
-      await Provider.of<AlbumProvider>(
-          context, listen: false)
-          .fetchMyAlbums(
-          user.token)
-          .then(
-              (_) {
-            setState(
-                    () {
-//                      albums = Provider.of<AlbumProvider>(context, listen: false)
-//                          .getMyAlbumId(widget.albumId);
-                  _isLoading = false;
-                });
-          });
+      await Provider.of<AlbumProvider>(context, listen: false)
+          .fetchMyAlbums(user.token);
+      await Provider.of<AlbumProvider>(context, listen: false)
+          .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
+          .then((_) {
+        setState(() {
+          albums = Provider.of<AlbumProvider>(context, listen: false)
+              .getMyAlbumId(widget.albumId);
+          _isLoading = false;
+        });
+      });
+    } else {
+      await Provider.of<AlbumProvider>(context, listen: false)
+          .fetchRecentlyPlayedAlbum(user.token, widget.albumId);
+      await Provider.of<AlbumProvider>(context, listen: false)
+          .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
+          .then((_) {
+        setState(() {
+          List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
+              .getPlayableTracks(widget.albumId, widget.albumType);
+          Provider.of<PlayableTrackProvider>(context, listen: false)
+              .setTracksToBePlayed(toAdd);
+
+          _isLoading = false;
+          // if (widget.albumType == AlbumCategory.myAlbums) {
+          // //  _isLoading = true;
+          // } else {
+
+          // }
+          if (widget.albumType == AlbumCategory.mostRecentAlbums) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getMostRecentAlbumsId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.popularAlbums) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getPopularAlbumsId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.artist) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getMyAlbumId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.search) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getSearchedAlbumsId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.myAlbums) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getMyAlbumId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.liked) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getLikedAlbumsId(widget.albumId);
+          } else if (widget.albumType == AlbumCategory.recentlyPlayed) {
+            albums = Provider.of<AlbumProvider>(context, listen: false)
+                .getRecentlyPlayedAlbumsById(widget.albumId);
+          }
+        });
+      });
     }
+
     super.didChangeDependencies();
   }
 
