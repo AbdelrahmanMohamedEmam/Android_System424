@@ -70,8 +70,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         }
       });
     });
-    print("helooo");
-    print(albums.artists[0].id);
     super.didChangeDependencies();
   }
 
@@ -81,8 +79,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     String userToken = Provider.of<UserProvider>(context, listen: false).token;
     if (widget.albumType == AlbumCategory.myAlbums) {
       isArtist = true;
-      //albums = Provider.of<AlbumProvider>(context, listen: false)
-      //  .getMyAlbumId(widget.albumId);
     } else {
       isArtist = false;
     }
@@ -91,7 +87,6 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_listenToScrollChange);
     colorGenerated = false;
-    //String userToken = Provider.of<UserProvider>(context, listen: false).token;
     Provider.of<PlayableTrackProvider>(context, listen: false)
         .shuffledTrackList(userToken, widget.albumId, 'album');
     super.initState();
@@ -119,6 +114,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     if (!colorGenerated) _generatePalette();
     return _isLoading
@@ -172,7 +168,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                       builder: (context) => AddSongScreen(
                                             id: widget.albumId,
                                           ))),
-                              iconSize: 26,
+                              iconSize: deviceSize.height * 0.03806,
                             )
                           : IconButton(
                               icon: Icon(
@@ -203,7 +199,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                   });
                                 }
                               },
-                              iconSize: 26,
+                              iconSize: deviceSize.height * 0.03806,
                             ),
                       isArtist
                           ? Container()
@@ -220,12 +216,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                       return PopUpMenuAlbumScreen(
                                           albums, widget.albumType);
                                     }));
-
-                                //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
                               },
                             ),
                     ],
-                    expandedHeight: 400,
+                    expandedHeight: deviceSize.height * 0.58565,
                     pinned: true,
                     floating: false,
                     elevation: 0,
@@ -234,8 +228,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(top: 50, bottom: 15),
-                            height: 210,
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.073206,
+                                bottom: deviceSize.height * 0.0219619),
+                            height: deviceSize.height * 0.30746705,
                             width: double.infinity,
                             child: FadeInImage(
                               placeholder:
@@ -244,7 +240,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                             ),
                           ),
                           Container(
-                            height: 40,
+                            height: deviceSize.height * 0.0585655,
                             width: double.infinity,
                             child: Text(
                               albums.name,
@@ -252,15 +248,16 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                   TextStyle(color: Colors.white, fontSize: 20),
                               textAlign: TextAlign.center,
                             ),
-                            padding: EdgeInsets.only(bottom: 15),
+                            padding: EdgeInsets.only(
+                                bottom: deviceSize.height * 0.0219619),
                           ),
                           isArtist
                               ? Container()
                               : Container(
-                                  height: 22,
-                                  width: 160,
+                                  height: deviceSize.height * 0.0322108,
+                                  width: deviceSize.width * 0.3892944,
                                   child: Container(
-                                    width: 100,
+                                    width: deviceSize.width * 0.243309,
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
@@ -271,10 +268,10 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                         children: <Widget>[
                                           Icon(
                                             Icons.shuffle,
-                                            size: 14,
+                                            size: deviceSize.height * 0.0204978,
                                           ),
                                           SizedBox(
-                                            width: 7,
+                                            width: deviceSize.width * 0.0170316,
                                           ),
                                           Text(
                                             'LISTEN IN SHUFFLE',
@@ -290,8 +287,9 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                                 ),
                           Container(
                             width: double.infinity,
-                            height: 50,
-                            padding: EdgeInsets.only(top: 7),
+                            height: deviceSize.height * 0.073206,
+                            padding: EdgeInsets.only(
+                                top: deviceSize.height * 0.0102489),
                             child: Text(
                               widget.artistName == ""
                                   ? 'Album by ' +
@@ -313,7 +311,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                       child: Transform.translate(
                         offset: Offset(0, 0),
                         child: Container(
-                          width: 190.0,
+                          width: deviceSize.width * 0.462287,
                           child: isArtist
                               ? Container()
                               : FloatingActionButton(
@@ -354,14 +352,24 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return (albums.tracks.length == 1)
-                            ? SizedBox(height: 480)
+                            ? SizedBox(height: deviceSize.height * 0.7027818)
                             : (albums.tracks.length == 2)
-                                ? SizedBox(height: 410)
+                                ? SizedBox(
+                                    height: deviceSize.height * 0.6002928)
                                 : (albums.tracks.length == 3)
-                                    ? SizedBox(height: 350)
+                                    ? SizedBox(
+                                        height: deviceSize.height * 0.512445)
                                     : (albums.tracks.length == 14)
-                                        ? SizedBox(height: 80)
-                                        : SizedBox(height: 480);
+                                        ? SizedBox(
+                                            height:
+                                                deviceSize.height * 0.117130)
+                                        : (albums.tracks.length == 10)
+                                            ? SizedBox(
+                                                height: deviceSize.height *
+                                                    0.11713030)
+                                            : SizedBox(
+                                                height: deviceSize.height *
+                                                    0.7021818);
                       },
                       childCount: 1,
                     ),
@@ -374,7 +382,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   ///Functions to listen to the control of scrolling.
   void _listenToScrollChange() {
-    if (_scrollController.offset >= 100.0) {
+    if (_scrollController.offset >= 100) {
       setState(() {
         _isScrolled = true;
       });

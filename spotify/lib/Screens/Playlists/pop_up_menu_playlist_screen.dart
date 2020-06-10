@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
@@ -11,7 +9,6 @@ import 'package:spotify/Providers/playlist_provider.dart';
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
-
 
 class PopUpMenuPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';
@@ -97,10 +94,20 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                                 Icons.share,
                                 color: Colors.white,
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.04866,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.012165,
+                                deviceSize.height * 0.02928,
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.09732,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.02433,
+                                  deviceSize.height * 0.02928,
+                                ),
                                 child: Text(
                                   'Share this playlist',
                                   style: TextStyle(
@@ -143,10 +150,20 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                                   : Icons.favorite_border,
                               color: Colors.white,
                             ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.04866,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.012165,
+                              deviceSize.height * 0.02928,
+                            ),
                           ),
                           Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.09732,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.02433,
+                                deviceSize.height * 0.02928,
+                              ),
                               child: Text(
                                 playlistProvider
                                         .isPlaylistLiked(widget.playlist.id)
@@ -187,7 +204,7 @@ class _PopUpMenuPlaylistScreenState extends State<PopUpMenuPlaylistScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: deviceSize.height * 0.073206),
           ],
         ));
   }

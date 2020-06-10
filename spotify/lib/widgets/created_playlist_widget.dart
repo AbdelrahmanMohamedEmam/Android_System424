@@ -28,7 +28,6 @@ class _CreatedPlaylistWidgetState extends State<CreatedPlaylistWidget> {
         );
       },
       child: ListTile(
-        //leading: Image.network(playlist.images[0]),
         leading: (playlist.tracks != null && playlist.tracks.length != 0)
             ? FadeInImage(
                 placeholder: AssetImage('assets/images/temp.jpg'),

@@ -97,10 +97,20 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                               Icons.share,
                               color: Colors.white,
                             ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.04866,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.012165,
+                              deviceSize.height * 0.02928,
+                            ),
                           ),
                           Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.09732,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.02433,
+                                deviceSize.height * 0.02928,
+                              ),
                               child: Text(
                                 'Share this album',
                                 style: TextStyle(
@@ -141,10 +151,20 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                                 : Icons.favorite_border,
                             color: Colors.white,
                           ),
-                          margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                          margin: EdgeInsets.fromLTRB(
+                            deviceSize.width * 0.04866,
+                            deviceSize.height * 0.02928,
+                            deviceSize.width * 0.012165,
+                            deviceSize.height * 0.02928,
+                          ),
                         ),
                         Container(
-                            margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.09732,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.02433,
+                              deviceSize.height * 0.02928,
+                            ),
                             child: Text(
                               trackProvider.isTrackLiked(widget.song.id)
                                   ? 'Unlike this song'
@@ -165,10 +185,20 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                                 Icons.person,
                                 color: Colors.white,
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.04866,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.012165,
+                                deviceSize.height * 0.02928,
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.09732,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.02433,
+                                  deviceSize.height * 0.02928,
+                                ),
                                 child: Text(
                                   'View Artist',
                                   style: TextStyle(
@@ -178,7 +208,6 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                           ],
                         ),
                         onTap: () {
-                          print(widget.song.artists[0].id);
                           Navigator.of(context).pop();
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ArtistProfileScreen(
@@ -188,9 +217,7 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                   ),
                   Container(
                     child: InkWell(
-                      onTap: () {
-                        print(widget.song.artists[0].artistInfo.biography);
-                      },
+                      onTap: () {},
                       child: Row(
                         children: <Widget>[
                           Container(
@@ -198,10 +225,20 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                               Icons.info,
                               color: Colors.white,
                             ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.04866,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.012165,
+                              deviceSize.height * 0.02928,
+                            ),
                           ),
                           Container(
-                            margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.09732,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.02433,
+                              deviceSize.height * 0.02928,
+                            ),
                             child: Text(
                               'Show artist info',
                               style: TextStyle(
@@ -240,7 +277,7 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: deviceSize.height * 0.07320644),
           ],
         ));
   }

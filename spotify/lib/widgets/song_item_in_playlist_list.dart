@@ -77,8 +77,6 @@ class _SongItemPlaylistListState extends State<SongItemPlaylistList> {
               pageBuilder: (BuildContext context, _, __) {
                 return SongItemPopUpMenu(song);
               }));
-
-          //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
         },
       ),
     ]);

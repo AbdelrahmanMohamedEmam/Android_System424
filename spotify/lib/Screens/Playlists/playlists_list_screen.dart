@@ -152,7 +152,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                         playlists.name,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: deviceSize.height * 0.0292), //20
+                            fontSize: deviceSize.height * 0.0292),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -187,7 +187,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             });
                           }
                         },
-                        iconSize: deviceSize.width * 0.059, //26
+                        iconSize: deviceSize.width * 0.059,
                       ),
                       IconButton(
                         icon: Icon(
@@ -202,12 +202,10 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                                 return PopUpMenuPlaylistScreen(
                                     playlists, widget.playlistType);
                               }));
-
-                          //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
                         },
                       ),
                     ],
-                    expandedHeight: deviceSize.height * 0.52, //340
+                    expandedHeight: deviceSize.height * 0.52,
                     pinned: true,
                     floating: false,
                     elevation: 0,
@@ -218,8 +216,7 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                           Container(
                             padding: EdgeInsets.only(
                                 top: deviceSize.height * 0.07,
-                                bottom: deviceSize.height *
-                                    0.02), //top:50, bottom:15
+                                bottom: deviceSize.height * 0.02),
                             height: deviceSize.height * 0.33,
                             width: double.infinity,
                             child: Image.network(
@@ -227,13 +224,13 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             ),
                           ),
                           Container(
-                            height: deviceSize.height * 0.035, //27
+                            height: deviceSize.height * 0.035,
                             width: double.infinity,
                             child: Text(
                               playlists.name,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: deviceSize.height * 0.029), //20
+                                  fontSize: deviceSize.height * 0.029),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -299,23 +296,23 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return (playlists.tracks.length == 1)
-                            ? SizedBox(height: 480)
+                            ? SizedBox(height: deviceSize.height * 0.702781)
                             : (playlists.tracks.length == 2)
-                                ? SizedBox(height: 410)
+                                ? SizedBox(
+                                    height: deviceSize.height * 0.6002928)
                                 : (playlists.tracks.length == 3)
-                                    ? SizedBox(height: 350)
+                                    ? SizedBox(
+                                        height: deviceSize.height * 0.51244)
                                     : (playlists.tracks.length == 14)
-                                        ? SizedBox(height: 80)
-                                        : SizedBox(height: 480);
+                                        ? SizedBox(
+                                            height: deviceSize.height * 0.11713)
+                                        : SizedBox(
+                                            height:
+                                                deviceSize.height * 0.702781);
                       },
                       childCount: 1,
                     ),
                   ),
-                  // Expanded(
-                  //   child: Container(
-                  //     child: MadeForYouPlaylists(),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

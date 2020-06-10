@@ -2,7 +2,6 @@ import 'dart:ui';
 //import packages
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spotify/Models/user.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/Library/follow_artist_screen.dart';
@@ -44,6 +43,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final userProvider = Provider.of<UserProvider>(context);
     List<Artist> followedArtists;
     followedArtists = userProvider.getFollowedArtists;
@@ -72,7 +72,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                     icon: Icon(
                       Icons.control_point,
                       color: Colors.grey,
-                      size: 40,
+                      size: deviceSize.height*0.058565,
                     ),
                     label: Text(
                       'Choose artists',
@@ -85,8 +85,8 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.topLeft,
-                    height: 70,
-                    margin: EdgeInsets.only(left: 10.0),
+                    height: deviceSize.height*0.1024890,
+                    margin: EdgeInsets.only(left: deviceSize.height*0.009),
                     child: FlatButton.icon(
                       onPressed: () {
                         Navigator.of(context).push(
@@ -98,7 +98,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                       icon: Icon(
                         Icons.control_point,
                         color: Colors.grey,
-                        size: 60,
+                        size: deviceSize.height*0.08784773,
                       ),
                       label: Text(
                         'Choose artists',
@@ -108,7 +108,7 @@ class _ArtistsScreenState extends State<ArtistsScreen> {
                   ),
                   Container(
                     alignment: Alignment.topLeft,
-                    height: 350,
+                    height: deviceSize.height*0.51244509,
                     child: ListView.builder(
                       itemCount: followedArtists.length,
                       itemBuilder: (context, i) => ChangeNotifierProvider.value(

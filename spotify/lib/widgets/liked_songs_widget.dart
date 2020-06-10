@@ -11,6 +11,7 @@ class LikedSongWidget extends StatefulWidget {
 class _LikedSongWidgetState extends State<LikedSongWidget> {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -21,20 +22,14 @@ class _LikedSongWidgetState extends State<LikedSongWidget> {
       },
       child: ListTile(
         leading: Container(
-          height: 65,
-          width: 56,
+          height: deviceSize.height * 0.0951,
+          width: deviceSize.width * 0.13625,
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/likedSong.png'),
                 fit: BoxFit.fill),
           ),
         ),
-        //  SizedBox(
-
-        //   child: Image.asset(
-        //     'assets/images/likedSong.png',
-        //   ),
-        // ),
         title: Text(
           "Liked Songs",
           style: TextStyle(color: Colors.white, fontSize: 18),

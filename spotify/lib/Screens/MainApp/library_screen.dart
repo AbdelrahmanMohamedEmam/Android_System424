@@ -12,6 +12,7 @@ class LibraryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     int initialindex = 0;
     return DefaultTabController(
       length: 3,
@@ -58,7 +59,8 @@ class LibraryScreen extends StatelessWidget {
               ]),
         ),
         body: TabBarView(children: <Widget>[
-          Container(height: 300, child: PlaylistsScreen()),
+          Container(
+              height: deviceSize.height * 0.43923, child: PlaylistsScreen()),
           ArtistsScreen(),
           AlbumsScreen(),
         ]),

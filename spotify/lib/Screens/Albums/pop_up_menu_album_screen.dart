@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
@@ -14,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
 
 ///Importing the http exception model to throw an http exception.
-
 
 class PopUpMenuAlbumScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_album_screen';
@@ -86,7 +83,6 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                     Container(
                       child: InkWell(
                         onTap: () async {
-                          //print(widget.song.artists[0].artistInfo.biography);
                           await Share.share(
                               'Check Out This Album On Totally Not Spotify ' +
                                   widget.album.href.replaceAll('/api', ''));
@@ -98,10 +94,20 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                                 Icons.share,
                                 color: Colors.white,
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.04866,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.012165,
+                                deviceSize.height * 0.02928,
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.09732,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.02433,
+                                  deviceSize.height * 0.02928,
+                                ),
                                 child: Text(
                                   'Share this album',
                                   style: TextStyle(
@@ -142,10 +148,20 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                                   : Icons.favorite_border,
                               color: Colors.white,
                             ),
-                            margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                            margin: EdgeInsets.fromLTRB(
+                              deviceSize.width * 0.04866,
+                              deviceSize.height * 0.02928,
+                              deviceSize.width * 0.012165,
+                              deviceSize.height * 0.02928,
+                            ),
                           ),
                           Container(
-                              margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.09732,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.02433,
+                                deviceSize.height * 0.02928,
+                              ),
                               child: Text(
                                 albumProvider.isAlbumLiked(widget.album.id)
                                     ? 'Unlike this album'
@@ -166,10 +182,20 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                                   Icons.person,
                                   color: Colors.white,
                                 ),
-                                margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.04866,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.012165,
+                                  deviceSize.height * 0.02928,
+                                ),
                               ),
                               Container(
-                                  margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                  margin: EdgeInsets.fromLTRB(
+                                    deviceSize.width * 0.09732,
+                                    deviceSize.height * 0.02928,
+                                    deviceSize.width * 0.02433,
+                                    deviceSize.height * 0.02928,
+                                  ),
                                   child: Text(
                                     'View Artist',
                                     style: TextStyle(
@@ -179,7 +205,6 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                             ],
                           ),
                           onTap: () {
-                            //print(widget.song.artists[0].id);
                             Navigator.of(context).pop();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ArtistProfileScreen(
@@ -215,7 +240,7 @@ class _PopUpMenuAlbumScreenState extends State<PopUpMenuAlbumScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: deviceSize.height * 0.07320644),
           ],
         ));
   }

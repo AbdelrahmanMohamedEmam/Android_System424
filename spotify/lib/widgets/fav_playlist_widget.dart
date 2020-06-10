@@ -33,7 +33,6 @@ class _FavPlaylistWidgetState extends State<FavPlaylistWidget> {
         );
       },
       child: ListTile(
-        //leading: Image.network(playlist.images[0]),
         leading: FadeInImage(
           placeholder: AssetImage('assets/images/temp.jpg'),
           image: NetworkImage(playlist.images[0]),

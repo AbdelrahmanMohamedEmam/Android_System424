@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 ///Importing this package to use flutter libraries.
@@ -12,7 +10,6 @@ import 'package:spotify/Screens/Library/add_song_to_playlist_screen.dart';
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
 import '../../Providers/user_provider.dart';
-
 
 class PopUpMenuCreatedPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';
@@ -54,7 +51,8 @@ class _PopUpMenuCreatedPlaylistScreenState
                   children: <Widget>[
                     Container(
                       child: FadeInImage(
-                        image: NetworkImage(widget.playlist.images[0]),
+                        image:
+                            NetworkImage(widget.playlist.tracks[0].album.image),
                         placeholder: AssetImage('assets/images/temp.jpg'),
                         height: deviceSize.height * 0.3,
                       ),
@@ -92,12 +90,22 @@ class _PopUpMenuCreatedPlaylistScreenState
                               child: Icon(
                                 Icons.add_circle,
                                 color: Colors.white,
-                                size: 40,
+                                size: deviceSize.height * 0.058565,
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.04866,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.012165,
+                                deviceSize.height * 0.02928,
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.09732,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.02433,
+                                  deviceSize.height * 0.02928,
+                                ),
                                 child: Text(
                                   'Add songs',
                                   style: TextStyle(
@@ -107,21 +115,19 @@ class _PopUpMenuCreatedPlaylistScreenState
                           ],
                         ),
                         onTap: () {
-                           Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
                                   AddSongToPlaylistScreen(widget.playlist.id),
                             ),
                           );
-                         
                         },
                       ),
                     ),
                     Container(
                       child: InkWell(
                         onTap: () async {
-                          //print(widget.song.artists[0].artistInfo.biography);
                           await Share.share(
                               'Check Out This Album On Totally Not Spotify ' +
                                   widget.playlist.href.replaceAll('/api', ''));
@@ -133,10 +139,20 @@ class _PopUpMenuCreatedPlaylistScreenState
                                 Icons.share,
                                 color: Colors.white,
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
+                              margin: EdgeInsets.fromLTRB(
+                                deviceSize.width * 0.04866,
+                                deviceSize.height * 0.02928,
+                                deviceSize.width * 0.012165,
+                                deviceSize.height * 0.02928,
+                              ),
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                margin: EdgeInsets.fromLTRB(
+                                  deviceSize.width * 0.09732,
+                                  deviceSize.height * 0.02928,
+                                  deviceSize.width * 0.02433,
+                                  deviceSize.height * 0.02928,
+                                ),
                                 child: Text(
                                   'Share this playlist',
                                   style: TextStyle(
@@ -175,7 +191,7 @@ class _PopUpMenuCreatedPlaylistScreenState
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: deviceSize.height * 0.073206),
           ],
         ));
   }

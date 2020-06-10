@@ -22,6 +22,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final playlist = Provider.of<PlaylistProvider>(context, listen: false);
     UserProvider user = Provider.of<UserProvider>(context);
     return GestureDetector(
@@ -38,7 +39,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 180, bottom: 50),
+                  padding: EdgeInsets.only(top: deviceSize.height*0.263543, bottom: deviceSize.height*0.073206),
                   child: Text(
                     "Give your playlist a name",
                     style: TextStyle(
@@ -80,7 +81,7 @@ class _CreatePlaylistScreenState extends State<CreatePlaylistScreen> {
                 ),
               ),
             ),
-            padding: EdgeInsets.only(bottom: 50),
+            padding: EdgeInsets.only(bottom: deviceSize.height*0.073206),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

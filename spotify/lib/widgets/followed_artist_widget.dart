@@ -12,6 +12,7 @@ class FollowedArtistWidget extends StatefulWidget {
 class _FollowedArtistWidgetState extends State<FollowedArtistWidget> {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -29,7 +30,7 @@ class _FollowedArtistWidgetState extends State<FollowedArtistWidget> {
             image: NetworkImage(widget.followedArtist.images[0]),
             fit: BoxFit.fill,
           ),
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(deviceSize.height*0.07),
         ),
         title: Text(
           widget.followedArtist.name,

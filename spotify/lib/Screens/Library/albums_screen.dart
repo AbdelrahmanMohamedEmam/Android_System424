@@ -43,6 +43,7 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     final albumsProvider = Provider.of<AlbumProvider>(context);
     List<Album> likedAlbums;
     likedAlbums = albumsProvider.getLikedAlbums;
@@ -61,7 +62,7 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
                 backgroundColor: Colors.black,
                 body: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(90),
+                  padding: EdgeInsets.all(deviceSize.height * 0.13177159),
                   child: Center(
                     child: Text(
                       'Albums you like will appear here',
@@ -75,7 +76,7 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
                 ),
               )
             : Container(
-                height: 500,
+                height: deviceSize.height * 0.73206442,
                 child: ListView.builder(
                   itemCount: likedAlbums.length,
                   itemBuilder: (context, i) => ChangeNotifierProvider.value(

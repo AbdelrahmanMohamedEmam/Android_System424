@@ -24,7 +24,6 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
   UserProvider user;
   Playlist playlists;
   PlaylistProvider playlistProvider;
-  //String id;
   bool firstTime = true;
 
   PaletteGenerator paletteGenerator;
@@ -98,7 +97,6 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     firstTime = false;
-    //final song = Provider.of<Track>(context, listen: false);
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     if (!colorGenerated) _generatePalette();
 
@@ -129,7 +127,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                         playlists.name,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: deviceSize.height * 0.0292), //20
+                            fontSize: deviceSize.height * 0.0292),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -152,7 +150,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                         },
                       ),
                     ],
-                    expandedHeight: deviceSize.height * 0.65, //340
+                    expandedHeight: deviceSize.height * 0.65,
                     pinned: true,
                     floating: false,
                     elevation: 0,
@@ -163,8 +161,7 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                           Container(
                             padding: EdgeInsets.only(
                                 top: deviceSize.height * 0.07,
-                                bottom: deviceSize.height *
-                                    0.02), //top:50, bottom:15
+                                bottom: deviceSize.height * 0.02),
                             height: deviceSize.height * 0.33,
                             width: double.infinity,
                             child: (playlists.tracks != null &&
@@ -184,13 +181,13 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                                   ),
                           ),
                           Container(
-                            height: deviceSize.height * 0.035, //27
+                            height: deviceSize.height * 0.035,
                             width: double.infinity,
                             child: Text(
                               playlists.name,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: deviceSize.height * 0.029), //20
+                                  fontSize: deviceSize.height * 0.029),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -263,14 +260,13 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                         ],
                       ),
                     ),
-
                     bottom: (playlists.tracks != null &&
                             playlists.tracks.length != 0)
                         ? PreferredSize(
                             child: Transform.translate(
                               offset: Offset(0, 0),
                               child: Container(
-                                width: 190.0,
+                                width: deviceSize.width * 0.46228,
                                 child: FloatingActionButton(
                                   onPressed: () {
                                     track.setCurrentSong(playlists.tracks[0],
@@ -338,20 +334,29 @@ class _CreatedPlaylistScreenState extends State<CreatedPlaylistScreen> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return (playlists.tracks.length == 1)
-                            ? SizedBox(height: 470)
+                            ? SizedBox(height: deviceSize.height * 0.68814)
                             : (playlists.tracks.length == 2)
-                                ? SizedBox(height: 400)
+                                ? SizedBox(height: deviceSize.height * 0.58565)
                                 : (playlists.tracks.length == 3)
-                                    ? SizedBox(height: 330)
+                                    ? SizedBox(
+                                        height: deviceSize.height * 0.48316)
                                     : (playlists.tracks.length == 4)
-                                        ? SizedBox(height: 270)
+                                        ? SizedBox(
+                                            height: deviceSize.height * 0.3953)
                                         : (playlists.tracks.length == 5)
-                                            ? SizedBox(height: 200)
+                                            ? SizedBox(
+                                                height:
+                                                    deviceSize.height * 0.29282)
                                             : (playlists.tracks.length == 14)
-                                                ? SizedBox(height: 80)
+                                                ? SizedBox(
+                                                    height: deviceSize.height *
+                                                        0.11713)
                                                 : (playlists.tracks.length == 0)
                                                     ? SizedBox(height: 0)
-                                                    : SizedBox(height: 480);
+                                                    : SizedBox(
+                                                        height:
+                                                            deviceSize.height *
+                                                                0.70278);
                       },
                       childCount: 1,
                     ),

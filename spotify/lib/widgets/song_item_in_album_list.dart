@@ -82,8 +82,6 @@ class _SongItemAlbumListState extends State<SongItemAlbumList> {
                 },
               ),
             );
-
-            //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
           },
         ),
       ],

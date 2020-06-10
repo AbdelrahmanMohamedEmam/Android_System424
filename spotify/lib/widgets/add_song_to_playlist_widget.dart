@@ -17,7 +17,6 @@ class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
-    //final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     final user = Provider.of<UserProvider>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     return Row(children: <Widget>[
@@ -35,17 +34,17 @@ class _AddSongToPlaylistItemState extends State<AddSongToPlaylistItem> {
             style: TextStyle(color: Colors.grey),
           ),
           trailing: IconButton(
-            padding: EdgeInsets.only(left: 6.0),
+            padding: EdgeInsets.only(left: deviceSize.width * 0.014598),
             icon: (!isPressed)
                 ? Icon(
                     Icons.add_circle,
                     color: Colors.white,
-                    size: 40,
+                    size: deviceSize.height * 0.058565,
                   )
                 : Icon(
                     Icons.check,
                     color: Colors.white,
-                    size: 40,
+                    size: deviceSize.height * 0.058565,
                   ),
             onPressed: () {
               Provider.of<PlaylistProvider>(context, listen: false)

@@ -4,7 +4,6 @@ import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/widgets/add_song_to_playlist_widget.dart';
-import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 
 class AddSongToPlaylistScreen extends StatefulWidget {
   String playlistId;

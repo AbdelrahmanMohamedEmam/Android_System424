@@ -63,6 +63,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return (_isLoading)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -77,7 +78,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                 playlistProvider.getlikedPlaylists.isEmpty &&
                 playableTrackProvider.getLikedTracks.isEmpty)
             ? Container(
-                height: 400,
+                height: deviceSize.height * 0.58565,
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -87,16 +88,32 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 22),
                       textAlign: TextAlign.center,
                     ),
-                    Padding(padding: EdgeInsets.all(3)),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: deviceSize.height * 0.003,
+                        bottom: deviceSize.height * 0.004392,
+                        right: deviceSize.width * 0.0072992,
+                        left: deviceSize.width * 0.0072992,
+                      ),
+                    ),
                     Text(
                       'It\'s easy\',we\'ll help you.',
                       style: TextStyle(color: Colors.white, fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
-                    Padding(padding: EdgeInsets.all(10)),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: deviceSize.height * 0.014641,
+                        bottom: deviceSize.height * 0.014641,
+                        right: deviceSize.width * 0.024330,
+                        left: deviceSize.width * 0.024330,
+                      ),
+                    ),
                     RaisedButton(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 50.0),
+                      padding: EdgeInsets.symmetric(
+                        vertical: deviceSize.height * 0.0117,
+                        horizontal: deviceSize.width * 0.08,
+                      ),
                       onPressed: () {
                         Navigator.of(context).push(PageRouteBuilder(
                             opaque: true,
@@ -107,11 +124,15 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                       },
                       child: Text(
                         'CREATE PLAYLIST',
-                        style: TextStyle(color: Colors.black, fontSize: 14),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal),
                         textAlign: TextAlign.center,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22.0),
+                        borderRadius:
+                            BorderRadius.circular(deviceSize.height * 0.0322),
                       ),
                     )
                   ],
@@ -120,21 +141,24 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
             : Column(
                 children: <Widget>[
                   Container(
-                    height: 70,
+                    height: deviceSize.height * 0.09,
                     alignment: Alignment.centerLeft,
                     child: FlatButton.icon(
                       onPressed: () {
-                        Navigator.of(context).push(PageRouteBuilder(
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
                             opaque: false,
                             barrierColor: Colors.black87,
                             pageBuilder: (BuildContext context, _, __) {
                               return CreatePlaylistScreen();
-                            }));
+                            },
+                          ),
+                        );
                       },
                       icon: Icon(
                         Icons.add_box,
                         color: Colors.grey,
-                        size: 60,
+                        size: deviceSize.height * 0.087847,
                       ),
                       label: Text(
                         'Create playlist',
@@ -149,9 +173,11 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
                         children: <Widget>[
                           (likedTracks.length != 0)
                               ? LikedSongWidget(likedTracks.length)
-                              : SizedBox(height: 1),
+                              : SizedBox(height: deviceSize.height * 0.001146),
                           Container(
-                            height: (likedTracks.length != 0) ? 350 : 400,
+                            height: (likedTracks.length != 0)
+                                ? deviceSize.height * 0.51244
+                                : deviceSize.height * 0.58565,
                             child: ListView.builder(
                               itemCount: allList.length,
                               itemBuilder: (context, i) =>

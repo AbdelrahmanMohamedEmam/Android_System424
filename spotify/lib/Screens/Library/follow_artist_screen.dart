@@ -104,27 +104,29 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                  padding: EdgeInsets.only(
+                      top: deviceSize.height * 0.0005,
+                      bottom: deviceSize.height * 0.0003),
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Choose more artists\n you like.',
                     maxLines: 2,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 28,
+                      fontSize: 26,
                     ),
                   ),
                 ),
                 selectedIndices.length < 1
                     ? SizedBox(
-                        height: 0.001,
+                        height: deviceSize.height * 0.00000146,
                       )
                     : Container(
                         padding: EdgeInsets.fromLTRB(
                             deviceSize.width * 0.3,
-                            deviceSize.height * 0.01,
+                            deviceSize.height * 0.006,
                             deviceSize.width * 0.3,
-                            deviceSize.height * 0.01),
+                            deviceSize.height * 0.006),
                         child: RaisedButton(
                           textColor: Colors.white,
                           color: Colors.transparent,
@@ -148,18 +150,18 @@ class _FollowArtistScreenState extends State<FollowArtistScreen> {
                     children: <Widget>[
                       Container(
                         height: selectedIndices.length < 3
-                            ? deviceSize.height * 0.6
-                            : deviceSize.height * 0.5,
+                            ? deviceSize.height * 0.7
+                            : deviceSize.height * 0.6,
                         child: GridView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: artists.length,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 140,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
+                            maxCrossAxisExtent: deviceSize.height * 0.25,
+                            childAspectRatio: 0.95,
+                            crossAxisSpacing: deviceSize.height * 0.007,
+                            mainAxisSpacing: deviceSize.height * 0.005,
                           ),
                           itemBuilder: (context, index) {
                             return InkWell(
