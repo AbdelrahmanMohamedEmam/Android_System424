@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify/Screens/ArtistMode/add_album_screen.dart';
 import 'package:spotify/Screens/ArtistMode/edit_song.dart';
 import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
@@ -67,6 +68,7 @@ class TabNavigatorRoutes {
   static const String statsScreen = '//stats_screen';
   static const String artistSongsScreen ='//artist_slbums_songs_screen';
   static const String editSongsScreen ='//edit_song_screen';
+  static const String infoScreen ='//info_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -127,6 +129,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.editAlbumScreen: (context) => EditAlbum(),
         TabNavigatorRoutes.statsScreen: (context) => StatsScreen(),
         TabNavigatorRoutes.editSongsScreen: (context) => EditSongScreen(),
+        TabNavigatorRoutes.infoScreen: (context) => InfoScreen(),
       };
     }
   }

@@ -31,6 +31,7 @@ class Artist with ChangeNotifier {
   ///A string describing [biography],[popularity],[genres] of the artist.
   final ArtistInfo artistInfo;
 
+  int following;
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
   Artist(
@@ -45,7 +46,8 @@ class Artist with ChangeNotifier {
       this.name,
       this.type,
       this.uri,
-      this.artistInfo});
+      this.artistInfo,
+      this.following});
 
   ///A method that parses a mapped object from a json file and returns an Artist object.
   factory Artist.fromJson(Map<String, dynamic> json) {
@@ -59,6 +61,7 @@ class Artist with ChangeNotifier {
       type: json['role'],
       uri: json['uri'],
       //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
+      following : 1,
     );
   }
 

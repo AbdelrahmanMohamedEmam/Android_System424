@@ -48,29 +48,31 @@ class _CreateAlbumState extends State<CreateAlbum> {
   ///method used to create new album by sending its data to the server.
   void _createAlbum(BuildContext ctx , String _userToken ) async
   {
+    final deviceSize = MediaQuery.of(context).size;
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
         .uploadImage(imageURI ,_userToken ,albumNameController.text ,dropdownValue1 , _currentTime , dropdownValue2 );
     setState(() {
       if(check)
       {
-        _currentTime = '0';
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("album edited successfuly!"))));
         Navigator.of(ctx).pop();
-        print('popped');
+      }
+      else
+      {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("something went wrong ,please try again!"))));
       }
     });
   }
 
-  ///method that updates the date to the date of now.
-  void _updateCurrentTime() {
-    setState(() {
-      _currentTime = DateTime.now().day.toString() +
-          '-' +
-          DateTime.now().month.toString() +
-          '-' +
-          DateTime.now().year.toString();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +150,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                         margin: EdgeInsets.only(left: deviceSize.width * 0.01),
                         child: Text(
                           value,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     );
@@ -193,7 +195,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                         margin: EdgeInsets.only(left: deviceSize.width * 0.01),
                         child: Text(
                           value,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     );
@@ -201,36 +203,36 @@ class _CreateAlbumState extends State<CreateAlbum> {
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                FloatingActionButton(
-                  backgroundColor: Colors.green[700],
-                  tooltip: 'Get current time',
-                  child: Icon(Icons.timer),
-                  onPressed: _updateCurrentTime,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                      top: deviceSize.width * 0.02,
-                      bottom: deviceSize.width * 0.02,
-                      left: deviceSize.width * 0.06,
-                      right: deviceSize.width * 0.2),
-                  width: deviceSize.width * 0.6,
-                  height: deviceSize.width * 0.12,
-                  color: Colors.green[700],
-                  child: Card(
-                    color: Colors.green[700],
-                    child: Text(
-                      _currentTime,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+//            Row(
+//              children: <Widget>[
+//                FloatingActionButton(
+//                  backgroundColor: Colors.green[700],
+//                  tooltip: 'Get current time',
+//                  child: Icon(Icons.timer),
+//                  onPressed: _updateCurrentTime,
+//                ),
+//                Container(
+//                  margin: EdgeInsets.only(
+//                      top: deviceSize.width * 0.02,
+//                      bottom: deviceSize.width * 0.02,
+//                      left: deviceSize.width * 0.06,
+//                      right: deviceSize.width * 0.2),
+//                  width: deviceSize.width * 0.6,
+//                  height: deviceSize.width * 0.12,
+//                  color: Colors.green[700],
+//                  child: Card(
+//                    color: Colors.green[700],
+//                    child: Text(
+//                      _currentTime,
+//                      style: TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 15,
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

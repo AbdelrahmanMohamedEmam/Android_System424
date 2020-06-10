@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../../Providers/user_provider.dart';
 
+
 class EditAlbum extends StatefulWidget {
   ///save the id of the album to be edited
   final id;
@@ -50,7 +51,7 @@ class _EditAlbumState extends State<EditAlbum> {
     final deviceSize = MediaQuery.of(context).size;
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
-        .editAlbum(imageURI ,_userToken ,albumNameController.text ,dropdownValue1 , dropdownValue2 );
+        .editAlbum(imageURI ,_userToken ,albumNameController.text ,widget.id );
     setState(() {
       if(check)
       {
@@ -60,7 +61,6 @@ class _EditAlbumState extends State<EditAlbum> {
                     height: deviceSize.height*0.1,
                     child: Text("album edited successfuly!"))));
         Navigator.of(ctx).pop();
-        print('popped');
       }
       else
         {
@@ -74,8 +74,7 @@ class _EditAlbumState extends State<EditAlbum> {
   }
   @override
   Widget build(BuildContext context) {
-    print('id success');
-    print(widget.id);
+
     ///get device size for responsiveness issues.
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context, listen: false).token;
@@ -111,100 +110,7 @@ class _EditAlbumState extends State<EditAlbum> {
                 keyboardType: TextInputType.text,
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                  top: deviceSize.width * 0.02,
-                  bottom: deviceSize.width * 0.02,
-                  left: deviceSize.width * 0.2,
-                  right: deviceSize.width * 0.2),
-              width: deviceSize.width * 0.4,
-              color: Colors.green[700],
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: dropdownValue1,
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 12,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue1 = newValue;
-                    });
-                  },
-                  items: <String>[
-                    'Single',
-                    'Remix',
-                    'Compilation',
-                    'Split',
-                    'Cover',
-                    'Live',
-                    'Sound Track',
-                    'Studio'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value != null ? value : null,
-                      child: Container(
-                        margin: EdgeInsets.only(left: deviceSize.width * 0.01),
-                        child: Text(
-                          value,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                  top: deviceSize.width * 0.02,
-                  bottom: deviceSize.width * 0.02,
-                  left: deviceSize.width * 0.2,
-                  right: deviceSize.width * 0.2),
-              width: deviceSize.width * 0.4,
-              color: Colors.green[700],
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
 
-                  focusColor: Colors.black,
-                  value: dropdownValue2,
-                  icon: Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 12,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold),
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue2 = newValue;
-                    });
-                  },
-                  items: <String>[
-                    'pop',
-                    'rock',
-                    'jazz',
-                    'house',
-                    'classic',
-                    'sha3by'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value != null ? value : null,
-                      child: Container(
-                        margin: EdgeInsets.only(left: deviceSize.width * 0.01),
-                        child: Text(
-                          value,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

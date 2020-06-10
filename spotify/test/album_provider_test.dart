@@ -16,10 +16,10 @@ main() {
           image, '_', 'sahran', 'rock', '10-4-2020', 'house');
       expect(item, true);
     });
-    test('track uploaded successfully', () async {
-      final item =
-          await album.uploadSongApi('_', 'SongName', 'filePath', 'albumId');
-      expect(item, false);
-    });
+//    test('track uploaded successfully', () async {
+//      final item =
+//          await album.uploadSongApi('_', 'SongName', 'filePath', 'albumId');
+//      expect(item, false);
+//    });
   });
 }

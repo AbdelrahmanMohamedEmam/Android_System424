@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/album.dart';
+import 'package:spotify/Models/chart_data.dart';
 import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/charts_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
@@ -30,6 +32,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   Color background = Colors.black87;
   bool colorGenerated = false;
   bool isArtist = false;
+
 
   @override
   void didChangeDependencies() async {
@@ -106,6 +109,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     if (!colorGenerated) _generatePalette();
     return _isLoading
         ? Scaffold(

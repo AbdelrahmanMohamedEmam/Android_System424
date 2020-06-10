@@ -92,6 +92,12 @@ class AlbumProvider with ChangeNotifier {
     return _myAlbums[albumIndex];
   }
 
+  ///A method that takes an id for an album and returns the album object with this id located at the MyAlbums List
+  Album getArtistAlbumId(String id) {
+    final albumIndex = artistAlbums.indexWhere((album) => album.id == id);
+    return artistAlbums[albumIndex];
+  }
+
   ///A method to empty the lists from album objects.
   void emptyLists() {
     _popularAlbums = [];
@@ -190,11 +196,11 @@ class AlbumProvider with ChangeNotifier {
 
 
   Future<bool> editAlbum(File image, String token, String albumName,
-      String albumType, String genre) async {
+      String albumID) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {
       bool check = await albumApi.editAlbumApi(
-          image, token, albumName, albumType, genre);
+          image, token, albumName,albumID );
       return check;
     } catch (error) {
       throw HttpException(error.toString());
@@ -237,7 +243,7 @@ class AlbumProvider with ChangeNotifier {
 
 
   ///A method that uploads new song in artist mode.
-  Future<bool> uploadSong(String token, String songName, String path,
+  Future<bool> uploadSong(String token, String songName, File path,
       String id) async {
     AlbumAPI albumApi = AlbumAPI(baseUrl: baseUrl);
     try {

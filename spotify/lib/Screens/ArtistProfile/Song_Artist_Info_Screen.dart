@@ -4,16 +4,20 @@ import 'package:spotify/Providers/artist_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Models/artist.dart';
 
-class AboutScreen extends StatefulWidget {
+class InfoScreen extends StatefulWidget {
+
+  final imageUrl;
+  final bio;
+  String name;
+  InfoScreen({this.imageUrl , this.bio ,this.name});
   ///route name to get to the screen from navigator.
-  static const routeName = '//about_screen';
+  static const routeName = '//info_screen';
   @override
-  _AboutScreenState createState() => _AboutScreenState();
+  _InfoScreenState createState() => _InfoScreenState();
 }
 
-class _AboutScreenState extends State<AboutScreen> {
+class _InfoScreenState extends State<InfoScreen> {
   ///variable of type artist to accses the info fetched from artist provider.
-  Artist artistInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +28,14 @@ class _AboutScreenState extends State<AboutScreen> {
     final artistProvider = Provider.of<ArtistProvider>(context, listen: false);
 
     ///calling getter function.
-    artistInfo = artistProvider.getChosenArtist;
+
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          artistInfo.name,
+          widget.name,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -46,7 +50,7 @@ class _AboutScreenState extends State<AboutScreen> {
             height: deviceSize.height * 0.4,
             width: double.infinity,
             child: Image.network(
-              artistInfo.images[0]
+                widget.imageUrl
               //"https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
             ),
           ),
@@ -62,7 +66,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 left: deviceSize.height * 0.01,
                 right: deviceSize.height * 0.01),
             child: Text(
-              artistInfo.artistInfo.biography,
+              widget.bio,
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,
