@@ -7,7 +7,7 @@ import '../API_Providers/artistAPI.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
-class AlbumEndPoints {
+class AlbumEndPoints {  
   static const String albums = '/albums';
   static const String popular = '/top?sort=-popularity';
   static const String mostRecent = '/top?sort=-createdAt';

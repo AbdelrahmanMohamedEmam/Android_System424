@@ -54,7 +54,7 @@ Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
-    return 'http://spotify.mocklab.io';
+    return 'http://spotifybad.mocklab.io';
   } else if (option == '1') {
     return 'https://totallynotspotify.codes/api';
   }
