@@ -68,9 +68,9 @@ class TabNavigatorRoutes {
   static const String aboutInfoScreen = '//about_screen';
   static const String searchAll = '//searchAll';
   static const String statsScreen = '//stats_screen';
-  static const String artistSongsScreen ='//artist_slbums_songs_screen';
-  static const String editSongsScreen ='//edit_song_screen';
-  static const String infoScreen ='//info_screen';
+  static const String artistSongsScreen = '//artist_slbums_songs_screen';
+  static const String editSongsScreen = '//edit_song_screen';
+  static const String infoScreen = '//info_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -109,6 +109,7 @@ class TabNavigator extends StatelessWidget {
             RecentlyPlayedArtistsScreen(),
         TabNavigatorRoutes.recentActivitiesScreen: (context) =>
             RecentActivitiesScreen(),
+        TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };
     } else if (tabItem == TabItem.search) {
       return {

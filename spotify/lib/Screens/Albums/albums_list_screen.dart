@@ -33,6 +33,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
   Color background = Colors.black87;
   bool colorGenerated = false;
   bool isArtist = false;
+  bool isInit = true;
 
   @override
   void didChangeDependencies() async {
@@ -56,10 +57,14 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
           .fetchAlbumsTracksById(widget.albumId, user.token, widget.albumType)
           .then((_) {
         setState(() {
-          List<Track> toAdd = Provider.of<AlbumProvider>(context, listen: false)
-              .getPlayableTracks(widget.albumId, widget.albumType);
-          Provider.of<PlayableTrackProvider>(context, listen: false)
-              .setTracksToBePlayed(toAdd);
+          if (isInit) {
+            List<Track> toAdd =
+                Provider.of<AlbumProvider>(context, listen: false)
+                    .getPlayableTracks(widget.albumId, widget.albumType);
+            Provider.of<PlayableTrackProvider>(context, listen: false)
+                .setTracksToBePlayed(toAdd);
+            isInit = false;
+          }
 
           _isLoading = false;
           // if (widget.albumType == AlbumCategory.myAlbums) {
