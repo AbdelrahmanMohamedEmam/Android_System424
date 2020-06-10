@@ -332,7 +332,7 @@ class PlaylistProvider with ChangeNotifier {
       _likedPlaylists = loadedPlaylists;
       notifyListeners();
     } catch (error) {
-     // throw HttpException(error.toString());
+      // throw HttpException(error.toString());
       print(error.toString());
     }
   }
@@ -354,7 +354,7 @@ class PlaylistProvider with ChangeNotifier {
       _createdPlaylists = loadedPlaylists;
       notifyListeners();
     } catch (error) {
-       print(error.toString());
+      print(error.toString());
     }
   }
 
@@ -389,6 +389,7 @@ class PlaylistProvider with ChangeNotifier {
       throw HttpException('Name must be unique, Try another one');
     }
   }
+
 
   ///A method that fetches for recentlyplayed playlist and set it in the recently played list.
   ///It takes a [String] ,[PlaylistId]token for verification.
