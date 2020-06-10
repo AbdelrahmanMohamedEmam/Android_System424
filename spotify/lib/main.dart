@@ -8,6 +8,7 @@ import 'package:spotify/Providers/categories_provider.dart';
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
 import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import 'Providers/notification_provider.dart';
 import 'Providers/play_history_provider.dart';
@@ -33,10 +34,7 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
-import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
 import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
-import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
@@ -153,8 +151,6 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName: (ctx) => OverviewScreen(),
             StatsScreen.routeName: (ctx) => StatsScreen(),
             MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
             AddSongScreen.routeName: (ctx) => AddSongScreen(),
@@ -162,6 +158,7 @@ class MyApp extends StatelessWidget {
             SongSettingsScreen.routeName: (ctx) => SongSettingsScreen(),
             StatsScreen.routeName: (ctx) => StatsScreen(),
             EditSongScreen.routeName: (ctx) => EditSongScreen(),
+            InfoScreen.routeName: (ctx) => InfoScreen(),
             //StatsScreen.routeName: (ctx) =>ArtistAlbumSongsScreen(),
           },
         ),

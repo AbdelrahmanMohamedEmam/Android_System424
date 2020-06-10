@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Models/chart_data.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/Providers/charts_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/ArtistMode/edit_song.dart';
+import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import '../Models/track.dart';
 
 ///It is used to provide the [PlaylistsListScreen] with the needed data about the track.
@@ -19,6 +22,14 @@ class SongItemArtistMode extends StatefulWidget {
 }
 
 class _SongItemArtistModeState extends State<SongItemArtistMode> {
+  List<ChartData> fetched;
+  List<ChartData> bar;
+  List<ChartData> bar2;
+  List<ChartData> line;
+  List<ChartData> line2;
+  var songId;
+  var token;
+  var songName;
 
   void _deleteSong(BuildContext ctx , String _userToken , String id , String trackId) async
   {
@@ -48,19 +59,25 @@ class _SongItemArtistModeState extends State<SongItemArtistMode> {
       }
 
   }
-  var songId;
-  var token;
+
   @override
   Widget build(BuildContext context) {
     final song = Provider.of<Track>(context, listen: false);
     final user = Provider.of<UserProvider>(context, listen: false);
     songId =song.id;
     token = user.token;
+    songName = song.name;
+    final chartProvider =Provider.of<ChartsProvider>(context, listen: false);
+    fetched = chartProvider.fetchedData;
+    bar =chartProvider.fetchedBarData;
+    bar2 =chartProvider.fetchedBarData2;
+    line =chartProvider.fetchedLineData;
+    line2 =chartProvider.fetchedLineData2;
     final track = Provider.of<PlayableTrackProvider>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     return Row(children: <Widget>[
       Container(
-        width: deviceSize.width * 0.7,
+        width: deviceSize.width * 0.57,
         height: deviceSize.height * 0.1,
         child: InkWell(
           onTap: () {
@@ -71,7 +88,7 @@ class _SongItemArtistModeState extends State<SongItemArtistMode> {
             leading: Image.network(song.album.image),
             title: Text(
               song.name,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey),
             ),
             subtitle: Text(
               song.artists[0].name,
@@ -79,6 +96,13 @@ class _SongItemArtistModeState extends State<SongItemArtistMode> {
             ),
           ),
         ),
+      ),
+      IconButton(
+        icon: Icon(Icons.insert_chart),
+        color: Colors.grey,
+        onPressed: () =>  Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => StatsScreen(chart: fetched,bar: bar, bar2: bar2 , line: line , line2: line2 , name: songName,
+            ))),
       ),
       IconButton(
         icon: Icon(

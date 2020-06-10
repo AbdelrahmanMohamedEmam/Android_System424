@@ -31,6 +31,8 @@ class _SongPromoCardState extends State<SongPromoCard> {
     final trackProvider = Provider.of<Track>(context);
     //List <Track> tracks = trackProvider.getTopTracks;
     final deviceSize = MediaQuery.of(context).size;
+    print(trackProvider.album.name);
+    print('test1');
     return InkWell(
       child: Row(
         children: <Widget>[
@@ -40,12 +42,14 @@ class _SongPromoCardState extends State<SongPromoCard> {
                 top: deviceSize.width * 0.05,
                 bottom: deviceSize.width * 0.05,
                 left: deviceSize.width * 0.05),
-            child: Image.network(
-              image,
+            /*child: FadeInImage(placeholder:AssetImage('assets/images/temp.jpg'),
               height: deviceSize.height * 0.08,
               width: deviceSize.width * 0.07,
               fit: BoxFit.cover,
+              image:NetworkImage(
+              trackProvider.album.images[0],
             ),
+            ),*/
           ),
           Column(children: <Widget>[
             Text(

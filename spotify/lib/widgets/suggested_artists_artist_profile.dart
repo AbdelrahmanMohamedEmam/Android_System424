@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotify/Models/artist.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/artist_provider.dart';
+import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 
 class suggesttedArtists extends StatelessWidget {
   String artistImage =
@@ -11,7 +12,12 @@ class suggesttedArtists extends StatelessWidget {
   Widget build(BuildContext context) {
     final artist = Provider.of<Artist>(context);
     return InkWell(
-      onTap: () {},
+      onTap:() {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ArtistProfileScreen(
+              id: artist.id,
+            )));
+      },
       child: Card(
         elevation: 20,
         color: Colors.black,
