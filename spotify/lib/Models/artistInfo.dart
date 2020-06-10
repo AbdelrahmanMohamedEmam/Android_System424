@@ -23,8 +23,8 @@ class ArtistInfo {
   ///A method that parses a mapped object from a json file and returns an Artist object.
   factory ArtistInfo.fromJson(Map<String, dynamic> json) {
     return ArtistInfo(
-      biography: json['biography'],
-      popularity: json['popularity'],
+      biography: json['biography']==null?"" : json['biography'] ,
+      popularity: json['popularity']==null?"" : json['popularity'],
       genres: parseString(json['genres']),
     );
   }

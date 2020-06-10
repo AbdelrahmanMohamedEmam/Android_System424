@@ -48,7 +48,13 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
             .getPlayableTracks(widget.albumId, widget.albumType);
         Provider.of<PlayableTrackProvider>(context, listen: false)
             .setTracksToBePlayed(toAdd);
-        _isLoading = false;
+        if (widget.albumType == AlbumCategory.myAlbums)
+          {
+            _isLoading = true;
+          }
+        else {
+          _isLoading = false;
+        }
         if (widget.albumType == AlbumCategory.mostRecentAlbums) {
           albums = Provider.of<AlbumProvider>(context, listen: false)
               .getMostRecentAlbumsId(widget.albumId);
@@ -73,6 +79,21 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
         }
       });
     });
+    if (widget.albumType == AlbumCategory.myAlbums) {
+      await Provider.of<AlbumProvider>(
+          context, listen: false)
+          .fetchMyAlbums(
+          user.token)
+          .then(
+              (_) {
+            setState(
+                    () {
+//                      albums = Provider.of<AlbumProvider>(context, listen: false)
+//                          .getMyAlbumId(widget.albumId);
+                  _isLoading = false;
+                });
+          });
+    }
     super.didChangeDependencies();
   }
 
@@ -92,6 +113,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
     colorGenerated = false;
     Provider.of<PlayableTrackProvider>(context, listen: false)
         .shuffledTrackList(userToken, widget.albumId, 'album');
+
     super.initState();
   }
 

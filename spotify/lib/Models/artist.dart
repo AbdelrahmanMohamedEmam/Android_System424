@@ -60,8 +60,8 @@ class Artist with ChangeNotifier {
       name: json['name']==null?"": json['name'],
       //type: json['role'],
       uri: json['uri'],
-      //artistInfo: ArtistInfo.fromJson(json['artistInfo']),
-      following : 1,
+      artistInfo: ArtistInfo.fromJson(json['artistInfo']),
+      //following : 1,
     );
   }
 

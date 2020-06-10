@@ -487,9 +487,11 @@ class PlaylistAPI {
         url,
         headers: {"authorization": "Bearer " + token},
       );
+
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
         final extractedList = temp['data'] as List;
+        print(extractedList);
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

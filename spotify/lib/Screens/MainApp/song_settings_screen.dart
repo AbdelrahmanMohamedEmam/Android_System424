@@ -180,8 +180,6 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                                 ),
                                 margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
                               ),
-                              margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                            ),
                             Container(
                                 margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
                                 child: Text(

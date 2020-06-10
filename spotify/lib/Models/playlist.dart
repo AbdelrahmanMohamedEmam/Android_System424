@@ -127,7 +127,7 @@ class Playlist with ChangeNotifier {
   factory Playlist.fromJson2(Map<String, dynamic> json) {
     return Playlist(
       collaborative:
-          json['collaborative'] == null ? true : json['collaborative'],
+      json['collaborative'] == null ? true : json['collaborative'],
       description: json['description'] == null ? null : json['description'],
       externalUrls: json['externalUrls'] == null
           ? null
@@ -138,9 +138,33 @@ class Playlist with ChangeNotifier {
       name: json['name'] == null ? null : json['name'],
       uri: json['uri'] == null ? null : json['uri'],
       noOfFollowers:
-          json['noOfFollowers'] == null ? null : json['noOfFollowers'],
+      json['noOfFollowers'] == null ? null : json['noOfFollowers'],
       popularity: json['popularity'] == null ? null : json['popularity'],
       createdAt: json['createdAt'] == null ? null : json['createdAt'],
     );
   }
+
+  factory Playlist.fromJson3(Map<String, dynamic> json) {
+    return Playlist(
+      collaborative:
+      json['collaborative'] == null ? true : json['collaborative'],
+      description: json['description'] == null ? null : json['description'],
+      externalUrls: json['externalUrls'] == null
+          ? null
+          : parceExternalUrl(json['externalUrls']),
+      href: json['href'] == null ? null : json['href'],
+      id: json['_id'],
+      images: json['images'] == null ? null : parseString(json['images']),
+      name: json['name'] == null ? null : json['name'],
+      uri: json['uri'] == null ? null : json['uri'],
+      noOfFollowers:
+      json['noOfFollowers'] == null ? null : json['noOfFollowers'],
+      popularity: json['popularity'] == null ? null : json['popularity'],
+      createdAt: json['createdAt'] == null ? null : json['createdAt'],
+      tracksRef:
+      json['tracks'] == null ? null : TracksRef.fromJson(json['tracks']),
+    );
+  }
+
+
 }
