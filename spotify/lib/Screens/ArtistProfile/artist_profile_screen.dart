@@ -138,6 +138,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             .fetchAlbumsTracksById(albums[0].id, user, AlbumCategory.artist)
             .then((_) {
           setState(() {
+          
             List<Track> toAdd =
                 Provider.of<AlbumProvider>(context, listen: false)
                     .getPlayableTracks(albums[0].id, AlbumCategory.artist);
