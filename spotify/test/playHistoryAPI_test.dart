@@ -10,11 +10,11 @@ void main() async {
           await playHistoryAPI.fetchRecentlyPlayedApi('token');
       expect(item[0]['track']['album'], '5e90e8fbe1451e424477b131');
     });
-    test('PlayHistory false', () async {
-      final playHistoryAPI =
-          new PlayHistoryAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playHistoryAPI.fetchRecentlyPlayedApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
+    // test('PlayHistory false', () async {
+    //   final playHistoryAPI =
+    //       new PlayHistoryAPI(baseUrl: 'http://spotifybad.mocklab.io');
+    //   expect(playHistoryAPI.fetchRecentlyPlayedApi('token'),
+    //       throwsA(isInstanceOf<Exception>()));
+    // });
   });
 }

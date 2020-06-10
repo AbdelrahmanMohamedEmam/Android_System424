@@ -179,7 +179,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     ///calling getter function.
     artists = artistProvider.getMultipleArtists;
     artistInfo = artistProvider.getChosenArtist;
-
     ///playlist provider object.
     final playlistsProvider =
         Provider.of<PlaylistProvider>(context, listen: false);
@@ -189,12 +188,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
 
 
 
-//    print('testtttttt');
-//    print(artistInfo.images[0]);
-
     ///calling getter function.
     playlists = playlistsProvider.getArtistProfilePlaylists;
-    //print(playlists[0].name);
 
     ///artist provider object.
     final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
@@ -342,31 +337,31 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                   ),
                 ),
 
-                /* Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
-              child: Text(
-                'Featuring' + ' ' + artistName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-            ),
-
-            //row of featured playlists
-             Container(
-
-              height: 200,
-              width: double.infinity,
-              child: ListView.builder(
-                  itemCount: playlists.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
-                    value: playlists[i],
-                    child: FeaturedPlaylists(),
-                  )),
-            ),*/
+//                 Container(
+//              padding: EdgeInsets.only(top: 10, bottom: 10),
+//              child: Text(
+//                'Featuring',
+//                textAlign: TextAlign.center,
+//                style: TextStyle(
+//                    color: Colors.white,
+//                    fontWeight: FontWeight.bold,
+//                    fontSize: 18),
+//              ),
+//            ),
+//
+//            //row of featured playlists
+//             Container(
+//
+//              height: 200,
+//              width: double.infinity,
+//              child: ListView.builder(
+//                  itemCount: playlists.length,
+//                  scrollDirection: Axis.horizontal,
+//                  itemBuilder: (context, i) => ChangeNotifierProvider.value(
+//                    value: playlists[i],
+//                    child: FeaturedPlaylists(),
+//                  )),
+//            ),
 
                 Container(
                     padding: EdgeInsets.only(
@@ -394,8 +389,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                     ),
                   ),
                 ),
-                checkPlaylist
-                    ? Container(
+                Container(
                         padding: EdgeInsets.only(
                             top: deviceSize.height * 0.01,
                             bottom: deviceSize.height * 0.01),
@@ -407,10 +401,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
                         ),
-                      )
-                    : null,
-                checkPlaylist
-                    ? Container(
+                      ),
+                 Container(
                         height: deviceSize.height * 0.35,
                         width: double.infinity,
                         child: ListView.builder(
@@ -421,8 +413,8 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
                                   value: playlists[i],
                                   child: FeaturedPlaylists(),
                                 )),
-                      )
-                    : null,
+                      ),
+
                 Container(
                   padding: EdgeInsets.only(
                       top: deviceSize.height * 0.01,

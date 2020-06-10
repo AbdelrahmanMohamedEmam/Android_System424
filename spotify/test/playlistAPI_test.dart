@@ -14,12 +14,12 @@ void main() async {
       expect(item[4]['_id'], '5e90e910c19b3c4e3c1ce094');
     });
 
-    test('popular playlists false', () async {
-      final playlistAPI =
-          new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playlistAPI.fetchPopularPlaylistsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
+    // test('popular playlists false', () async {
+    //   final playlistAPI =
+    //       new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
+    //   expect(playlistAPI.fetchPopularPlaylistsApi('token'),
+    //       throwsA(isInstanceOf<Exception>()));
+    // });
 
     test('Most Recent Playlists true', () async {
       final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
@@ -32,12 +32,12 @@ void main() async {
       expect(item[4]['_id'], '5e90e910c19b3c4e3c1ce097');
     });
 
-    test('Most recent false', () async {
-      final playlistAPI =
-          new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playlistAPI.fetchMostRecentPlaylistsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
+    // test('Most recent false', () async {
+    //   final playlistAPI =
+    //       new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
+    //   expect(playlistAPI.fetchMostRecentPlaylistsApi('token'),
+    //       throwsA(isInstanceOf<Exception>()));
+    // });
 
     test('Playlist tracks true', () async {
       final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
