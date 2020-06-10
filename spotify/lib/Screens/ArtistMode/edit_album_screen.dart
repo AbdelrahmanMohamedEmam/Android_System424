@@ -52,9 +52,15 @@ class _EditAlbumState extends State<EditAlbum> {
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
         .editAlbum(imageURI ,_userToken ,albumNameController.text ,widget.id );
+//      if (check)
+//      {
+//        await Provider.of<AlbumProvider>(context, listen: false)
+//            .fetchMyAlbums(_userToken);
+//      }
     setState(() {
       if(check)
       {
+
         Scaffold.of(context).showSnackBar(
             SnackBar(
                 content: Container(

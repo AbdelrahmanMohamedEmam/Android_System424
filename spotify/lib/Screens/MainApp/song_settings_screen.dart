@@ -180,23 +180,24 @@ class _SongSettingsScreenState extends State<SongSettingsScreen> {
                                 ),
                                 margin: EdgeInsets.fromLTRB(20, 20, 5, 20),
                               ),
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
-                                  child: Text(
-                                    'View Artist',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: deviceSize.width * 0.05),
-                                  ))
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ArtistProfileScreen(
-                                      id: widget.song.artists[0].id,
-                                    )));
-                          }),
+                            Container(
+                                margin: EdgeInsets.fromLTRB(40, 20, 10, 20),
+                                child: Text(
+                                  'View Artist',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: deviceSize.width * 0.05),
+                                ))
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ArtistProfileScreen(
+                              id: widget.song.artists[0].id,
+                            )));
+                        }
+                      ),
                     ),
                     Container(
                       child: InkWell(

@@ -49,6 +49,8 @@ class Track with ChangeNotifier {
   ///bool indicates is the Track an advertisement or a normal track.
   final bool isAd;
 
+  final image;
+
   ///A constructor with named parameters.
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
@@ -68,6 +70,7 @@ class Track with ChangeNotifier {
     this.href,
     this.popularity,
     this.isAd,
+    this.image
   });
 
   ///A factory method to decode the Json user into a track object.
@@ -89,4 +92,22 @@ class Track with ChangeNotifier {
       isAd : json['isAd']
     );
   }
+
+//  factory Track.fromJson2(Map<String, dynamic> json) {
+//    return Track(
+//        name: json['name'],
+//        id: json['_id'],
+//        album: Album.fromJson(json['album']),
+//        trackNumber: json['trackNumber'],
+//        artists: parceArtist(json['artists']),
+//        type: json['type'],
+//        durationMs: json['durationMs'],
+//        externalUrls: parceExternalUrl(json['externalUrls']),
+//        uri: json['uri'],
+//        href: json['href'],
+//        popularity: json['popularity'],
+//        isAd : json['isAd']
+//        image: json['']
+//    );
+//  }
 }

@@ -26,29 +26,31 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     user = Provider.of<UserProvider>(context, listen: false);
     trackProvider = Provider.of<TrackProvider>(context, listen: false);
-    
+
     super.initState();
   }
+
   @override
   void dispose() {
     search.dispose();
     super.dispose();
   }
+
   final search = TextEditingController();
   @override
   Widget build(BuildContext context) {
-  final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: deviceSize.height*0.088,
+            height: deviceSize.height * 0.088,
           ),
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(
-              left: deviceSize.width*0.0245,
+              left: deviceSize.width * 0.0245,
             ),
             child: Text(
               "Search",
@@ -60,10 +62,10 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           SizedBox(
-            height:deviceSize.height*0.044,
+            height: deviceSize.height * 0.044,
           ),
           Container(
-            width: deviceSize.width*0.95,
+            width: deviceSize.width * 0.95,
             alignment: Alignment.center,
             child: TextFormField(
               decoration: InputDecoration(
@@ -87,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                   setState(() {
                     isSearched = true;
-                    notFound=false;
+                    notFound = false;
                   });
                 } catch (error) {
                   setState(() {
@@ -101,11 +103,11 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           if (search.text != "" && isSearched)
             SizedBox(
-              height: deviceSize.height*0.0147,
+              height: deviceSize.height * 0.0147,
             ),
-          if (search.text != "" && isSearched&&!notFound)
+          if (search.text != "" && isSearched && !notFound)
             Container(
-              height: deviceSize.height*0.513,
+              height: deviceSize.height * 0.513,
               child: ListView.builder(
                 itemCount: tracks.length,
                 itemBuilder: (context, i) => ChangeNotifierProvider.value(
@@ -116,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           if (search.text == "")
             SizedBox(
-              height: 50.0,
+              height: deviceSize.height * 0.0733,
             ),
           if (search.text == "")
             Container(
@@ -143,14 +145,14 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           if (notFound && search.text != "")
             SizedBox(
-              height: deviceSize.height*0.074,
+              height: deviceSize.height * 0.074,
             ),
           if (notFound && search.text != "")
             Container(
               child: Column(
                 children: <Widget>[
                   Text(
-                    "No results found for " + "\""+search.text+"\"",
+                    "No results found for " + "\"" + search.text + "\"",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
@@ -160,7 +162,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-          if (search.text != "" && isSearched&&!notFound)
+          if (search.text != "" && isSearched && !notFound)
             ListTile(
               onTap: () {
                 Navigator.of(context).push(

@@ -88,15 +88,22 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
       await Provider.of<ChartsProvider>(
           context, listen: false)
           .fetchLineChartData2();
-      await Provider.of<AlbumProvider>(context, listen: false)
-          .fetchMyAlbums(user)
-          .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+//      await Provider.of<AlbumProvider>(context, listen: false)
+//          .fetchMyAlbums(user)
+//          .then((_) {
+//        setState(() {
+//          _isLoading = false;
+//        });
+//      });
       _isInit = true;
     }
+    await Provider.of<AlbumProvider>(context, listen: false)
+        .fetchMyAlbums(user)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.didChangeDependencies();
   }
 

@@ -61,7 +61,7 @@ class Artist with ChangeNotifier {
       //type: json['role'],
       uri: json['uri'],
       artistInfo: ArtistInfo.fromJson(json['artistInfo']),
-      following : 1,
+      //following : 1,
     );
   }
 
@@ -74,4 +74,5 @@ class Artist with ChangeNotifier {
       uri: json['uri'],
     );
   }
+
 }

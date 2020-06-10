@@ -549,12 +549,24 @@ class PlaylistProvider with ChangeNotifier {
     try {
       final extractedList =
           await playlistApi.fetchArtistPlaylistsApi(token, id);
+      print('xxxx');
+      print(extractedList);
+      print('mahmoud');
+//      final List<Playlist> loadedPlaylists = [];
+//      for (int i = 0; i < extractedList.length; i++) {
+//        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+//      }
 
       final List<Playlist> loadedPlaylists = [];
       for (int i = 0; i < extractedList.length; i++) {
-        loadedPlaylists.add(Playlist.fromJson(extractedList[i]));
+        loadedPlaylists.add(Playlist.fromJson3(extractedList[i]));
+//        loadedPlaylists[i].category2 = PlaylistCategory.artist;
       }
+      print('xxxx');
+      print(loadedPlaylists);
+      print('xxxx');
       _artistProfilePlaylists = loadedPlaylists;
+      print(_artistProfilePlaylists);
       notifyListeners();
     } catch (error) {
       throw HttpException(error.toString());
