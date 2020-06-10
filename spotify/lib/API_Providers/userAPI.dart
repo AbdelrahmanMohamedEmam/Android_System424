@@ -436,7 +436,7 @@ class UserAPI {
           receiveDataWhenStatusError: true,
         ),
         data: json.encode(
-          {"type": 'android', "token": firebaseToken},
+          {"type": "android", "token": firebaseToken},
         ),
       );
 

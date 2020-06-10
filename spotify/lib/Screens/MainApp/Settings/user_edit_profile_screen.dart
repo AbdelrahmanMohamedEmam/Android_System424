@@ -15,6 +15,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
     userNameEditingController.text = user.username;
     return Scaffold(
@@ -58,7 +59,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         children: <Widget>[
           ImagePickerWidget(),
           Container(
-            width: 350,
+            width: deviceSize.width*0.852,
             child: TextFormField(
               enabled: true,
               style: TextStyle(
@@ -80,7 +81,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: deviceSize.height*0.0440,
           ),
           Text(
             'This could be your first name or a nickame.',
@@ -95,11 +96,11 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: deviceSize.height*0.02929,
           ),
           Container(
-            height: 38,
-            width: 200,
+            height: deviceSize.height*0.05564,
+            width: deviceSize.width*0.4867,
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.of(context)

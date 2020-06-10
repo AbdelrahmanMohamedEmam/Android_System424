@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ///A number to count the number of new notifications.
   int numberOfNewNotifications = 0;
+  
   @override
   void initState() {
     final fbm = FirebaseMessaging();

@@ -28,7 +28,7 @@ class _FollowingItemWidgetState extends State<FollowingItemWidget> {
         ),
       ),
       subtitle: Text(
-        user.following.length.toString() + " following",
+        user.followers.length.toString() + " followers",
         style: TextStyle(color: Colors.white),
       ),
       trailing: GestureDetector(

@@ -20,6 +20,7 @@ class _UserPlaylistsScreenState extends State<UserPlaylistsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 18, 18, 2),
       appBar: AppBar(
@@ -35,7 +36,7 @@ class _UserPlaylistsScreenState extends State<UserPlaylistsScreen> {
         ),
       ),
       body: Container(
-        height: 550,
+        height: deviceSize.height*0.806,
         child: ListView.builder(
           itemCount: createdPlaylists.length,
           scrollDirection: Axis.vertical,
