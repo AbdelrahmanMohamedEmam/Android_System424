@@ -41,7 +41,7 @@ void main() async {
     test('Setting User', () async {
       final userAPI = new user.UserAPI(baseUrl: 'http://spotify.mocklab.io');
       final response = await userAPI.setUser('1234');
-      expect(response.name, 'Ziad Shebl');
+      expect(response.name, 'Imagine Dragons');
       expect(response.email, 'ziadshebl@gmail.com');
       expect(response.dateOfBirth, "1999-2-21");
       expect(response.gender, 'Male');
@@ -92,10 +92,6 @@ void main() async {
       final response = await userAPI.askForPremium('token');
       expect(response, true);
     });
-    // test('ask for premium failed', () async {
-    //   final userAPI = new user.UserAPI(baseUrl: 'http://spotifybad.mocklab.io');
-    //   expect(
-    //       userAPI.askForPremium('token'), throwsA(isInstanceOf<Exception>()));
-    // });
+  
   });
 }
