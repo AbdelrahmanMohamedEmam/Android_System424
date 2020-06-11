@@ -20,8 +20,6 @@ import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
 
-
-
 class ArtistProfileScreen extends StatefulWidget {
   ///artist id passed to this screen to get certain artist.
   final String id;
@@ -91,7 +89,10 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       setState(() {
         _isLoading = true;
       });
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
       final user = Provider.of<UserProvider>(context, listen: false).token;
+      await userProvider.fetchFollowing(user);
       try {
         await Provider.of<PlaylistProvider>(context, listen: false)
             .fetchArtistProfilePlaylists(user, widget.id);
@@ -124,7 +125,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             .fetchAlbumsTracksById(albums[0].id, user, AlbumCategory.artist)
             .then((_) {
           setState(() {
-          
             List<Track> toAdd =
                 Provider.of<AlbumProvider>(context, listen: false)
                     .getPlayableTracks(albums[0].id, AlbumCategory.artist);
@@ -148,10 +148,10 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       }
       await Provider.of<ArtistProvider>(context, listen: false)
           .fetchChoosedArtist(user, widget.id)
-
           .then((_) {
         setState(() {
-          artistInfo = Provider.of<ArtistProvider>(context, listen: false).getChosenArtist;
+          artistInfo = Provider.of<ArtistProvider>(context, listen: false)
+              .getChosenArtist;
           _isLoading = false;
         });
       });
@@ -258,11 +258,11 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
 //    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
 //    List<Track> tracks;
 //    tracks = tracksProvider.getTopTracks;
-  //print(artistInfo.id);
+    //print(artistInfo.id);
 
     var track = Provider.of<PlayableTrackProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-   // print(userProvider.token);
+    // print(userProvider.token);
     return (_isLoading) //|| isFollwed== null)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -277,40 +277,35 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             appBar: AppBar(
               backgroundColor: Colors.black,
               actions: <Widget>[
-                !(artistInfo.following)?  FlatButton(
-                  child: Text('FOLLOW'),
-                  textColor: Colors.grey,
-                  onPressed: () async {
-
-                      await Provider.of<UserProvider>(context,
-                          listen: false)
-                          .follow(artistInfo.id)
-                          .then((_) {
-                        setState(() {
-                          artistInfo.following = true;
-                        });
-                      });
-
-
-                  },
-                ) :
-            FlatButton(
-              child: Text('UNFOLLOW'),
-              textColor: Colors.grey,
-              onPressed: () async {
-
-                await Provider.of<UserProvider>(context,
-                    listen: false)
-                    .unfollow(artistInfo.id)
-                    .then((_) {
-                  setState(() {
-                    artistInfo.following = false;
-                  });
-                });
-
-
-              },
-            ),
+                !(artistInfo.following)
+                    ? FlatButton(
+                        child: Text('FOLLOW'),
+                        textColor: Colors.grey,
+                        onPressed: () async {
+                          await Provider.of<UserProvider>(context,
+                                  listen: false)
+                              .follow(artistInfo.id)
+                              .then((_) {
+                            setState(() {
+                              artistInfo.following = true;
+                            });
+                          });
+                        },
+                      )
+                    : FlatButton(
+                        child: Text('UNFOLLOW'),
+                        textColor: Colors.grey,
+                        onPressed: () async {
+                          await Provider.of<UserProvider>(context,
+                                  listen: false)
+                              .unfollow(artistInfo.id)
+                              .then((_) {
+                            setState(() {
+                              artistInfo.following = false;
+                            });
+                          });
+                        },
+                      ),
               ],
             ),
             backgroundColor: Colors.black,
