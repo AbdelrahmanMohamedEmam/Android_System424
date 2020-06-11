@@ -750,7 +750,7 @@ class PlaylistProvider with ChangeNotifier {
       }
 
       if (playlistCategory == PlaylistCategory.artist) {
-        Playlist playlist = getPopPlaylistsId(id);
+        Playlist playlist =getArtistPlaylistsbyId(id);
         if (!playlist.isFetched) {
           final extractedList =
               await playlistApi.fetchPlaylistsTracksApi(token, id);
