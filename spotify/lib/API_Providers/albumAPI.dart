@@ -1,13 +1,13 @@
 ///Importing dart libraries to use it.
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
+//import 'package:flutter/cupertino.dart';
+//import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotify/Models/http_exception.dart';
 import '../API_Providers/artistAPI.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
-import 'package:image/image.dart' as img;
+//import 'package:image/image.dart' as img;
 
 
 class AlbumEndPoints {  

@@ -11,7 +11,7 @@ import 'package:spotify/Screens/Playlists/pop_up_menu_created_playlist_screen.da
 import 'package:spotify/widgets/song_item_in_playlist_list.dart';
 
 class CreatedPlaylistScreen extends StatefulWidget {
-  String id;
+  final String id;
   CreatedPlaylistScreen(this.id);
   @override
   _CreatedPlaylistScreenState createState() => _CreatedPlaylistScreenState();

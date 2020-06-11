@@ -24,9 +24,9 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
   PlaylistProvider playlistProvider;
   PlayableTrackProvider playableTrackProvider;
   bool _isLoading = true;
-  bool _isNotfound = false;
+  //bool _isNotfound = false;
   List<Playlist> allList;
-  List<Playlist> playlists_tracks;
+  List<Playlist> playlistsTracks;
   List<Track> likedTracks;
 
   @override
@@ -40,7 +40,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
       await Provider.of<PlaylistProvider>(context, listen: false)
           .fetchCreatedPlaylists(user.token)
           .then((_) {
-        playlists_tracks = playlistProvider.getCreatedPlaylists;
+        playlistsTracks = playlistProvider.getCreatedPlaylists;
         allList = playlistProvider.getlikedPlaylists +
             playlistProvider.getCreatedPlaylists;
         likedTracks = playableTrackProvider.getLikedTracks;
@@ -53,7 +53,7 @@ class _PlaylistsScreenState extends State<PlaylistsScreen> {
     } catch (error) {
       if (mounted) {
         setState(() {
-          _isNotfound = true;
+          // _isNotfound = true;
           _isLoading = false;
         });
       }

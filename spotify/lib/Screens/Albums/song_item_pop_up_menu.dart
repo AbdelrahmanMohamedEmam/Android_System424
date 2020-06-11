@@ -18,7 +18,7 @@ import '../../Providers/user_provider.dart';
 
 class SongItemPopUpMenu extends StatefulWidget {
   static const routeName = '/song_settings_screen';
-  Track song;
+  final Track song;
   SongItemPopUpMenu(this.song);
 
   @override
@@ -39,7 +39,7 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
     final user = Provider.of<UserProvider>(context, listen: false);
     final trackProvider =
         Provider.of<PlayableTrackProvider>(context, listen: false);
-    final playlistProvider =
+    //final playlistProvider =
         Provider.of<PlaylistProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.

@@ -4,12 +4,12 @@ import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/charts_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/Albums/albums_list_screen.dart';
-import 'package:spotify/Screens/ArtistMode/edit_song.dart';
+//import 'package:spotify/Screens/ArtistMode/edit_song.dart';
 import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
-import '../Screens/MainApp/tab_navigator.dart';
+//import '../Screens/MainApp/tab_navigator.dart';
 //import '../Providers/album_provider.dart';
 //import '../Screens/ArtistMode/add_song_screen.dart';
 

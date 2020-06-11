@@ -1,5 +1,5 @@
 
-import 'dart:convert';
+//import 'dart:convert';
 ///  This widget is considered as the main widget in the app.
 ///  It is where the track data is manipulated.
 ///  It uses [SlidingUpPanel] to create the [Collapsed] song bar and [Panel].
@@ -35,7 +35,7 @@ import '../Widgets/stream_builders.dart';
 
 ///Importing models and providers to use it.
 import '../Models/track.dart';
-import '../Providers/playable_track.dart';
+//import '../Providers/playable_track.dart';
 
 
 class MainWidget extends StatefulWidget {

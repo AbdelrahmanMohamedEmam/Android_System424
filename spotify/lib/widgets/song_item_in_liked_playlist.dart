@@ -7,7 +7,7 @@ import '../Models/track.dart';
 
 ///It is used to provide the [PlaylistsListScreen] with the needed data about the track.
 class SongItemInLikedPlaylistList extends StatefulWidget {
-  Track trackObject;
+ final Track trackObject;
   SongItemInLikedPlaylistList(this.trackObject);
   @override
   _SongItemInLikedPlaylistListState createState() => _SongItemInLikedPlaylistListState();

@@ -16,7 +16,7 @@ import 'dart:async';
 ///Importing shared preference library to cache data.
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotify/Models/artist.dart';
-import 'package:spotify/Models/playlist.dart';
+//import 'package:spotify/Models/playlist.dart';
 
 ///Importing models to create objects.
 import '../Models/user.dart';

@@ -9,11 +9,11 @@ import 'package:spotify/Screens/Library/add_song_to_playlist_screen.dart';
 
 ///Importing the user provider to access the user data.
 import 'package:provider/provider.dart';
-import '../../Providers/user_provider.dart';
+//import '../../Providers/user_provider.dart';
 
 class PopUpMenuCreatedPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';
-  Playlist playlist;
+  final Playlist playlist;
   PopUpMenuCreatedPlaylistScreen(this.playlist);
 
   @override
@@ -33,8 +33,8 @@ class _PopUpMenuCreatedPlaylistScreenState
   Widget build(BuildContext context) {
     ///Getting the device size.
     final deviceSize = MediaQuery.of(context).size;
-    final user = Provider.of<UserProvider>(context, listen: false);
-    final playlistProvider =
+    //final user = Provider.of<UserProvider>(context, listen: false);
+    //final playlistProvider =
         Provider.of<PlaylistProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.
