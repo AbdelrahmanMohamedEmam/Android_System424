@@ -758,7 +758,7 @@ class PlaylistProvider with ChangeNotifier {
             loadedTracks.add(Track.fromJson(extractedList[i]));
           }
           playlist.tracks = loadedTracks;
-          print(playlist.tracks[0].name);
+          //print(playlist.tracks[0].name);
           final playlistIndex = _artistProfilePlaylists
               .indexWhere((playlist) => playlist.id == id);
           _artistProfilePlaylists.removeAt(playlistIndex);
