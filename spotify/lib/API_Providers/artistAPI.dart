@@ -41,8 +41,7 @@ class ArtistAPI {
       if (response.statusCode == 200 || response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
-        print(jsonDecode(response.body));
-        //Map<String, dynamic> extractedList = json.decode(response.body);
+        //Map<String, dynamic> extractedList2 = extractedList['artist'];
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

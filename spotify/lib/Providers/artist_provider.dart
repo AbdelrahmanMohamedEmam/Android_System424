@@ -41,10 +41,11 @@ class ArtistProvider with ChangeNotifier {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
       Map<String , dynamic> extractedArtist = await artistsApi.fetchChosenApi(token, id);
-      _chosenArtist = Artist.fromJson(extractedArtist);
+      _chosenArtist = Artist.fromJson(extractedArtist['artist']);
       print(_chosenArtist);
-      print('mahmoud');
-      //_chosenArtist.following = extractedArtist['following'];
+     print('mahmoud');
+      _chosenArtist.following = extractedArtist['following'];
+      print(_chosenArtist.following);
     } catch (error) {
       throw HttpException(error.toString());
     }

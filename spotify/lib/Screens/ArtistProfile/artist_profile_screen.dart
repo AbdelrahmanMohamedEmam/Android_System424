@@ -15,17 +15,12 @@ import 'package:spotify/Providers/artist_provider.dart';
 import '../../Models/album.dart';
 import '../../Providers/album_provider.dart';
 import '../MainApp/tab_navigator.dart';
-//import '../../widgets/album_widget_artist_profile.dart';
 import '../../widgets/featured_playlists_artist_profile.dart';
 import '../../widgets/suggested_artists_artist_profile.dart';
 import '../../widgets/artist_card_widget.dart';
 import '../../Providers/user_provider.dart';
-//import '../../Providers/track_provider.dart';
-//import '../../Widgets/album_widget_artist_profile.dart';
-//import '../../Widgets/album_widget_artist_mode.dart';
-//import '../../Models/track.dart';
-//import 'dart:io';
-import 'dart:async';
+
+
 
 class ArtistProfileScreen extends StatefulWidget {
   ///artist id passed to this screen to get certain artist.
@@ -68,15 +63,6 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
   bool checkAlbums = true;
   bool checkPlaylist = true;
   bool checkTracks = true;
-
-  //bool isScreenLoading=true;
-  //bool _isScrolled = false;
-  /*void initState() {
-    Timer(Duration(seconds: 3),(){
-      isScreenLoading=false;
-    });
-    super.initState();
-  }*/
 
   ///a method indicates error dialog in case of error loading this page
   void _showErrorDialog(String message) {
@@ -162,8 +148,10 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
       }
       await Provider.of<ArtistProvider>(context, listen: false)
           .fetchChoosedArtist(user, widget.id)
+
           .then((_) {
         setState(() {
+          artistInfo = Provider.of<ArtistProvider>(context, listen: false).getChosenArtist;
           _isLoading = false;
         });
       });
@@ -193,6 +181,47 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     Navigator.of(ctx1).pushNamed(TabNavigatorRoutes.aboutInfoScreen);
   }
 
+//  Future <bool> followArtist(String id) async {
+//    final user2 = Provider.of<UserProvider>(context, listen: false);
+//    bool done = await user2.follow(id);
+//    print(done);
+//    if(done)
+//    {
+//      setState(() {
+//        print(artistInfo.following);
+//        artistInfo.following = true;
+//        print(artistInfo.following);
+//      });
+//    }
+//  }
+//  bool done;
+//  Future <void> unfollowArtist(String id) async {
+//    final user2 = Provider.of<UserProvider>(
+//        context, listen: false);
+//    done = await user2.follow(id).then((_) {
+//          if (done) {
+//      setState(
+//              () {
+//            print(
+//                artistInfo.following);
+//            artistInfo.following = false;
+//            print(
+//                artistInfo.following);
+//          });
+//    }
+//
+//    });
+////    if (done) {
+////      setState(
+////              () {
+////            print(
+////                artistInfo.following);
+////            artistInfo.following = false;
+////            print(
+////                artistInfo.following);
+////          });
+////    }
+//  }
   @override
   Widget build(BuildContext context) {
     ///getting device size due to responsiveness issues.
@@ -209,7 +238,7 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
 //    final albumProvider = Provider.of<AlbumProvider>(context, listen: false);
 //    List<Album> albums;
 //    albums = albumProvider.getArtistAlbums;
-    artistInfo = artistProvider.getChosenArtist;
+//    artistInfo = artistProvider.getChosenArtist;
 
     ///playlist provider object.
     final playlistsProvider =
@@ -224,15 +253,16 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
     ///artist provider object.
 
     ///calling getter function.
-
-    //int isFollwed =artistInfo.following;
+    //bool isFollwed =false;//artistInfo.following;
 
 //    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
 //    List<Track> tracks;
 //    tracks = tracksProvider.getTopTracks;
+  //print(artistInfo.id);
 
     var track = Provider.of<PlayableTrackProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+   // print(userProvider.token);
     return (_isLoading) //|| isFollwed== null)
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -247,32 +277,40 @@ class ArtistProfileScreenState extends State<ArtistProfileScreen> {
             appBar: AppBar(
               backgroundColor: Colors.black,
               actions: <Widget>[
-//                FlatButton(
-//                  child: Text('FOLLOW'),
-//                  textColor: Colors.grey,
-//                  //onPressed: () {},
-//                ),
-//                    :
-//            FlatButton(
-//              child: Text('UNFOLLOW'),
-//              textColor: Colors.grey,
-//              //onPressed: () {},
-//            ),
-//              (isFollwed ==0)?
-//              IconButton(
-//                  icon: Icon(
-//                    Icons.more_vert,
-//                    color: Colors.grey,
-//                  ),
-//                  //onPressed: () {},
-//                )
-//                : IconButton(
-//                  icon: Icon(
-//                  Icons.more_vert,
-//                  color: Colors.grey,
-//                  ),
-//                  //onPressed: () {},
-//                  ),
+                !(artistInfo.following)?  FlatButton(
+                  child: Text('FOLLOW'),
+                  textColor: Colors.grey,
+                  onPressed: () async {
+
+                      await Provider.of<UserProvider>(context,
+                          listen: false)
+                          .follow(artistInfo.id)
+                          .then((_) {
+                        setState(() {
+                          artistInfo.following = true;
+                        });
+                      });
+
+
+                  },
+                ) :
+            FlatButton(
+              child: Text('UNFOLLOW'),
+              textColor: Colors.grey,
+              onPressed: () async {
+
+                await Provider.of<UserProvider>(context,
+                    listen: false)
+                    .unfollow(artistInfo.id)
+                    .then((_) {
+                  setState(() {
+                    artistInfo.following = false;
+                  });
+                });
+
+
+              },
+            ),
               ],
             ),
             backgroundColor: Colors.black,

@@ -309,6 +309,9 @@ class UserAPI {
           },
         ),
       );
+      print('status');
+      print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200 || response.statusCode == 204) {
         return true;
       } else {

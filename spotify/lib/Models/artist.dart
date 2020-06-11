@@ -31,7 +31,7 @@ class Artist with ChangeNotifier {
   ///A string describing [biography],[popularity],[genres] of the artist.
   final ArtistInfo artistInfo;
 
-  int following;
+  bool following;
   ///Constructor for class Artist with named arguments assignment.
   ///Required parameters:{href,id,name,artistInfo,uri}.
   Artist(

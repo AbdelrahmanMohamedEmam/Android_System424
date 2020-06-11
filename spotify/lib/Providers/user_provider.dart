@@ -535,6 +535,7 @@ class UserProvider with ChangeNotifier {
     UserAPI userAPI = UserAPI(baseUrl: baseUrl);
     try {
       bool succeeded = await userAPI.follow(token, id);
+
       if (!succeeded) {
         addFollowing(id);
         notifyListeners();
