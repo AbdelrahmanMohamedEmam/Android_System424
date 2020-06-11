@@ -15,8 +15,8 @@ import '../../Providers/user_provider.dart';
 
 class PopUpMenuAlbumScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_album_screen';
-  Album album;
-  AlbumCategory category;
+  final Album album;
+  final AlbumCategory category;
   PopUpMenuAlbumScreen(this.album, this.category);
 
   @override

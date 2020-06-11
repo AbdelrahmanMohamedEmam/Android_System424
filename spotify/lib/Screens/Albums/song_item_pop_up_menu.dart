@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 
 import '../../Models/track.dart';
@@ -17,7 +18,7 @@ import '../../Providers/user_provider.dart';
 
 class SongItemPopUpMenu extends StatefulWidget {
   static const routeName = '/song_settings_screen';
-  Track song;
+  final Track song;
   SongItemPopUpMenu(this.song);
 
   @override
@@ -38,7 +39,7 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
     final user = Provider.of<UserProvider>(context, listen: false);
     final trackProvider =
         Provider.of<PlayableTrackProvider>(context, listen: false);
-    final playlistProvider =
+    //final playlistProvider =
         Provider.of<PlaylistProvider>(context, listen: false);
 
     ///If the screen is loading show a circular progress.
@@ -217,7 +218,16 @@ class _SongItemPopUpMenuState extends State<SongItemPopUpMenu> {
                   ),
                   Container(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => InfoScreen(
+                                  bio: widget
+                                      .song.artists[0].artistInfo.biography,
+                                  imageUrl: widget.song.artists[0].images[0],
+                                  name: widget.song.artists[0].name,
+                                )));
+                      },
                       child: Row(
                         children: <Widget>[
                           Container(

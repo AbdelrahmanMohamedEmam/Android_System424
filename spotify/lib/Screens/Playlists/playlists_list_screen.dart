@@ -267,14 +267,14 @@ class _PlaylistsListScreenState extends State<PlaylistsListScreen> {
                             },
                             backgroundColor: Colors.green[700],
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22),
+                              borderRadius: BorderRadius.circular(deviceSize.height*0.03221),
                             ),
                             child: Text('PLAY'),
                           ),
                         ),
                       ),
                       preferredSize:
-                          Size.fromHeight(deviceSize.height * 0.0878),
+                          Size.fromHeight(deviceSize.height * 0.07),
                     ),
                   ),
                   SliverList(

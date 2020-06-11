@@ -4,7 +4,7 @@ import 'package:spotify/Models/chart_data.dart';
 import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Providers/charts_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
-import 'package:spotify/Providers/playlist_provider.dart';
+//import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/ArtistMode/edit_song.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';

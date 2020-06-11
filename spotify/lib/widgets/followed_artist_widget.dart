@@ -3,7 +3,7 @@ import 'package:spotify/Models/artist.dart';
 import 'package:spotify/Screens/ArtistProfile/artist_profile_screen.dart';
 
 class FollowedArtistWidget extends StatefulWidget {
-  Artist followedArtist;
+  final Artist followedArtist;
   FollowedArtistWidget(this.followedArtist);
   @override
   _FollowedArtistWidgetState createState() => _FollowedArtistWidgetState();

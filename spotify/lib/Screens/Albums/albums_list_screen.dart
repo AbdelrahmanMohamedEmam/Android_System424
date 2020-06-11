@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/album.dart';
-import 'package:spotify/Models/chart_data.dart';
+//import 'package:spotify/Models/chart_data.dart';
 import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/album_provider.dart';
-import 'package:spotify/Providers/charts_provider.dart';
+//import 'package:spotify/Providers/charts_provider.dart';
 import 'package:spotify/Providers/playable_track.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Screens/Albums/pop_up_menu_album_screen.dart';
@@ -16,7 +16,7 @@ import 'package:palette_generator/palette_generator.dart';
 class AlbumsListScreen extends StatefulWidget {
   final AlbumCategory albumType;
   final String albumId;
-  String artistName;
+  final String artistName;
   AlbumsListScreen({this.albumType, this.albumId, this.artistName});
   @override
   _AlbumsListScreenState createState() => _AlbumsListScreenState();
@@ -284,7 +284,7 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                               ? Container()
                               : Container(
                                   height: deviceSize.height * 0.0322108,
-                                  width: deviceSize.width * 0.3892944,
+                                  width: deviceSize.width * 0.5,
                                   child: Container(
                                     width: deviceSize.width * 0.243309,
                                     child: DecoratedBox(
@@ -381,13 +381,13 @@ class _AlbumsListScreenState extends State<AlbumsListScreen> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return (albums.tracks.length == 1)
-                            ? SizedBox(height: deviceSize.height * 0.7027818)
+                            ? SizedBox(height: deviceSize.height *0.67 ) //0.7027818
                             : (albums.tracks.length == 2)
                                 ? SizedBox(
                                     height: deviceSize.height * 0.6002928)
                                 : (albums.tracks.length == 3)
                                     ? SizedBox(
-                                        height: deviceSize.height * 0.512445)
+                                        height: deviceSize.height * 0.47)//0.512445
                                     : (albums.tracks.length == 14)
                                         ? SizedBox(
                                             height:

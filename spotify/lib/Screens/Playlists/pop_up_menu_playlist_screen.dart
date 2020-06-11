@@ -12,8 +12,8 @@ import '../../Providers/user_provider.dart';
 
 class PopUpMenuPlaylistScreen extends StatefulWidget {
   static const routeName = '/pop_up_menu_playlist_screen';
-  Playlist playlist;
-  PlaylistCategory category;
+  final Playlist playlist;
+  final PlaylistCategory category;
   PopUpMenuPlaylistScreen(this.playlist, this.category);
 
   @override

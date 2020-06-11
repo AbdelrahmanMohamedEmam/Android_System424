@@ -6,7 +6,7 @@ import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/widgets/add_song_to_playlist_widget.dart';
 
 class AddSongToPlaylistScreen extends StatefulWidget {
-  String playlistId;
+ final  String playlistId;
   AddSongToPlaylistScreen(this.playlistId);
   @override
   _AddSongToPlaylistScreenState createState() =>

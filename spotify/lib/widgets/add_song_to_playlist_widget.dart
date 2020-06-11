@@ -6,7 +6,7 @@ import '../Models/track.dart';
 
 ///It is used to provide the [PlaylistsListScreen] with the needed data about the track.
 class AddSongToPlaylistItem extends StatefulWidget {
-  String id;
+  final String id;
   AddSongToPlaylistItem(this.id);
   @override
   _AddSongToPlaylistItemState createState() => _AddSongToPlaylistItemState();
