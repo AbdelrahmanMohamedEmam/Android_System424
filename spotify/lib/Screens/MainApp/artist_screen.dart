@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
-import '../ArtistProfile/artist_profile_screen.dart';
 import '../../Screens/ArtistMode/my_music_screen.dart';
 import '../../Providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,8 +32,8 @@ class ArtistScreen extends StatelessWidget {
                SizedBox(height: deviceSize.height*0.25,),
                Text('you can try it using my account' , style: TextStyle(color: Colors.white),),
                Text('here is a free to try account!' , style: TextStyle(color: Colors.white),),
-               Text('e-mail : mostafaassem53@gmail.com' , style: TextStyle(color: Colors.white),),
-               Text('password : qq123456' , style: TextStyle(color: Colors.white),),
+               Text('e-mail : amr@email.com' , style: TextStyle(color: Colors.white),),
+               Text('password : password3' , style: TextStyle(color: Colors.white),),
              ],
            )
        ),

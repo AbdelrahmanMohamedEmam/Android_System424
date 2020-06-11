@@ -1,3 +1,3 @@
-Configure URL=1
+Configure URL=2
 If you want to run the app with the real data base enter 1.
 If you want to run the app with the mock service enter 2.
