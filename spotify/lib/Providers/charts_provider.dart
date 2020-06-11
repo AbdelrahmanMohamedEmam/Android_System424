@@ -6,7 +6,7 @@ import 'package:spotify/Models/chart_data.dart';
 
 
 
-///Class AlbumProvider
+///Class ChartsProvider
 class ChartsProvider with ChangeNotifier {
 
   List<ChartData> _fetchedData;
@@ -19,16 +19,19 @@ class ChartsProvider with ChangeNotifier {
   List<ChartData>  get fetchedData {
     return _fetchedData;
   }
+  ///A method(getter) that returns a chart data.
   List<ChartData>  get fetchedBarData {
     return _fetchedBarData;
   }
+  ///A method(getter) that returns a chart data.
   List<ChartData>  get fetchedBarData2 {
     return _fetchedBarData2;
   }
-
+  ///A method(getter) that returns a chart data.
   List<ChartData>  get fetchedLineData {
     return _fetchedLineData;
   }
+  ///A method(getter) that returns a chart data.
   List<ChartData>  get fetchedLineData2 {
     return _fetchedLineData2;
   }
@@ -47,7 +50,7 @@ class ChartsProvider with ChangeNotifier {
     _fetchedData = loadedCharts;
     notifyListeners();
   }
-
+  ///A method that fetches for charts data.
   Future<void> fetchBarChartData() async {
     final url = 'http://www.mocky.io/v2/5ecece923200005700e3cdb1';
     final response = await http.get(url);
@@ -62,7 +65,7 @@ class ChartsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
+  ///A method that fetches for charts data.
   Future<void> fetchBarChartData2() async {
     final url = 'http://www.mocky.io/v2/5ececd833200000e00e3cd8e';
     final response = await http.get(url);
@@ -76,7 +79,7 @@ class ChartsProvider with ChangeNotifier {
     _fetchedBarData2 = loadedCharts;
     notifyListeners();
   }
-
+  ///A method that fetches for charts data.
   Future<void> fetchLineChartData() async {
     final url = 'https://run.mocky.io/v3/0a6a2782-3bf5-47ab-ae79-48ac75c67695';
     final response = await http.get(url);
@@ -91,7 +94,7 @@ class ChartsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
+  ///A method that fetches for charts data.
   Future<void> fetchLineChartData2() async {
     final url = 'https://run.mocky.io/v3/ca220283-75da-4c57-9bcf-c69abd489b38';
     final response = await http.get(url);

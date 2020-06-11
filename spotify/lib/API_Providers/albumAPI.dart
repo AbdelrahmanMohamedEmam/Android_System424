@@ -335,7 +335,7 @@ class AlbumAPI {
     }
   }
 
-  ///A method that deletes new album in artist mode.
+  ///A method that track from album in artist mode.
   ///takes [token],[albumID] , [trackId]as input parameters.
   Future<bool> deleteSongApi(String token , String albumID , trackId) async {
     final url =
