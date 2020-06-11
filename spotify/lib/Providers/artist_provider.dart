@@ -40,8 +40,12 @@ class ArtistProvider with ChangeNotifier {
   Future<void> fetchChoosedArtist(String token, String id) async {
     ArtistAPI artistsApi = ArtistAPI(baseUrl: baseUrl);
     try {
-      Artist extractedArtist = await artistsApi.fetchChosenApi(token, id);
-      _chosenArtist = extractedArtist;
+      Map<String , dynamic> extractedArtist = await artistsApi.fetchChosenApi(token, id);
+      _chosenArtist = Artist.fromJson(extractedArtist['artist']);
+      print(_chosenArtist);
+     print('mahmoud');
+      _chosenArtist.following = extractedArtist['following'];
+      print(_chosenArtist.following);
     } catch (error) {
       throw HttpException(error.toString());
     }
@@ -69,6 +73,7 @@ class ArtistProvider with ChangeNotifier {
     try {
       final extractedList = await artistsApi.fetchAllApi(token);
       final List<Artist> loadedArtist = [];
+      print('HERE SUCCESSFULLYYYY');
       for (int i = 0; i < extractedList.length; i++) {
         loadedArtist.add(Artist.fromJson(extractedList[i]));
       }

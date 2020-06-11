@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
+import 'package:spotify/widgets/image_picker_widget.dart';
 import '../tab_navigator.dart';
 
-class UserEditProfileScreen extends StatelessWidget {
+class UserEditProfileScreen extends StatefulWidget {
+  @override
+  _UserEditProfileScreenState createState() => _UserEditProfileScreenState();
+}
+
+class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
+  bool changed = false;
   final userNameEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+     final deviceSize = MediaQuery.of(context).size;
     final user = Provider.of<UserProvider>(context, listen: false);
     userNameEditingController.text = user.username;
     return Scaffold(
@@ -21,10 +30,21 @@ class UserEditProfileScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           FlatButton(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                await user.changeUserName(
+                    user.token,
+                    user.userEmail,
+                    userNameEditingController.text,
+                    user.userGender,
+                    user.userDateOfBirth);
+              } catch (error) {
+                _showErrorDialog(error.toString());
+              }
+            },
             child: Text(
               'SAVE',
-              style: TextStyle(color: Colors.grey),
+              style:TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -37,38 +57,11 @@ class UserEditProfileScreen extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
+          ImagePickerWidget(),
           Container(
-            margin: EdgeInsets.only(
-              top: 20,
-              bottom: 15,
-            ),
-            width: double.infinity,
-            child: CircleAvatar(
-              backgroundColor: Colors.green,
-              radius: 70,
-              child: Text(
-                user.username[0],
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25.0,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              bottom: 10,
-            ),
-            child: Text(
-              'CHANGE PHOTO',
-              style: TextStyle(color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-            width: 350,
+            width: deviceSize.width*0.852,
             child: TextFormField(
-              enabled: false,
+              enabled: true,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 25,
@@ -88,7 +81,7 @@ class UserEditProfileScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: deviceSize.height*0.0440,
           ),
           Text(
             'This could be your first name or a nickame.',
@@ -103,11 +96,11 @@ class UserEditProfileScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: deviceSize.height*0.02929,
           ),
           Container(
-            height: 38,
-            width: 200,
+            height: deviceSize.height*0.05564,
+            width: deviceSize.width*0.4867,
             child: FloatingActionButton(
               onPressed: () {
                 Navigator.of(context)
@@ -123,6 +116,26 @@ class UserEditProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("Message"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop();
+            },
+          )
         ],
       ),
     );

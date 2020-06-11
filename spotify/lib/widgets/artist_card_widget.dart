@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify/Models/artist.dart';
-import 'package:spotify/Providers/artist_provider.dart';
+//import 'package:spotify/Providers/artist_provider.dart';
 
 class ArtistBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     final deviceSize = MediaQuery.of(context).size;
     final artistsInformation = Provider.of<Artist>(context);
+    print(artistsInformation.images[0]);
     return Stack(
       children: <Widget>[
         Container(
@@ -19,7 +21,6 @@ class ArtistBackground extends StatelessWidget {
             placeholder: AssetImage('assets/images/temp.jpg'),
             image: NetworkImage(
               artistsInformation.images[0],
-              // "https://i.scdn.co/image/c4818b1f9d0c7a793d421b51c63d82c8c768795c",
             ),
           ),
         ),
@@ -34,7 +35,7 @@ class ArtistBackground extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 50,
+              fontSize: 25,
             ),
           ),
         ),

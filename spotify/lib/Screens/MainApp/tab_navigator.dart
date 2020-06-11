@@ -2,11 +2,16 @@
 import 'package:flutter/material.dart';
 //Importing Screens
 import 'package:spotify/Screens/ArtistMode/add_album_screen.dart';
+import 'package:spotify/Screens/ArtistMode/edit_song.dart';
+import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/change_password_screen.dart';
 import 'package:spotify/Screens/MainApp/Settings/profile_screen.dart';
 import 'package:spotify/Screens/MainApp/artist_screen.dart';
 import 'package:spotify/Screens/MainApp/library_screen.dart';
 import 'package:spotify/Screens/MainApp/premium_screen.dart';
+import 'package:spotify/Screens/MainApp/recent_activities_screen.dart';
+import 'package:spotify/Screens/MainApp/search_screen_see_all.dart';
 import '../../Screens/ArtistMode/my_music_screen.dart';
 import '../../Screens/ArtistMode/add_album_screen.dart';
 import '../../Screens/ArtistMode/add_song_screen.dart';
@@ -21,6 +26,8 @@ import './search_screen.dart';
 import '../ArtistProfile/see_discography_screen.dart';
 import 'Settings/recently_played_artists_screen.dart';
 import '../ArtistProfile/about_info_screen.dart';
+import '../ArtistMode/edit_album_screen.dart';
+import '../ArtistMode/stats_screen.dart';
 //Importing widgets.
 import '../../widgets/bottom_navigation_bar.dart';
 
@@ -53,10 +60,17 @@ class TabNavigatorRoutes {
   static const String changePasswordScreen = '//changePasswordScreen';
   static const String recentlyPlayedArtistsScreen =
       '//recentlyPlayedArtistsScreen';
+  static const String recentActivitiesScreen = '//recentActivitiesScreen';
   static const String myMusicScreen = '//my_music_screen';
   static const String addAlbumScreen = '//add_album_screen';
   static const String addSongScreen = '//add_song_screen';
+  static const String editAlbumScreen = '//edit_album_screen';
   static const String aboutInfoScreen = '//about_screen';
+  static const String searchAll = '//searchAll';
+  static const String statsScreen = '//stats_screen';
+  static const String artistSongsScreen = '//artist_slbums_songs_screen';
+  static const String editSongsScreen = '//edit_song_screen';
+  static const String infoScreen = '//info_screen';
 }
 
 class TabNavigator extends StatelessWidget {
@@ -84,7 +98,7 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.userPlaylistsScreen: (context) =>
             UserPlaylistsScreen(),
         TabNavigatorRoutes.userFollowersScreen: (context) =>
-            UserFollowersScreen(),
+            UserFollowerScreen(),
         TabNavigatorRoutes.userFollowingScreen: (context) =>
             UserFollowingScreen(),
         TabNavigatorRoutes.userEditProfileScreen: (context) =>
@@ -93,14 +107,19 @@ class TabNavigator extends StatelessWidget {
             ChangePasswordScreen(),
         TabNavigatorRoutes.recentlyPlayedArtistsScreen: (context) =>
             RecentlyPlayedArtistsScreen(),
+        TabNavigatorRoutes.recentActivitiesScreen: (context) =>
+            RecentActivitiesScreen(),
+        TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };
     } else if (tabItem == TabItem.search) {
       return {
         TabNavigatorRoutes.search: (context) => SearchScreen(),
+        TabNavigatorRoutes.searchAll: (context) => SearchScreenSeeAll(),
       };
     } else if (tabItem == TabItem.library) {
       return {
         TabNavigatorRoutes.library: (context) => LibraryScreen(),
+        TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };
     } else if (tabItem == TabItem.premium) {
       return {TabNavigatorRoutes.premium: (context) => PremiumScreen()};
@@ -112,6 +131,10 @@ class TabNavigator extends StatelessWidget {
         TabNavigatorRoutes.addAlbumScreen: (context) => CreateAlbum(),
         TabNavigatorRoutes.addSongScreen: (context) => AddSongScreen(),
         TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
+        TabNavigatorRoutes.editAlbumScreen: (context) => EditAlbum(),
+        TabNavigatorRoutes.statsScreen: (context) => StatsScreen(),
+        TabNavigatorRoutes.editSongsScreen: (context) => EditSongScreen(),
+        TabNavigatorRoutes.infoScreen: (context) => InfoScreen(),
       };
     }
   }

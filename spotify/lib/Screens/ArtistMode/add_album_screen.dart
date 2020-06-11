@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-//import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../Providers/user_provider.dart';
 
 class CreateAlbum extends StatefulWidget {
@@ -38,38 +38,41 @@ class _CreateAlbumState extends State<CreateAlbum> {
   String dropdownValue2 = 'rock';
 
   ///method to pick image from mobile gallery.
-  /*Future getImageFromGallery() async {
+  Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imageURI = image;
     });
-  }*/
+  }
 
   ///method used to create new album by sending its data to the server.
-  /*void _createAlbum(BuildContext ctx , String _userToken ) async
+  void _createAlbum(BuildContext ctx , String _userToken ) async
   {
+    final deviceSize = MediaQuery.of(context).size;
     bool check =
     await Provider.of<AlbumProvider>(context , listen: false)
         .uploadImage(imageURI ,_userToken ,albumNameController.text ,dropdownValue1 , _currentTime , dropdownValue2 );
     setState(() {
       if(check)
       {
-        _currentTime = '0';
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("album edited successfuly!"))));
         Navigator.of(ctx).pop();
       }
-    });
-  }*/
-
-  ///method that updates the date to the date of now.
-  void _updateCurrentTime() {
-    setState(() {
-      _currentTime = DateTime.now().day.toString() +
-          '-' +
-          DateTime.now().month.toString() +
-          '-' +
-          DateTime.now().year.toString();
+      else
+      {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("something went wrong ,please try again!"))));
+      }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +150,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                         margin: EdgeInsets.only(left: deviceSize.width * 0.01),
                         child: Text(
                           value,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     );
@@ -192,7 +195,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                         margin: EdgeInsets.only(left: deviceSize.width * 0.01),
                         child: Text(
                           value,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     );
@@ -200,36 +203,36 @@ class _CreateAlbumState extends State<CreateAlbum> {
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                FloatingActionButton(
-                  backgroundColor: Colors.green[700],
-                  tooltip: 'Get current time',
-                  child: Icon(Icons.timer),
-                  onPressed: _updateCurrentTime,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                      top: deviceSize.width * 0.02,
-                      bottom: deviceSize.width * 0.02,
-                      left: deviceSize.width * 0.06,
-                      right: deviceSize.width * 0.2),
-                  width: deviceSize.width * 0.6,
-                  height: deviceSize.width * 0.12,
-                  color: Colors.green[700],
-                  child: Card(
-                    color: Colors.green[700],
-                    child: Text(
-                      _currentTime,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+//            Row(
+//              children: <Widget>[
+//                FloatingActionButton(
+//                  backgroundColor: Colors.green[700],
+//                  tooltip: 'Get current time',
+//                  child: Icon(Icons.timer),
+//                  onPressed: _updateCurrentTime,
+//                ),
+//                Container(
+//                  margin: EdgeInsets.only(
+//                      top: deviceSize.width * 0.02,
+//                      bottom: deviceSize.width * 0.02,
+//                      left: deviceSize.width * 0.06,
+//                      right: deviceSize.width * 0.2),
+//                  width: deviceSize.width * 0.6,
+//                  height: deviceSize.width * 0.12,
+//                  color: Colors.green[700],
+//                  child: Card(
+//                    color: Colors.green[700],
+//                    child: Text(
+//                      _currentTime,
+//                      style: TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 15,
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -251,7 +254,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
                     width: deviceSize.width * 0.7,
                     height: deviceSize.width * 0.12,
                     child: RaisedButton(
-                      //onPressed: () =>getImageFromGallery(),
+                      onPressed: () =>getImageFromGallery(),
                       child: Text('Open Gallery'),
                       textColor: Colors.white,
                       color: Colors.green[700],
@@ -269,7 +272,7 @@ class _CreateAlbumState extends State<CreateAlbum> {
               height: deviceSize.height * 0.07,
               width: deviceSize.width * 0.1,
               child: FloatingActionButton(
-                // onPressed: () => _createAlbum(context, _user),
+                onPressed: () => _createAlbum(context, _user),
                 backgroundColor: Colors.blueGrey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),

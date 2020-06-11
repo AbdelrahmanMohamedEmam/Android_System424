@@ -152,14 +152,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28.0),
                     ),
-                    onPressed: () {
-                      setState(() {
+                    onPressed: ()   {
+                      setState(() async  {
                         if (oldPasswordController.text.length > 7) {
                           if (newPasswordController.text.length > 7) {
-                            user.changePassword(
+                            try{
+                            await user.changePassword(
                                 user.token,
                                 newPasswordController.text,
                                 oldPasswordController.text);
+                            }catch(error)
+                            {
+                              _showErrorDialog(error.toString());
+                            }
                           } else {
                             _validateNew = false;
                           }
@@ -178,22 +183,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  // void _showErrorDialog(String message, String title) {
-  //   showDialog(
-  //     barrierDismissible: false,
-  //     context: context,
-  //     builder: (ctx) => AlertDialog(
-  //       title: Text(title),
-  //       content: Text(message),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //           child: Text('Okay'),
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //           },
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  void _showErrorDialog(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("Message"),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 }

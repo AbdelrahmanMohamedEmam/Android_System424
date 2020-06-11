@@ -3,7 +3,7 @@ import 'package:spotify/Providers/album_provider.dart';
 import 'package:spotify/Screens/Albums/albums_list_screen.dart';
 import '../Models/album.dart';
 import 'package:provider/provider.dart';
-import '../Screens/MainApp/tab_navigator.dart';
+//import '../Screens/MainApp/tab_navigator.dart';
 
 class LoadingAlbumsWidget extends StatelessWidget {
   @override
@@ -58,7 +58,8 @@ class LoadingAlbumsWidget extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AlbumsListScreen(
                   albumType: AlbumCategory.artist,
-                  albumtId: album.id,
+                  albumId: album.id,
+                  artistName: "",
                 )));
       },
     );

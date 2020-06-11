@@ -1,5 +1,4 @@
-//Import model files.
-import 'package:spotify/Models/external_url.dart';
+import '../utilities.dart';
 
 ///Context object to identify the [PlayHistory] object [Artist],[Album],[Playlist].
 class Context {
@@ -12,13 +11,14 @@ class Context {
   ///The spotify uri for this context.
   final String uri;
 
-  // final List<ExternalUrl> externalUrls;
-
   ///A String url to an image for this context object.
-  final String image;
+  final List<String> image;
 
   ///The name of the context sent according to its type.
   final String name;
+
+  ///The id of the playhistory object
+  final String id;
 
   ///Constructor for class album with named arguments assignment.
   Context({
@@ -28,6 +28,7 @@ class Context {
     //this.externalUrls,
     this.image,
     this.name,
+    this.id,
   });
 
   ///A method that parses a mapped object from a json file and returns an context object.
@@ -37,8 +38,9 @@ class Context {
       href: json['href'],
       uri: json['uri'],
       //externalUrls: parceExternalUrl(json['externalUrls']),
-      image: json['image'],
+      image: parseString(json['images']),
       name: json['name'],
+      id: json['id'],
     );
   }
 }

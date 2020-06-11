@@ -15,6 +15,10 @@ class PlayHistoryAPI {
     this.baseUrl,
   });
 
+
+///A method that fetches recently played playhistory objects.
+///It takes an input [token] of type [String].
+///It returns [List] of played history objects of type [Map<String,dynamic>].
   Future<List> fetchRecentlyPlayedApi(String token) async {
     final url = baseUrl +
         PlayHistoryEndpoints.me +
@@ -27,8 +31,7 @@ class PlayHistoryAPI {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> temp = json.decode(response.body);
-        Map<String, dynamic> temp2 = temp['data'];
-        final extractedList = temp2['items'] as List;
+        final extractedList = temp['data']['results']['items'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());

@@ -1,11 +1,16 @@
 //Importing libraries from external packages.
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart';
 //Importing providers.
 import 'package:provider/provider.dart';
 import 'package:spotify/Providers/categories_provider.dart';
+import 'package:spotify/Providers/play_history_provider.dart';
 import 'package:spotify/Providers/playlist_provider.dart';
 import 'package:spotify/Providers/user_provider.dart';
 import 'package:spotify/Providers/album_provider.dart';
+import 'package:spotify/widgets/play_history_list_widget.dart';
+import '../../Providers/playable_track.dart';
 import './tab_navigator.dart';
 //Importing Screens.
 import 'package:spotify/Screens/MainApp/tab_navigator.dart';
@@ -36,6 +41,36 @@ class _HomeScreenState extends State<HomeScreen> {
   ///A categoryprovider[PlaylistProvider] variable to get all the home screen categories.
   PlaylistProvider playlistProvider;
 
+  /// Boolean to indicate whether there is a new notifications to show badge.
+  bool showBadge = false;
+
+  ///A number to count the number of new notifications.
+  int numberOfNewNotifications = 0;
+  
+  @override
+  void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.configure(
+      onLaunch: (msg) async {
+        print(msg);
+        return;
+      },
+      onResume: (msg) async {
+        print(msg);
+        return;
+      },
+      onMessage: (msg) {
+        setState(() {
+          showBadge = true;
+          numberOfNewNotifications++;
+        });
+        print(msg);
+        return;
+      },
+    );
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
@@ -46,43 +81,53 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<CategoriesProvider>(context, listen: false);
       user = Provider.of<UserProvider>(context, listen: false);
       playlistProvider = Provider.of<PlaylistProvider>(context, listen: false);
-      // Provider.of<PlayHistoryProvider>(context, listen: false)
-      //     .fetchRecentlyPlayed(user.token);
+      Provider.of<PlayHistoryProvider>(context, listen: false)
+          .fetchRecentlyPlayed(user.token);
+      Provider.of<PlaylistProvider>(context, listen: false)
+          .fetchMadeForYou(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchMostRecentAlbums(user.token);
       Provider.of<AlbumProvider>(context, listen: false)
           .fetchPopularAlbums(user.token);
+      Provider.of<PlayableTrackProvider>(context, listen: false)
+          .fetchUserLikedTracks(user.token, 50);
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchMostRecentPlaylists(user.token)
           .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       });
+
       Provider.of<PlaylistProvider>(context, listen: false)
           .fetchPopularPlaylists(user.token);
       categoriesProvider.fetchHomeScreenCategories(user.token).then((_) {
-        setState(() {
-          if (categoriesProvider.isArabic) {
-            playlistProvider.fetchArabicPlaylists(
-                user.token, categoriesProvider.getArabicCategoryId);
-          }
-          if (categoriesProvider.isHappy) {
-            playlistProvider.fetchHappyPlaylists(
-                user.token, categoriesProvider.getHappyCategoryId);
-          }
-          if (categoriesProvider.isJazz) {
-            playlistProvider.fetchJazzPlaylists(
-                user.token, categoriesProvider.getJazzCategoryId);
-          }
-          if (categoriesProvider.isPop) {
-            playlistProvider.fetchPopPlaylists(
-                user.token, categoriesProvider.getPopCategoryId);
-          }
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            if (categoriesProvider.isArabic) {
+              playlistProvider.fetchArabicPlaylists(
+                  user.token, categoriesProvider.getArabicCategoryId);
+            }
+            if (categoriesProvider.isHappy) {
+              playlistProvider.fetchHappyPlaylists(
+                  user.token, categoriesProvider.getHappyCategoryId);
+            }
+            if (categoriesProvider.isJazz) {
+              playlistProvider.fetchJazzPlaylists(
+                  user.token, categoriesProvider.getJazzCategoryId);
+            }
+            if (categoriesProvider.isPop) {
+              playlistProvider.fetchPopPlaylists(
+                  user.token, categoriesProvider.getPopCategoryId);
+            }
+            _isLoading = false;
+          });
+        }
       });
     }
+
     _isInit = true;
     super.didChangeDependencies();
   }
@@ -90,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    PlayHistoryProvider playHistoryProvider =
+        Provider.of<PlayHistoryProvider>(context);
     return _isLoading
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -119,6 +166,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     expandedHeight: 0,
                     backgroundColor: Colors.transparent,
                     actions: <Widget>[
+                      Badge(
+                        showBadge: showBadge,
+                        animationType: BadgeAnimationType.scale,
+                        shape: BadgeShape.circle,
+                        position: BadgePosition(
+                          top: -0.5,
+                          right: -0.5,
+                        ),
+                        badgeColor: Colors.green,
+                        badgeContent: Text(
+                          numberOfNewNotifications.toString(),
+                          style: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showBadge = false;
+                              numberOfNewNotifications = 0;
+                            });
+                            Navigator.of(context).pushNamed(
+                                TabNavigatorRoutes.recentActivitiesScreen);
+                          },
+                          icon: Icon(
+                            Icons.notifications,
+                          ),
+                        ),
+                      ),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context)
@@ -127,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icon(
                           Icons.settings,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   SliverList(
@@ -135,7 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) {
                         return Column(
                           children: <Widget>[
-                            // RecentlyPlayedList(),
+                            if (!playHistoryProvider.getRecentlyPlayed.isEmpty)
+                              RecentlyPlayedList(),
+                            PlaylistList(PlaylistCategory.madeForYou),
                             PlaylistList(PlaylistCategory.mostRecentPlaylists),
                             PlaylistList(PlaylistCategory.popularPlaylists),
                             AlbumList(AlbumCategory.mostRecentAlbums),
@@ -150,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               PlaylistList(PlaylistCategory.happy),
                             SizedBox(
                               height: deviceSize.height * 0.1713,
-                            )
+                            ),
                           ],
                         );
                       },

@@ -4,59 +4,35 @@ import 'package:spotify/API_Providers/albumAPI.dart';
 void main() async {
   group('Album API Test', () {
     test('Popular Albums true', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotify.mocklab.io');
-      final List<dynamic> item = await albumsAPI.fetchPopularAlbumsApi('token');
-      expect(item[0]['_id'], '5e90e8fbe1451e424477b132');
-      expect(item[1]['_id'], '5e90e8fbe1451e424477b133');
-      expect(item[2]['_id'], '5e90e8fbe1451e424477b131');
-      expect(item[3]['_id'], '5e90e8fbe1451e424477b134');
-    });
-
-    test('Popular Albums false', () async {
       final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(albumsAPI.fetchPopularAlbumsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
+      final List<dynamic> item = await albumsAPI.fetchPopularAlbumsApi('token');
+      expect(item[0]['_id'], '5ec84430fcf468e8807fb646');
+      expect(item[1]['_id'], '5ec844341caeb6e8ebcca3a7');
+      expect(item[2]['_id'], '5ec84430fcf468e8807fb647');
+      expect(item[3]['_id'], '5ec844341caeb6e8ebcca3a8');
     });
 
     test('Most Recent Albums true', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotify.mocklab.io');
+      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item =
           await albumsAPI.fetchMostRecentAlbumsApi('token');
-      expect(item[0]['_id'], '5e90e8fbe1451e424477b133');
-      expect(item[1]['_id'], '5e90e8fbe1451e424477b131');
-      expect(item[2]['_id'], '5e90e8fbe1451e424477b132');
-      expect(item[3]['_id'], '5e90e8fbe1451e424477b134');
+      expect(item[0]['_id'], '5ec84430fcf468e8807fb645');
+      expect(item[1]['_id'], '5ec84430fcf468e8807fb646');
+      expect(item[2]['_id'], '5ec84430fcf468e8807fb647');
+      expect(item[3]['_id'], '5ec84430fcf468e8807fb648');
     });
-
-    test('Most Recent Albums false', () async {
+      test('Album tracks true', () async {
       final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(albumsAPI.fetchMostRecentAlbumsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
-
-    test('Album tracks true', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotify.mocklab.io');
       final List<dynamic> item =
-          await albumsAPI.fetchAlbumsTracksApi('token', '1234');
-      expect(item[0]['_id'], '5e90e902dbaa5b45a48541f3');
-    });
-
-    test('Album tracks false', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(albumsAPI.fetchAlbumsTracksApi('token', '1234'),
-          throwsA(isInstanceOf<Exception>()));
+          await albumsAPI.fetchAlbumsTracksApi('token', '5ec84430fcf468e8807fb647');
+      expect(item[0]['_id'], '5ec844300d5a54e890e655d4');
     });
 
     test('My albums true', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotify.mocklab.io');
+      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item = await albumsAPI.fetchMyAlbumsApi('token');
-      expect(item[0]['_id'], '5e90e8fbe1451e424477b131');
+      expect(item[0]['_id'], '5edffc0a535b988615daba1e');
     });
 
-    test('My albums false', () async {
-      final albumsAPI = new AlbumAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(albumsAPI.fetchMyAlbumsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
   });
 }

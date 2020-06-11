@@ -77,8 +77,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               leading: CircleAvatar(
                 backgroundColor: Color.fromRGBO(27, 255, 138, 1),
+                backgroundImage: _auth.getpickedImage != null
+                    ? FileImage(_auth.getpickedImage)
+                    : null,
                 child: Text(
-                  _auth.username[0],
+                  _auth.getpickedImage == null ? _auth.username[0] : "",
                   style: TextStyle(
                     color: Color.fromRGBO(20, 20, 20, 1),
                   ),
@@ -97,27 +100,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.white,
               ),
             ),
-            ListTile(
-              // onTap: () {},
-              title: Text(
-                'Notifications',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-              subtitle: Text(
-                'Choose which notifications to recieve.',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+            // ListTile(
+            //   // onTap: () {},
+            //   title: Text(
+            //     'Notifications',
+            //     style: TextStyle(
+            //       color: Colors.grey,
+            //     ),
+            //   ),
+            //   subtitle: Text(
+            //     'Choose which notifications to recieve.',
+            //     style: TextStyle(
+            //       color: Colors.grey,
+            //     ),
+            //   ),
+            // ),
             ListTile(
               onTap: () {
+                _auth.updateFirebaseToken(_auth.token,"");
                 _auth.logout();
                 Provider.of<PlaylistProvider>(context, listen: false)
                     .emptyLists();
-                //while (Navigator.of(context).canPop()) Navigator.pop(context);
                 Phoenix.rebirth(context);
               },
               title: Text(

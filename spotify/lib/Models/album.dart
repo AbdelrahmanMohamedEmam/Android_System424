@@ -34,6 +34,7 @@ class Album with ChangeNotifier {
   ///A list of url strings containing the images of the album.
   List<String> images;
 
+  ///the image of the album
   String image;
 
   ///String describing the label of the album.

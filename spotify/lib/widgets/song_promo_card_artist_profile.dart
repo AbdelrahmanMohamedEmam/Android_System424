@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Providers/user_provider.dart';
 import '../Models/track.dart';
 import '../Models/artist.dart';
 import '../Providers/playable_track.dart';
@@ -24,6 +25,8 @@ class _SongPromoCardState extends State<SongPromoCard> {
   Widget build(BuildContext context) {
     final playabletrack =
         Provider.of<PlayableTrackProvider>(context, listen: false);
+    final user =
+    Provider.of<UserProvider>(context, listen: false);
 
     final trackProvider = Provider.of<Track>(context);
     //List <Track> tracks = trackProvider.getTopTracks;
@@ -36,12 +39,15 @@ class _SongPromoCardState extends State<SongPromoCard> {
             padding: EdgeInsets.only(
                 top: deviceSize.width * 0.05,
                 bottom: deviceSize.width * 0.05,
-                left: deviceSize.width * 0.05),
-            child: Image.network(
-              image,
-              height: deviceSize.height * 0.08,
-              width: deviceSize.width * 0.07,
+                left: deviceSize.width * 0.05,
+            right:deviceSize.width * 0.03, ),
+            child: FadeInImage(placeholder:AssetImage('assets/images/temp.jpg'),
+              height: deviceSize.height * 0.1,
+              width: deviceSize.width * 0.1,
               fit: BoxFit.cover,
+              image:NetworkImage(
+              trackProvider.album.image,
+            ),
             ),
           ),
           Column(children: <Widget>[
@@ -63,7 +69,7 @@ class _SongPromoCardState extends State<SongPromoCard> {
         ],
       ),
       onTap: () {
-        playabletrack.setCurrentSong(trackProvider);
+        playabletrack.setCurrentSong(trackProvider,user.isUserPremium(),user.token);
         //Navigator.of(context).pushNamed(TabNavigatorRoutes.playlistScreen);
       },
     );

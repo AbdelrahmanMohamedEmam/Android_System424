@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
 import '../Models/track.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -60,10 +61,22 @@ class _PanelState extends State<Panel> {
                   Container(
                     margin: EdgeInsets.only(right: deviceSize.width * 0.03),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(!widget.song.isAd) {
+                          Navigator.of(context).push(PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.black87,
+                              pageBuilder: (BuildContext context, _, __) {
+                                return SongSettingsScreen(song: widget.song,);
+                              }
+                          ));
+                        }
+
+                        //Navigator.pushNamed(context, SongSettingsScreen.routeName, arguments:widget.song);
+                      },
                       icon: Icon(
                         Icons.more_horiz,
-                        color: Colors.white24,
+                        color: widget.song.isAd?Colors.grey:Colors.white,
                       ),
                       iconSize: deviceSize.height * 0.05,
                     ),

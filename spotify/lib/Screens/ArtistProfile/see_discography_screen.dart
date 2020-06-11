@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Models/track.dart';
 import 'package:spotify/Providers/artist_provider.dart';
+import 'package:spotify/Providers/track_provider.dart';
+import 'package:spotify/widgets/song_promo_card_artist_profile.dart';
 import '../../Models/album.dart';
 import '../../Models/artist.dart';
 import '../../Providers/album_provider.dart';
@@ -53,13 +56,13 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
     double heightAlbums = ((albums.length).toDouble()) * 150;
 
     ///tracks provider object to get artist top tracks data from the track object.
-    //final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
+    final tracksProvider = Provider.of<TrackProvider>(context, listen: false);
 
     ///list of albums to store tracks data to be displayed.
-    //List<Track> tracks;
+    List<Track> tracks;
 
     ///calling getter function.
-    //tracks = tracksProvider.getTopTracks;
+    tracks = tracksProvider.getTopTracks;
 
     return Scaffold(
       appBar: AppBar(
@@ -121,7 +124,7 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                 ),
               ),
             ),
-            /*Container(
+            Container(
               height: deviceSize.height * 0.3,
               width: double.infinity,
               child: ListView.builder(
@@ -134,7 +137,7 @@ class _ReleasesScreenState extends State<ReleasesScreen> {
                   child: SongPromoCard(),
                 ),
               ),
-            ),*/
+            ),
           ],
         ),
       ),

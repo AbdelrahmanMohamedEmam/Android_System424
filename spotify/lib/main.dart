@@ -7,12 +7,17 @@ import 'package:spotify/Providers/categories_provider.dart';
 
 ///Import providers.
 import 'package:spotify/Providers/playable_track.dart';
+import 'package:spotify/Screens/ArtistMode/edit_album_screen.dart';
+import 'package:spotify/Screens/ArtistProfile/Song_Artist_Info_Screen.dart';
+import 'package:spotify/Screens/MainApp/song_settings_screen.dart';
+import 'Providers/notification_provider.dart';
 import 'Providers/play_history_provider.dart';
 import 'Providers/user_provider.dart';
 import 'Providers/playlist_provider.dart';
 import 'Providers/album_provider.dart';
 import './Providers/artist_provider.dart';
-
+import './Providers/charts_provider.dart';
+import 'Screens/ArtistMode/edit_song.dart';
 ///Importing screens to add paths.
 import 'Screens/MainApp/artist_screen.dart';
 import 'Screens/MainApp/home_screen.dart';
@@ -29,10 +34,7 @@ import 'Screens/SignUpAndLogIn/forgot_password_email_screen.dart';
 import 'Screens/SignUpAndLogIn/logIn_screen.dart';
 import 'Screens/ArtistProfile/see_discography_screen.dart';
 import 'Screens/ArtistProfile/about_info_screen.dart';
-import 'Screens/ArtistProfile/song_promo_screen.dart';
-import 'package:spotify/Screens/ArtistMode/manage_profile_screen.dart';
 import 'package:spotify/Screens/ArtistMode/my_music_screen.dart';
-import 'package:spotify/Screens/ArtistMode/overview_screen.dart';
 import 'package:spotify/Screens/ArtistMode/stats_screen.dart';
 import 'package:spotify/Screens/ArtistMode/add_song_screen.dart';
 import 'package:spotify/Screens/MainApp/splash_Screen.dart';
@@ -40,6 +42,7 @@ import 'package:spotify/Screens/SignUpAndLogIn/choose_fav_artists.screen.dart';
 import 'package:spotify/Screens/SignUpAndLogIn/intro_screen.dart';
 import 'package:spotify/Widgets/trackPlayer.dart';
 import './Providers/track_provider.dart';
+import './Screens/ArtistMode/edit_album_screen.dart';
 
 ///A Function to read the configuration file before running the app.
 ///Reading a character from the config file located in the assets folder.
@@ -49,9 +52,9 @@ Future<String> setUrl() async {
   String content = await rootBundle.loadString("assets/config.txt");
   final option = content.substring(14, 15);
   if (option == '2') {
-    return 'http://spotify.mocklab.io';
+    return 'http://spotifybad.mocklab.io';
   } else if (option == '1') {
-    return 'http://138.91.114.14/api';
+    return 'https://totallynotspotify.codes/api';
   }
 }
 
@@ -103,6 +106,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: CategoriesProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
+          value: NotificationProvider(baseUrl: url),
+        ),
+        ChangeNotifierProvider.value(
+          value: ChartsProvider(),
         )
       ],
       child: Consumer<UserProvider>(
@@ -116,6 +125,9 @@ class MyApp extends StatelessWidget {
           ),
           home: SplashScreen(),
           routes: {
+            // PopUpMenuPlaylistScreen.routeName:(ctx)=>PopUpMenuPlaylistScreen(playlist, category),
+            // PopUpMenuAlbumScreen.routeName:(ctx)=>PopUpMenuAlbumScreen(album, category),
+            SongSettingsScreen.routeName:(ctx)=>SongSettingsScreen(),
             CreateEmailScreen.routeName: (ctx) => CreateEmailScreen(),
             CreatePasswordScreen.routeName: (ctx) => CreatePasswordScreen(),
             AddBirthDateScreen.routeName: (ctx) => AddBirthDateScreen(),
@@ -139,11 +151,15 @@ class MyApp extends StatelessWidget {
             MainWidget.routeName: (ctx) => MainWidget(),
             IntroScreen.routeName: (ctx) => IntroScreen(),
             SplashScreen.routeName: (ctx) => SplashScreen(),
-            ManageProfileScreen.routeName: (ctx) => ManageProfileScreen(),
-            OverviewScreen.routeName: (ctx) => OverviewScreen(),
             StatsScreen.routeName: (ctx) => StatsScreen(),
             MyMusicScreen.routeName: (ctx) => MyMusicScreen(),
             AddSongScreen.routeName: (ctx) => AddSongScreen(),
+            EditAlbum.routeName: (ctx) => EditAlbum(),
+            SongSettingsScreen.routeName: (ctx) => SongSettingsScreen(),
+            StatsScreen.routeName: (ctx) => StatsScreen(),
+            EditSongScreen.routeName: (ctx) => EditSongScreen(),
+            InfoScreen.routeName: (ctx) => InfoScreen(),
+            //StatsScreen.routeName: (ctx) =>ArtistAlbumSongsScreen(),
           },
         ),
       ),

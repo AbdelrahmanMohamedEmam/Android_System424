@@ -30,19 +30,19 @@ class ArtistAPI {
   ArtistAPI({this.baseUrl});
 
   ///A method that fetches Artist information by ID.
-  Future<Artist> fetchChosenApi(String token, String id) async {
+  Future <Map<String, dynamic>> fetchChosenApi(String token, String id) async {
     final url = baseUrl + ArtistEndPoints.artists + '/' + id;
     try {
       final response = await http.get(
         url,
         headers: {"authorization": "Bearer " + token},
       );
+
       if (response.statusCode == 200 || response.statusCode == 211) {
         Map<String, dynamic> temp = json.decode(response.body);
         Map<String, dynamic> extractedList = temp['data'];
-        //Map<String, dynamic> extractedList = json.decode(response.body);
-        Artist chosenArtist = Artist.fromJson(extractedList);
-        return chosenArtist;
+        //Map<String, dynamic> extractedList2 = extractedList['artist'];
+        return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
       }
@@ -86,8 +86,10 @@ class ArtistAPI {
         url,
         headers: {'authorization': token},
       );
+      print('mahmoud');
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 211) {
-        final extractedList = json.decode(response.body) as List;
+        final extractedList = json.decode(response.body)['data'] as List;
         return extractedList;
       } else {
         throw HttpException(json.decode(response.body)['message'].toString());
@@ -96,4 +98,6 @@ class ArtistAPI {
       throw HttpException(error.toString());
     }
   }
+  
 }
+

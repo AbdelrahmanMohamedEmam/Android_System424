@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 //import '../../Providers/album_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:spotify/Providers/album_provider.dart';
 import '../../Providers/user_provider.dart';
 
 class AddSongScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
   String _fileName;
 
   ///the path of the file in the device.
-  String _path;
+  File _path;
 
   ///extension of the file which is audio here.
   String _extension;
@@ -53,11 +56,13 @@ class _AddSongScreenState extends State<AddSongScreen> {
       content: Text(message),
     ));
   }*/
-  /*void _openFileExplorer() async {
+  void _openFileExplorer() async {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
-          _path = await FilePicker.getFilePath(type: _pickingType, /fileExtension: _extension/);
+
+          _path = await FilePicker.getFile(type: _pickingType,);// allowedExtensions: ['mp3' , 'mp4']);
+
 
       } on PlatformException catch (e) {
         print("Unsupported operation" + e.toString());
@@ -65,31 +70,43 @@ class _AddSongScreenState extends State<AddSongScreen> {
       if (!mounted) return;
       setState(() {
         _loadingPath = false;
-        _fileName = _path != null ? _path.split('/').last  : '...';
+        _fileName = _path != null ? _path.path.split('/').last  : '...';
       });
     }
-  }*/
-  /*void uploadF(BuildContext context , String path , String userToken , String songName, String id) async
+  }
+  void uploadF(BuildContext context , File path , String userToken , String songName, String id) async
   {
+    final deviceSize = MediaQuery.of(context).size;
     bool check =
         await Provider.of<AlbumProvider>(context , listen: false)
         .uploadSong(userToken ,songName ,path , id);
     setState(() {
       if(check)
       {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("song added successfuly!"))));
         Navigator.of(context).pop();
+
+      }
+      else
+      {
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Container(
+                    height: deviceSize.height*0.1,
+                    child: Text("something went wrong ,please try again!"))));
       }
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context, listen: false).token;
-    final routeArgs =
-    ModalRoute.of(context).settings.arguments as Map<String, String>;
-    //id = routeArgs["id"];
-    //String albumId = 'hjdksksl';
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
@@ -126,16 +143,21 @@ class _AddSongScreenState extends State<AddSongScreen> {
                         keyboardType: TextInputType.text,
                       ),
                     ),
-                    new Padding(
-                      padding: EdgeInsets.only(
-                          top: deviceSize.width * 0.03, bottom: 0.05),
-                      child: new RaisedButton(
-                        //onPressed: () => _openFileExplorer(),
-                        child: new Text(
-                          "Open file picker",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
+
+                    style: TextStyle(color: Colors.black),
+                    cursorColor: Theme.of(context).primaryColor,
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+                new Padding(
+                  padding: EdgeInsets.only(
+                      top: deviceSize.width * 0.03, bottom: 0.05),
+                  child: new RaisedButton(
+                    onPressed: () => _openFileExplorer(),
+                    child: new Text(
+                      "Open file picker",
+                      style: TextStyle(color: Colors.grey),
+
                     ),
                     new Builder(
                       builder: (BuildContext context) => _loadingPath
@@ -145,33 +167,44 @@ class _AddSongScreenState extends State<AddSongScreen> {
                           child: CircularProgressIndicator())
                           : _path != null
                           ? new Container(
-                        padding: EdgeInsets.only(
-                            bottom: deviceSize.width * 0.04),
-                        height: deviceSize.height * 0.25,
-                        child: new Scrollbar(
-                            child: new ListView.separated(
-                              itemCount: _pathLen,
-                              itemBuilder: (BuildContext context, int index) {
-                                final String name =
-                                    'File name : ' + _fileName;
-                                final path = _path;
-                                return ListTile(
-                                  title: new Text(
-                                    name,
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                  subtitle: new Text(
-                                    path,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                  Divider(),
-                            )),
-                      )
+
+                              padding: EdgeInsets.only(
+                                  bottom: deviceSize.width * 0.04),
+                              height: deviceSize.height * 0.25,
+                              child: new Scrollbar(
+                                  child: new ListView.separated(
+                                itemCount: _pathLen,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final String name =
+                                      'File name : ' + _fileName;
+                                  final path = _path;
+                                  return ListTile(
+                                    title: new Text(
+                                      name,
+                                      style: TextStyle(color: Colors.green),
+                                    ),
+                                    subtitle: new Text(
+                                      path.path,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        Divider(),
+                              )),
+                            )
                           : Container(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: deviceSize.height * 0.03),
+                  color: Colors.green,
+                  child: IconButton(
+                    focusColor: Colors.white,
+                    onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,widget.id),
+                    icon: Icon(
+                      Icons.add,
+
                     ),
                     Container(
                       margin: EdgeInsets.only(top: deviceSize.height * 0.03),

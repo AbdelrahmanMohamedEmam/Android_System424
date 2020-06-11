@@ -75,6 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
   ///Choosing the appropriate screen to show based on cached data.
   void navigateUser() async {
     if (isAuth) {
+      print('token: '+Provider.of<UserProvider>(context, listen: false).token);
       Navigator.of(context).pushReplacementNamed(MainWidget.routeName);
     } else {
       Navigator.of(context).pushReplacementNamed(IntroScreen.routeName);
@@ -90,6 +91,14 @@ class _SplashScreenState extends State<SplashScreen>
       _user.tryAutoLogin();
       isAuth = _user.isAuth;
       dataUpdated = isAuth;
+      
+      try {
+        _user.tryAutoLogin();
+        isAuth = _user.isAuth;
+        dataUpdated = isAuth;
+      }catch(error){
+        print(error.toString());
+      }
     }
 
     ///Showing the animated logo at the center of the screen.

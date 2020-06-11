@@ -3,70 +3,44 @@ import 'package:spotify/API_Providers/playlistAPI.dart';
 
 void main() async {
   group('Playlist API Test', () {
-    test('Popular Playlists true', () async {
-      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
+    test('Most recent Playlists true', () async {
+      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item =
           await playlistAPI.fetchMostRecentPlaylistsApi('token');
-      expect(item[0]['_id'], '5e90e910c19b3c4e3c1ce098');
-      expect(item[1]['_id'], '5e90e910c19b3c4e3c1ce097');
-      expect(item[2]['_id'], '5e90e910c19b3c4e3c1ce096');
-      expect(item[3]['_id'], '5e90e910c19b3c4e3c1ce095');
-      expect(item[4]['_id'], '5e90e910c19b3c4e3c1ce094');
+      expect(item[0]['_id'], '5ee0be178f5f8395b97ba5f2');
+      expect(item[1]['_id'], '5ee0acc0ec5a0890fe9ba7dc');
+      expect(item[2]['_id'], '5ee017626ce952c5c02ec082');
+      expect(item[3]['_id'], '5ee05fab6ce952c5c02ec226');
+      expect(item[4]['_id'], '5ee0836d6ce952c5c02ec742');
     });
 
-    test('popular playlists false', () async {
-      final playlistAPI =
-          new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playlistAPI.fetchPopularPlaylistsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
-    });
 
-    test('Most Recent Playlists true', () async {
-      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
+    test('popular Playlists true', () async {
+      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item =
           await playlistAPI.fetchPopularPlaylistsApi('token');
-      expect(item[0]['_id'], '5e90e910c19b3c4e3c1ce095');
-      expect(item[1]['_id'], '5e90e910c19b3c4e3c1ce098');
-      expect(item[2]['_id'], '5e90e910c19b3c4e3c1ce092');
-      expect(item[3]['_id'], '5e90e910c19b3c4e3c1ce096');
-      expect(item[4]['_id'], '5e90e910c19b3c4e3c1ce097');
-    });
-
-    test('Most recent false', () async {
-      final playlistAPI =
-          new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playlistAPI.fetchMostRecentPlaylistsApi('token'),
-          throwsA(isInstanceOf<Exception>()));
+      expect(item[0]['_id'], '5ec8443104c74ae8b5687105');
+      expect(item[1]['_id'], '5ec8443104c74ae8b5687108');
+      expect(item[2]['_id'], '5ec8443104c74ae8b5687102');
+      expect(item[3]['_id'], '5ec8443104c74ae8b5687106');
+      expect(item[4]['_id'], '5ec8443104c74ae8b5687107');
     });
 
     test('Playlist tracks true', () async {
-      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
+      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item =
-          await playlistAPI.fetchPlaylistsTracksApi('token', '1234');
-      expect(item[0]['_id'], '5e90e902dbaa5b45a48541ef');
-      expect(item[1]['_id'], '5e90e902dbaa5b45a48541f0');
-    });
-
-    test('Playlist tracks false', () async {
-      final playlistAPI =
-          new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-      expect(playlistAPI.fetchPlaylistsTracksApi('token', '1234'),
-          throwsA(isInstanceOf<Exception>()));
+          await playlistAPI.fetchPlaylistsTracksApi('token', '5ec8443104c74ae8b5687105');
+      expect(item[0]['_id'], '5ec844300d5a54e890e655ce');
     });
 
     test('Artists playlists true', () async {
-      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotify.mocklab.io');
+      final playlistAPI = new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
       final List<dynamic> item =
-          await playlistAPI.fetchArtistPlaylistsApi('token', '1234');
-      expect(item[0]['_id'], '5e90e910c19b3c4e3c1ce091');
-      expect(item[1]['_id'], '5e90e910c19b3c4e3c1ce094');
+          await playlistAPI.fetchArtistPlaylistsApi('token', '5ec8442cee0c17e8674c3b10');
+      expect(item[0]['_id'], '5ec8443104c74ae8b5687102');
+      //expect(item[1]['_id'], '5e90e910c19b3c4e3c1ce094');
     });
 
-    // test('Artists playlists false', () async {
-    //   final playlistAPI =
-    //       new PlaylistAPI(baseUrl: 'http://spotifybad.mocklab.io');
-    //   expect(playlistAPI.fetchArtistPlaylistsApi('token', '1234'),
-    //       throwsA(isInstanceOf<Exception>()));
-    // });
+   
   });
 }
