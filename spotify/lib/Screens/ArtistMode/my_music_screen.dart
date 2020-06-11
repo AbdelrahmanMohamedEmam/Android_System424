@@ -180,6 +180,7 @@ class _MyMusicScreenState extends State<MyMusicScreen> {
                 ),
               ],
             ),
+
             body: Container(
               color: Colors.black,
               height: double.infinity,

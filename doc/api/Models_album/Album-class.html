@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the Album class from the album library, for the Dart programming language.">
+  <title>Album class - album library - Dart API</title>
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="..">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+  <!-- header placeholder -->
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">spotify</a></li>
+    <li><a href="Models_album/Models_album-library.html">album</a></li>
+    <li class="self-crumb">Album class</li>
+  </ol>
+  <div class="self-name">Album</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="index.html">spotify</a></li>
+      <li><a href="Models_album/Models_album-library.html">album</a></li>
+      <li class="self-crumb">Album class</li>
+    </ol>
+    
+    <h5>album library</h5>
+    <ol>
+      <li class="section-title"><a href="Models_album/Models_album-library.html#classes">Classes</a></li>
+      <li><a href="Models_album/Album-class.html">Album</a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">Album</span> class </h1></div>
+
+    <section class="desc markdown">
+      <p>Album class that describes the album model that will be displayed.</p>
+    </section>
+    
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="Album" class="callable">
+          <span class="name"><a href="Models_album/Album/Album.html">Album</a></span><span class="signature">({<span class="parameter" id="-param-albumType"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">albumType</span>, </span> <span class="parameter" id="-param-artists"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_artist/Artist-class.html">Artist</a></span>&gt;</span></span> <span class="parameter-name">artists</span>, </span> <span class="parameter" id="-param-copyrights"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">copyrights</span>, </span> <span class="parameter" id="-param-externalUrls"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">externalUrls</span>, </span> <span class="parameter" id="-param-genres"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">genres</span>, </span> <span class="parameter" id="-param-href"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">href</span>, </span> <span class="parameter" id="-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span>, </span> <span class="parameter" id="-param-images"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">images</span>, </span> <span class="parameter" id="-param-image"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">image</span>, </span> <span class="parameter" id="-param-label"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">label</span>, </span> <span class="parameter" id="-param-name"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, </span> <span class="parameter" id="-param-popularity"><span class="type-annotation"><a href="dart-core/int-class.html">int</a></span> <span class="parameter-name">popularity</span>, </span> <span class="parameter" id="-param-releaseDate"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">releaseDate</span>, </span> <span class="parameter" id="-param-type"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">type</span>, </span> <span class="parameter" id="-param-uri"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span>, </span> <span class="parameter" id="-param-totalTracks"><span class="type-annotation"><a href="dart-core/int-class.html">int</a></span> <span class="parameter-name">totalTracks</span>, </span> <span class="parameter" id="-param-tracks"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_track/Track-class.html">Track</a></span>&gt;</span></span> <span class="parameter-name">tracks</span></span> })</span>
+        </dt>
+        <dd>
+          Constructor for class album with named arguments assignment.
+Required parameters:{href,id,name,artists,uri}.
+        </dd>
+        <dt id="Album.fromJson" class="callable">
+          <span class="name"><a href="Models_album/Album/Album.fromJson.html">Album.fromJson</a></span><span class="signature">(<span class="parameter" id="fromJson-param-json"><span class="type-annotation"><a href="dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span></span>)</span>
+        </dt>
+        <dd>
+          A method that parses a mapped object from a json file and returns an album object.
+          <div class="constructor-modifier features">factory</div>
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="albumType" class="property">
+          <span class="name"><a href="Models_album/Album/albumType.html">albumType</a></span>
+          <span class="signature">&#8596; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          The type of the album sent ex:"single".
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="artists" class="property">
+          <span class="name"><a href="Models_album/Album/artists.html">artists</a></span>
+          <span class="signature">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_artist/Artist-class.html">Artist</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A list of artist objects. the artists of the album {required}.
+                  <div class="features">final</div>
+</dd>
+        <dt id="copyrights" class="property">
+          <span class="name"><a href="Models_album/Album/copyrights.html">copyrights</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A list of of strings for the copyrights of the album.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="externalUrls" class="property">
+          <span class="name"><a href="Models_album/Album/externalUrls.html">externalUrls</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          An list of objects containing  the url and its type of the object.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="genres" class="property">
+          <span class="name"><a href="Models_album/Album/genres.html">genres</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A list of string describing the genres of the album ex:"synthwave".
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="href" class="property">
+          <span class="name"><a href="Models_album/Album/href.html">href</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          A link to the web api end point providing all details of this album{required}.
+                  <div class="features">final</div>
+</dd>
+        <dt id="id" class="property">
+          <span class="name"><a href="Models_album/Album/id.html">id</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          Base 62-identifier of this object (album){required}.
+                  <div class="features">final</div>
+</dd>
+        <dt id="image" class="property">
+          <span class="name"><a href="Models_album/Album/image.html">image</a></span>
+          <span class="signature">&#8596; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="images" class="property">
+          <span class="name"><a href="Models_album/Album/images.html">images</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A list of url strings containing the images of the album.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="isFetched" class="property">
+          <span class="name"><a href="Models_album/Album/isFetched.html">isFetched</a></span>
+          <span class="signature">&#8596; <a href="dart-core/bool-class.html">bool</a></span>         
+        </dt>
+        <dd>
+          Boolean to ensure that an album is not fetched more than once.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="label" class="property">
+          <span class="name"><a href="Models_album/Album/label.html">label</a></span>
+          <span class="signature">&#8596; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          String describing the label of the album.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="name" class="property">
+          <span class="name"><a href="Models_album/Album/name.html">name</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          The name of the album{required}.
+                  <div class="features">final</div>
+</dd>
+        <dt id="popularity" class="property">
+          <span class="name"><a href="Models_album/Album/popularity.html">popularity</a></span>
+          <span class="signature">&#8596; <a href="dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd>
+          A number describing the total number of likes of its individual tracks.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="releaseDate" class="property">
+          <span class="name"><a href="Models_album/Album/releaseDate.html">releaseDate</a></span>
+          <span class="signature">&#8596; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          A string to describe the release date of the album, it might be in yyyy-mm format or yyyy-mm-dd.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="totalTracks" class="property">
+          <span class="name"><a href="Models_album/Album/totalTracks.html">totalTracks</a></span>
+          <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd>
+          The total number of tracks included in this album.
+                  <div class="features">final</div>
+</dd>
+        <dt id="tracks" class="property">
+          <span class="name"><a href="Models_album/Album/tracks.html">tracks</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_track/Track-class.html">Track</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          List of track objects that are in this album.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="type" class="property">
+          <span class="name"><a href="Models_album/Album/type.html">type</a></span>
+          <span class="signature">&#8596; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          A string describing the type of the album ex: "album".
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="uri" class="property">
+          <span class="name"><a href="Models_album/Album/uri.html">uri</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          The spotify uri for this album{required}.
+                  <div class="features">final</div>
+</dd>
+        <dt id="hashCode" class="property inherited">
+          <span class="name"><a href="dart-core/Object/hashCode.html">hashCode</a></span>
+          <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd class="inherited">
+          The hash code for this object. <a href="dart-core/Object/hashCode.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="hasListeners" class="property inherited">
+          <span class="name"><a href="Models_album/Album/hasListeners.html">hasListeners</a></span>
+          <span class="signature">&#8594; <a href="dart-core/bool-class.html">bool</a></span>         
+        </dt>
+        <dd class="inherited">
+          Whether any listeners are currently registered. <a href="Models_album/Album/hasListeners.html">[...]</a>
+                  <div class="features">@protected, read-only, inherited</div>
+</dd>
+        <dt id="runtimeType" class="property inherited">
+          <span class="name"><a href="dart-core/Object/runtimeType.html">runtimeType</a></span>
+          <span class="signature">&#8594; <a href="dart-core/Type-class.html">Type</a></span>         
+        </dt>
+        <dd class="inherited">
+          A representation of the runtime type of the object.
+                  <div class="features">read-only, inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="addListener" class="callable inherited">
+          <span class="name"><a href="Models_album/Album/addListener.html">addListener</a></span><span class="signature">(<wbr><span class="parameter" id="addListener-param-listener"><span class="type-annotation"><a href="dart-ui/VoidCallback.html">VoidCallback</a></span> <span class="parameter-name">listener</span></span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Register a closure to be called when the object changes. <a href="Models_album/Album/addListener.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="dispose" class="callable inherited">
+          <span class="name"><a href="Models_album/Album/dispose.html">dispose</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Discards any resources used by the object. After this is called, the
+object is not in a usable state and should be discarded (calls to
+<a href="Providers_user_provider/UserProvider/addListener.html">addListener</a> and <a href="Providers_user_provider/UserProvider/removeListener.html">removeListener</a> will throw after the object is
+disposed). <a href="Models_album/Album/dispose.html">[...]</a>
+                  <div class="features">@mustCallSuper, inherited</div>
+</dd>
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="dart-core/Object/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="notifyListeners" class="callable inherited">
+          <span class="name"><a href="Models_album/Album/notifyListeners.html">notifyListeners</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Call all the registered listeners. <a href="Models_album/Album/notifyListeners.html">[...]</a>
+                  <div class="features">@protected, @visibleForTesting, inherited</div>
+</dd>
+        <dt id="removeListener" class="callable inherited">
+          <span class="name"><a href="Models_album/Album/removeListener.html">removeListener</a></span><span class="signature">(<wbr><span class="parameter" id="removeListener-param-listener"><span class="type-annotation"><a href="dart-ui/VoidCallback.html">VoidCallback</a></span> <span class="parameter-name">listener</span></span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Remove a previously registered closure from the list of closures that are
+notified when the object changes. <a href="Models_album/Album/removeListener.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="toString" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Returns a string representation of this object.
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          The equality operator. <a href="dart-core/Object/operator_equals.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <ol>
+    
+      <li class="section-title"><a href="Models_album/Album-class.html#constructors">Constructors</a></li>
+      <li><a href="Models_album/Album/Album.html">Album</a></li>
+      <li><a href="Models_album/Album/Album.fromJson.html">fromJson</a></li>
+    
+      <li class="section-title">
+        <a href="Models_album/Album-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="Models_album/Album/albumType.html">albumType</a></li>
+      <li><a href="Models_album/Album/artists.html">artists</a></li>
+      <li><a href="Models_album/Album/copyrights.html">copyrights</a></li>
+      <li><a href="Models_album/Album/externalUrls.html">externalUrls</a></li>
+      <li><a href="Models_album/Album/genres.html">genres</a></li>
+      <li><a href="Models_album/Album/href.html">href</a></li>
+      <li><a href="Models_album/Album/id.html">id</a></li>
+      <li><a href="Models_album/Album/image.html">image</a></li>
+      <li><a href="Models_album/Album/images.html">images</a></li>
+      <li><a href="Models_album/Album/isFetched.html">isFetched</a></li>
+      <li><a href="Models_album/Album/label.html">label</a></li>
+      <li><a href="Models_album/Album/name.html">name</a></li>
+      <li><a href="Models_album/Album/popularity.html">popularity</a></li>
+      <li><a href="Models_album/Album/releaseDate.html">releaseDate</a></li>
+      <li><a href="Models_album/Album/totalTracks.html">totalTracks</a></li>
+      <li><a href="Models_album/Album/tracks.html">tracks</a></li>
+      <li><a href="Models_album/Album/type.html">type</a></li>
+      <li><a href="Models_album/Album/uri.html">uri</a></li>
+      <li class="inherited"><a href="dart-core/Object/hashCode.html">hashCode</a></li>
+      <li class="inherited"><a href="Models_album/Album/hasListeners.html">hasListeners</a></li>
+      <li class="inherited"><a href="dart-core/Object/runtimeType.html">runtimeType</a></li>
+    
+      <li class="section-title inherited"><a href="Models_album/Album-class.html#instance-methods">Methods</a></li>
+      <li class="inherited"><a href="Models_album/Album/addListener.html">addListener</a></li>
+      <li class="inherited"><a href="Models_album/Album/dispose.html">dispose</a></li>
+      <li class="inherited"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+      <li class="inherited"><a href="Models_album/Album/notifyListeners.html">notifyListeners</a></li>
+      <li class="inherited"><a href="Models_album/Album/removeListener.html">removeListener</a></li>
+      <li class="inherited"><a href="dart-core/Object/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="Models_album/Album-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    spotify
+      1.0.0+1
+  </span>
+
+  <!-- footer-text placeholder -->
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+<!-- footer placeholder -->
+
+</body>
+
+</html>

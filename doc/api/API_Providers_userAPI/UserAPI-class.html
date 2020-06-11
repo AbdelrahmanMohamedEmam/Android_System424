@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the UserAPI class from the userAPI library, for the Dart programming language.">
+  <title>UserAPI class - userAPI library - Dart API</title>
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="..">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+  <!-- header placeholder -->
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">spotify</a></li>
+    <li><a href="API_Providers_userAPI/API_Providers_userAPI-library.html">userAPI</a></li>
+    <li class="self-crumb">UserAPI class</li>
+  </ol>
+  <div class="self-name">UserAPI</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="index.html">spotify</a></li>
+      <li><a href="API_Providers_userAPI/API_Providers_userAPI-library.html">userAPI</a></li>
+      <li class="self-crumb">UserAPI class</li>
+    </ol>
+    
+    <h5>userAPI library</h5>
+    <ol>
+      <li class="section-title"><a href="API_Providers_userAPI/API_Providers_userAPI-library.html#classes">Classes</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI-class.html">UserAPI</a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">UserAPI</span> class </h1></div>
+
+    <section class="desc markdown">
+      <p>This class provides functions to send all the requests required from <a href="Providers_user_provider/UserProvider-class.html">UserProvider</a>.
+It provides authentication requests, such as sign up, sign in requests.
+It provides user related requests, such as upgrade user to premium.</p>
+    </section>
+    
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="UserAPI" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/UserAPI.html">UserAPI</a></span><span class="signature">({<span class="parameter" id="-param-baseUrl"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">baseUrl</span></span> })</span>
+        </dt>
+        <dd>
+          
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="baseUrl" class="property">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/baseUrl.html">baseUrl</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          
+                  <div class="features">final</div>
+</dd>
+        <dt id="facebookLogin" class="property">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/facebookLogin.html">facebookLogin</a></span>
+          <span class="signature">&#8596; FacebookLogin</span>         
+        </dt>
+        <dd>
+          Facebook Login Attributes.
+An object of facebook plugin.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="hashCode" class="property inherited">
+          <span class="name"><a href="dart-core/Object/hashCode.html">hashCode</a></span>
+          <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd class="inherited">
+          The hash code for this object. <a href="dart-core/Object/hashCode.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="runtimeType" class="property inherited">
+          <span class="name"><a href="dart-core/Object/runtimeType.html">runtimeType</a></span>
+          <span class="signature">&#8594; <a href="dart-core/Type-class.html">Type</a></span>         
+        </dt>
+        <dd class="inherited">
+          A representation of the runtime type of the object.
+                  <div class="features">read-only, inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="askForPremium" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/askForPremium.html">askForPremium</a></span><span class="signature">(<wbr><span class="parameter" id="askForPremium-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to send an email with a confirmation code to be a premium user.
+Token must be provided for authentication.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="changePasswordApi" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/changePasswordApi.html">changePasswordApi</a></span><span class="signature">(<wbr><span class="parameter" id="changePasswordApi-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span> <span class="parameter" id="changePasswordApi-param-newPassword"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">newPassword</span></span> <span class="parameter" id="changePasswordApi-param-oldPassword"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">oldPassword</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to change the password.
+Old password and new password must be provided.
+Token must be provided for authentication.
+In case of success true is returned.
+In case of failure false is returned.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="followArtist" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/followArtist.html">followArtist</a></span><span class="signature">(<wbr><span class="parameter" id="followArtist-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span> <span class="parameter" id="followArtist-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to follow an artist given the id.
+Id must be provided.
+Token must be provided for authentication.
+In case of success true is returned.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="forgetPassword" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/forgetPassword.html">forgetPassword</a></span><span class="signature">(<wbr><span class="parameter" id="forgetPassword-param-email"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">email</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to send an email to create a new password.
+Email must be provided.
+In case of success it will return true.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="setUser" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/setUser.html">setUser</a></span><span class="signature">(<wbr><span class="parameter" id="setUser-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_user/User-class.html">User</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to get the data of the user.
+Token must be provided for authentication.
+In case of the success an object from model <a href="Models_user/User-class.html">User</a> will be returned containing all the used info needed.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="signIn" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/signIn.html">signIn</a></span><span class="signature">(<wbr><span class="parameter" id="signIn-param-email"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">email</span></span> <span class="parameter" id="signIn-param-password"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">password</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to get the authentication token of the user to sign him in.
+Email and password must be provided.
+In case of success a map of keys and dynamic values will be returned.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="signInWithFB" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/signInWithFB.html">signInWithFB</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a http request to signIn/signUp with facebook account.
+In case of success a map of keys and dynamics is returned.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="signUp" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/signUp.html">signUp</a></span><span class="signature">(<wbr><span class="parameter" id="signUp-param-email"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">email</span></span> <span class="parameter" id="signUp-param-password"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">password</span></span> <span class="parameter" id="signUp-param-gender"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">gender</span></span> <span class="parameter" id="signUp-param-username"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">username</span></span> <span class="parameter" id="signUp-param-dateOfBirth"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">dateOfBirth</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A request to signUp a new user.
+Email, password, gender, username and date of birth must be provided.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+In case of success the data is returned as a map of keys and dynamic objects.
+In case of failure an exception is thrown.
+                  
+</dd>
+        <dt id="upgradePremium" class="callable">
+          <span class="name"><a href="API_Providers_userAPI/UserAPI/upgradePremium.html">upgradePremium</a></span><span class="signature">(<wbr><span class="parameter" id="upgradePremium-param-confirmationCode"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">confirmationCode</span></span> <span class="parameter" id="upgradePremium-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          Sends a request to upgrade the user to be a premium user.
+Token must be provided for authentication.
+Confirmation code must be provided.
+In case of success true is returned.
+Throws an error if request failed.
+<a href="Models_http_exception/HttpException-class.html">HttpException</a> class is used to create an error object to throw it in case of failure.
+                  
+</dd>
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="dart-core/Object/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="toString" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Returns a string representation of this object.
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          The equality operator. <a href="dart-core/Object/operator_equals.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <ol>
+    
+      <li class="section-title"><a href="API_Providers_userAPI/UserAPI-class.html#constructors">Constructors</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/UserAPI.html">UserAPI</a></li>
+    
+      <li class="section-title">
+        <a href="API_Providers_userAPI/UserAPI-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="API_Providers_userAPI/UserAPI/baseUrl.html">baseUrl</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/facebookLogin.html">facebookLogin</a></li>
+      <li class="inherited"><a href="dart-core/Object/hashCode.html">hashCode</a></li>
+      <li class="inherited"><a href="dart-core/Object/runtimeType.html">runtimeType</a></li>
+    
+      <li class="section-title"><a href="API_Providers_userAPI/UserAPI-class.html#instance-methods">Methods</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/askForPremium.html">askForPremium</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/changePasswordApi.html">changePasswordApi</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/followArtist.html">followArtist</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/forgetPassword.html">forgetPassword</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/setUser.html">setUser</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/signIn.html">signIn</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/signInWithFB.html">signInWithFB</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/signUp.html">signUp</a></li>
+      <li><a href="API_Providers_userAPI/UserAPI/upgradePremium.html">upgradePremium</a></li>
+      <li class="inherited"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+      <li class="inherited"><a href="dart-core/Object/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="API_Providers_userAPI/UserAPI-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    spotify
+      1.0.0+1
+  </span>
+
+  <!-- footer-text placeholder -->
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+<!-- footer placeholder -->
+
+</body>
+
+</html>

@@ -238,13 +238,13 @@ class _CreateAlbumState extends State<CreateAlbum> {
               children: <Widget>[
                 imageURI == null
                     ? Text(
-                        'No image selected.',
-                        style: TextStyle(color: Colors.redAccent),
-                      )
+                  'No image selected.',
+                  style: TextStyle(color: Colors.redAccent),
+                )
                     : Image.file(imageURI,
-                        width: deviceSize.width * 0.4,
-                        height: deviceSize.width * 0.4,
-                        fit: BoxFit.cover),
+                    width: deviceSize.width * 0.4,
+                    height: deviceSize.width * 0.4,
+                    fit: BoxFit.cover),
                 Container(
                     margin: EdgeInsets.only(
                         top: deviceSize.width * 0.02,

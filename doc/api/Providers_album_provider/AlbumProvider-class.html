@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the AlbumProvider class from the album_provider library, for the Dart programming language.">
+  <title>AlbumProvider class - album_provider library - Dart API</title>
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="..">
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+  <!-- header placeholder -->
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">spotify</a></li>
+    <li><a href="Providers_album_provider/Providers_album_provider-library.html">album_provider</a></li>
+    <li class="self-crumb">AlbumProvider class</li>
+  </ol>
+  <div class="self-name">AlbumProvider</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="index.html">spotify</a></li>
+      <li><a href="Providers_album_provider/Providers_album_provider-library.html">album_provider</a></li>
+      <li class="self-crumb">AlbumProvider class</li>
+    </ol>
+    
+    <h5>album_provider library</h5>
+    <ol>
+      <li class="section-title"><a href="Providers_album_provider/Providers_album_provider-library.html#classes">Classes</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider-class.html">AlbumProvider</a></li>
+    
+    
+    
+    
+    
+    
+      <li class="section-title"><a href="Providers_album_provider/Providers_album_provider-library.html#enums">Enums</a></li>
+      <li><a href="Providers_album_provider/AlbumCategory-class.html">AlbumCategory</a></li>
+    
+    
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">AlbumProvider</span> class </h1></div>
+
+    <section class="desc markdown">
+      <p>Class AlbumProvider</p>
+    </section>
+    
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="AlbumProvider" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/AlbumProvider.html">AlbumProvider</a></span><span class="signature">({<span class="parameter" id="-param-baseUrl"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">baseUrl</span></span> })</span>
+        </dt>
+        <dd>
+          Constructor with named arguments assignment.
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="artistAlbums" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/artistAlbums.html">artistAlbums</a></span>
+          <span class="signature">&#8596; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_album/Album-class.html">Album</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          List of album objects categorized as the artist albums.
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="baseUrl" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/baseUrl.html">baseUrl</a></span>
+          <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a></span>         
+        </dt>
+        <dd>
+          The base Url for this provider.
+                  <div class="features">final</div>
+</dd>
+        <dt id="getArtistAlbums" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getArtistAlbums.html">getArtistAlbums</a></span>
+          <span class="signature">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_album/Album-class.html">Album</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A method(getter) that returns a list of albums (artistAlbums).
+                  <div class="features">read-only</div>
+</dd>
+        <dt id="getMostRecentAlbums" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getMostRecentAlbums.html">getMostRecentAlbums</a></span>
+          <span class="signature">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_album/Album-class.html">Album</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A method(getter) that returns a list of albums (mostrecentAlbums).
+                  <div class="features">read-only</div>
+</dd>
+        <dt id="getMyAlbums" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getMyAlbums.html">getMyAlbums</a></span>
+          <span class="signature">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_album/Album-class.html">Album</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A method(getter) that returns a list of albums (my albums).
+                  <div class="features">read-only</div>
+</dd>
+        <dt id="getPopularAlbums" class="property">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getPopularAlbums.html">getPopularAlbums</a></span>
+          <span class="signature">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="Models_album/Album-class.html">Album</a></span>&gt;</span></span>         
+        </dt>
+        <dd>
+          A method(getter) that returns a list of albums (popular albums).
+                  <div class="features">read-only</div>
+</dd>
+        <dt id="hashCode" class="property inherited">
+          <span class="name"><a href="dart-core/Object/hashCode.html">hashCode</a></span>
+          <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd class="inherited">
+          The hash code for this object. <a href="dart-core/Object/hashCode.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="hasListeners" class="property inherited">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/hasListeners.html">hasListeners</a></span>
+          <span class="signature">&#8594; <a href="dart-core/bool-class.html">bool</a></span>         
+        </dt>
+        <dd class="inherited">
+          Whether any listeners are currently registered. <a href="Providers_album_provider/AlbumProvider/hasListeners.html">[...]</a>
+                  <div class="features">@protected, read-only, inherited</div>
+</dd>
+        <dt id="runtimeType" class="property inherited">
+          <span class="name"><a href="dart-core/Object/runtimeType.html">runtimeType</a></span>
+          <span class="signature">&#8594; <a href="dart-core/Type-class.html">Type</a></span>         
+        </dt>
+        <dd class="inherited">
+          A representation of the runtime type of the object.
+                  <div class="features">read-only, inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="emptyLists" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/emptyLists.html">emptyLists</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd>
+          A method to empty the lists from album objects.
+                  
+</dd>
+        <dt id="fetchAlbumsTracksById" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/fetchAlbumsTracksById.html">fetchAlbumsTracksById</a></span><span class="signature">(<wbr><span class="parameter" id="fetchAlbumsTracksById-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span>, </span> <span class="parameter" id="fetchAlbumsTracksById-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span>, </span> <span class="parameter" id="fetchAlbumsTracksById-param-albumCategory"><span class="type-annotation"><a href="Providers_album_provider/AlbumCategory-class.html">AlbumCategory</a></span> <span class="parameter-name">albumCategory</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that fetches for a tracks for a certain album in the albums List according to the <a href="Providers_album_provider/AlbumCategory-class.html">AlbumCategory</a>.
+It takes a <code>string</code> token for verification and id for identification,<a href="Providers_album_provider/AlbumCategory-class.html">AlbumCategory</a> to identify which list to add in.
+                  
+</dd>
+        <dt id="fetchArtistAlbums" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/fetchArtistAlbums.html">fetchArtistAlbums</a></span><span class="signature">(<wbr><span class="parameter" id="fetchArtistAlbums-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span> <span class="parameter" id="fetchArtistAlbums-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that fetches for Most Recent albums and set them in the Artists albums  list.
+                  
+</dd>
+        <dt id="fetchMostRecentAlbums" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/fetchMostRecentAlbums.html">fetchMostRecentAlbums</a></span><span class="signature">(<wbr><span class="parameter" id="fetchMostRecentAlbums-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that fetches for Most Recent albums and set them in the Most Recent albums list.
+It requires a parameter of type <a href="dart-core/String-class.html">String</a> token to verify the user.
+                  
+</dd>
+        <dt id="fetchMyAlbums" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/fetchMyAlbums.html">fetchMyAlbums</a></span><span class="signature">(<wbr><span class="parameter" id="fetchMyAlbums-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that fetches for Most Recent albums and set them in the My Albums  list.
+It requires a parameter of type <a href="dart-core/String-class.html">String</a> token to verify the user.
+                  
+</dd>
+        <dt id="fetchPopularAlbums" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/fetchPopularAlbums.html">fetchPopularAlbums</a></span><span class="signature">(<wbr><span class="parameter" id="fetchPopularAlbums-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that fetches for popular albums and set them in the popular albums list.
+It requires a parameter of type <a href="dart-core/String-class.html">String</a> token to verify the user.
+                  
+</dd>
+        <dt id="getMostRecentAlbumsId" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getMostRecentAlbumsId.html">getMostRecentAlbumsId</a></span><span class="signature">(<wbr><span class="parameter" id="getMostRecentAlbumsId-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="Models_album/Album-class.html">Album</a></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that takes an id for an album and returns the album object with this id located at the MostRecentAlbums List
+                  
+</dd>
+        <dt id="getMyAlbumId" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getMyAlbumId.html">getMyAlbumId</a></span><span class="signature">(<wbr><span class="parameter" id="getMyAlbumId-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="Models_album/Album-class.html">Album</a></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that takes an id for an album and returns the album object with this id located at the MyAlbums List
+                  
+</dd>
+        <dt id="getPopularAlbumsId" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/getPopularAlbumsId.html">getPopularAlbumsId</a></span><span class="signature">(<wbr><span class="parameter" id="getPopularAlbumsId-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="Models_album/Album-class.html">Album</a></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that takes an id for an album and returns the album object with this id located at the PopularAlbums List
+                  
+</dd>
+        <dt id="uploadImage" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/uploadImage.html">uploadImage</a></span><span class="signature">(<wbr><span class="parameter" id="uploadImage-param-filePath"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">filePath</span></span> <span class="parameter" id="uploadImage-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span> <span class="parameter" id="uploadImage-param-albumName"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">albumName</span></span> <span class="parameter" id="uploadImage-param-albumType"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">albumType</span></span> <span class="parameter" id="uploadImage-param-_currentTime"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">_currentTime</span></span> <span class="parameter" id="uploadImage-param-genre"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">genre</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          
+                  
+</dd>
+        <dt id="uploadSong" class="callable">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/uploadSong.html">uploadSong</a></span><span class="signature">(<wbr><span class="parameter" id="uploadSong-param-token"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">token</span></span> <span class="parameter" id="uploadSong-param-songName"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">songName</span></span> <span class="parameter" id="uploadSong-param-path"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span></span> <span class="parameter" id="uploadSong-param-id"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+          </span>
+                  </dt>
+        <dd>
+          A method that uploads new song in artist mode.
+                  
+</dd>
+        <dt id="addListener" class="callable inherited">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/addListener.html">addListener</a></span><span class="signature">(<wbr><span class="parameter" id="addListener-param-listener"><span class="type-annotation"><a href="dart-ui/VoidCallback.html">VoidCallback</a></span> <span class="parameter-name">listener</span></span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Register a closure to be called when the object changes. <a href="Providers_album_provider/AlbumProvider/addListener.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="dispose" class="callable inherited">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/dispose.html">dispose</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Discards any resources used by the object. After this is called, the
+object is not in a usable state and should be discarded (calls to
+<a href="Providers_user_provider/UserProvider/addListener.html">addListener</a> and <a href="Providers_user_provider/UserProvider/removeListener.html">removeListener</a> will throw after the object is
+disposed). <a href="Providers_album_provider/AlbumProvider/dispose.html">[...]</a>
+                  <div class="features">@mustCallSuper, inherited</div>
+</dd>
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="dart-core/Object/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="notifyListeners" class="callable inherited">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/notifyListeners.html">notifyListeners</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Call all the registered listeners. <a href="Providers_album_provider/AlbumProvider/notifyListeners.html">[...]</a>
+                  <div class="features">@protected, @visibleForTesting, inherited</div>
+</dd>
+        <dt id="removeListener" class="callable inherited">
+          <span class="name"><a href="Providers_album_provider/AlbumProvider/removeListener.html">removeListener</a></span><span class="signature">(<wbr><span class="parameter" id="removeListener-param-listener"><span class="type-annotation"><a href="dart-ui/VoidCallback.html">VoidCallback</a></span> <span class="parameter-name">listener</span></span>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Remove a previously registered closure from the list of closures that are
+notified when the object changes. <a href="Providers_album_provider/AlbumProvider/removeListener.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="toString" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Returns a string representation of this object.
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+          <span class="name"><a href="dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span>)
+            <span class="returntype parameter">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          The equality operator. <a href="dart-core/Object/operator_equals.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <ol>
+    
+      <li class="section-title"><a href="Providers_album_provider/AlbumProvider-class.html#constructors">Constructors</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/AlbumProvider.html">AlbumProvider</a></li>
+    
+      <li class="section-title">
+        <a href="Providers_album_provider/AlbumProvider-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="Providers_album_provider/AlbumProvider/artistAlbums.html">artistAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/baseUrl.html">baseUrl</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getArtistAlbums.html">getArtistAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getMostRecentAlbums.html">getMostRecentAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getMyAlbums.html">getMyAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getPopularAlbums.html">getPopularAlbums</a></li>
+      <li class="inherited"><a href="dart-core/Object/hashCode.html">hashCode</a></li>
+      <li class="inherited"><a href="Providers_album_provider/AlbumProvider/hasListeners.html">hasListeners</a></li>
+      <li class="inherited"><a href="dart-core/Object/runtimeType.html">runtimeType</a></li>
+    
+      <li class="section-title"><a href="Providers_album_provider/AlbumProvider-class.html#instance-methods">Methods</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/emptyLists.html">emptyLists</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/fetchAlbumsTracksById.html">fetchAlbumsTracksById</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/fetchArtistAlbums.html">fetchArtistAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/fetchMostRecentAlbums.html">fetchMostRecentAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/fetchMyAlbums.html">fetchMyAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/fetchPopularAlbums.html">fetchPopularAlbums</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getMostRecentAlbumsId.html">getMostRecentAlbumsId</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getMyAlbumId.html">getMyAlbumId</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/getPopularAlbumsId.html">getPopularAlbumsId</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/uploadImage.html">uploadImage</a></li>
+      <li><a href="Providers_album_provider/AlbumProvider/uploadSong.html">uploadSong</a></li>
+      <li class="inherited"><a href="Providers_album_provider/AlbumProvider/addListener.html">addListener</a></li>
+      <li class="inherited"><a href="Providers_album_provider/AlbumProvider/dispose.html">dispose</a></li>
+      <li class="inherited"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+      <li class="inherited"><a href="Providers_album_provider/AlbumProvider/notifyListeners.html">notifyListeners</a></li>
+      <li class="inherited"><a href="Providers_album_provider/AlbumProvider/removeListener.html">removeListener</a></li>
+      <li class="inherited"><a href="dart-core/Object/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="Providers_album_provider/AlbumProvider-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    spotify
+      1.0.0+1
+  </span>
+
+  <!-- footer-text placeholder -->
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+<!-- footer placeholder -->
+
+</body>
+
+</html>
