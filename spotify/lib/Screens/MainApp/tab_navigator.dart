@@ -119,6 +119,7 @@ class TabNavigator extends StatelessWidget {
     } else if (tabItem == TabItem.library) {
       return {
         TabNavigatorRoutes.library: (context) => LibraryScreen(),
+        TabNavigatorRoutes.aboutInfoScreen: (context) => AboutScreen(),
       };
     } else if (tabItem == TabItem.premium) {
       return {TabNavigatorRoutes.premium: (context) => PremiumScreen()};
