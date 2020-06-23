@@ -60,9 +60,7 @@ class _AddSongScreenState extends State<AddSongScreen> {
     if (_pickingType != FileType.custom || _hasValidMime) {
       setState(() => _loadingPath = true);
       try {
-
           _path = await FilePicker.getFile(type: _pickingType,);// allowedExtensions: ['mp3' , 'mp4']);
-
 
       } on PlatformException catch (e) {
         print("Unsupported operation" + e.toString());
@@ -106,7 +104,6 @@ class _AddSongScreenState extends State<AddSongScreen> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     String _user = Provider.of<UserProvider>(context, listen: false).token;
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
@@ -117,33 +114,27 @@ class _AddSongScreenState extends State<AddSongScreen> {
         color: Colors.black,
         child: Center(
             child: Padding(
-              padding: EdgeInsets.only(
-                  left: deviceSize.width * 0.01, right: deviceSize.width * 0.01),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: deviceSize.width * 0.02,
-                          bottom: deviceSize.width * 0.02,
-                          left: deviceSize.width * 0.2,
-                          right: deviceSize.width * 0.2),
-                      width: deviceSize.width * 0.4,
-                      child: TextFormField(
-                        controller: songNameController,
-                        decoration: InputDecoration(
-                          labelText: 'choose song name ',
-                          filled: true,
-                          fillColor: Colors.green[700],
-                          labelStyle: TextStyle(color: Colors.white),
-                        ),
-                        style: TextStyle(color: Colors.black),
-                        cursorColor: Theme.of(context).primaryColor,
-                        keyboardType: TextInputType.text,
-                      ),
+          padding: EdgeInsets.only(
+              left: deviceSize.width * 0.01, right: deviceSize.width * 0.01),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(
+                      top: deviceSize.width * 0.02,
+                      bottom: deviceSize.width * 0.02,
+                      left: deviceSize.width * 0.2,
+                      right: deviceSize.width * 0.2),
+                  width: deviceSize.width * 0.4,
+                  child: TextFormField(
+                    controller: songNameController,
+                    decoration: InputDecoration(
+                      labelText: 'choose song name ',
+                      filled: true,
+                      fillColor: Colors.green[700],
+                      labelStyle: TextStyle(color: Colors.white),
                     ),
-
                     style: TextStyle(color: Colors.black),
                     cursorColor: Theme.of(context).primaryColor,
                     keyboardType: TextInputType.text,
@@ -157,17 +148,17 @@ class _AddSongScreenState extends State<AddSongScreen> {
                     child: new Text(
                       "Open file picker",
                       style: TextStyle(color: Colors.grey),
-
                     ),
-                    new Builder(
-                      builder: (BuildContext context) => _loadingPath
-                          ? Padding(
+                  ),
+                ),
+                new Builder(
+                  builder: (BuildContext context) => _loadingPath
+                      ? Padding(
                           padding:
-                          EdgeInsets.only(bottom: deviceSize.width * 0.01),
+                              EdgeInsets.only(bottom: deviceSize.width * 0.01),
                           child: CircularProgressIndicator())
-                          : _path != null
+                      : _path != null
                           ? new Container(
-
                               padding: EdgeInsets.only(
                                   bottom: deviceSize.width * 0.04),
                               height: deviceSize.height * 0.25,
@@ -204,24 +195,14 @@ class _AddSongScreenState extends State<AddSongScreen> {
                     onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,widget.id),
                     icon: Icon(
                       Icons.add,
-
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: deviceSize.height * 0.03),
-                      color: Colors.green,
-                      child: IconButton(
-                        focusColor: Colors.white,
-                        //onPressed: () => uploadF(context ,_path ,_user ,songNameController.text ,'5e8d0cc31e36896fbd0ad33b'),
-                        icon: Icon(
-                          Icons.add,
-                        ),
-                        iconSize: deviceSize.width * 0.1,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )),
+                    iconSize: deviceSize.width * 0.1,
+                  ),
+                )
+              ],
+            ),
+          ),
+        )),
       ),
     );
   }
