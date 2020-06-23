@@ -39,7 +39,7 @@ class UserAPI {
             "email": email,
             "password": password,
             "gender": gender,
-            "dateOfBirth": dateOfBirth,
+            //"dateOfBirth": dateOfBirth,
             "name": username,
           },
         ),
@@ -394,7 +394,7 @@ class UserAPI {
             "email": email,
             "name": userName,
             "gender": gender,
-            "dateOfBirth": dateOfBirth
+            //"dateOfBirth": dateOfBirth
           },
         ),
         options: Options(
